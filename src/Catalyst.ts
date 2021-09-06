@@ -1,7 +1,7 @@
 import { Response } from './Response'
-import { ApiKey, Authentication } from './authentication'
+import { Authentication } from './authentication'
 import { HttpClient, HttpRequestOptions, createClientForEnvironment } from './client'
-import { AccountContext, MeasurementContext } from './resources'
+import { ResourceRoot, allResources } from './resources'
 import { serializeQuery, toQuery } from './utils'
 
 export interface CatalystOptions {
@@ -22,8 +22,6 @@ interface RequestArguments {
 
 export class Catalyst {
   private readonly client: HttpClient
-  public readonly accounts = new AccountContext(this)
-  public readonly measurements = new MeasurementContext(this)
 
   constructor(
     private readonly authentication: Authentication,
@@ -34,6 +32,14 @@ export class Catalyst {
       createClientForEnvironment({
         base: 'https://api.withcatalyst.com',
       })
+
+    // Bootstrap all resources and attach them to thee client
+    Object.assign(
+      this,
+      Object.fromEntries(
+        Object.entries(allResources).map(([property, factory]) => [property, new factory(this)]),
+      ),
+    )
   }
 
   /**
@@ -82,10 +88,4 @@ export class Catalyst {
   }
 }
 
-async function main() {
-  const client = new Catalyst(new ApiKey(''))
-  const test = await client.accounts.get('current')
-  console.log(test)
-}
-
-main()
+export interface Catalyst extends ResourceRoot { } // eslint-disable-line
