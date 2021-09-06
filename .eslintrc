@@ -1,0 +1,51 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "import", "prettier"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:import/typescript"
+  ],
+  "ignorePatterns": ["newrelic.js"],
+  "rules": {
+    "sort-imports": ["error", {
+      "allowSeparatedGroups": true,
+      "ignoreDeclarationSort": true
+    }],
+    "radix": ["error", "always"],
+    "prettier/prettier": "error",
+    "no-console": 2,
+    "indent": "off",
+    "quotes": ["error", "single", { "avoidEscape": true }],
+    "eqeqeq": ["error", "always"],
+    "@typescript-eslint/no-unused-vars": ["error", { "args": "all", "argsIgnorePattern": "^_", "ignoreRestSiblings": true }],
+    "@typescript-eslint/no-inferrable-types": [
+      "error",
+      { "ignoreProperties": true, "ignoreParameters": true }
+    ],
+    "@typescript-eslint/no-explicit-any": ["error", { "ignoreRestArgs": true }],
+    "@typescript-eslint/no-unnecessary-condition": ["error"],
+    "@typescript-eslint/no-extra-semi": ["off"],
+    "@typescript-eslint/no-non-null-assertion": ["error"],
+    "import/order": [
+      "error",
+      {
+        "groups": [["builtin", "external"], "parent", "sibling", "index", "internal"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ]
+  }
+}

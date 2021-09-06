@@ -1,0 +1,16 @@
+{
+  "exclude": ["node_modules"],
+  "include": ["./src/**/*.ts"],
+  "compilerOptions": {
+    "outDir": "build",
+    "strict": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "ES2020"
+  }
+}
