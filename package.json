@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "license": "MIT",
   "description": "Official Node.js bindings for the Source Health API",
+  "scripts": {
+    "check:lint": "eslint --ext .ts,.js src"
+  },
   "devDependencies": {
     "@apidevtools/swagger-parser": "^10.0.3",
     "@types/node": "^16.7.10",

@@ -1,5 +1,3 @@
-import { SourceInstance, resourceFactory, resourceNamespace } from '../factories'
-
 import { AccountResource } from './Account'
 import { CareTeamResource } from './CareTeam'
 import { EventResource } from './Event'
@@ -15,25 +13,19 @@ import { DeviceResource } from './monitoring/Device'
 import { MeasurementResource } from './monitoring/Measurement'
 import { OrderResource } from './monitoring/Order'
 
-export const allResources = resourceNamespace({
-  accounts: resourceFactory(AccountResource),
-  users: resourceFactory(UserResource),
-  careTeams: resourceFactory(CareTeamResource),
-  members: resourceFactory(MemberResource),
-  taskDefinitions: resourceFactory(TaskDefinitionResource),
-  tasks: resourceFactory(TaskResource),
-  events: resourceFactory(EventResource),
-  webhooks: resourceFactory(WebhookResource),
-  files: resourceFactory(FileResource),
-  communications: resourceNamespace({
-    messages: resourceFactory(MessageResource),
-    threads: resourceFactory(ThreadResource),
-  }),
-  monitoring: resourceNamespace({
-    devices: resourceFactory(DeviceResource),
-    measurements: resourceFactory(MeasurementResource),
-    orders: resourceFactory(OrderResource),
-  }),
-})
-
-export type RootResources = SourceInstance<typeof allResources>
+export const allResources = {
+  accounts: AccountResource,
+  users: UserResource,
+  careTeams: CareTeamResource,
+  members: MemberResource,
+  messages: MessageResource,
+  threads: ThreadResource,
+  taskDefinitions: TaskDefinitionResource,
+  tasks: TaskResource,
+  devices: DeviceResource,
+  events: EventResource,
+  webhooks: WebhookResource,
+  files: FileResource,
+  measurements: MeasurementResource,
+  orders: OrderResource,
+}

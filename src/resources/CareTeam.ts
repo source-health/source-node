@@ -3,7 +3,7 @@ import { SourceOptions } from '../Source'
 
 import { User } from './User'
 
-export interface CareTeamParticipants {
+export interface CareTeamParticipant {
   /**
    * The users who is on the care team.
    */
@@ -31,7 +31,7 @@ export interface CareTeam {
    * The users on the care team. Each user has an associated role on the care team
    * (for example, nurse, endocrinologist, or health ally).
    */
-  participants: Array<CareTeamParticipants>
+  participants: Array<CareTeamParticipant>
   /**
    * Timestamp of when the care team was created.
    */
@@ -42,7 +42,7 @@ export interface CareTeam {
   updated_at: string
 }
 
-export interface CareTeamUpdateParamsParticipants {
+export interface CareTeamUpdateParamsParticipant {
   /**
    * Unique ID of the user to add to the care team.
    */
@@ -57,7 +57,7 @@ export interface CareTeamUpdateParams {
   /**
    * List of users to put on the care team.
    */
-  participants?: Array<CareTeamUpdateParamsParticipants>
+  participants?: Array<CareTeamUpdateParamsParticipant>
 }
 
 export class CareTeamResource extends Resource {
