@@ -5,7 +5,6 @@ The Source Node library provides access to the Source Health API from applicatio
 Our SDK is written in TypeScript and compiled to ES6.
 
 ## Getting Started
----
 
 Getting started with the Source Health client is easy. First, install the package via NPM:
 
