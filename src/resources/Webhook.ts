@@ -1,6 +1,8 @@
 import { Resource } from '../BaseResource'
 import { SourceOptions } from '../Source'
 
+import { WebhookEvents } from './shared'
+
 export interface Webhook {
   /**
    * Always `webhook`.
@@ -17,33 +19,7 @@ export interface Webhook {
   /**
    * Events that will be delivered to the webhook.
    */
-  events: Array<
-    | 'account.updated'
-    | 'care_team.created'
-    | 'care_team.updated'
-    | 'care_team.deleted'
-    | 'device.created'
-    | 'device.activated'
-    | 'device.deactivated'
-    | 'device.deleted'
-    | 'file.created'
-    | 'measurement.created'
-    | 'order.created'
-    | 'order.shipped'
-    | 'member.created'
-    | 'member.updated'
-    | 'member.deleted'
-    | 'message.created'
-    | 'task.created'
-    | 'task.updated'
-    | 'task_definition.created'
-    | 'task_definition.updated'
-    | 'thread.created'
-    | 'thread.updated'
-    | 'webhook.created'
-    | 'webhook.updated'
-    | 'webhook.deleted'
-  >
+  events: Array<WebhookEvents>
   /**
    * Whether or not the webhook is currently enabled.
    */
@@ -101,33 +77,7 @@ export interface WebhookListParams {
   /**
    * Limit results to just those webhooks that are configured for the given event.
    */
-  event?: Array<
-    | 'account.updated'
-    | 'care_team.created'
-    | 'care_team.updated'
-    | 'care_team.deleted'
-    | 'device.created'
-    | 'device.activated'
-    | 'device.deactivated'
-    | 'device.deleted'
-    | 'file.created'
-    | 'measurement.created'
-    | 'order.created'
-    | 'order.shipped'
-    | 'member.created'
-    | 'member.updated'
-    | 'member.deleted'
-    | 'message.created'
-    | 'task.created'
-    | 'task.updated'
-    | 'task_definition.created'
-    | 'task_definition.updated'
-    | 'thread.created'
-    | 'thread.updated'
-    | 'webhook.created'
-    | 'webhook.updated'
-    | 'webhook.deleted'
-  >
+  event?: Array<WebhookEvents>
 }
 
 export interface WebhookCreateParams {
@@ -138,33 +88,7 @@ export interface WebhookCreateParams {
   /**
    * Events that will be delivered to this webhook
    */
-  events: Array<
-    | 'account.updated'
-    | 'care_team.created'
-    | 'care_team.updated'
-    | 'care_team.deleted'
-    | 'device.created'
-    | 'device.activated'
-    | 'device.deactivated'
-    | 'device.deleted'
-    | 'file.created'
-    | 'measurement.created'
-    | 'order.created'
-    | 'order.shipped'
-    | 'member.created'
-    | 'member.updated'
-    | 'member.deleted'
-    | 'message.created'
-    | 'task.created'
-    | 'task.updated'
-    | 'task_definition.created'
-    | 'task_definition.updated'
-    | 'thread.created'
-    | 'thread.updated'
-    | 'webhook.created'
-    | 'webhook.updated'
-    | 'webhook.deleted'
-  >
+  events: Array<WebhookEvents>
   /**
    * Whether or not this webhook should be enabled to receive events
    */
@@ -179,33 +103,7 @@ export interface WebhookUpdateParams {
   /**
    * Events that will be delivered to this webhook
    */
-  events?: Array<
-    | 'account.updated'
-    | 'care_team.created'
-    | 'care_team.updated'
-    | 'care_team.deleted'
-    | 'device.created'
-    | 'device.activated'
-    | 'device.deactivated'
-    | 'device.deleted'
-    | 'file.created'
-    | 'measurement.created'
-    | 'order.created'
-    | 'order.shipped'
-    | 'member.created'
-    | 'member.updated'
-    | 'member.deleted'
-    | 'message.created'
-    | 'task.created'
-    | 'task.updated'
-    | 'task_definition.created'
-    | 'task_definition.updated'
-    | 'thread.created'
-    | 'thread.updated'
-    | 'webhook.created'
-    | 'webhook.updated'
-    | 'webhook.deleted'
-  >
+  events?: Array<WebhookEvents>
   /**
    * Whether or not this webhook should be enabled to receive events
    */

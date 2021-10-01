@@ -4,6 +4,14 @@ import { Member } from '../Member'
 
 import { Device } from './Device'
 
+export type MeasurementKind = 'numeric' | 'composite'
+export type MeasurementType =
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
+
 export interface Measurement {
   /**
    * Always `measurement`.
@@ -28,7 +36,7 @@ export interface Measurement {
    * If a measurement is of kind numeric, the properties value and unit will be set.
    * If it is composite, then the items dictionary will be set.
    */
-  kind: 'numeric' | 'composite'
+  kind: MeasurementKind
   /**
    * Numeric value of this measurement (non-numeric not supported at this time).
    * Source always returns measurements as strings to avoid floating-point precision
@@ -42,12 +50,7 @@ export interface Measurement {
   /**
    * The type of the measurement
    */
-  type:
-    | 'blood_pressure'
-    | 'body_weight'
-    | 'diastolic_blood_pressure'
-    | 'heart_rate'
-    | 'systolic_blood_pressure'
+  type: MeasurementType
   /**
    * Measurements included in this composite. The key of this dictionary will be the
    * measurement type alias.
@@ -97,6 +100,13 @@ export interface MeasurementListParamsTime {
   gte?: string
 }
 
+export type MeasurementListParamsType =
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
+
 export interface MeasurementListParams {
   /**
    * A cursor for use in pagination. `ending_before` is an object ID that defines
@@ -130,13 +140,7 @@ export interface MeasurementListParams {
   /**
    * Filter measurements to only those of the given type.
    */
-  type?: Array<
-    | 'blood_pressure'
-    | 'body_weight'
-    | 'diastolic_blood_pressure'
-    | 'heart_rate'
-    | 'systolic_blood_pressure'
-  >
+  type?: Array<MeasurementListParamsType>
 }
 
 export class MeasurementResource extends Resource {

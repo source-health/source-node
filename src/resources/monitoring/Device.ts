@@ -2,6 +2,14 @@ import { Resource } from '../../BaseResource'
 import { SourceOptions } from '../../Source'
 import { Member } from '../Member'
 
+export type DeviceStatus = 'pending' | 'active' | 'deactivated'
+export type DeviceCapability =
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
+
 export interface Device {
   /**
    * Always `device`.
@@ -18,7 +26,7 @@ export interface Device {
   /**
    * Current status of the device.
    */
-  status: 'pending' | 'active' | 'deactivated'
+  status: DeviceStatus
   /**
    * Display name of the device.
    */
@@ -31,13 +39,7 @@ export interface Device {
    * Capabilities for the device, determined by types of measurements the device can
    * report.
    */
-  capabilities: Array<
-    | 'blood_pressure'
-    | 'body_weight'
-    | 'diastolic_blood_pressure'
-    | 'heart_rate'
-    | 'systolic_blood_pressure'
-  >
+  capabilities: Array<DeviceCapability>
   /**
    * Last time we received any data or heartbeat from the device.
    */

@@ -1,6 +1,8 @@
 import { Resource } from '../BaseResource'
 import { SourceOptions } from '../Source'
 
+export type TaskDefinitionParticipantRole = 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
+
 export interface TaskDefinition {
   /**
    * Always `task_definition`.
@@ -21,7 +23,7 @@ export interface TaskDefinition {
   /**
    * The default care team role that tasks should be assigned to.
    */
-  participant_role: 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
+  participant_role: TaskDefinitionParticipantRole
   /**
    * Timestamp of when the task definition was created.
    */
@@ -69,6 +71,12 @@ export interface TaskDefinitionListParams {
   limit?: number
 }
 
+export type TaskDefinitionCreateParamsParticipantRole =
+  | 'clinician'
+  | 'nurse'
+  | 'dietician'
+  | 'ob-gyn'
+
 export interface TaskDefinitionCreateParams {
   /**
    * Globally unique identifier of the task definition
@@ -81,8 +89,14 @@ export interface TaskDefinitionCreateParams {
   /**
    * The default care team role that tasks should be assigned to.
    */
-  participant_role: 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
+  participant_role: TaskDefinitionCreateParamsParticipantRole
 }
+
+export type TaskDefinitionUpdateParamsParticipantRole =
+  | 'clinician'
+  | 'nurse'
+  | 'dietician'
+  | 'ob-gyn'
 
 export interface TaskDefinitionUpdateParams {
   /**
@@ -96,7 +110,7 @@ export interface TaskDefinitionUpdateParams {
   /**
    * The default care team role that tasks should be assigned to.
    */
-  participant_role?: 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
+  participant_role?: TaskDefinitionUpdateParamsParticipantRole
 }
 
 export class TaskDefinitionResource extends Resource {

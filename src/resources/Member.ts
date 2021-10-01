@@ -3,6 +3,8 @@ import { SourceOptions } from '../Source'
 
 import { CareTeam } from './CareTeam'
 
+export type MemberBiologicalSex = 'male' | 'female' | 'non_binary' | 'undisclosed'
+
 export interface MemberAddress {
   /**
    * The first line of the street address.
@@ -72,7 +74,7 @@ export interface Member {
   /**
    * Biological sex of the member
    */
-  biological_sex: 'male' | 'female' | 'non_binary' | 'undisclosed'
+  biological_sex: MemberBiologicalSex
   /**
    * Default address for the member. Used if no address is provided on a specific
    * order.
@@ -132,6 +134,8 @@ export interface MemberListParams {
    */
   email?: string
 }
+
+export type MemberCreateParamsBiologicalSex = 'male' | 'female' | 'non_binary' | 'undisclosed'
 
 export interface MemberCreateParamsAddress {
   /**
@@ -194,13 +198,15 @@ export interface MemberCreateParams {
   /**
    * Biological sex of the member
    */
-  biological_sex: 'male' | 'female' | 'non_binary' | 'undisclosed'
+  biological_sex: MemberCreateParamsBiologicalSex
   /**
    * Default address for the member. Used if no address is provided on a specific
    * order.
    */
   address?: MemberCreateParamsAddress | null
 }
+
+export type MemberUpdateParamsBiologicalSex = 'male' | 'female' | 'non_binary' | 'undisclosed'
 
 export interface MemberUpdateParamsAddress {
   /**
@@ -263,7 +269,7 @@ export interface MemberUpdateParams {
   /**
    * Biological sex of the member
    */
-  biological_sex?: 'male' | 'female' | 'non_binary' | 'undisclosed'
+  biological_sex?: MemberUpdateParamsBiologicalSex
   /**
    * Default address for the member. Used if no address is provided on a specific
    * order.

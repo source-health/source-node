@@ -1,3 +1,10 @@
+export type ErrorType =
+  | 'api_error'
+  | 'api_connection_error'
+  | 'invalid_request_error'
+  | 'authentication_error'
+  | 'authorization_error'
+
 export interface Error {
   /**
    * Always `error`.
@@ -6,12 +13,7 @@ export interface Error {
   /**
    * The type of error encountered.
    */
-  type:
-    | 'api_error'
-    | 'api_connection_error'
-    | 'invalid_request_error'
-    | 'authentication_error'
-    | 'authorization_error'
+  type: ErrorType
   /**
    * For errors that could be handled programmatically, a short string indicating the
    * error code reported.

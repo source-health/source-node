@@ -1,6 +1,8 @@
 import { Resource } from '../BaseResource'
 import { SourceOptions } from '../Source'
 
+export type UserRole = 'owner' | 'administrator' | 'developer' | 'clinician' | 'support'
+
 export interface User {
   /**
    * Always `user`.
@@ -25,7 +27,7 @@ export interface User {
   /**
    * Role the user is granted in your account.
    */
-  role: 'owner' | 'administrator' | 'developer' | 'clinician' | 'support'
+  role: UserRole
   /**
    * Timestamp when the user was created.
    */

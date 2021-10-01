@@ -1,3 +1,12 @@
+export type DeviceModelCategory = 'scale' | 'blood_pressure_monitor'
+export type DeviceModelCapability =
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
+export type DeviceModelConnectivity = 'cellular' | 'bluetooth'
+
 export interface DeviceModel {
   /**
    * Always `device_model`.
@@ -18,20 +27,14 @@ export interface DeviceModel {
   /**
    * Category of the device model.
    */
-  category: 'scale' | 'blood_pressure_monitor'
+  category: DeviceModelCategory
   /**
    * Capabilities for the device model, determined by types of measurements the
    * device can report.
    */
-  capabilities: Array<
-    | 'blood_pressure'
-    | 'body_weight'
-    | 'diastolic_blood_pressure'
-    | 'heart_rate'
-    | 'systolic_blood_pressure'
-  >
+  capabilities: Array<DeviceModelCapability>
   /**
    * Connectivity type of this device model
    */
-  connectivity: 'cellular' | 'bluetooth'
+  connectivity: DeviceModelConnectivity
 }

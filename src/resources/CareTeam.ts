@@ -3,6 +3,8 @@ import { SourceOptions } from '../Source'
 
 import { User } from './User'
 
+export type CareTeamParticipantRole = 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
+
 export interface CareTeamParticipant {
   /**
    * The users who is on the care team.
@@ -11,7 +13,7 @@ export interface CareTeamParticipant {
   /**
    * The role of this user on the care team.
    */
-  role: 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
+  role: CareTeamParticipantRole
 }
 
 export interface CareTeam {
@@ -42,6 +44,8 @@ export interface CareTeam {
   updated_at: string
 }
 
+export type CareTeamUpdateParamsParticipantRole = 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
+
 export interface CareTeamUpdateParamsParticipant {
   /**
    * Unique ID of the user to add to the care team.
@@ -50,7 +54,7 @@ export interface CareTeamUpdateParamsParticipant {
   /**
    * Role that this user should have on the care team.
    */
-  role: 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
+  role: CareTeamUpdateParamsParticipantRole
 }
 
 export interface CareTeamUpdateParams {

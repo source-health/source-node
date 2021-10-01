@@ -4,6 +4,8 @@ import { Member } from '../Member'
 
 import { DeviceModel } from './DeviceModel'
 
+export type OrderStatus = 'pending' | 'fulfilled' | 'canceled'
+
 export interface OrderShippingAddress {
   /**
    * The first line of the street address.
@@ -129,7 +131,7 @@ export interface Order {
   /**
    * Current status of the order.
    */
-  status: 'pending' | 'fulfilled' | 'canceled'
+  status: OrderStatus
   /**
    * Address to which the order will be shipped.
    */

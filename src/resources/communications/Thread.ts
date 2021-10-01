@@ -2,6 +2,7 @@ import { Resource } from '../../BaseResource'
 import { SourceOptions } from '../../Source'
 import { Member } from '../Member'
 import { User } from '../User'
+import { ThreadStatus } from '../shared'
 
 export interface ThreadLastMessage {
   /**
@@ -108,7 +109,7 @@ export interface ThreadListParams {
   /**
    * Filter threads by status
    */
-  status?: Array<'awaiting_care_team' | 'awaiting_member' | 'closed'>
+  status?: Array<ThreadStatus>
 }
 
 export interface ThreadCreateParams {
@@ -130,6 +131,8 @@ export interface ThreadCreateParams {
   text: string
 }
 
+export type ThreadUpdateParamsStatus = 'awaiting_care_team' | 'awaiting_member' | 'closed'
+
 export interface ThreadUpdateParams {
   /**
    * ID of a user on the member's Care Team - assigns the thread to the new user.
@@ -138,7 +141,7 @@ export interface ThreadUpdateParams {
   /**
    * New status for the thread.
    */
-  status?: 'awaiting_care_team' | 'awaiting_member' | 'closed'
+  status?: ThreadUpdateParamsStatus
   /**
    * New subject for the thread.
    */

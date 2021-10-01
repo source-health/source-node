@@ -5,6 +5,9 @@ import { Member } from './Member'
 import { TaskDefinition } from './TaskDefinition'
 import { User } from './User'
 
+export type TaskStatus = 'open' | 'resolved'
+export type TaskAssignmentMethod = 'direct' | 'indirect'
+
 export interface Task {
   /**
    * Always `task`.
@@ -34,14 +37,14 @@ export interface Task {
   /**
    * Status the task is currently in
    */
-  status: 'open' | 'resolved'
+  status: TaskStatus
   /**
    * This property allows you to see how the task was assigned. When we automatically
    * assign tasks based on your pre-defined routing rules, the value of this property
    * will be `indirect`. When an assignee is specified through the API or by a user
    * in the interface, the value of this property will be `direct`.
    */
-  assignment_method: 'direct' | 'indirect'
+  assignment_method: TaskAssignmentMethod
   /**
    * Timestamp of when the task was created.
    */
@@ -71,6 +74,8 @@ export interface TaskListResponse {
   has_more: boolean
 }
 
+export type TaskListParamsStatus = 'open' | 'resolved'
+
 export interface TaskListParams {
   /**
    * A cursor for use in pagination. `ending_before` is an object ID that defines
@@ -95,8 +100,10 @@ export interface TaskListParams {
    * Filter results by status. If multiple statuses are provided, tasks matching any
    * of the provided statuses will be returned.
    */
-  status?: Array<'open' | 'resolved'>
+  status?: Array<TaskListParamsStatus>
 }
+
+export type TaskCreateParamsStatus = 'open' | 'resolved'
 
 export interface TaskCreateParams {
   /**
@@ -119,7 +126,7 @@ export interface TaskCreateParams {
   /**
    * The status of the task
    */
-  status: 'open' | 'resolved'
+  status: TaskCreateParamsStatus
   /**
    * The time by which this task should be completed. If no due_at date is supplied,
    * the due_at date will automatically be 24 hours after the task was created. The
@@ -127,6 +134,8 @@ export interface TaskCreateParams {
    */
   due_at?: string
 }
+
+export type TaskUpdateParamsStatus = 'open' | 'resolved'
 
 export interface TaskUpdateParams {
   /**
@@ -140,7 +149,7 @@ export interface TaskUpdateParams {
   /**
    * The status of the task
    */
-  status?: 'open' | 'resolved'
+  status?: TaskUpdateParamsStatus
   /**
    * The time by which this task should be completed. If no due_at date is supplied,
    * the due_at date will automatically be 24 hours after the task was created. The

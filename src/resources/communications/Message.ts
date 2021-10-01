@@ -3,6 +3,8 @@ import { SourceOptions } from '../../Source'
 
 import { Thread } from './Thread'
 
+export type MessageType = 'text' | 'system'
+
 export interface Message {
   /**
    * Always `message`.
@@ -18,7 +20,7 @@ export interface Message {
    * automatically generated when notable thread events occur (such as reassignments
    * and status changes).
    */
-  type: 'text' | 'system'
+  type: MessageType
   /**
    * Thread to which the message belongs.
    */
