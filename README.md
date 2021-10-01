@@ -17,11 +17,24 @@ Then, create an instance of the client using an API key.
 ```typescript
 import { Source, ApiKey } from '@source-health/client'
 
-const source = new Source(new ApiKey('YOUR_KEY'))
+const source = new Source(new ApiKey('KEY_ID', 'KEY_SECRET'))
 ```
 
 And, finally, start querying the API!
 
 ```typescript
 const members = await source.members.list()
+```
+
+## Signing Tokens
+
+You can also use the Source SDK to generate tokens that can be combined with Source Elements for accessing data on behalf of your members.
+
+```typescript
+const jwt = await source.tokens.generate({
+  member: 'member_id',
+  expiration: new Date(Date.now() + 1000 * 60 * 5), // 5 minutes
+})
+
+// jwt now contains a member-scoped token that can be used with the API
 ```
