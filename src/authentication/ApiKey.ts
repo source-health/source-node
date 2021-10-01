@@ -7,9 +7,10 @@ export class ApiKey implements Authentication {
    * API keys can be used for server-to-server authentication to the Catalyst API. When
    * using this authentication method, a Bearer token is applied to each outgoing request.
    *
-   * @param key the API key secret to send on outgoing requests
+   * @param id the API key id
+   * @param secret the API key secret to send on outgoing requests
    */
-  constructor(private readonly key: string) {}
+  constructor(public readonly id: string, public readonly secret: string) {}
 
   /**
    * Attaches an Authorization header
@@ -18,7 +19,7 @@ export class ApiKey implements Authentication {
    */
   public createHeaders(): Record<string, string> {
     return {
-      Authorization: `Bearer ${this.key}`,
+      Authorization: `Bearer ${this.secret}`,
     }
   }
 }
