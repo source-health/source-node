@@ -1,5 +1,8 @@
 # Source Node.js Library
 
+:bangbang: | This SDK is still in beta, and may change significantly before its public release.
+:---: | :---
+
 The Source Node library provides access to the Source Health API from applications written in server-side JavaScript/TypeScript.
 
 Our SDK is written in TypeScript and compiled to ES6.
