@@ -1,47 +1,39 @@
-import type { Catalyst } from '../Catalyst'
+import { SourceInstance, resourceFactory, resourceNamespace } from '../factories'
 
-import { AccountContext } from './Account'
-import { CareTeamContext } from './CareTeam'
-import { DeviceContext } from './Device'
-import { EventContext } from './Event'
-import { MeasurementContext } from './Measurement'
-import { MemberContext } from './Member'
-import { OrderContext } from './Order'
-import { TaskContext } from './Task'
-import { TaskDefinitionContext } from './TaskDefinition'
-import { ThreadContext } from './Thread'
-import { UserContext } from './User'
-import { WebhookContext } from './Webhook'
+import { AccountResource } from './Account'
+import { CareTeamResource } from './CareTeam'
+import { EventResource } from './Event'
+import { FileResource } from './File'
+import { MemberResource } from './Member'
+import { TaskResource } from './Task'
+import { TaskDefinitionResource } from './TaskDefinition'
+import { UserResource } from './User'
+import { WebhookResource } from './Webhook'
+import { MessageResource } from './communications/Message'
+import { ThreadResource } from './communications/Thread'
+import { DeviceResource } from './monitoring/Device'
+import { MeasurementResource } from './monitoring/Measurement'
+import { OrderResource } from './monitoring/Order'
 
-export const allResources = {
-  account: AccountContext,
-  user: UserContext,
-  care_team: CareTeamContext,
-  member: MemberContext,
-  thread: ThreadContext,
-  device: DeviceContext,
-  event: EventContext,
-  webhook: WebhookContext,
-  measurement: MeasurementContext,
-  order: OrderContext,
-  task: TaskContext,
-  task_definition: TaskDefinitionContext,
-}
+export const allResources = resourceNamespace({
+  accounts: resourceFactory(AccountResource),
+  users: resourceFactory(UserResource),
+  careTeams: resourceFactory(CareTeamResource),
+  members: resourceFactory(MemberResource),
+  taskDefinitions: resourceFactory(TaskDefinitionResource),
+  tasks: resourceFactory(TaskResource),
+  events: resourceFactory(EventResource),
+  webhooks: resourceFactory(WebhookResource),
+  files: resourceFactory(FileResource),
+  communications: resourceNamespace({
+    messages: resourceFactory(MessageResource),
+    threads: resourceFactory(ThreadResource),
+  }),
+  monitoring: resourceNamespace({
+    devices: resourceFactory(DeviceResource),
+    measurements: resourceFactory(MeasurementResource),
+    orders: resourceFactory(OrderResource),
+  }),
+})
 
-type ResourceTypes = typeof allResources
-export type ResourceRoot = {
-  [K in keyof ResourceTypes]: ResourceTypes[K] extends new (client: Catalyst) => infer R ? R : never
-}
-
-export { AccountContext }
-export { UserContext }
-export { CareTeamContext }
-export { MemberContext }
-export { ThreadContext }
-export { DeviceContext }
-export { EventContext }
-export { WebhookContext }
-export { MeasurementContext }
-export { OrderContext }
-export { TaskContext }
-export { TaskDefinitionContext }
+export type RootResources = SourceInstance<typeof allResources>

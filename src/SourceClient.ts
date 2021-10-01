@@ -1,51 +1,20 @@
 import { Response } from './Response'
 import { Authentication } from './authentication'
-import { HttpClient, HttpRequestOptions, createClientForEnvironment } from './client'
-import { ResourceRoot, allResources } from './resources'
+import { HttpClient, HttpRequestOptions } from './http'
 import { serializeQuery, toQuery } from './utils'
-
-export interface CatalystOptions {
-  /**
-   * Client instance to use (if one is not provided, it will be created)
-   */
-  readonly client?: HttpClient
-  /**
-   * Timeout (in ms) to apply to all requests
-   */
-  readonly timeout?: number
-}
 
 interface RequestArguments {
   readonly params?: unknown
   readonly options?: HttpRequestOptions
 }
 
-export class Catalyst {
-  private readonly client: HttpClient
-
-  constructor(
-    private readonly authentication: Authentication,
-    private readonly options: CatalystOptions = {},
-  ) {
-    this.client =
-      options.client ??
-      createClientForEnvironment({
-        base: 'https://api.withcatalyst.com',
-      })
-
-    // Bootstrap all resources and attach them to thee client
-    Object.assign(
-      this,
-      Object.fromEntries(
-        Object.entries(allResources).map(([property, factory]) => [property, new factory(this)]),
-      ),
-    )
-  }
+export class SourceClient {
+  constructor(private readonly http: HttpClient, private readonly authentication: Authentication) {}
 
   /**
-   * Execute a request against the Catalyst API
+   * Execute a request against the Source API
    *
-   * This method wraps the HttpClient's request method to add Catalyst-specific functionality at
+   * This method wraps the HttpClient's request method to add Source-specific functionality at
    * a higher level. We use this method to encode request parameters, parse out responses, and generally
    * enforce API conventions.
    *
@@ -69,7 +38,7 @@ export class Catalyst {
         }
       : {}
 
-    const response = await this.client.request({
+    const response = await this.http.request({
       method,
       path: fullPath,
       data: bodyData ?? null,
@@ -87,5 +56,3 @@ export class Catalyst {
     })
   }
 }
-
-export interface Catalyst extends ResourceRoot { } // eslint-disable-line

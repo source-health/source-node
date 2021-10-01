@@ -1,19 +1,19 @@
 import * as http from 'http'
 import * as https from 'https'
 
-import { CatalystError } from '../CatalystError'
+import { SourceError } from '../SourceError'
 import { isTimeoutError } from '../utils'
 
 import { HttpClient, HttpClientOptions, HttpRequest, HttpResponse } from './HttpClient'
 
-export interface NodeClientOptions extends HttpClientOptions {
+export interface NodeHttpClientOptions extends HttpClientOptions {
   /**
    * Default agent to use for requests. Must match the protocol.
    */
   readonly agent?: http.Agent | https.Agent | null
 }
 
-export class NodeClient implements HttpClient {
+export class NodeHttpClient implements HttpClient {
   // Default HTTP agent to use for all outgoing requests
   private static defaultHttpAgent = new http.Agent({ keepAlive: true })
 
@@ -23,7 +23,7 @@ export class NodeClient implements HttpClient {
   // Base URL once it has been parsed
   private readonly baseUrl: URL
 
-  constructor(private readonly options: NodeClientOptions) {
+  constructor(private readonly options: NodeHttpClientOptions) {
     this.baseUrl = new URL(this.options.base)
   }
 
@@ -33,7 +33,9 @@ export class NodeClient implements HttpClient {
       const isInsecureConnection = this.baseUrl.protocol === 'http'
       let agent = this.options.agent
       if (!agent) {
-        agent = isInsecureConnection ? NodeClient.defaultHttpAgent : NodeClient.defaultHttpsAgent
+        agent = isInsecureConnection
+          ? NodeHttpClient.defaultHttpAgent
+          : NodeHttpClient.defaultHttpsAgent
       }
 
       const req = (isInsecureConnection ? http : https).request({
@@ -57,7 +59,7 @@ export class NodeClient implements HttpClient {
             const parsed = JSON.parse(data) // eslint-disable-line
 
             if (parsed.object === 'error') { // eslint-disable-line
-              reject(CatalystError.from(parsed))
+              reject(SourceError.from(parsed))
             }
 
             resolve({
@@ -67,7 +69,7 @@ export class NodeClient implements HttpClient {
             })
           } catch (ex) {
             reject(
-              new CatalystError({
+              new SourceError({
                 type: 'client_error',
                 code: 'invalid_response',
                 message: 'Invalid response received from the API',
@@ -81,7 +83,7 @@ export class NodeClient implements HttpClient {
       req.on('error', (error) => {
         if (isTimeoutError(error)) {
           return reject(
-            new CatalystError({
+            new SourceError({
               type: 'client_error',
               code: 'request_timeout',
               message: `Request aborted due to timeout being reached (${timeout ?? 0}ms)`,
@@ -91,7 +93,7 @@ export class NodeClient implements HttpClient {
         }
 
         return reject(
-          new CatalystError({
+          new SourceError({
             type: 'client_error',
             code: 'connection_failed',
             message: 'Unable to connect to ${req.host}',

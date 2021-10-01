@@ -1,8 +1,8 @@
 import { HttpClient, HttpClientOptions } from './HttpClient'
-import { NodeClient } from './NodeClient'
+import { NodeHttpClient } from './NodeHttpClient'
 
 export * from './HttpClient'
 
 export function createClientForEnvironment(options: HttpClientOptions): HttpClient {
-  return new NodeClient(options)
+  return new NodeHttpClient(options)
 }

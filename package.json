@@ -1,4 +1,8 @@
 {
+  "name": "@source-health/client",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "Official Node.js bindings for the Source Health API",
   "devDependencies": {
     "@apidevtools/swagger-parser": "^10.0.3",
     "@types/node": "^16.7.10",

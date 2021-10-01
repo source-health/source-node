@@ -19,9 +19,10 @@ export interface HttpRequestOptions {
 
 export interface HttpRequest {
   /**
-   * Path to request (applied to the base URL)
+   * Path to request (appended to the base URL)
    */
   readonly path: string
+
   /**
    * Method to execute on the path
    */
@@ -67,5 +68,5 @@ export interface HttpClient {
    * @param request request to execute
    * @return the response
    */
-  request(request: HttpRequest): Promise<HttpResponse<unknown>>
+  request<T = unknown>(request: HttpRequest): Promise<HttpResponse<T>>
 }

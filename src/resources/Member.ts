@@ -1,360 +1,321 @@
-import { BaseContext } from '../BaseContext'
-import type { CatalystOptions } from '../Catalyst'
+import { Resource } from '../BaseResource'
+import { SourceOptions } from '../Source'
 
+import { CareTeam } from './CareTeam'
 
-interface Memberaddress {
-  
+export interface MemberAddress {
   /**
    * The first line of the street address.
    */
-  readonly street_line_1: string
-  
+  street_line_1: string
   /**
    * The second line of the street address.
    */
-  readonly street_line_2: string
-  
+  street_line_2: string | null
   /**
    * The city.
    */
-  readonly city: string
-  
+  city: string
   /**
    * The region - in the US this should be the two-letter state code.
    */
-  readonly region: string
-  
+  region: string
   /**
    * The postal code (i.e. zip code).
    */
-  readonly postal_code: string
-  
+  postal_code: string
   /**
-   * The country, as a two-letter ISO 3166-1 code. US is the only supported country at this time.
+   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
+   * at this time.
    */
-  readonly country: string
+  country: string
 }
 
-interface Member {
-  
+export interface Member {
   /**
    * Always `member`.
    */
-  readonly object: string
-  
+  object: 'member'
   /**
    * Unique ID of the member.
    */
-  readonly id: string
-  
+  id: string
   /**
    * Title for the member (Mr., Mrs., Dr., etc).
    */
-  readonly title: string
-  
+  title: string | null
   /**
    * First name of the member.
    */
-  readonly first_name: string
-  
+  first_name: string
   /**
    * Middle name of the member.
    */
-  readonly middle_name: string
-  
+  middle_name: string | null
   /**
    * Last name of the member.
    */
-  readonly last_name: string
-  
+  last_name: string
+  /**
+   * The member's preferred name. This could be a shortened or alternate name that
+   * the member typically prefers to be called.
+   */
+  preferred_name: string | null
   /**
    * Email address for the member.
    */
-  readonly email: string
-  
+  email: string | null
   /**
    * Date of birth of the member.
    */
-  readonly date_of_birth: string
-  
+  date_of_birth: string
   /**
    * Biological sex of the member
    */
-  readonly biological_sex: string
-  
+  biological_sex: 'male' | 'female' | 'non_binary' | 'undisclosed'
   /**
-   * Default address for the member. Used if no address is provided on a specific order.
+   * Default address for the member. Used if no address is provided on a specific
+   * order.
    */
-  readonly address: Memberaddress
-  
+  address: MemberAddress | null
+  /**
+   * The care team that is assigned to this member.
+   */
+  care_team: string | CareTeam
   /**
    * Timestamp of when the member was created.
    */
-  readonly created_at: string
-  
+  created_at: string
   /**
    * Timestamp of when the member was last updated.
    */
-  readonly updated_at: string
+  updated_at: string
 }
 
-interface ListAllMembersParams {
-  
-  /**
-   * A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if
-   * you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include
-   * ending_before=obj_bar in order to fetch the previous page of the list.
-   */
-  readonly ending_before?: string
-  
-  /**
-   * A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if
-   * you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include
-   * starting_after=obj_foo in order to fetch the next page of the list.
-   */
-  readonly starting_after?: string
-  
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and 100.
-   */
-  readonly limit?: number
-  
-  /**
-   * Limit results to members with the given email.
-   */
-  readonly email?: string
-}
-
-interface ListAllMembersResponse {
-  
+export interface MemberListResponse {
   /**
    * Always `list`.
    */
-  readonly object: string
-  
+  object: 'list'
   /**
    * Array of results
    */
-  readonly data: Array<Member>
-  
+  data: Array<Member>
   /**
    * Contains `true` if there is another page of results available.
    */
-  readonly has_more: boolean
+  has_more: boolean
 }
 
-interface CreateAMemberParamsaddress {
-  
+export interface MemberListParams {
+  /**
+   * A cursor for use in pagination. `ending_before` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, starting with obj_bar, your subsequent call can include
+   * ending_before=obj_bar in order to fetch the previous page of the list.
+   */
+  ending_before?: string
+  /**
+   * A cursor for use in pagination. `starting_after` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, ending with obj_foo, your subsequent call can include
+   * starting_after=obj_foo in order to fetch the next page of the list.
+   */
+  starting_after?: string
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and
+   * 100.
+   */
+  limit?: number
+  /**
+   * Limit results to members with the given email.
+   */
+  email?: string
+}
+
+export interface MemberCreateParamsAddress {
   /**
    * The first line of the street address.
    */
-  readonly street_line_1: string
-  
+  street_line_1: string
   /**
    * The second line of the street address.
    */
-  readonly street_line_2?: string
-  
+  street_line_2?: string | null
   /**
    * The city.
    */
-  readonly city: string
-  
+  city: string
   /**
    * The region - in the US this should be the two-letter state code.
    */
-  readonly region: string
-  
+  region: string
   /**
    * The postal code (i.e. zip code).
    */
-  readonly postal_code: string
-  
+  postal_code: string
   /**
-   * The country, as a two-letter ISO 3166-1 code. US is the only supported country at this time.
+   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
+   * at this time.
    */
-  readonly country: string
+  country: string
 }
 
-interface CreateAMemberParams {
-  
+export interface MemberCreateParams {
   /**
    * Title for the member (Mr., Mrs., Dr., etc).
    */
-  readonly title?: string
-  
+  title?: string | null
   /**
    * First name of the member
    */
-  readonly first_name: string
-  
+  first_name: string
   /**
    * Middle name of the member
    */
-  readonly middle_name?: string
-  
+  middle_name?: string | null
   /**
    * Last name of the member
    */
-  readonly last_name: string
-  
+  last_name: string
+  /**
+   * Preferred name of the member. This could be a shortened or alternate name that
+   * the member typically prefers to be called.
+   */
+  preferred_name?: string | null
   /**
    * Email address for the member
    */
-  readonly email?: string
-  
+  email?: string | null
   /**
    * Date of birth of the member
    */
-  readonly date_of_birth: string
-  
+  date_of_birth: string
   /**
    * Biological sex of the member
    */
-  readonly biological_sex: string
-  
+  biological_sex: 'male' | 'female' | 'non_binary' | 'undisclosed'
   /**
-   * Default address for the member. Used if no address is provided on a specific order.
+   * Default address for the member. Used if no address is provided on a specific
+   * order.
    */
-  readonly address?: CreateAMemberParamsaddress
+  address?: MemberCreateParamsAddress | null
 }
 
-interface UpdateAMemberParamsaddress {
-  
+export interface MemberUpdateParamsAddress {
   /**
    * The first line of the street address.
    */
-  readonly street_line_1: string
-  
+  street_line_1: string
   /**
    * The second line of the street address.
    */
-  readonly street_line_2?: string
-  
+  street_line_2?: string | null
   /**
    * The city.
    */
-  readonly city: string
-  
+  city: string
   /**
    * The region - in the US this should be the two-letter state code.
    */
-  readonly region: string
-  
+  region: string
   /**
    * The postal code (i.e. zip code).
    */
-  readonly postal_code: string
-  
+  postal_code: string
   /**
-   * The country, as a two-letter ISO 3166-1 code. US is the only supported country at this time.
+   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
+   * at this time.
    */
-  readonly country: string
+  country: string
 }
 
-interface UpdateAMemberParams {
-  
+export interface MemberUpdateParams {
   /**
    * Title for the member (Mr., Mrs., Dr., etc).
    */
-  readonly title?: string
-  
+  title?: string | null
   /**
    * First name of the member
    */
-  readonly first_name?: string
-  
+  first_name?: string
   /**
    * Middle name of the member
    */
-  readonly middle_name?: string
-  
+  middle_name?: string | null
   /**
    * Last name of the member
    */
-  readonly last_name?: string
-  
+  last_name?: string
+  /**
+   * Preferred name of the member. This could be a shortened or alternate name that
+   * the member typically prefers to be called.
+   */
+  preferred_name?: string | null
   /**
    * Email address for the member
    */
-  readonly email?: string
-  
+  email?: string | null
   /**
    * Date of birth of the member
    */
-  readonly date_of_birth?: string
-  
+  date_of_birth?: string
   /**
    * Biological sex of the member
    */
-  readonly biological_sex?: string
-  
+  biological_sex?: 'male' | 'female' | 'non_binary' | 'undisclosed'
   /**
-   * Default address for the member. Used if no address is provided on a specific order.
+   * Default address for the member. Used if no address is provided on a specific
+   * order.
    */
-  readonly address?: UpdateAMemberParamsaddress
+  address?: MemberUpdateParamsAddress | null
 }
 
-
-export class MemberContext extends BaseContext {
-  
+export class MemberResource extends Resource {
   /**
    * Returns a list of members within the current account.
-   * 
-   * The members returned are sorted by creation date, with the most recently added members appearing first.
    *
-   * @param params Parameters for this operation
-   * @param options Options to apply to this specific request
+   * The members returned are sorted by creation date, with the most recently added
+   * members appearing first.
    */
-  public async list(params?: ListAllMembersParams, options?: CatalystOptions): Promise<ListAllMembersResponse> {
-    return this.catalyst.request("GET", `/v1/members`, { 
+  public list(params?: MemberListParams, options?: SourceOptions): Promise<MemberListResponse> {
+    return this.source.request('GET', '/v1/members', {
       params,
       options,
     })
   }
-  
+
   /**
-   * Creates a new member and registers them with Catalyst. Members must be created in order to ship devices or track
-   * measurements.
-   *
-   * @param params Parameters for this operation
-   * @param options Options to apply to this specific request
+   * Creates a new member and registers them with Source. Members must be created in
+   * order to ship devices or track measurements.
    */
-  public async create(params: CreateAMemberParams, options?: CatalystOptions): Promise<Member> {
-    return this.catalyst.request("POST", `/v1/members`, { 
+  public create(params: MemberCreateParams, options?: SourceOptions): Promise<Member> {
+    return this.source.request('POST', '/v1/members', {
       params,
       options,
     })
   }
-  
+
   /**
-   * Retrieves the details of an existing member. You need only supply the unique member identifier that was returned upon
-   * member creation.
-   *
-   * @param id Unique ID of the member
-   * @param options Options to apply to this specific request
+   * Retrieves the details of an existing member. You need only supply the unique
+   * member identifier that was returned upon member creation.
    */
-  public async retrieve(id: string, options?: CatalystOptions): Promise<Member> {
-    return this.catalyst.request("GET", `/v1/members/${id}`, { 
+  public retrieve(id: string, options?: SourceOptions): Promise<Member> {
+    return this.source.request('GET', `/v1/members/${id}`, {
       options,
     })
   }
-  
+
   /**
    * Updates the specified member by setting the values of the parameters passed.
-   * 
-   * Any parameters not provided will be left unchanged. For example, if you pass the email parameter, that becomes the
-   * member's active email to be used.
    *
-   * @param id Unique ID of the member
-   * @param params Parameters for this operation
-   * @param options Options to apply to this specific request
+   * Any parameters not provided will be left unchanged. For example, if you pass the
+   * email parameter, that becomes the member's active email to be used.
    */
-  public async update(id: string, params?: UpdateAMemberParams, options?: CatalystOptions): Promise<Member> {
-    return this.catalyst.request("POST", `/v1/members/${id}`, { 
+  public update(id: string, params?: MemberUpdateParams, options?: SourceOptions): Promise<Member> {
+    return this.source.request('POST', `/v1/members/${id}`, {
       params,
       options,
     })
   }
-  
 }

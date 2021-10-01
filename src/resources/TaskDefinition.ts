@@ -1,167 +1,161 @@
-import { BaseContext } from '../BaseContext'
-import type { CatalystOptions } from '../Catalyst'
+import { Resource } from '../BaseResource'
+import { SourceOptions } from '../Source'
 
-
-interface TaskDefinition {
-  
+export interface TaskDefinition {
   /**
    * Always `task_definition`.
    */
-  readonly object: string
-  
+  object: 'task_definition'
   /**
    * Unique ID of the task definition.
    */
-  readonly id: string
-  
+  id: string
   /**
    * Unique identifier for the task definition that can be used when creating tasks.
    */
-  readonly key: string
-  
+  key: string
   /**
    * Human readable name of the task definition.
    */
-  readonly name: string
-  
+  name: string
+  /**
+   * The default care team role that tasks should be assigned to.
+   */
+  participant_role: 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
   /**
    * Timestamp of when the task definition was created.
    */
-  readonly created_at: string
-  
+  created_at: string
   /**
    * Timestamp of when the task definition was last updated.
    */
-  readonly updated_at: string
+  updated_at: string
 }
 
-interface ListAllTaskDefinitionsParams {
-  
-  /**
-   * A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if
-   * you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include
-   * ending_before=obj_bar in order to fetch the previous page of the list.
-   */
-  readonly ending_before?: string
-  
-  /**
-   * A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if
-   * you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include
-   * starting_after=obj_foo in order to fetch the next page of the list.
-   */
-  readonly starting_after?: string
-  
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and 100.
-   */
-  readonly limit?: number
-}
-
-interface ListAllTaskDefinitionsResponse {
-  
+export interface TaskDefinitionListResponse {
   /**
    * Always `list`.
    */
-  readonly object: string
-  
+  object: 'list'
   /**
    * Array of results
    */
-  readonly data: Array<TaskDefinition>
-  
+  data: Array<TaskDefinition>
   /**
    * Contains `true` if there is another page of results available.
    */
-  readonly has_more: boolean
+  has_more: boolean
 }
 
-interface CreateATaskDefinitionParams {
-  
+export interface TaskDefinitionListParams {
+  /**
+   * A cursor for use in pagination. `ending_before` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, starting with obj_bar, your subsequent call can include
+   * ending_before=obj_bar in order to fetch the previous page of the list.
+   */
+  ending_before?: string
+  /**
+   * A cursor for use in pagination. `starting_after` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, ending with obj_foo, your subsequent call can include
+   * starting_after=obj_foo in order to fetch the next page of the list.
+   */
+  starting_after?: string
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and
+   * 100.
+   */
+  limit?: number
+}
+
+export interface TaskDefinitionCreateParams {
   /**
    * Globally unique identifier of the task definition
    */
-  readonly key: string
-  
+  key: string
   /**
    * Human readable name of the task definition
    */
-  readonly name: string
+  name: string
+  /**
+   * The default care team role that tasks should be assigned to.
+   */
+  participant_role: 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
 }
 
-interface UpdateATaskDefinitionParams {
-  
+export interface TaskDefinitionUpdateParams {
   /**
    * Globally unique identifier of the task definition
    */
-  readonly key?: string
-  
+  key?: string
   /**
    * Human readable name of the task definition
    */
-  readonly name?: string
+  name?: string
+  /**
+   * The default care team role that tasks should be assigned to.
+   */
+  participant_role?: 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
 }
 
-
-export class TaskDefinitionContext extends BaseContext {
-  
+export class TaskDefinitionResource extends Resource {
   /**
    * Returns a list of task definitions within the current account.
-   * 
-   * The task definitions returned are sorted by creation date, with the most recently added task definitions appearing
-   * first.
    *
-   * @param params Parameters for this operation
-   * @param options Options to apply to this specific request
+   * The task definitions returned are sorted by creation date, with the most
+   * recently added task definitions appearing first.
    */
-  public async list(params?: ListAllTaskDefinitionsParams, options?: CatalystOptions): Promise<ListAllTaskDefinitionsResponse> {
-    return this.catalyst.request("GET", `/v1/task_definitions`, { 
+  public list(
+    params?: TaskDefinitionListParams,
+    options?: SourceOptions,
+  ): Promise<TaskDefinitionListResponse> {
+    return this.source.request('GET', '/v1/task_definitions', {
       params,
       options,
     })
   }
-  
+
   /**
-   * Creates a new task definition and registers it with Catalyst. Task defiitions must be created in order to create tasks
-   * of that type
-   *
-   * @param params Parameters for this operation
-   * @param options Options to apply to this specific request
+   * Creates a new task definition and registers it with Source. Task defiitions must
+   * be created in order to create tasks of that type
    */
-  public async create(params: CreateATaskDefinitionParams, options?: CatalystOptions): Promise<TaskDefinition> {
-    return this.catalyst.request("POST", `/v1/task_definitions`, { 
+  public create(
+    params: TaskDefinitionCreateParams,
+    options?: SourceOptions,
+  ): Promise<TaskDefinition> {
+    return this.source.request('POST', '/v1/task_definitions', {
       params,
       options,
     })
   }
-  
+
   /**
-   * Retrieves the details of an existing task definition. You need only supply the unique task definition identifier that
-   * was returned upon creation.
-   *
-   * @param id Unique ID of the task_definition
-   * @param options Options to apply to this specific request
+   * Retrieves the details of an existing task definition. You need only supply the
+   * unique task definition identifier that was returned upon creation.
    */
-  public async retrieve(id: string, options?: CatalystOptions): Promise<TaskDefinition> {
-    return this.catalyst.request("GET", `/v1/task_definitions/${id}`, { 
+  public retrieve(id: string, options?: SourceOptions): Promise<TaskDefinition> {
+    return this.source.request('GET', `/v1/task_definitions/${id}`, {
       options,
     })
   }
-  
+
   /**
-   * Updates the specified task definition by setting the values of the parameters passed.
-   * 
-   * Any parameters not provided will be left unchanged. For example, if you pass the name parameter, that becomes the task
-   * definitions's active name that is used in the API and interface.
+   * Updates the specified task definition by setting the values of the parameters
+   * passed.
    *
-   * @param id Unique ID of the task_definition
-   * @param params Parameters for this operation
-   * @param options Options to apply to this specific request
+   * Any parameters not provided will be left unchanged. For example, if you pass the
+   * name parameter, that becomes the task definitions's active name that is used in
+   * the API and interface.
    */
-  public async update(id: string, params?: UpdateATaskDefinitionParams, options?: CatalystOptions): Promise<TaskDefinition> {
-    return this.catalyst.request("POST", `/v1/task_definitions/${id}`, { 
+  public update(
+    id: string,
+    params?: TaskDefinitionUpdateParams,
+    options?: SourceOptions,
+  ): Promise<TaskDefinition> {
+    return this.source.request('POST', `/v1/task_definitions/${id}`, {
       params,
       options,
     })
   }
-  
 }

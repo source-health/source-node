@@ -1,16 +1,16 @@
-interface CatalystErrorData {
+interface SourceErrorData {
   code?: string | null
   type?: string
   message: string
   cause?: Error
 }
 
-export class CatalystError extends Error {
+export class SourceError extends Error {
   public readonly type: string
   public readonly code: string | null = null
   public readonly cause: Error | null = null
 
-  constructor({ cause, code, message, type }: CatalystErrorData) {
+  constructor({ cause, code, message, type }: SourceErrorData) {
     super(message)
 
     this.type = type ?? 'client_error'
@@ -22,8 +22,8 @@ export class CatalystError extends Error {
                     @typescript-eslint/no-unsafe-assignment,
                     @typescript-eslint/no-unsafe-member-access, 
                     @typescript-eslint/no-explicit-any */
-  public static from(response: any): CatalystError {
-    return new CatalystError({
+  public static from(response: any): SourceError {
+    return new SourceError({
       type: response.type,
       code: response.code,
       message: response.message,
