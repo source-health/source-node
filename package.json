@@ -1,11 +1,15 @@
 {
   "name": "@source-health/client",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "license": "MIT",
   "description": "Official Node.js bindings for the Source Health API",
   "scripts": {
+    "build": "tsc",
     "check:lint": "eslint --ext .ts,.js src"
   },
+  "files": ["build/**/*"],
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "devDependencies": {
     "@apidevtools/swagger-parser": "^10.0.3",
     "@types/node": "^16.7.10",

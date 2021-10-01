@@ -5,12 +5,13 @@
     "outDir": "build",
     "strict": true,
     "moduleResolution": "node",
-    "sourceMap": true,
+    "sourceMap": false,
+    "declaration": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
     "module": "commonjs",
-    "target": "ES2020"
+    "target": "ES6"
   }
 }
