@@ -27,7 +27,7 @@ export class NodeHttpClient implements HttpClient {
     this.baseUrl = new URL(this.options.base)
   }
 
-  public request(request: HttpRequest): Promise<HttpResponse> {
+  public request<T = unknown>(request: HttpRequest): Promise<HttpResponse<T>> {
     return new Promise((resolve, reject) => {
       const timeout = request.options?.timeout ?? this.options.timeout
       const isInsecureConnection = this.baseUrl.protocol === 'http'
