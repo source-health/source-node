@@ -22,4 +22,19 @@ export class ApiKey implements Authentication {
       Authorization: `Bearer ${this.secret}`,
     }
   }
+
+  /**
+   * Captures API keys from environment variables
+   */
+  public static fromEnvironment(): ApiKey {
+    const keyId = process.env.SOURCE_API_KEY_ID
+    const keySecret = process.env.SOURCE_API_KEY_SECRET
+    if (!keyId || !keySecret) {
+      throw new Error(
+        'Unable to find Source API keys. Did you set SOURCE_API_KEY_ID and SOURCE_API_KEY_SECRET?',
+      )
+    }
+
+    return new ApiKey(keyId, keySecret)
+  }
 }

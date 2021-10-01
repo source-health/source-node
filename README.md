@@ -12,7 +12,15 @@ Getting started with the Source Health client is easy. First, install the packag
 yarn add @source-health/client # or npm install @source-health/client
 ```
 
-Then, create an instance of the client using an API key.
+Then, create an instance of the client:
+
+```typescript
+import { Source } from '@source-health/client'
+
+const source = new Source()
+```
+
+By default, we'll look for credentials in the environment variables `SOURCE_API_KEY_ID` AND `SOURCE_API_KEY_SECRET`. If you'd like to capture your credentials from elsewhere, you can just pass them in:
 
 ```typescript
 import { Source, ApiKey } from '@source-health/client'

@@ -49,9 +49,11 @@ export class Source {
   private readonly encoder = new TextEncoder()
 
   constructor(
-    private readonly authentication: Authentication,
+    private readonly authentication?: Authentication,
     private readonly options: SourceOptions = {},
   ) {
+    this.authentication = authentication || ApiKey.fromEnvironment()
+
     this.client = new SourceClient(
       options.client ??
         createClientForEnvironment({
