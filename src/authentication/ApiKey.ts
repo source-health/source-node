@@ -4,7 +4,7 @@ export class ApiKey implements Authentication {
   /**
    * Creates a new API Key Authorization
    *
-   * API keys can be used for server-to-server authentication to the Catalyst API. When
+   * API keys can be used for server-to-server authentication to the Source API. When
    * using this authentication method, a Bearer token is applied to each outgoing request.
    *
    * @param id the API key id
