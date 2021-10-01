@@ -1,8 +1,16 @@
 # Source Node.js Library
 
-The Source Node library provides access to the Source Health API from applications written in server-side JavaScript.
+The Source Node library provides access to the Source Health API from applications written in server-side JavaScript/TypeScript.
 
 Our SDK is written in TypeScript and compiled to ES6.
+
+## Known Limitations
+
+This is an early releaes of our TypeScript SDK, and it comes with some known limitations:
+- Runs in Node.js only, and cannot currently run in the browser
+- Does not currently support file uploads to Source
+- Some types are still defined as `unknown` as we improve our type generation
+- Expansion is not yet supported
 
 ## Getting Started
 
