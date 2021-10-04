@@ -1,3 +1,5 @@
+import { SourceError } from '../SourceError'
+
 import { HttpClient, HttpClientOptions, HttpRequest, HttpResponse } from './HttpClient'
 
 export default class FetchHttpClient implements HttpClient {
@@ -27,10 +29,29 @@ export default class FetchHttpClient implements HttpClient {
       headers: headers,
     })
 
-    return {
-      status: response.status,
-      data: (await response.json()) as T,
-      headers: Object.fromEntries([...response.headers.entries()]),
+    try {
+      const data = (await response.json()) as Record<string, unknown>
+
+      if (data.object === 'error') { // eslint-disable-line
+        throw SourceError.from(data)
+      }
+
+      return {
+        status: response.status,
+        data: data as T,
+        headers: Object.fromEntries([...response.headers.entries()]),
+      }
+    } catch (ex) {
+      if (ex instanceof SourceError) {
+        throw ex
+      }
+
+      throw new SourceError({
+        type: 'client_error',
+        code: 'invalid_response',
+        message: 'Invalid response received from the API',
+        cause: ex as Error,
+      })
     }
   }
 }
