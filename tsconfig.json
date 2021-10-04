@@ -2,7 +2,7 @@
   "exclude": ["node_modules"],
   "include": ["./src/**/*.ts", "./generator/**/*.ts"],
   "compilerOptions": {
-    "outDir": "build",
+    "outDir": "dist",
     "strict": true,
     "moduleResolution": "node",
     "sourceMap": false,
@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
-    "module": "commonjs",
+    "module": "ESNext",
     "target": "ES6"
   }
 }

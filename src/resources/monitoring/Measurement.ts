@@ -143,6 +143,80 @@ export interface MeasurementListParams {
   type?: Array<MeasurementListParamsType>
 }
 
+export type MeasurementCreateParams0Type =
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
+
+export interface MeasurementCreateParams0 {
+  /**
+   * Source measurement type to create.
+   */
+  type: MeasurementCreateParams0Type
+  /**
+   * Device to which this measurement belongs.
+   */
+  device: string
+  /**
+   * Member to which this measurement belongs.
+   */
+  member: string
+  /**
+   * Timestamp that the measurement was taken.
+   */
+  time: string
+  /**
+   * Always `composite`.
+   */
+  kind: 'composite'
+  /**
+   * Items to be included in the composite measurement.
+   */
+  items: Record<string, unknown>
+}
+
+export type MeasurementCreateParams1Type =
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
+
+export interface MeasurementCreateParams1 {
+  /**
+   * Source measurement type to create.
+   */
+  type: MeasurementCreateParams1Type
+  /**
+   * Device to which this measurement belongs.
+   */
+  device: string
+  /**
+   * Member to which this measurement belongs.
+   */
+  member: string
+  /**
+   * Timestamp that the measurement was taken.
+   */
+  time: string
+  /**
+   * Always `numeric`.
+   */
+  kind: 'numeric'
+  /**
+   * Value for the measurement.
+   */
+  value: string
+  /**
+   * Unit that the measurement is reported in.
+   */
+  unit: string
+}
+
+export type MeasurementCreateParams = MeasurementCreateParams0 | MeasurementCreateParams1
+
 export class MeasurementResource extends Resource {
   /**
    * Lists all measurements for the current account. The measurements returned are
@@ -164,7 +238,7 @@ export class MeasurementResource extends Resource {
    * kind `composite` (with a collection of logically inseparable values (such as a
    * blood pressure reading). The shapes of these requests are different.
    */
-  public create(params?: unknown, options?: SourceOptions): Promise<Measurement> {
+  public create(params?: MeasurementCreateParams, options?: SourceOptions): Promise<Measurement> {
     return this.source.request('POST', '/v1/measurements', {
       params,
       options,

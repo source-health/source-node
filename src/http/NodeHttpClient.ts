@@ -13,7 +13,7 @@ export interface NodeHttpClientOptions extends HttpClientOptions {
   readonly agent?: http.Agent | https.Agent | null
 }
 
-export class NodeHttpClient implements HttpClient {
+export default class NodeHttpClient implements HttpClient {
   // Default HTTP agent to use for all outgoing requests
   private static defaultHttpAgent = new http.Agent({ keepAlive: true })
 
@@ -65,7 +65,7 @@ export class NodeHttpClient implements HttpClient {
             resolve({
               status: res.statusCode ?? 0,
               headers: res.headers,
-              data: parsed,
+              data: parsed as T,
             })
           } catch (ex) {
             reject(

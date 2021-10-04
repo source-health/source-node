@@ -1,9 +1,12 @@
 import { Resource } from '../../BaseResource'
 import { SourceOptions } from '../../Source'
+import { Member } from '../Member'
+import { User } from '../User'
 
 import { Thread } from './Thread'
 
 export type MessageType = 'text' | 'system'
+export type MessageSender = string | Member | string | User
 
 export interface Message {
   /**
@@ -32,7 +35,7 @@ export interface Message {
   /**
    * The person who sent this message.
    */
-  sender: unknown
+  sender: MessageSender
   /**
    * The time at which this message was sent.
    */

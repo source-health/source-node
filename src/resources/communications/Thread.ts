@@ -4,6 +4,8 @@ import { Member } from '../Member'
 import { User } from '../User'
 import { ThreadStatus } from '../shared'
 
+export type ThreadLastMessageSender = string | User | string | Member
+
 export interface ThreadLastMessage {
   /**
    * Plain text contents of the message.
@@ -12,7 +14,7 @@ export interface ThreadLastMessage {
   /**
    * The person who sent this message.
    */
-  sender: unknown
+  sender: ThreadLastMessageSender
   /**
    * The time at which this message was sent.
    */
@@ -39,7 +41,7 @@ export interface Thread {
   /**
    * Current status of the thread.
    */
-  status: unknown
+  status: ThreadStatus
   /**
    * Subject of the thread.
    */

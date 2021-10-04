@@ -1,26 +1,8 @@
-import { SignJWT } from 'jose/jwt/sign' // eslint-disable-line
-
 import { SourceClient } from './SourceClient'
+// import { TokenGenerator } from './TokenGenerator'
 import { ApiKey, Authentication } from './authentication'
 import { HttpClient, createClientForEnvironment } from './http'
 import { RootResources, allResources } from './resources'
-
-interface TokenOptions {
-  /**
-   * Member for which this token should be generated
-   */
-  member: string
-
-  /**
-   * Expiration time for the token. Must be no more than 24 hours from now.
-   */
-  expiration: Date
-
-  /**
-   * Scopes to apply to the token which may limit its access
-   */
-  scopes?: string[]
-}
 
 export interface SourceOptions {
   /**
@@ -42,17 +24,25 @@ export interface SourceOptions {
 }
 
 export class Source {
+  // Authentication to pass down to API calls
+  private authentication: Authentication
+
   // Use to make calls to the Source API
   private readonly client: SourceClient
 
   // Used to encode secrets for JWT signing
-  private readonly encoder = new TextEncoder()
+  // public readonly tokens: TokenGenerator
 
-  constructor(
-    private readonly authentication?: Authentication,
-    private readonly options: SourceOptions = {},
-  ) {
-    this.authentication = authentication || ApiKey.fromEnvironment()
+  constructor(authentication?: Authentication, options: SourceOptions = {}) {
+    let actualAuthentication: Authentication
+    if (authentication) {
+      actualAuthentication = authentication
+    } else {
+      actualAuthentication = ApiKey.fromEnvironment()
+    }
+
+    this.authentication = actualAuthentication
+    // this.tokens = new TokenGenerator(this.authentication)
 
     this.client = new SourceClient(
       options.client ??
@@ -65,29 +55,6 @@ export class Source {
 
     // Bootstrap all resources and attach them to the client
     Object.assign(this, allResources(this.client))
-  }
-
-  /**
-   * Generates a JWT suitable to allow a member to access the API
-   *
-   * @param options options for configuring the generated token
-   * @returns a generated token that allows a member access to the API
-   */
-  public async generateToken(options: TokenOptions): Promise<string> {
-    if (!(this.authentication instanceof ApiKey)) {
-      throw new Error('You may only generate tokens when using API key authentication')
-    }
-
-    const signJWT = new SignJWT({
-      sub: options.member,
-      iat: Math.floor(Date.now() / 1_000),
-      exp: Math.floor(options.expiration.getTime() / 1_000),
-      scopes: options.scopes ?? [],
-    })
-
-    return await signJWT
-      .setProtectedHeader({ alg: 'HS256', kid: this.authentication.id })
-      .sign(this.encoder.encode(this.authentication.secret))
   }
 }
 

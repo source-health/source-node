@@ -4,30 +4,31 @@
   "license": "MIT",
   "description": "Official Node.js bindings for the Source Health API",
   "scripts": {
-    "build": "tsc",
-    "check:lint": "eslint --ext .ts,.js src"
+    "build": "webpack",
+    "lint": "eslint src"
   },
   "files": [
-    "build/**/*"
+    "build",
+    "src"
   ],
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "main": "dist/source-client.node.js",
+  "typings": "dist/index.d.ts",
+  "browser": "dist/source-client.js",
+  "sideEffects": false,
   "devDependencies": {
-    "@apidevtools/swagger-parser": "^10.0.3",
     "@types/node": "^16.7.10",
-    "@types/nunjucks": "^3.1.5",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^4.0.0",
-    "eta": "^1.12.3",
-    "nunjucks": "^3.2.3",
-    "openapi-types": "^9.3.0",
     "prettier": "^2.3.2",
-    "swagger-parser": "^10.0.3",
+    "ts-loader": "^9.2.6",
     "ts-node": "^10.2.1",
-    "typescript": "^4.4.2"
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.2",
+    "webpack": "^5.56.0",
+    "webpack-cli": "^4.8.0"
   },
   "dependencies": {
     "jose": "^3.19.0"

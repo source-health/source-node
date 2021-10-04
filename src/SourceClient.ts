@@ -3,9 +3,13 @@ import { Authentication } from './authentication'
 import { HttpClient, HttpRequestOptions } from './http'
 import { serializeQuery, toQuery } from './utils'
 
+interface SourceRequestOptions extends HttpRequestOptions {
+  expand?: string[]
+}
+
 interface RequestArguments {
   readonly params?: unknown
-  readonly options?: HttpRequestOptions
+  readonly options?: SourceRequestOptions
 }
 
 export class SourceClient {
@@ -29,9 +33,15 @@ export class SourceClient {
     args: RequestArguments,
   ): Promise<Response<T>> {
     const isDataInQuery = method.toUpperCase() === 'GET'
-    const bodyData = isDataInQuery ? null : JSON.stringify(args.params)
-    const queryParams = isDataInQuery && args.params ? serializeQuery(toQuery(args.params)) : null
-    const fullPath = path + (queryParams ? `?${queryParams}` : '')
+    const bodyObject = isDataInQuery ? null : (args.params as Record<string, unknown>)
+    const queryObject =
+      isDataInQuery && args.params ? ((args.params || {}) as Record<string, unknown>) : null
+
+    if (queryObject && args.options?.expand) {
+      queryObject.expand = args.options.expand
+    }
+
+    const fullPath = path + (queryObject ? `?${serializeQuery(toQuery(queryObject))}` : '')
     const headers: Record<string, string | string[] | undefined> = !isDataInQuery
       ? {
           'Content-Type': 'application/json',
@@ -41,7 +51,7 @@ export class SourceClient {
     const response = await this.http.request({
       method,
       path: fullPath,
-      data: bodyData ?? null,
+      data: bodyObject ? JSON.stringify(bodyObject) : null,
       headers: {
         ...this.authentication.createHeaders(),
         ...headers,
