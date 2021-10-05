@@ -1,5 +1,5 @@
 import { Resource } from '../../BaseResource'
-import { SourceOptions } from '../../Source'
+import { SourceRequestOptions } from '../../SourceClient'
 import { Member } from '../Member'
 
 import { Device } from './Device'
@@ -225,10 +225,10 @@ export class MeasurementResource extends Resource {
    */
   public list(
     params?: MeasurementListParams,
-    options?: SourceOptions,
+    options?: SourceRequestOptions,
   ): Promise<MeasurementListResponse> {
     return this.source.request('GET', '/v1/measurements', {
-      params,
+      query: params,
       options,
     })
   }
@@ -238,9 +238,13 @@ export class MeasurementResource extends Resource {
    * kind `composite` (with a collection of logically inseparable values (such as a
    * blood pressure reading). The shapes of these requests are different.
    */
-  public create(params?: MeasurementCreateParams, options?: SourceOptions): Promise<Measurement> {
+  public create(
+    params?: MeasurementCreateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Measurement> {
     return this.source.request('POST', '/v1/measurements', {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }
@@ -248,7 +252,7 @@ export class MeasurementResource extends Resource {
   /**
    * Return the details of a measurement (a reading from a Device)
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<Measurement> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Measurement> {
     return this.source.request('GET', `/v1/measurements/${id}`, {
       options,
     })

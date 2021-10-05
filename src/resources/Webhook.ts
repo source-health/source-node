@@ -1,5 +1,5 @@
 import { Resource } from '../BaseResource'
-import { SourceOptions } from '../Source'
+import { SourceRequestOptions } from '../SourceClient'
 
 import { WebhookEvents } from './shared'
 
@@ -115,9 +115,12 @@ export class WebhookResource extends Resource {
    * Lists all webhooks for the current account. The webhooks returned are sorted by
    * creation date, with the most recently created webhooks appearing first.
    */
-  public list(params?: WebhookListParams, options?: SourceOptions): Promise<WebhookListResponse> {
+  public list(
+    params?: WebhookListParams,
+    options?: SourceRequestOptions,
+  ): Promise<WebhookListResponse> {
     return this.source.request('GET', '/v1/webhooks', {
-      params,
+      query: params,
       options,
     })
   }
@@ -125,9 +128,10 @@ export class WebhookResource extends Resource {
   /**
    * A webhook endpoint must have a URL and a list of events.
    */
-  public create(params: WebhookCreateParams, options?: SourceOptions): Promise<Webhook> {
+  public create(params: WebhookCreateParams, options?: SourceRequestOptions): Promise<Webhook> {
     return this.source.request('POST', '/v1/webhooks', {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }
@@ -135,7 +139,7 @@ export class WebhookResource extends Resource {
   /**
    * A webhook endpoint must have a url and a list of events.
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<Webhook> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Webhook> {
     return this.source.request('GET', `/v1/webhooks/${id}`, {
       options,
     })
@@ -148,10 +152,11 @@ export class WebhookResource extends Resource {
   public update(
     id: string,
     params?: WebhookUpdateParams,
-    options?: SourceOptions,
+    options?: SourceRequestOptions,
   ): Promise<Webhook> {
     return this.source.request('POST', `/v1/webhooks/${id}`, {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }
@@ -160,8 +165,9 @@ export class WebhookResource extends Resource {
    * Removes a webhook from your account, which will stop sending events to your
    * endpoint
    */
-  public delete(id: string, options?: SourceOptions): Promise<Webhook> {
+  public delete(id: string, options?: SourceRequestOptions): Promise<Webhook> {
     return this.source.request('DELETE', `/v1/webhooks/${id}`, {
+      contentType: 'json',
       options,
     })
   }

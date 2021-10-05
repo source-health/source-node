@@ -1,5 +1,5 @@
 import { Resource } from '../BaseResource'
-import { SourceOptions } from '../Source'
+import { SourceRequestOptions } from '../SourceClient'
 
 export interface EventData {
   /**
@@ -79,7 +79,7 @@ export class EventResource extends Resource {
    * time, specified in event object api_version attribute (not according to your
    * current Source     API version or Source-Version header).
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<Event> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Event> {
     return this.source.request('GET', `/v1/events/${id}`, {
       options,
     })
@@ -90,9 +90,12 @@ export class EventResource extends Resource {
    * version at its creation time, specified in event object api_version attribute
    * (not according to your current Source API version or Source-Version header).
    */
-  public list(params?: EventListParams, options?: SourceOptions): Promise<EventListResponse> {
+  public list(
+    params?: EventListParams,
+    options?: SourceRequestOptions,
+  ): Promise<EventListResponse> {
     return this.source.request('GET', '/v1/events', {
-      params,
+      query: params,
       options,
     })
   }

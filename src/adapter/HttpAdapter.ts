@@ -1,4 +1,4 @@
-export interface HttpClientOptions {
+export interface HttpAdapterOptions {
   /**
    * Default timeout to apply to all requests
    */
@@ -29,14 +29,28 @@ export interface HttpRequest {
   readonly method: string
 
   /**
+   * Query parameters to apply to the path (they will be appended to any other query
+   * parameters already present on the response)
+   */
+  readonly query?: Record<string, string | string[] | undefined>
+
+  /**
    * Headers to apply to the request
    */
-  readonly headers?: Record<string, string | string[] | undefined>
+  readonly headers?: Record<string, string>
 
   /**
    * Body data for the outgoing request
+   *
+   * This data should be the unencoded version. We'll look at the data and the
+   * contentType parameter to determine how it should be serialized
    */
-  readonly data?: string | null
+  readonly data?: unknown
+
+  /**
+   * Content type used when encoding the request body
+   */
+  readonly contentType?: 'json' | 'multipart'
 
   /**
    * Request-level option overrides
@@ -61,7 +75,7 @@ export interface HttpResponse<T = unknown> {
   readonly data: T
 }
 
-export interface HttpClient {
+export interface HttpAdapter {
   /**
    * Executes the provideed request and returns an appropriate response
    *

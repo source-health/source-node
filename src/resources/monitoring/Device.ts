@@ -1,5 +1,5 @@
 import { Resource } from '../../BaseResource'
-import { SourceOptions } from '../../Source'
+import { SourceRequestOptions } from '../../SourceClient'
 import { Member } from '../Member'
 
 export type DeviceStatus = 'pending' | 'active' | 'deactivated'
@@ -104,7 +104,7 @@ export class DeviceResource extends Resource {
    * Retrieves the details of an existing device. You need only supply the unique
    * device identifier that was returned upon device creation.
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<Device> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Device> {
     return this.source.request('GET', `/v1/devices/${id}`, {
       options,
     })
@@ -114,9 +114,12 @@ export class DeviceResource extends Resource {
    * Returns a list of devices within the current account. The devices returned are
    * sorted by creation date, with the most recently added devices appearing first.
    */
-  public list(params?: DeviceListParams, options?: SourceOptions): Promise<DeviceListResponse> {
+  public list(
+    params?: DeviceListParams,
+    options?: SourceRequestOptions,
+  ): Promise<DeviceListResponse> {
     return this.source.request('GET', '/v1/devices', {
-      params,
+      query: params,
       options,
     })
   }

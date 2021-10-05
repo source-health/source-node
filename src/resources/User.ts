@@ -1,5 +1,5 @@
 import { Resource } from '../BaseResource'
-import { SourceOptions } from '../Source'
+import { SourceRequestOptions } from '../SourceClient'
 
 export type UserRole = 'owner' | 'administrator' | 'developer' | 'clinician' | 'support'
 
@@ -101,7 +101,7 @@ export class UserResource extends Resource {
   /**
    * Retrieve a user by their unique identifier.
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<User> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<User> {
     return this.source.request('GET', `/v1/users/${id}`, {
       options,
     })
@@ -113,9 +113,9 @@ export class UserResource extends Resource {
    * The users returned are sorted by creation date, with the most recently added
    * users appearing first.
    */
-  public list(params?: UserListParams, options?: SourceOptions): Promise<UserListResponse> {
+  public list(params?: UserListParams, options?: SourceRequestOptions): Promise<UserListResponse> {
     return this.source.request('GET', '/v1/users', {
-      params,
+      query: params,
       options,
     })
   }

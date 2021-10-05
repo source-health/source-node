@@ -1,5 +1,5 @@
 import { Resource } from '../BaseResource'
-import { SourceOptions } from '../Source'
+import { SourceRequestOptions } from '../SourceClient'
 
 export type TaskDefinitionParticipantRole = 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
 
@@ -122,10 +122,10 @@ export class TaskDefinitionResource extends Resource {
    */
   public list(
     params?: TaskDefinitionListParams,
-    options?: SourceOptions,
+    options?: SourceRequestOptions,
   ): Promise<TaskDefinitionListResponse> {
     return this.source.request('GET', '/v1/task_definitions', {
-      params,
+      query: params,
       options,
     })
   }
@@ -136,10 +136,11 @@ export class TaskDefinitionResource extends Resource {
    */
   public create(
     params: TaskDefinitionCreateParams,
-    options?: SourceOptions,
+    options?: SourceRequestOptions,
   ): Promise<TaskDefinition> {
     return this.source.request('POST', '/v1/task_definitions', {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }
@@ -148,7 +149,7 @@ export class TaskDefinitionResource extends Resource {
    * Retrieves the details of an existing task definition. You need only supply the
    * unique task definition identifier that was returned upon creation.
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<TaskDefinition> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<TaskDefinition> {
     return this.source.request('GET', `/v1/task_definitions/${id}`, {
       options,
     })
@@ -165,10 +166,11 @@ export class TaskDefinitionResource extends Resource {
   public update(
     id: string,
     params?: TaskDefinitionUpdateParams,
-    options?: SourceOptions,
+    options?: SourceRequestOptions,
   ): Promise<TaskDefinition> {
     return this.source.request('POST', `/v1/task_definitions/${id}`, {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }

@@ -1,5 +1,5 @@
 export * from './authentication'
-export * from './http'
+export * from './adapter'
 export * from './resources'
 export * from './Response'
 export * from './Source'

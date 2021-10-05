@@ -1,5 +1,5 @@
 import { Resource } from '../BaseResource'
-import { SourceOptions } from '../Source'
+import { SourceRequestOptions } from '../SourceClient'
 
 import { CareTeam } from './CareTeam'
 
@@ -284,9 +284,12 @@ export class MemberResource extends Resource {
    * The members returned are sorted by creation date, with the most recently added
    * members appearing first.
    */
-  public list(params?: MemberListParams, options?: SourceOptions): Promise<MemberListResponse> {
+  public list(
+    params?: MemberListParams,
+    options?: SourceRequestOptions,
+  ): Promise<MemberListResponse> {
     return this.source.request('GET', '/v1/members', {
-      params,
+      query: params,
       options,
     })
   }
@@ -295,9 +298,10 @@ export class MemberResource extends Resource {
    * Creates a new member and registers them with Source. Members must be created in
    * order to ship devices or track measurements.
    */
-  public create(params: MemberCreateParams, options?: SourceOptions): Promise<Member> {
+  public create(params: MemberCreateParams, options?: SourceRequestOptions): Promise<Member> {
     return this.source.request('POST', '/v1/members', {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }
@@ -306,7 +310,7 @@ export class MemberResource extends Resource {
    * Retrieves the details of an existing member. You need only supply the unique
    * member identifier that was returned upon member creation.
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<Member> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Member> {
     return this.source.request('GET', `/v1/members/${id}`, {
       options,
     })
@@ -318,9 +322,14 @@ export class MemberResource extends Resource {
    * Any parameters not provided will be left unchanged. For example, if you pass the
    * email parameter, that becomes the member's active email to be used.
    */
-  public update(id: string, params?: MemberUpdateParams, options?: SourceOptions): Promise<Member> {
+  public update(
+    id: string,
+    params?: MemberUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Member> {
     return this.source.request('POST', `/v1/members/${id}`, {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }

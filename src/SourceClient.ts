@@ -1,19 +1,22 @@
 import { Response } from './Response'
+import { HttpAdapter, HttpRequest, HttpRequestOptions } from './adapter'
 import { Authentication } from './authentication'
-import { HttpClient, HttpRequestOptions } from './http'
-import { serializeQuery, toQuery } from './utils'
+import { toQuery } from './utils'
 
-interface SourceRequestOptions extends HttpRequestOptions {
+export interface SourceRequestOptions extends HttpRequestOptions {
   expand?: string[]
 }
 
-interface RequestArguments {
-  readonly params?: unknown
+export interface RequestArguments extends Omit<HttpRequest, 'path' | 'method' | 'query'> {
+  readonly query?: unknown
   readonly options?: SourceRequestOptions
 }
 
 export class SourceClient {
-  constructor(private readonly http: HttpClient, private readonly authentication: Authentication) {}
+  constructor(
+    private readonly http: HttpAdapter,
+    private readonly authentication: Authentication,
+  ) {}
 
   /**
    * Execute a request against the Source API
@@ -32,33 +35,24 @@ export class SourceClient {
     path: string,
     args: RequestArguments,
   ): Promise<Response<T>> {
-    const isDataInQuery = method.toUpperCase() === 'GET'
-    const bodyObject = isDataInQuery ? null : (args.params as Record<string, unknown>)
-    const queryObject =
-      isDataInQuery && args.params ? ((args.params || {}) as Record<string, unknown>) : null
+    const { options, query, headers, ...request } = args
+    const { expand, ...otherOptions } = options ?? {}
+    const actualQueryParams = query ? toQuery(query) : {}
+    const mergedQueryParams = expand ? { ...actualQueryParams, expand } : actualQueryParams
 
-    if (queryObject && args.options?.expand) {
-      queryObject.expand = args.options.expand
-    }
-
-    const fullPath = path + (queryObject ? `?${serializeQuery(toQuery(queryObject))}` : '')
-    const headers: Record<string, string | string[] | undefined> = !isDataInQuery
-      ? {
-          'Content-Type': 'application/json',
-        }
-      : {}
-
-    const response = await this.http.request({
+    const response = await this.http.request<T>({
+      ...request,
       method,
-      path: fullPath,
-      data: bodyObject ? JSON.stringify(bodyObject) : null,
+      path,
+      query: mergedQueryParams,
+      options: otherOptions,
       headers: {
         ...this.authentication.createHeaders(),
         ...headers,
       },
     })
 
-    return Object.assign(response.data as T, {
+    return Object.assign(response.data, {
       response: {
         statusCode: response.status,
         headers: response.headers,

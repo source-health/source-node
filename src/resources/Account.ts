@@ -1,5 +1,5 @@
 import { Resource } from '../BaseResource'
-import { SourceOptions } from '../Source'
+import { SourceRequestOptions } from '../SourceClient'
 
 export interface Account {
   /**
@@ -54,7 +54,7 @@ export class AccountResource extends Resource {
    * Supply the unique identifier of the account, or `current` to access your current
    * account.
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<Account> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Account> {
     return this.source.request('GET', `/v1/accounts/${id}`, {
       options,
     })
@@ -69,10 +69,11 @@ export class AccountResource extends Resource {
   public update(
     id: string,
     params?: AccountUpdateParams,
-    options?: SourceOptions,
+    options?: SourceRequestOptions,
   ): Promise<Account> {
     return this.source.request('POST', `/v1/accounts/${id}`, {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }

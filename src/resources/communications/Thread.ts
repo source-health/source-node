@@ -1,5 +1,5 @@
 import { Resource } from '../../BaseResource'
-import { SourceOptions } from '../../Source'
+import { SourceRequestOptions } from '../../SourceClient'
 import { Member } from '../Member'
 import { User } from '../User'
 import { ThreadStatus } from '../shared'
@@ -156,9 +156,12 @@ export class ThreadResource extends Resource {
    *
    * The threads returned are sorted with the most recently updated appearing first.
    */
-  public list(params?: ThreadListParams, options?: SourceOptions): Promise<ThreadListResponse> {
+  public list(
+    params?: ThreadListParams,
+    options?: SourceRequestOptions,
+  ): Promise<ThreadListResponse> {
     return this.source.request('GET', '/v1/communication/threads', {
-      params,
+      query: params,
       options,
     })
   }
@@ -166,9 +169,10 @@ export class ThreadResource extends Resource {
   /**
    * Creates a new messaging thread.
    */
-  public create(params: ThreadCreateParams, options?: SourceOptions): Promise<Thread> {
+  public create(params: ThreadCreateParams, options?: SourceRequestOptions): Promise<Thread> {
     return this.source.request('POST', '/v1/communication/threads', {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }
@@ -177,7 +181,7 @@ export class ThreadResource extends Resource {
    * Retrieves the details of an existing thread. You need only supply the unique
    * thread identifier that was returned upon creation.
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<Thread> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Thread> {
     return this.source.request('GET', `/v1/communication/threads/${id}`, {
       options,
     })
@@ -187,9 +191,14 @@ export class ThreadResource extends Resource {
    * Change the thread status or subject, and re-assign the thread to a different
    * member of the Care Team.
    */
-  public update(id: string, params?: ThreadUpdateParams, options?: SourceOptions): Promise<Thread> {
+  public update(
+    id: string,
+    params?: ThreadUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Thread> {
     return this.source.request('POST', `/v1/communication/threads/${id}`, {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }

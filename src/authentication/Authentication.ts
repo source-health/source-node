@@ -4,5 +4,5 @@ export interface Authentication {
    *
    * @returns a dictionary of headers to apply to the request
    */
-  createHeaders(): Record<string, string | string[] | undefined>
+  createHeaders(): Record<string, string>
 }

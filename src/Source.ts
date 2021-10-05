@@ -1,14 +1,14 @@
 import { SourceClient } from './SourceClient'
 // import { TokenGenerator } from './TokenGenerator'
+import { HttpAdapter, createClientForEnvironment } from './adapter'
 import { ApiKey, Authentication } from './authentication'
-import { HttpClient, createClientForEnvironment } from './http'
 import { RootResources, allResources } from './resources'
 
 export interface SourceOptions {
   /**
    * Client instance to use (if one is not provided, it will be created)
    */
-  readonly client?: HttpClient
+  readonly client?: HttpAdapter
   /**
    * Timeout (in ms) to apply to all requests
    */
@@ -17,10 +17,6 @@ export interface SourceOptions {
    * Base URL to which requests should be sent
    */
   readonly baseUrl?: string
-  /**
-   * List of properties to expand
-   */
-  readonly expand?: string[]
 }
 
 export class Source {

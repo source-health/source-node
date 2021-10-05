@@ -2,18 +2,18 @@ import * as http from 'http'
 import * as https from 'https'
 
 import { SourceError } from '../SourceError'
-import { isTimeoutError } from '../utils'
+import { createUrl, isTimeoutError } from '../utils'
 
-import { HttpClient, HttpClientOptions, HttpRequest, HttpResponse } from './HttpClient'
+import { HttpAdapter, HttpAdapterOptions, HttpRequest, HttpResponse } from './HttpAdapter'
 
-export interface NodeHttpClientOptions extends HttpClientOptions {
+export interface NodeHttpClientOptions extends HttpAdapterOptions {
   /**
    * Default agent to use for requests. Must match the protocol.
    */
   readonly agent?: http.Agent | https.Agent | null
 }
 
-export default class NodeHttpClient implements HttpClient {
+export default class NodeHttpClient implements HttpAdapter {
   // Default HTTP agent to use for all outgoing requests
   private static defaultHttpAgent = new http.Agent({ keepAlive: true })
 
@@ -30,7 +30,8 @@ export default class NodeHttpClient implements HttpClient {
   public request<T = unknown>(request: HttpRequest): Promise<HttpResponse<T>> {
     return new Promise((resolve, reject) => {
       const timeout = request.options?.timeout ?? this.options.timeout
-      const isInsecureConnection = this.baseUrl.protocol === 'http'
+      const url = new URL(createUrl(this.baseUrl, request.path, request.query))
+      const isInsecureConnection = url.protocol === 'http:'
       let agent = this.options.agent
       if (!agent) {
         agent = isInsecureConnection
@@ -40,9 +41,9 @@ export default class NodeHttpClient implements HttpClient {
 
       const req = (isInsecureConnection ? http : https).request({
         agent,
-        host: this.baseUrl.host,
-        port: this.baseUrl.port,
-        path: request.path,
+        host: url.hostname,
+        port: url.port,
+        path: url.pathname + url.search,
         method: request.method,
         headers: request.headers,
         ciphers: 'DEFAULT:!aNULL:!eNULL:!LOW:!EXPORT:!SSLv2:!MD5',

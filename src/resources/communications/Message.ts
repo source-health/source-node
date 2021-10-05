@@ -1,5 +1,5 @@
 import { Resource } from '../../BaseResource'
-import { SourceOptions } from '../../Source'
+import { SourceRequestOptions } from '../../SourceClient'
 import { Member } from '../Member'
 import { User } from '../User'
 
@@ -100,9 +100,12 @@ export class MessageResource extends Resource {
    *
    * The threads returned are sorted with the most recently updated appearing first.
    */
-  public list(params: MessageListParams, options?: SourceOptions): Promise<MessageListResponse> {
+  public list(
+    params: MessageListParams,
+    options?: SourceRequestOptions,
+  ): Promise<MessageListResponse> {
     return this.source.request('GET', '/v1/communication/messages', {
-      params,
+      query: params,
       options,
     })
   }
@@ -110,9 +113,10 @@ export class MessageResource extends Resource {
   /**
    * Creates a message within a thread.
    */
-  public create(params: MessageCreateParams, options?: SourceOptions): Promise<Message> {
+  public create(params: MessageCreateParams, options?: SourceRequestOptions): Promise<Message> {
     return this.source.request('POST', '/v1/communication/messages', {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }
@@ -121,7 +125,7 @@ export class MessageResource extends Resource {
    * Retrieves the details of an Message. You need only supply the unique message
    * identifier that was returned upon creation.
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<Message> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Message> {
     return this.source.request('GET', `/v1/communication/messages/${id}`, {
       options,
     })

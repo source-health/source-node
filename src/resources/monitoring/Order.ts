@@ -1,5 +1,5 @@
 import { Resource } from '../../BaseResource'
-import { SourceOptions } from '../../Source'
+import { SourceRequestOptions } from '../../SourceClient'
 import { Member } from '../Member'
 
 import { DeviceModel } from './DeviceModel'
@@ -276,9 +276,12 @@ export class OrderResource extends Resource {
    * Retrieves the details of an order. Supply the unique identifier of the order,
    * which you might have received in a webhook.
    */
-  public list(params?: OrderListParams, options?: SourceOptions): Promise<OrderListResponse> {
+  public list(
+    params?: OrderListParams,
+    options?: SourceRequestOptions,
+  ): Promise<OrderListResponse> {
     return this.source.request('GET', '/v1/orders', {
-      params,
+      query: params,
       options,
     })
   }
@@ -298,9 +301,10 @@ export class OrderResource extends Resource {
    *
    * Blood Pressure Monitor: `prod_1rqijtxD3sjkVVQPRRFC`
    */
-  public create(params: OrderCreateParams, options?: SourceOptions): Promise<Order> {
+  public create(params: OrderCreateParams, options?: SourceRequestOptions): Promise<Order> {
     return this.source.request('POST', '/v1/orders', {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }
@@ -309,7 +313,7 @@ export class OrderResource extends Resource {
    * Retrieves the details of an order. Supply the unique identifier of the order,
    * which you might have received in a webhook.
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<Order> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Order> {
     return this.source.request('GET', `/v1/orders/${id}`, {
       options,
     })

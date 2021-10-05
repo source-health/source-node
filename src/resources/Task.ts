@@ -1,5 +1,5 @@
 import { Resource } from '../BaseResource'
-import { SourceOptions } from '../Source'
+import { SourceRequestOptions } from '../SourceClient'
 
 import { Member } from './Member'
 import { TaskDefinition } from './TaskDefinition'
@@ -165,9 +165,9 @@ export class TaskResource extends Resource {
    * The tasks returned are sorted by creation date, with the most recently added
    * task appearing first.
    */
-  public list(params?: TaskListParams, options?: SourceOptions): Promise<TaskListResponse> {
+  public list(params?: TaskListParams, options?: SourceRequestOptions): Promise<TaskListResponse> {
     return this.source.request('GET', '/v1/tasks', {
-      params,
+      query: params,
       options,
     })
   }
@@ -176,9 +176,10 @@ export class TaskResource extends Resource {
    * Creates a new task and registers it with Source. Once a task is created you
    * cannot update the definition or member associated with that task.
    */
-  public create(params: TaskCreateParams, options?: SourceOptions): Promise<Task> {
+  public create(params: TaskCreateParams, options?: SourceRequestOptions): Promise<Task> {
     return this.source.request('POST', '/v1/tasks', {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }
@@ -187,7 +188,7 @@ export class TaskResource extends Resource {
    * Retrieves the details of an existing task. You need only supply the unique task
    * identifier that was returned upon creation.
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<Task> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Task> {
     return this.source.request('GET', `/v1/tasks/${id}`, {
       options,
     })
@@ -199,9 +200,14 @@ export class TaskResource extends Resource {
    * Any parameters not provided will be left unchanged. For example, if you pass the
    * assignee parameter, that assigns the task to the given user.
    */
-  public update(id: string, params?: TaskUpdateParams, options?: SourceOptions): Promise<Task> {
+  public update(
+    id: string,
+    params?: TaskUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Task> {
     return this.source.request('POST', `/v1/tasks/${id}`, {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }

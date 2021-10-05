@@ -1,5 +1,5 @@
 import { Resource } from '../BaseResource'
-import { SourceOptions } from '../Source'
+import { SourceRequestOptions } from '../SourceClient'
 
 export interface File {
   /**
@@ -65,9 +65,10 @@ export class FileResource extends Resource {
    * Files must be uploaded through the files API before they can be attached to
    * messages, set as profile photos, or otherwise used by the Source platform.
    */
-  public create(params: FileCreateParams, options?: SourceOptions): Promise<File> {
+  public create(params: FileCreateParams, options?: SourceRequestOptions): Promise<File> {
     return this.source.request('POST', '/v1/files', {
-      params,
+      data: params,
+      contentType: 'multipart',
       options,
     })
   }
@@ -76,7 +77,7 @@ export class FileResource extends Resource {
    * Retrieves the details of an existing file. You need only supply the unique file
    * identifier that was returned upon file creation.
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<File> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<File> {
     return this.source.request('GET', `/v1/files/${id}`, {
       options,
     })

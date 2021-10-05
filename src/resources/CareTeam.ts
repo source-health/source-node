@@ -1,5 +1,5 @@
 import { Resource } from '../BaseResource'
-import { SourceOptions } from '../Source'
+import { SourceRequestOptions } from '../SourceClient'
 
 import { User } from './User'
 
@@ -69,7 +69,7 @@ export class CareTeamResource extends Resource {
    * Retrieves the details of an existing care team. You need only supply the unique
    * care team identifier that was returned upon creation.
    */
-  public retrieve(id: string, options?: SourceOptions): Promise<CareTeam> {
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<CareTeam> {
     return this.source.request('GET', `/v1/care_teams/${id}`, {
       options,
     })
@@ -84,10 +84,11 @@ export class CareTeamResource extends Resource {
   public update(
     id: string,
     params?: CareTeamUpdateParams,
-    options?: SourceOptions,
+    options?: SourceRequestOptions,
   ): Promise<CareTeam> {
     return this.source.request('POST', `/v1/care_teams/${id}`, {
-      params,
+      data: params,
+      contentType: 'json',
       options,
     })
   }
