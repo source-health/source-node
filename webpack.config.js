@@ -23,6 +23,9 @@ function generateConfig(name) {
         http: false,
         https: false,
       },
+      alias: target === 'node' ? {} : {
+        'jose/jwt/sign': false,
+      },
     },
     module: {
       rules: [{

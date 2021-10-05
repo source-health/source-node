@@ -1,8 +1,8 @@
 import { SourceClient } from './SourceClient'
-// import { TokenGenerator } from './TokenGenerator'
 import { HttpAdapter, createClientForEnvironment } from './adapter'
 import { ApiKey, Authentication } from './authentication'
 import { RootResources, allResources } from './resources'
+import { TokenGenerator, createTokenGenerator } from './token'
 
 export interface SourceOptions {
   /**
@@ -27,7 +27,7 @@ export class Source {
   private readonly client: SourceClient
 
   // Used to encode secrets for JWT signing
-  // public readonly tokens: TokenGenerator
+  public readonly tokens: TokenGenerator
 
   constructor(authentication?: Authentication, options: SourceOptions = {}) {
     let actualAuthentication: Authentication
@@ -38,7 +38,7 @@ export class Source {
     }
 
     this.authentication = actualAuthentication
-    // this.tokens = new TokenGenerator(this.authentication)
+    this.tokens = createTokenGenerator(this.authentication)
 
     this.client = new SourceClient(
       options.client ??
