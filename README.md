@@ -48,7 +48,7 @@ const members = await source.members.list()
 You can also use the Source SDK to generate tokens that can be combined with Source Elements for accessing data on behalf of your members.
 
 ```typescript
-const jwt = await source.generateToken({
+const jwt = await source.tokens.generate({
   member: 'member_id',
   expiration: new Date(Date.now() + 1000 * 60 * 5), // 5 minutes
 })
