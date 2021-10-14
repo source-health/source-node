@@ -2,9 +2,7 @@ import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
 import { Member } from '../Member'
 import { User } from '../User'
-import { ThreadStatus } from '../shared'
-
-export type ThreadLastMessageSender = string | User | string | Member
+import { Expandable, ThreadStatus } from '../shared'
 
 export interface ThreadLastMessage {
   /**
@@ -14,7 +12,7 @@ export interface ThreadLastMessage {
   /**
    * The person who sent this message.
    */
-  sender: ThreadLastMessageSender
+  sender: Expandable<User | Member>
   /**
    * The time at which this message was sent.
    */
@@ -33,11 +31,11 @@ export interface Thread {
   /**
    * The member to which this thread belongs.
    */
-  member: string | Member
+  member: Expandable<Member>
   /**
    * The user who is assigned to the thread and will be notified of new messages.
    */
-  assignee: string | User | null
+  assignee: Expandable<User> | null
   /**
    * Current status of the thread.
    */

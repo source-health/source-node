@@ -1,8 +1,8 @@
 {
   "name": "@source-health/client",
-  "version": "0.5.0",
+  "version": "0.5.4",
   "license": "MIT",
-  "description": "Official Node.js bindings for the Source Health API",
+  "description": "Official TypeScript bindings for the Source Health API",
   "scripts": {
     "build": "webpack",
     "lint": "eslint src"

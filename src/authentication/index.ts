@@ -1,4 +1,5 @@
 export * from './Authentication'
+export * from './Anonymous'
 export * from './ApiKey'
 export * from './UserKey'
 export * from './Token'

@@ -2,6 +2,7 @@ import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
 import { CareTeam } from './CareTeam'
+import { Expandable } from './shared'
 
 export type MemberBiologicalSex = 'male' | 'female' | 'non_binary' | 'undisclosed'
 
@@ -83,7 +84,7 @@ export interface Member {
   /**
    * The care team that is assigned to this member.
    */
-  care_team: string | CareTeam
+  care_team: Expandable<CareTeam>
   /**
    * Timestamp of when the member was created.
    */

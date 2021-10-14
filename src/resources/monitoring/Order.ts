@@ -1,6 +1,7 @@
 import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
 import { Member } from '../Member'
+import { Expandable } from '../shared'
 
 import { DeviceModel } from './DeviceModel'
 
@@ -54,7 +55,7 @@ export interface OrderItemProduct {
   /**
    * Expandable reference to the DeviceModel
    */
-  device_model: string | DeviceModel | null
+  device_model: Expandable<DeviceModel> | null
 }
 
 export interface OrderItem {
@@ -69,7 +70,7 @@ export interface OrderItem {
   /**
    * Expandable reference to a Product
    */
-  product: string | OrderItemProduct
+  product: Expandable<OrderItemProduct>
   /**
    * Quantity of this product in the line item.
    */
@@ -127,7 +128,7 @@ export interface Order {
   /**
    * The member that should receive this order.
    */
-  member: string | Member
+  member: Expandable<Member>
   /**
    * Current status of the order.
    */

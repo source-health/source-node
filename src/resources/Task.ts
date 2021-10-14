@@ -4,6 +4,7 @@ import { SourceRequestOptions } from '../SourceClient'
 import { Member } from './Member'
 import { TaskDefinition } from './TaskDefinition'
 import { User } from './User'
+import { Expandable } from './shared'
 
 export type TaskStatus = 'open' | 'resolved'
 export type TaskAssignmentMethod = 'direct' | 'indirect'
@@ -20,15 +21,15 @@ export interface Task {
   /**
    * The type of task that needs to be completed.
    */
-  definition: string | TaskDefinition
+  definition: Expandable<TaskDefinition>
   /**
    * The member for which the task should be performed.
    */
-  member: string | Member
+  member: Expandable<Member>
   /**
    * User on the care team to which this task is assigned.
    */
-  assignee: string | User | null
+  assignee: Expandable<User> | null
   /**
    * A human-readable string that describes the task at a high level. For system
    * created tasks this field will be populated by the system.

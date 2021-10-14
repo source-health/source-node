@@ -4,7 +4,15 @@ import { Authentication } from './authentication'
 import { toQuery } from './utils'
 
 export interface SourceRequestOptions extends HttpRequestOptions {
+  /**
+   * Expansion options for this request
+   */
   expand?: string[]
+
+  /**
+   * Override the authentication for this API call (defaults to the client's auth)
+   */
+  authentication?: Authentication
 }
 
 export interface RequestArguments extends Omit<HttpRequest, 'path' | 'method' | 'query'> {
@@ -36,7 +44,7 @@ export class SourceClient {
     args: RequestArguments,
   ): Promise<Response<T>> {
     const { options, query, headers, ...request } = args
-    const { expand, ...otherOptions } = options ?? {}
+    const { expand, authentication = this.authentication, ...otherOptions } = options ?? {}
     const actualQueryParams = query ? toQuery(query) : {}
     const mergedQueryParams = expand ? { ...actualQueryParams, expand } : actualQueryParams
 
@@ -47,7 +55,7 @@ export class SourceClient {
       query: mergedQueryParams,
       options: otherOptions,
       headers: {
-        ...this.authentication.createHeaders(),
+        ...authentication.createHeaders(),
         ...headers,
       },
     })

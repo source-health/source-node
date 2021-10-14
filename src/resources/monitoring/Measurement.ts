@@ -1,6 +1,7 @@
 import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
 import { Member } from '../Member'
+import { Expandable } from '../shared'
 
 import { Device } from './Device'
 
@@ -24,11 +25,11 @@ export interface Measurement {
   /**
    * Member to which this measurement belongs.
    */
-  member: string | Member
+  member: Expandable<Member>
   /**
    * The device that reported the reading.
    */
-  device: string | Device
+  device: Expandable<Device>
   /**
    * The kind of measurement being reported, which can either be numeric or
    * composite.

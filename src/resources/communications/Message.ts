@@ -2,11 +2,11 @@ import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
 import { Member } from '../Member'
 import { User } from '../User'
+import { Expandable } from '../shared'
 
 import { Thread } from './Thread'
 
 export type MessageType = 'text' | 'system'
-export type MessageSender = string | Member | string | User
 
 export interface Message {
   /**
@@ -27,7 +27,7 @@ export interface Message {
   /**
    * Thread to which the message belongs.
    */
-  thread: string | Thread
+  thread: Expandable<Thread>
   /**
    * Plain text contents of the message.
    */
@@ -35,7 +35,7 @@ export interface Message {
   /**
    * The person who sent this message.
    */
-  sender: MessageSender
+  sender: Expandable<Member | User>
   /**
    * The time at which this message was sent.
    */

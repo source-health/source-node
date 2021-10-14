@@ -1,6 +1,7 @@
 import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
 import { Member } from '../Member'
+import { Expandable } from '../shared'
 
 export type DeviceStatus = 'pending' | 'active' | 'deactivated'
 export type DeviceCapability =
@@ -22,7 +23,7 @@ export interface Device {
   /**
    * Member to which this device belongs.
    */
-  member: string | Member
+  member: Expandable<Member>
   /**
    * Current status of the device.
    */

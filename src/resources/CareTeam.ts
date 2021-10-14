@@ -2,6 +2,7 @@ import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
 import { User } from './User'
+import { Expandable } from './shared'
 
 export type CareTeamParticipantRole = 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
 
@@ -9,7 +10,7 @@ export interface CareTeamParticipant {
   /**
    * The users who is on the care team.
    */
-  user: string | User
+  user: Expandable<User>
   /**
    * The role of this user on the care team.
    */

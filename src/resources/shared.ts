@@ -1,6 +1,8 @@
 import { Member } from './Member'
 import { Task } from './Task'
 
+type Brand<T, K extends string> = T & { __brand: K }
+export type Expandable<T> = Brand<string | T, 'expandable'>
 export type ThreadStatus = 'awaiting_care_team' | 'awaiting_member' | 'closed'
 
 export interface TaskQueueEntry {
@@ -11,7 +13,7 @@ export interface TaskQueueEntry {
   /**
    * The member to which the tasks belong.
    */
-  member: string | Member
+  member: Expandable<Member>
   /**
    * List of open tasks outstanding for the member.
    */
