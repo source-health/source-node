@@ -4,10 +4,22 @@ import { SourceRequestOptions } from '../SourceClient'
 import { Member } from './Member'
 import { TaskDefinition } from './TaskDefinition'
 import { User } from './User'
+import { Thread } from './communications/Thread'
 import { Expandable } from './shared'
 
 export type TaskStatus = 'open' | 'resolved'
 export type TaskAssignmentMethod = 'direct' | 'indirect'
+
+export interface TaskRelated {
+  /**
+   * Related object type
+   */
+  resource_type: 'thread'
+  /**
+   * Unique identifier for the related resource.
+   */
+  resource: Expandable<Thread>
+}
 
 export interface Task {
   /**
@@ -58,6 +70,11 @@ export interface Task {
    * The time by which this task should be completed
    */
   due_at: string
+  /**
+   * A list of related resources, such as open threads. The resource can be expanded
+   * with e.g. '&expand=related.resource'.
+   */
+  related: Array<TaskRelated>
 }
 
 export interface TaskListResponse {
@@ -75,6 +92,7 @@ export interface TaskListResponse {
   has_more: boolean
 }
 
+export type TaskListParamsSort = 'created_at' | 'due_at' | '-created_at' | '-due_at'
 export type TaskListParamsStatus = 'open' | 'resolved'
 
 export interface TaskListParams {
@@ -98,10 +116,19 @@ export interface TaskListParams {
    */
   limit?: number
   /**
+   * Sort field for the results. A '-' prefix indicates sorting by that field in
+   * descending order, otherwise the order will be ascending.
+   */
+  sort?: TaskListParamsSort
+  /**
    * Filter results by status. If multiple statuses are provided, tasks matching any
    * of the provided statuses will be returned.
    */
   status?: Array<TaskListParamsStatus>
+  /**
+   * Filter results by member.
+   */
+  member?: string
 }
 
 export type TaskCreateParamsStatus = 'open' | 'resolved'
@@ -134,6 +161,10 @@ export interface TaskCreateParams {
    * due_at date must be in the future.'
    */
   due_at?: string
+  /**
+   * A list of object IDs, such as threads, that are related to the task.
+   */
+  related?: Array<string>
 }
 
 export type TaskUpdateParamsStatus = 'open' | 'resolved'
@@ -157,6 +188,10 @@ export interface TaskUpdateParams {
    * due_at date must be in the future.'
    */
   due_at?: string
+  /**
+   * A list of object IDs, such as threads, that are related to the task.
+   */
+  related?: Array<string>
 }
 
 export class TaskResource extends Resource {

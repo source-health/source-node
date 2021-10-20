@@ -68,7 +68,7 @@ export interface EventListParams {
   limit?: number
   /**
    * Filter results by event type. Repeat this parameter to filter by multiple event
-   * types
+   * types,         e.g. `?type=member.created&type=member.updated`
    */
   type?: Array<string>
 }
@@ -76,8 +76,8 @@ export interface EventListParams {
 export class EventResource extends Resource {
   /**
    * Each event data is rendered according to Source API version at its creation
-   * time, specified in event object api_version attribute (not according to your
-   * current Source     API version or Source-Version header).
+   * time,       specified in event object api_version attribute (not according to
+   * your current Source       API version or Source-Version header).
    */
   public retrieve(id: string, options?: SourceRequestOptions): Promise<Event> {
     return this.source.request('GET', `/v1/events/${id}`, {
@@ -88,7 +88,8 @@ export class EventResource extends Resource {
   /**
    * List all stored events. Each event data is rendered according to Source API
    * version at its creation time, specified in event object api_version attribute
-   * (not according to your current Source API version or Source-Version header).
+   * (not according       to your current Source API version or Source-Version
+   * header).
    */
   public list(
     params?: EventListParams,

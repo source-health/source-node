@@ -29,6 +29,7 @@ export default class NodeHttpClient implements HttpAdapter {
 
   public request<T = unknown>(request: HttpRequest): Promise<HttpResponse<T>> {
     return new Promise((resolve, reject) => {
+      const { headers, data } = this.serializeContent(request.data, request.contentType)
       const timeout = request.options?.timeout ?? this.options.timeout
       const url = new URL(createUrl(this.baseUrl, request.path, request.query))
       const isInsecureConnection = url.protocol === 'http:'
@@ -45,7 +46,10 @@ export default class NodeHttpClient implements HttpAdapter {
         port: url.port,
         path: url.pathname + url.search,
         method: request.method,
-        headers: request.headers,
+        headers: {
+          ...headers,
+          ...request.headers,
+        },
         ciphers: 'DEFAULT:!aNULL:!eNULL:!LOW:!EXPORT:!SSLv2:!MD5',
       })
 
@@ -97,7 +101,7 @@ export default class NodeHttpClient implements HttpAdapter {
           new SourceError({
             type: 'client_error',
             code: 'connection_failed',
-            message: 'Unable to connect to ${req.host}',
+            message: `Unable to connect to ${req.host}`,
             cause: error,
           }),
         )
@@ -107,15 +111,36 @@ export default class NodeHttpClient implements HttpAdapter {
         if (socket.connecting) {
           socket.once(isInsecureConnection ? 'connect' : 'secureConnect', () => {
             // Send payload; we're safe:
-            req.write(request.data ?? '')
+            req.write(data ?? '')
             req.end()
           })
         } else {
           // we're already connected
-          req.write(request.data ?? '')
+          req.write(data ?? '')
           req.end()
         }
       })
     })
+  }
+
+  private serializeContent(
+    content: unknown | undefined,
+    contentType: HttpRequest['contentType'] = 'json',
+  ): { headers?: Record<string, string>; data?: BodyInit } {
+    if (typeof content === 'undefined') {
+      return {}
+    }
+
+    switch (contentType) {
+      case 'json':
+        return {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data: JSON.stringify(content),
+        }
+      case 'multipart':
+        throw new Error('Multipart requests are not currently supported in the fetch client')
+    }
   }
 }

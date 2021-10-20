@@ -17,22 +17,22 @@ import { OrderResource } from './monitoring/Order'
 
 export const allResources = resourceNamespace({
   accounts: resourceFactory(AccountResource),
-  users: resourceFactory(UserResource),
   careTeams: resourceFactory(CareTeamResource),
+  users: resourceFactory(UserResource),
   members: resourceFactory(MemberResource),
-  taskDefinitions: resourceFactory(TaskDefinitionResource),
-  tasks: resourceFactory(TaskResource),
   events: resourceFactory(EventResource),
-  webhooks: resourceFactory(WebhookResource),
   files: resourceFactory(FileResource),
-  communications: resourceNamespace({
-    messages: resourceFactory(MessageResource),
-    threads: resourceFactory(ThreadResource),
-  }),
+  tasks: resourceFactory(TaskResource),
+  taskDefinitions: resourceFactory(TaskDefinitionResource),
+  webhooks: resourceFactory(WebhookResource),
   monitorings: resourceNamespace({
     devices: resourceFactory(DeviceResource),
     measurements: resourceFactory(MeasurementResource),
     orders: resourceFactory(OrderResource),
+  }),
+  communications: resourceNamespace({
+    messages: resourceFactory(MessageResource),
+    threads: resourceFactory(ThreadResource),
   }),
 })
 export type RootResources = SourceInstance<typeof allResources>

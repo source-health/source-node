@@ -1,14 +1,31 @@
 import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
+import { File } from '../File'
 import { Member } from '../Member'
 import { User } from '../User'
 import { Expandable, ThreadStatus } from '../shared'
+
+export interface ThreadLastMessageAttachment {
+  /**
+   * The type of attachment. Currently, the only supported attachment type is `file`,
+   * but other attachment types may be added.
+   */
+  type: 'file'
+  /**
+   * The resource which is attached to the message
+   */
+  resource: Expandable<File>
+}
 
 export interface ThreadLastMessage {
   /**
    * Plain text contents of the message.
    */
   text: string
+  /**
+   * Any attachments to the message, such as files.
+   */
+  attachments: Array<ThreadLastMessageAttachment>
   /**
    * The person who sent this message.
    */
@@ -45,9 +62,9 @@ export interface Thread {
    */
   subject: string | null
   /**
-   * Preview of the
+   * Preview of the most recent text message in the thread.
    */
-  last_message: ThreadLastMessage | null
+  last_message: ThreadLastMessage
   /**
    * Timestamp of when the thread was created.
    */
@@ -112,6 +129,44 @@ export interface ThreadListParams {
   status?: Array<ThreadStatus>
 }
 
+export type ThreadCreateParamsMessageThreadActionsStatus =
+  | 'awaiting_care_team'
+  | 'awaiting_member'
+  | 'closed'
+
+export interface ThreadCreateParamsMessageThreadActions {
+  /**
+   * New status for the thread after sending this message. By default, Source will
+   * set the thread status to 'awaiting_care_team' if the member sends the message,
+   * and 'awaiting_member' if someone on the care team send the message.
+   */
+  status?: ThreadCreateParamsMessageThreadActionsStatus
+}
+
+export interface ThreadCreateParamsMessageAttachment {
+  type: 'file'
+  /**
+   * Unique ID of the resource to be attached to this message. When attaching a file,
+   * this should be set to the uploaded file's ID.
+   */
+  resource: string
+}
+
+export interface ThreadCreateParamsMessage {
+  /**
+   * Contents of the message to send.
+   */
+  text: string
+  /**
+   * Actions to apply to the thread after the message has been sent. Source
+   * guarantees that these actions will only be applied if the message has been
+   * successfully sent. See the documentation for nested params for information about
+   * each available action.
+   */
+  thread_actions?: ThreadCreateParamsMessageThreadActions
+  attachments?: Array<ThreadCreateParamsMessageAttachment>
+}
+
 export interface ThreadCreateParams {
   /**
    * The ID of the member to which this thread belongs
@@ -126,9 +181,9 @@ export interface ThreadCreateParams {
    */
   subject?: string
   /**
-   * Contents of the initial message in this thread.
+   * The initial message to send when creating this thread.
    */
-  text: string
+  message: ThreadCreateParamsMessage
 }
 
 export type ThreadUpdateParamsStatus = 'awaiting_care_team' | 'awaiting_member' | 'closed'

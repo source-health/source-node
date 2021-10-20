@@ -1,5 +1,6 @@
 import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
+import { File } from '../File'
 import { Member } from '../Member'
 import { User } from '../User'
 import { Expandable } from '../shared'
@@ -7,6 +8,18 @@ import { Expandable } from '../shared'
 import { Thread } from './Thread'
 
 export type MessageType = 'text' | 'system'
+
+export interface MessageAttachment {
+  /**
+   * The type of attachment. Currently, the only supported attachment type is `file`,
+   * but other attachment types may be added.
+   */
+  type: 'file'
+  /**
+   * The resource which is attached to the message
+   */
+  resource: Expandable<File>
+}
 
 export interface Message {
   /**
@@ -40,6 +53,10 @@ export interface Message {
    * The time at which this message was sent.
    */
   sent_at: string
+  /**
+   * Any attachments to the message, such as files.
+   */
+  attachments: Array<MessageAttachment>
 }
 
 export interface MessageListResponse {
@@ -83,6 +100,29 @@ export interface MessageListParams {
   thread: string
 }
 
+export type MessageCreateParamsThreadActionsStatus =
+  | 'awaiting_care_team'
+  | 'awaiting_member'
+  | 'closed'
+
+export interface MessageCreateParamsThreadActions {
+  /**
+   * New status for the thread after sending this message. By default, Source will
+   * set the thread status to 'awaiting_care_team' if the member sends the message,
+   * and 'awaiting_member' if someone on the care team send the message.
+   */
+  status?: MessageCreateParamsThreadActionsStatus
+}
+
+export interface MessageCreateParamsAttachment {
+  type: 'file'
+  /**
+   * Unique ID of the resource to be attached to this message. When attaching a file,
+   * this should be set to the uploaded file's ID.
+   */
+  resource: string
+}
+
 export interface MessageCreateParams {
   /**
    * Unique ID of the thread to which the message belongs.
@@ -92,6 +132,14 @@ export interface MessageCreateParams {
    * Contents of the message to send.
    */
   text: string
+  /**
+   * Actions to apply to the thread after the message has been sent. Source
+   * guarantees that these actions will only be applied if the message has been
+   * successfully sent. See the documentation for nested params for information about
+   * each available action.
+   */
+  thread_actions?: MessageCreateParamsThreadActions
+  attachments?: Array<MessageCreateParamsAttachment>
 }
 
 export class MessageResource extends Resource {
