@@ -1,8 +1,14 @@
 import { Member } from './Member'
 import { Task } from './Task'
 
-type Brand<T, K extends string> = T & { __brand: K }
-export type Expandable<T> = Brand<string | T, 'expandable'>
+export interface Resource {
+  object: string
+  id: string
+}
+
+export type Brand<T, K extends string> = T & { __brand: K }
+export type Pointer<T> = Brand<string, 'pointer'> & { __referenced: T }
+export type Expandable<T extends Resource = Resource> = Pointer<T> | T
 export type ThreadStatus = 'awaiting_care_team' | 'awaiting_member' | 'closed'
 
 export interface TaskQueueEntry {
