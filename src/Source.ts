@@ -13,7 +13,7 @@ export interface SourceOptions extends Omit<SourceConfigurationOptions, 'authent
 }
 
 export class Source {
-  // Configuration that's used in parameters
+  // Configuration that's used in requests
   public readonly configuration: SourceConfiguration
 
   // Use to make calls to the Source API
