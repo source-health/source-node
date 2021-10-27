@@ -5,7 +5,8 @@
   "description": "Official TypeScript bindings for the Source Health API",
   "scripts": {
     "build": "webpack",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "jest"
   },
   "files": [
     "dist",
@@ -16,13 +17,16 @@
   "browser": "dist/source-client.js",
   "sideEffects": false,
   "devDependencies": {
+    "@types/jest": "^27.0.2",
     "@types/node": "^16.7.10",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.3.1",
     "prettier": "^2.3.2",
+    "ts-jest": "^27.0.7",
     "ts-loader": "^9.2.6",
     "ts-node": "^10.2.1",
     "tslib": "^2.3.1",
@@ -32,5 +36,8 @@
   },
   "dependencies": {
     "jose": "^3.19.0"
+  },
+  "jest": {
+    "preset": "ts-jest"
   }
 }

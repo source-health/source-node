@@ -13,7 +13,7 @@ export default class FetchAdapter implements HttpAdapter {
       const { headers, data } = this.serializeContent(request.data, request.contentType)
       const url = createUrl(request.baseUrl, request.path, request.query)
 
-      const response = await fetch(url, {
+      const response = await fetch(url.toString(), {
         signal: controller.signal,
         method: request.method,
         headers: {

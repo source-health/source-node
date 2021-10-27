@@ -66,8 +66,8 @@ export function createUrl(
   base: string | undefined,
   path: string,
   query?: Record<string, string | string[] | undefined>,
-): string {
-  const basePath = new URL(path, base).toString()
+): URL {
+  const basePath = new URL(path, base)
 
   // If there were no query params provided, there's nothing to do
   if (!query) {
@@ -81,6 +81,6 @@ export function createUrl(
   }
 
   // Append to existing query params, or attach them
-  const separatorType = basePath.indexOf('?') === -1 ? '?' : '&'
-  return [basePath, separatorType, serializedQuery].join('')
+  basePath.search = basePath.search ? basePath.search + '&' + serializedQuery : serializedQuery
+  return basePath
 }

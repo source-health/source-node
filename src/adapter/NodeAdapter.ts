@@ -26,7 +26,7 @@ export default class NodeHttpClient implements HttpAdapter {
     return new Promise((resolve, reject) => {
       const { timeout } = request.options ?? {}
       const { headers, data } = this.serializeContent(request.data, request.contentType)
-      const url = new URL(createUrl(request.baseUrl, request.path, request.query))
+      const url = createUrl(request.baseUrl, request.path, request.query)
       const isInsecureConnection = url.protocol === 'http:'
       let agent = this.options.agent
       if (!agent) {
