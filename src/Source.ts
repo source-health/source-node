@@ -5,7 +5,7 @@ import { Authentication } from './authentication'
 import { RootResources, allResources } from './resources'
 import { TokenGenerator, createTokenGenerator } from './token'
 
-export interface SourceOptions extends Omit<SourceConfigurationOptions, 'authentication'> {
+export interface SourceOptions extends Omit<Partial<SourceConfigurationOptions>, 'authentication'> {
   /**
    * Client instance to use (if one is not provided, it will be created)
    */

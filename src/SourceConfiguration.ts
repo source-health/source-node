@@ -2,8 +2,8 @@ import { SourceRequestOptions } from './SourceClient'
 import { ApiKey, Authentication } from './authentication'
 
 export interface SourceConfigurationOptions {
+  baseUrl: string
   authentication?: Authentication
-  baseUrl?: string
   defaultRequestOptions?: SourceRequestOptions
 }
 
@@ -13,7 +13,7 @@ export class SourceConfiguration {
   private _requestOptions: SourceRequestOptions
 
   constructor(values: SourceConfigurationOptions) {
-    this._baseUrl = values.baseUrl ?? 'https://api.sourcehealth.com'
+    this._baseUrl = values.baseUrl
     this._authentication =
       typeof values.authentication === 'undefined'
         ? ApiKey.fromEnvironment()
