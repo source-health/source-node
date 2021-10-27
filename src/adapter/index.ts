@@ -1,10 +1,10 @@
-import { HttpAdapter, HttpAdapterOptions } from './HttpAdapter'
+import { HttpAdapter } from './HttpAdapter'
 
 export * from './HttpAdapter'
 
-type HttpAdapterFactory = new (options: HttpAdapterOptions) => HttpAdapter
+type HttpAdapterFactory = new () => HttpAdapter
 
-export function createClientForEnvironment(options: HttpAdapterOptions): HttpAdapter {
+export function createClientForEnvironment(): HttpAdapter {
   let adapter: HttpAdapterFactory | undefined = undefined
   if (typeof window !== 'undefined' && typeof window.fetch !== 'undefined') {
     // For browsers use XHR adapter
@@ -21,5 +21,5 @@ export function createClientForEnvironment(options: HttpAdapterOptions): HttpAda
     throw new Error('Unable to determine HttpClient for environment')
   }
 
-  return new adapter(options)
+  return new adapter()
 }

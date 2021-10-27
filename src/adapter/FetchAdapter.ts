@@ -1,21 +1,20 @@
 import { SourceError } from '../SourceError'
-import { createUrl } from '../utils'
+import { createUrl, toUrlEncoded } from '../utils'
 
-import { HttpAdapter, HttpAdapterOptions, HttpRequest, HttpResponse } from './HttpAdapter'
+import { HttpAdapter, HttpRequest, HttpResponse } from './HttpAdapter'
 
 export default class FetchAdapter implements HttpAdapter {
-  // Base URL once it has been parsed
-  private readonly baseUrl: URL
-
-  constructor(private readonly options: HttpAdapterOptions) {
-    this.baseUrl = new URL(this.options.base)
-  }
-
   public async request<T = unknown>(request: HttpRequest): Promise<HttpResponse<T>> {
+    const { timeout } = request.options ?? {}
+    const controller = new AbortController()
+    const timer = timeout ? setTimeout(() => controller.abort(), timeout) : null
+
     try {
       const { headers, data } = this.serializeContent(request.data, request.contentType)
-      const url = createUrl(this.baseUrl, request.path, request.query)
+      const url = createUrl(request.baseUrl, request.path, request.query)
+
       const response = await fetch(url, {
+        signal: controller.signal,
         method: request.method,
         headers: {
           ...headers,
@@ -46,6 +45,10 @@ export default class FetchAdapter implements HttpAdapter {
         message: 'Invalid response received from the API',
         cause: ex as Error,
       })
+    } finally {
+      if (timer) {
+        clearTimeout(timer)
+      }
     }
   }
 
@@ -61,8 +64,22 @@ export default class FetchAdapter implements HttpAdapter {
           },
           data: JSON.stringify(content),
         }
-      case 'multipart':
-        throw new Error('Multipart requests are not currently supported in the fetch client')
+      case 'multipart': {
+        const values = toUrlEncoded(content)
+        const data = new FormData()
+
+        for (const [key, value] of Object.entries(values)) {
+          const isBlob = value instanceof Blob || toString.call(value) === '[object Blob]'
+          data.append(key, isBlob ? (value as Blob) : String(value))
+        }
+
+        return {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          data,
+        }
+      }
     }
   }
 }

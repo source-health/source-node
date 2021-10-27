@@ -1,17 +1,18 @@
 function writeFlattenedValue(
   input: any, // eslint-disable-line
   prefix: string | null = null,
-  values: Record<string, string> = {},
+  stringify: boolean = false,
+  values: Record<string, unknown> = {},
 ) {
   if (typeof input === 'string' || typeof input === 'number' || typeof input === 'boolean') {
-    values[prefix ?? ''] = input as string
+    values[prefix ?? ''] = stringify ? String(input) : input
   } else if (Array.isArray(input)) {
     for (let i = 0; i < input.length; i++) {
-      writeFlattenedValue(input[i], `${prefix ?? ''}[${i}]`, values)
+      writeFlattenedValue(input[i], `${prefix ?? ''}[${i}]`, stringify, values)
     }
   } else if (input) {
     for (const [key, value] of Object.entries(input)) {
-      writeFlattenedValue(value, prefix ? `${prefix}[${key}]` : key, values)
+      writeFlattenedValue(value, prefix ? `${prefix}[${key}]` : key, stringify, values)
     }
   }
 }
@@ -22,9 +23,11 @@ function writeFlattenedValue(
  * @param input the object that needs to be converted
  * @returns a map of flattened query parameters
  */
-export function toQuery(input: unknown): Record<string, string> {
-  const values: Record<string, string> = {}
-  writeFlattenedValue(input, '', values)
+export function toUrlEncoded(input: unknown, stringify: true): Record<string, string>
+export function toUrlEncoded(input: unknown, stringify?: false): Record<string, unknown>
+export function toUrlEncoded(input: unknown, stringify: boolean = false): Record<string, unknown> {
+  const values: Record<string, unknown> = {}
+  writeFlattenedValue(input, '', stringify, values)
   return values
 }
 
@@ -34,11 +37,11 @@ export function toQuery(input: unknown): Record<string, string> {
  * @param input the object that needs to be converted
  * @returns a flattened query parameter
  */
-export function serializeQuery(input: Record<string, string>): string {
+export function serializeQuery(input: Record<string, unknown>): string {
   let query = ''
 
   for (const [key, value] of Object.entries(input)) {
-    query += `${query ? '&' : ''}${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+    query += `${query ? '&' : ''}${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`
   }
 
   return query
@@ -52,10 +55,15 @@ export function isTimeoutError(error: Error): boolean {
 }
 
 /**
+ * Create a new URL from a base and appended path
  *
+ * @param base the base URL to interpret relative from
+ * @param path the target URL to hit
+ * @param query query parameters to append
+ * @return the created URL
  */
 export function createUrl(
-  base: URL,
+  base: string | undefined,
   path: string,
   query?: Record<string, string | string[] | undefined>,
 ): string {
@@ -67,7 +75,7 @@ export function createUrl(
   }
 
   // Otherwise, we need to serialize query params
-  const serializedQuery = serializeQuery(toQuery(query))
+  const serializedQuery = serializeQuery(toUrlEncoded(query))
   if (!serializedQuery) {
     return basePath
   }

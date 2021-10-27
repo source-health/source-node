@@ -1,15 +1,3 @@
-export interface HttpAdapterOptions {
-  /**
-   * Default timeout to apply to all requests
-   */
-  readonly timeout?: number
-
-  /**
-   * Basee URL to apply to outgoing requests
-   */
-  readonly base: string
-}
-
 export interface HttpRequestOptions {
   /**
    * Request-level timeout override
@@ -18,6 +6,11 @@ export interface HttpRequestOptions {
 }
 
 export interface HttpRequest {
+  /**
+   * Base URL to apply to the request
+   */
+  readonly baseUrl?: string
+
   /**
    * Path to request (appended to the base URL)
    */
