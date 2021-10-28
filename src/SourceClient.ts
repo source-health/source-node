@@ -1,6 +1,6 @@
 import { Response } from './Response'
 import { SourceConfiguration } from './SourceConfiguration'
-import { HttpAdapter, HttpRequest, HttpRequestOptions } from './adapter'
+import { HttpAdapter, HttpRequest, HttpRequestOptions, HttpResponse } from './adapter'
 import { Authentication } from './authentication'
 import { toUrlEncoded } from './utils'
 
@@ -51,8 +51,18 @@ export class SourceClient {
     const actualQueryParams = query ? toUrlEncoded(query, true) : {}
     const mergedQueryParams = expand ? { ...actualQueryParams, expand } : actualQueryParams
     const defaultOptions = this.configuration.getRequestOptions()
+    const interceptors = this.configuration.getInterceptors()
 
-    const response = await this.http.request<T>({
+    let index = 0
+    const next = async (request: HttpRequest): Promise<HttpResponse<T>> => {
+      if (index >= interceptors.length) {
+        return await this.http.request<T>(request)
+      } else {
+        return interceptors[index++](request, next) as Promise<HttpResponse<T>>
+      }
+    }
+
+    const response = await next({
       ...request,
       baseUrl,
       method,

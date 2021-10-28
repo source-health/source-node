@@ -77,3 +77,8 @@ export interface HttpAdapter {
    */
   request<T = unknown>(request: HttpRequest): Promise<HttpResponse<T>>
 }
+
+export type HttpRequestInterceptor = (
+  request: HttpRequest,
+  next: (request: HttpRequest) => Promise<HttpResponse>,
+) => Promise<HttpResponse>
