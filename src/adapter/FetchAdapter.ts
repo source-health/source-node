@@ -26,7 +26,7 @@ export default class FetchAdapter implements HttpAdapter {
       const responseData = (await response.json()) as Record<string, unknown>
 
       if (responseData.object === 'error') { // eslint-disable-line
-        throw SourceError.from(data)
+        throw SourceError.from(responseData)
       }
 
       return {
