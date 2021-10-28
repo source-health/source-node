@@ -1,13 +1,14 @@
 import { SignJWT } from 'jose/jwt/sign' // eslint-disable-line
 
-import { ApiKey, Authentication } from '../authentication'
+import { SourceConfiguration } from '../SourceConfiguration'
+import { ApiKey } from '../authentication'
 
 import { TokenGenerator, TokenOptions } from './TokenGenerator'
 
 export default class NodeTokenGenerator implements TokenGenerator {
   private readonly encoder = new TextEncoder()
 
-  constructor(private readonly authentication: Authentication) {}
+  constructor(private readonly configuration: SourceConfiguration) {}
 
   /**
    * Generates a JWT suitable to allow a member to access the API
@@ -16,7 +17,8 @@ export default class NodeTokenGenerator implements TokenGenerator {
    * @returns a generated token that allows a member access to the API
    */
   public async generate(options: TokenOptions): Promise<string> {
-    if (!(this.authentication instanceof ApiKey)) {
+    const authentication = this.configuration.getAuthentication()
+    if (!(authentication instanceof ApiKey)) {
       throw new Error('You may only generate tokens when using API key authentication')
     }
 
@@ -28,7 +30,7 @@ export default class NodeTokenGenerator implements TokenGenerator {
     })
 
     return await signJWT
-      .setProtectedHeader({ alg: 'HS256', kid: this.authentication.id })
-      .sign(this.encoder.encode(this.authentication.secret))
+      .setProtectedHeader({ alg: 'HS256', kid: authentication.id })
+      .sign(this.encoder.encode(authentication.secret))
   }
 }

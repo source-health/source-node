@@ -1,27 +1,20 @@
 import { RequestArguments, SourceClient } from './SourceClient'
+import { SourceConfiguration, SourceConfigurationOptions } from './SourceConfiguration'
 import { HttpAdapter, createClientForEnvironment } from './adapter'
-import { ApiKey, Authentication } from './authentication'
+import { Authentication } from './authentication'
 import { RootResources, allResources } from './resources'
 import { TokenGenerator, createTokenGenerator } from './token'
 
-export interface SourceOptions {
+export interface SourceOptions extends Omit<Partial<SourceConfigurationOptions>, 'authentication'> {
   /**
    * Client instance to use (if one is not provided, it will be created)
    */
-  readonly client?: HttpAdapter
-  /**
-   * Timeout (in ms) to apply to all requests
-   */
-  readonly timeout?: number
-  /**
-   * Base URL to which requests should be sent
-   */
-  readonly baseUrl?: string
+  readonly adapter?: HttpAdapter
 }
 
 export class Source {
-  // Authentication to pass down to API calls
-  private authentication: Authentication
+  // Configuration that's used in requests
+  public readonly configuration: SourceConfiguration
 
   // Use to make calls to the Source API
   private readonly client: SourceClient
@@ -30,24 +23,16 @@ export class Source {
   public readonly tokens: TokenGenerator
 
   constructor(authentication?: Authentication, options: SourceOptions = {}) {
-    let actualAuthentication: Authentication
-    if (authentication) {
-      actualAuthentication = authentication
-    } else {
-      actualAuthentication = ApiKey.fromEnvironment()
-    }
+    const adapter = options.adapter ?? createClientForEnvironment()
 
-    this.authentication = actualAuthentication
-    this.tokens = createTokenGenerator(this.authentication)
+    this.configuration = new SourceConfiguration({
+      authentication: authentication,
+      baseUrl: 'https://api.sourcehealth.com',
+      ...options,
+    })
 
-    this.client = new SourceClient(
-      options.client ??
-        createClientForEnvironment({
-          base: options.baseUrl ?? 'https://api.sourcehealth.com',
-          timeout: options.timeout,
-        }),
-      this.authentication,
-    )
+    this.tokens = createTokenGenerator(this.configuration)
+    this.client = new SourceClient(adapter, this.configuration)
 
     // Bootstrap all resources and attach them to the client
     Object.assign(this, allResources(this.client))

@@ -1,11 +1,11 @@
-import { Authentication } from '../authentication'
+import { SourceConfiguration } from '../SourceConfiguration'
 
 import { TokenGenerator } from './TokenGenerator'
 export * from './TokenGenerator'
 
-type TokenGeneratorFactory = new (authentication: Authentication) => TokenGenerator
+type TokenGeneratorFactory = new (configuration: SourceConfiguration) => TokenGenerator
 
-export function createTokenGenerator(authentication: Authentication): TokenGenerator {
+export function createTokenGenerator(configuration: SourceConfiguration): TokenGenerator {
   let adapter: TokenGeneratorFactory | undefined = undefined
 
   if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
@@ -16,5 +16,5 @@ export function createTokenGenerator(authentication: Authentication): TokenGener
     adapter = require('./NodeTokenGenerator').default as TokenGeneratorFactory // eslint-disable-line
   }
 
-  return new adapter(authentication)
+  return new adapter(configuration)
 }

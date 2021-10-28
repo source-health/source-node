@@ -4,9 +4,9 @@ import * as https from 'https'
 import { SourceError } from '../SourceError'
 import { createUrl, isTimeoutError } from '../utils'
 
-import { HttpAdapter, HttpAdapterOptions, HttpRequest, HttpResponse } from './HttpAdapter'
+import { HttpAdapter, HttpRequest, HttpResponse } from './HttpAdapter'
 
-export interface NodeHttpClientOptions extends HttpAdapterOptions {
+export interface NodeHttpClientOptions {
   /**
    * Default agent to use for requests. Must match the protocol.
    */
@@ -20,18 +20,13 @@ export default class NodeHttpClient implements HttpAdapter {
   // Default HTTPs agent to use for all outgoing requestsAlive: true })
   private static defaultHttpsAgent = new https.Agent({ keepAlive: true })
 
-  // Base URL once it has been parsed
-  private readonly baseUrl: URL
-
-  constructor(private readonly options: NodeHttpClientOptions) {
-    this.baseUrl = new URL(this.options.base)
-  }
+  constructor(private readonly options: NodeHttpClientOptions = {}) {}
 
   public request<T = unknown>(request: HttpRequest): Promise<HttpResponse<T>> {
     return new Promise((resolve, reject) => {
+      const { timeout } = request.options ?? {}
       const { headers, data } = this.serializeContent(request.data, request.contentType)
-      const timeout = request.options?.timeout ?? this.options.timeout
-      const url = new URL(createUrl(this.baseUrl, request.path, request.query))
+      const url = createUrl(request.baseUrl, request.path, request.query)
       const isInsecureConnection = url.protocol === 'http:'
       let agent = this.options.agent
       if (!agent) {
@@ -46,6 +41,7 @@ export default class NodeHttpClient implements HttpAdapter {
         port: url.port,
         path: url.pathname + url.search,
         method: request.method,
+        timeout,
         headers: {
           ...headers,
           ...request.headers,
@@ -65,6 +61,7 @@ export default class NodeHttpClient implements HttpAdapter {
 
             if (parsed.object === 'error') { // eslint-disable-line
               reject(SourceError.from(parsed))
+              return
             }
 
             resolve({

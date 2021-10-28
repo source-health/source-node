@@ -1,7 +1,8 @@
 import { Response } from './Response'
-import { HttpAdapter, HttpRequest, HttpRequestOptions } from './adapter'
+import { SourceConfiguration } from './SourceConfiguration'
+import { HttpAdapter, HttpRequest, HttpRequestOptions, HttpResponse } from './adapter'
 import { Authentication } from './authentication'
-import { toQuery } from './utils'
+import { toUrlEncoded } from './utils'
 
 export interface SourceRequestOptions extends HttpRequestOptions {
   /**
@@ -23,7 +24,7 @@ export interface RequestArguments extends Omit<HttpRequest, 'path' | 'method' | 
 export class SourceClient {
   constructor(
     private readonly http: HttpAdapter,
-    private readonly authentication: Authentication,
+    private readonly configuration: SourceConfiguration,
   ) {}
 
   /**
@@ -43,17 +44,34 @@ export class SourceClient {
     path: string,
     args: RequestArguments,
   ): Promise<Response<T>> {
+    const baseUrl = this.configuration.getBaseUrl()
+    const defaultAuthentication = this.configuration.getAuthentication()
     const { options, query, headers, ...request } = args
-    const { expand, authentication = this.authentication, ...otherOptions } = options ?? {}
-    const actualQueryParams = query ? toQuery(query) : {}
+    const { expand, authentication = defaultAuthentication, ...otherOptions } = options ?? {}
+    const actualQueryParams = query ? toUrlEncoded(query, true) : {}
     const mergedQueryParams = expand ? { ...actualQueryParams, expand } : actualQueryParams
+    const defaultOptions = this.configuration.getRequestOptions()
+    const interceptors = this.configuration.getInterceptors()
 
-    const response = await this.http.request<T>({
+    let index = 0
+    const next = async (request: HttpRequest): Promise<HttpResponse<T>> => {
+      if (index >= interceptors.length) {
+        return await this.http.request<T>(request)
+      } else {
+        return interceptors[index++](request, next) as Promise<HttpResponse<T>>
+      }
+    }
+
+    const response = await next({
       ...request,
+      baseUrl,
       method,
       path,
       query: mergedQueryParams,
-      options: otherOptions,
+      options: {
+        ...defaultOptions,
+        ...otherOptions,
+      },
       headers: {
         ...authentication.createHeaders(),
         ...headers,
