@@ -18,12 +18,12 @@ import { OrderResource } from './monitoring/Order'
 export const allResources = resourceNamespace({
   accounts: resourceFactory(AccountResource),
   careTeams: resourceFactory(CareTeamResource),
-  users: resourceFactory(UserResource),
-  members: resourceFactory(MemberResource),
   events: resourceFactory(EventResource),
   files: resourceFactory(FileResource),
+  members: resourceFactory(MemberResource),
   tasks: resourceFactory(TaskResource),
   taskDefinitions: resourceFactory(TaskDefinitionResource),
+  users: resourceFactory(UserResource),
   webhooks: resourceFactory(WebhookResource),
   monitorings: resourceNamespace({
     devices: resourceFactory(DeviceResource),
@@ -42,6 +42,7 @@ export * from './Error'
 export * from './Event'
 export * from './File'
 export * from './Member'
+export * from './Product'
 export * from './shared'
 export * from './Task'
 export * from './TaskDefinition'

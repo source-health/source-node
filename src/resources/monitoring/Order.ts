@@ -1,9 +1,8 @@
 import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
 import { Member } from '../Member'
+import { Product } from '../Product'
 import { Expandable } from '../shared'
-
-import { DeviceModel } from './DeviceModel'
 
 export type OrderStatus = 'pending' | 'fulfilled' | 'canceled'
 
@@ -35,29 +34,6 @@ export interface OrderShippingAddress {
   country: string
 }
 
-export interface OrderItemProduct {
-  /**
-   * Always product.
-   */
-  object: 'product'
-  /**
-   * Unique ID of the product
-   */
-  id: string
-  /**
-   * The human-readable name of the product
-   */
-  name: string
-  /**
-   * Unit price of this product (in cents).
-   */
-  unit_price: number
-  /**
-   * Expandable reference to the DeviceModel
-   */
-  device_model: Expandable<DeviceModel> | null
-}
-
 export interface OrderItem {
   /**
    * Always `order_item`.
@@ -70,7 +46,7 @@ export interface OrderItem {
   /**
    * Expandable reference to a Product
    */
-  product: Expandable<OrderItemProduct>
+  product: Expandable<Product>
   /**
    * Quantity of this product in the line item.
    */

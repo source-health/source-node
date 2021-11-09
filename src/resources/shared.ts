@@ -9,7 +9,6 @@ export interface Resource {
 export type Brand<T, K extends string> = T & { __brand: K }
 export type Pointer<T> = Brand<string, 'pointer'> & { __referenced: T }
 export type Expandable<T extends Resource = Resource> = Pointer<T> | T
-export type ThreadStatus = 'awaiting_care_team' | 'awaiting_member' | 'closed'
 
 export interface TaskQueueEntry {
   /**
@@ -26,6 +25,7 @@ export interface TaskQueueEntry {
   tasks: Array<Task>
 }
 
+export type ThreadStatus = 'awaiting_care_team' | 'awaiting_member' | 'closed'
 export type WebhookEvents =
   | 'account.updated'
   | 'care_team.created'

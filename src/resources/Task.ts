@@ -46,7 +46,7 @@ export interface Task {
    * A human-readable string that describes the task at a high level. For system
    * created tasks this field will be populated by the system.
    */
-  description: string
+  summary: string
   /**
    * Status the task is currently in
    */
@@ -148,9 +148,9 @@ export interface TaskCreateParams {
    */
   assignee?: string
   /**
-   * Short text that describes the work to be done.
+   * A brief summary of the task, which will be shown wherever the task is presented.
    */
-  description: string
+  summary: string
   /**
    * The status of the task
    */
@@ -175,9 +175,9 @@ export interface TaskUpdateParams {
    */
   assignee?: string
   /**
-   * Short text that describes the work to be done.
+   * A brief summary of the task, which will be shown wherever the task is presented.
    */
-  description?: string
+  summary?: string
   /**
    * The status of the task
    */
