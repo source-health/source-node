@@ -48,6 +48,12 @@ export interface Task {
    */
   summary: string
   /**
+   * Long-form text describing the task to be performed. You can use this field to
+   * share any additional relevant context to the care team that will be acting on
+   * this task.
+   */
+  description?: string | null
+  /**
    * Status the task is currently in
    */
   status: TaskStatus
@@ -152,6 +158,12 @@ export interface TaskCreateParams {
    */
   summary: string
   /**
+   * Long-form text describing the task to be performed. You can use this field to
+   * share any additional relevant context to the care team that will be acting on
+   * this task.
+   */
+  description?: string | null
+  /**
    * The status of the task
    */
   status: TaskCreateParamsStatus
@@ -178,6 +190,12 @@ export interface TaskUpdateParams {
    * A brief summary of the task, which will be shown wherever the task is presented.
    */
   summary?: string
+  /**
+   * Long-form text describing the task to be performed. You can use this field to
+   * share any additional relevant context to the care team that will be acting on
+   * this task.
+   */
+  description?: string | null
   /**
    * The status of the task
    */

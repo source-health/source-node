@@ -2,6 +2,7 @@ import { SourceInstance, resourceFactory, resourceNamespace } from '../factories
 
 import { AccountResource } from './Account'
 import { CareTeamResource } from './CareTeam'
+import { CareTeamRoleResource } from './CareTeamRole'
 import { EventResource } from './Event'
 import { FileResource } from './File'
 import { MemberResource } from './Member'
@@ -18,6 +19,7 @@ import { OrderResource } from './monitoring/Order'
 export const allResources = resourceNamespace({
   accounts: resourceFactory(AccountResource),
   careTeams: resourceFactory(CareTeamResource),
+  careTeamRoles: resourceFactory(CareTeamRoleResource),
   events: resourceFactory(EventResource),
   files: resourceFactory(FileResource),
   members: resourceFactory(MemberResource),
@@ -38,6 +40,7 @@ export const allResources = resourceNamespace({
 export type RootResources = SourceInstance<typeof allResources>
 export * from './Account'
 export * from './CareTeam'
+export * from './CareTeamRole'
 export * from './Error'
 export * from './Event'
 export * from './File'
