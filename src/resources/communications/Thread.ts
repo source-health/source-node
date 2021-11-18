@@ -77,6 +77,18 @@ export interface Thread {
    * Timestamp of when the thread was last closed.
    */
   closed_at: string | null
+  /**
+   * Timestamp indicating the point through which the member has read. All messages
+   * with a `sent_at` after this point are considered unread. If null, the member has
+   * not seen any messages on this thread.
+   */
+  member_last_read: string | null
+  /**
+   * Timestamp of the last message that was sent on this thread. This message has
+   * been read by the member if the last_read timestamp is greater than or equal to
+   * the last_message_at timestamp
+   */
+  last_message_at: string
 }
 
 export interface ThreadListResponse {
@@ -203,6 +215,15 @@ export interface ThreadUpdateParams {
   subject?: string | null
 }
 
+export interface ThreadMarkParams {
+  /**
+   * Timestamp indicating the point through which the member has read.  All messages
+   * with a `sent_at` after this point are considered unread.  If null, the member
+   * has not seen any messages on this thread.
+   */
+  member_last_read: string | null
+}
+
 export class ThreadResource extends Resource {
   /**
    * Returns a list of threads within the current account.
@@ -250,6 +271,27 @@ export class ThreadResource extends Resource {
     options?: SourceRequestOptions,
   ): Promise<Thread> {
     return this.source.request('POST', `/v1/communication/threads/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Marks a thread as read by the member. You can provide a timestamp through which
+   * the member has read. All message appearing before this timestamp will be shown
+   * as read by the member in the Source Elements SDK. If you're not using Elements,
+   * you can use this timestamp to track where the member has read in your own
+   * interface.
+   *
+   * Providing null marks the entire thread as unread.
+   */
+  public mark(
+    id: string,
+    params: ThreadMarkParams,
+    options?: SourceRequestOptions,
+  ): Promise<Thread> {
+    return this.source.request('POST', `/v1/communication/threads/${id}/mark`, {
       data: params,
       contentType: 'json',
       options,
