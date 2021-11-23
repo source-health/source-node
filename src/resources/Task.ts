@@ -52,7 +52,7 @@ export interface Task {
    * share any additional relevant context to the care team that will be acting on
    * this task.
    */
-  description?: string | null
+  description: string | null
   /**
    * Status the task is currently in
    */
