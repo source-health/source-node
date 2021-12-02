@@ -1,6 +1,9 @@
 import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
+import { CareTeamRole } from './CareTeamRole'
+import { Expandable } from './shared'
+
 export type UserRole = 'owner' | 'administrator' | 'developer' | 'clinician' | 'support'
 
 export interface User {
@@ -28,6 +31,16 @@ export interface User {
    * Role the user is granted in your account.
    */
   role: UserRole
+  /**
+   * Care team role for this user, which must reference a role that exists in live
+   * mode. Only users with a care team role can be added to a member's care team.
+   */
+  live_care_team_role: Expandable<CareTeamRole> | null
+  /**
+   * Care team role for this user, which must reference a role that exists in test
+   * mode. Only users with a care team role can be added to a member's care team.
+   */
+  test_care_team_role: Expandable<CareTeamRole> | null
   /**
    * Timestamp when the user was created.
    */

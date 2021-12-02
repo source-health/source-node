@@ -134,4 +134,15 @@ export class CareTeamRoleResource extends Resource {
       options,
     })
   }
+
+  /**
+   * Deletes the specified care team role. Roles that are currently assigned to users
+   * may not be deleted.
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<CareTeamRole> {
+    return this.source.request('DELETE', `/v1/care_team_roles/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
 }
