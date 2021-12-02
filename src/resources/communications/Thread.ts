@@ -177,6 +177,11 @@ export interface ThreadCreateParamsMessage {
    */
   thread_actions?: ThreadCreateParamsMessageThreadActions
   attachments?: Array<ThreadCreateParamsMessageAttachment>
+  /**
+   * The ID of the user this message is being sent by. Required for sending messages
+   * with an API key.
+   */
+  sender?: string
 }
 
 export interface ThreadCreateParams {

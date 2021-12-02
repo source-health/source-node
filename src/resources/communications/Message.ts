@@ -57,6 +57,11 @@ export interface Message {
    * Any attachments to the message, such as files.
    */
   attachments: Array<MessageAttachment>
+  /**
+   * The person or API key who sent the message on behalf of `sender`. If null, the
+   * message sender was not impersonated.
+   */
+  impersonated_by: string | null
 }
 
 export interface MessageListResponse {
@@ -140,6 +145,11 @@ export interface MessageCreateParams {
    */
   thread_actions?: MessageCreateParamsThreadActions
   attachments?: Array<MessageCreateParamsAttachment>
+  /**
+   * The ID of the user this message is being sent by. Required for sending messages
+   * with an API key.
+   */
+  sender?: string
 }
 
 export class MessageResource extends Resource {
