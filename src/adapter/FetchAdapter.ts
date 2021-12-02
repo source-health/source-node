@@ -1,5 +1,5 @@
 import { SourceError } from '../SourceError'
-import { createUrl, toUrlEncoded } from '../utils'
+import { createUrl } from '../utils'
 
 import { HttpAdapter, HttpRequest, HttpResponse } from './HttpAdapter'
 
@@ -65,19 +65,11 @@ export default class FetchAdapter implements HttpAdapter {
           data: JSON.stringify(content),
         }
       case 'multipart': {
-        const values = toUrlEncoded(content)
-        const data = new FormData()
-
-        for (const [key, value] of Object.entries(values)) {
-          const isBlob = value instanceof Blob || toString.call(value) === '[object Blob]'
-          data.append(key, isBlob ? (value as Blob) : String(value))
+        if (!(content instanceof FormData)) {
+          throw new Error('Must provide content as form data for a multipart request')
         }
-
         return {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          data,
+          data: content,
         }
       }
     }
