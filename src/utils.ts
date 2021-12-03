@@ -10,7 +10,8 @@ function writeFlattenedValue(
     for (let i = 0; i < input.length; i++) {
       writeFlattenedValue(input[i], `${prefix ?? ''}[${i}]`, stringify, values)
     }
-  } else if (input instanceof Blob) {
+    // Blob is only supported in the browser and not node - we currently don't support multipart request with the NodeAdpater either
+  } else if (typeof Blob !== 'undefined' && input instanceof Blob) {
     values[prefix ?? ''] = input
   } else if (input) {
     for (const [key, value] of Object.entries(input)) {
