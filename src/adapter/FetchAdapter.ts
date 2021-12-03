@@ -74,9 +74,6 @@ export default class FetchAdapter implements HttpAdapter {
         }
 
         return {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
           data,
         }
       }
