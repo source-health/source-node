@@ -10,6 +10,8 @@ function writeFlattenedValue(
     for (let i = 0; i < input.length; i++) {
       writeFlattenedValue(input[i], `${prefix ?? ''}[${i}]`, stringify, values)
     }
+  } else if (input instanceof Blob) {
+    values[prefix ?? ''] = input
   } else if (input) {
     for (const [key, value] of Object.entries(input)) {
       writeFlattenedValue(value, prefix ? `${prefix}[${key}]` : key, stringify, values)
