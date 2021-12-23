@@ -41,7 +41,7 @@ export interface File {
    * variants available depend on the file's purpose. Files with the `photo` purpose
    * will have variants.
    */
-  variants: Record<string, unknown>
+  variants: Record<string, string>
   /**
    * Timestamp of when the url to access the file expires
    */
