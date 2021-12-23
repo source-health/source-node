@@ -2,6 +2,7 @@ import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
 import { CareTeam } from './CareTeam'
+import { File } from './File'
 import { Expandable } from './shared'
 
 export type MemberBiologicalSex = 'male' | 'female' | 'non_binary' | 'undisclosed'
@@ -32,6 +33,19 @@ export interface MemberAddress {
    * at this time.
    */
   country: string
+}
+
+export type MemberPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+
+export interface MemberPhoneNumber {
+  /**
+   * Type of phone number.
+   */
+  use: MemberPhoneNumberUse
+  /**
+   * The phone number to use. This should be formatted in E.164 format.
+   */
+  value: string
 }
 
 export interface Member {
@@ -82,9 +96,17 @@ export interface Member {
    */
   address: MemberAddress | null
   /**
+   * An array of phone numbers associated with the member
+   */
+  phone_numbers: Array<MemberPhoneNumber>
+  /**
    * The care team that is assigned to this member.
    */
   care_team: Expandable<CareTeam>
+  /**
+   * The file for the member's profile image.
+   */
+  profile_image: Expandable<File> | null
   /**
    * Timestamp of when the member was created.
    */
@@ -166,6 +188,19 @@ export interface MemberCreateParamsAddress {
   country: string
 }
 
+export type MemberCreateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+
+export interface MemberCreateParamsPhoneNumber {
+  /**
+   * Type of phone number.
+   */
+  use: MemberCreateParamsPhoneNumberUse
+  /**
+   * The phone number to use. This should be formatted in E.164 format.
+   */
+  value: string
+}
+
 export interface MemberCreateParams {
   /**
    * Title for the member (Mr., Mrs., Dr., etc).
@@ -205,6 +240,16 @@ export interface MemberCreateParams {
    * order.
    */
   address?: MemberCreateParamsAddress | null
+  /**
+   * An array of phone numbers associated with the member. Providing any value will
+   * override the entire array. Providing null or an empty array will empty out the
+   * array.
+   */
+  phone_numbers?: Array<MemberCreateParamsPhoneNumber> | null
+  /**
+   * The file for the member's profile image. Must be of type `photo`
+   */
+  profile_image?: string | null
 }
 
 export type MemberUpdateParamsBiologicalSex = 'male' | 'female' | 'non_binary' | 'undisclosed'
@@ -235,6 +280,19 @@ export interface MemberUpdateParamsAddress {
    * at this time.
    */
   country: string
+}
+
+export type MemberUpdateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+
+export interface MemberUpdateParamsPhoneNumber {
+  /**
+   * Type of phone number.
+   */
+  use: MemberUpdateParamsPhoneNumberUse
+  /**
+   * The phone number to use. This should be formatted in E.164 format.
+   */
+  value: string
 }
 
 export interface MemberUpdateParams {
@@ -276,6 +334,16 @@ export interface MemberUpdateParams {
    * order.
    */
   address?: MemberUpdateParamsAddress | null
+  /**
+   * An array of phone numbers associated with the member. Providing any value will
+   * override the entire array. Providing null or an empty array will empty out the
+   * array.
+   */
+  phone_numbers?: Array<MemberUpdateParamsPhoneNumber> | null
+  /**
+   * The file for the member's profile image. Must be of type `photo`
+   */
+  profile_image?: string | null
 }
 
 export class MemberResource extends Resource {

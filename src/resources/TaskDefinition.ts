@@ -1,7 +1,8 @@
 import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
-export type TaskDefinitionParticipantRole = 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
+import { CareTeamRole } from './CareTeamRole'
+import { Expandable } from './shared'
 
 export interface TaskDefinition {
   /**
@@ -21,9 +22,11 @@ export interface TaskDefinition {
    */
   name: string
   /**
-   * The default care team role that tasks should be assigned to.
+   * The default care team role that tasks should be assigned to. If no role is set
+   * on the task definition, any tasks created without explicit assignment will
+   * remain unassigned.
    */
-  participant_role: TaskDefinitionParticipantRole
+  care_team_role: Expandable<CareTeamRole> | null
   /**
    * Timestamp of when the task definition was created.
    */
@@ -71,12 +74,6 @@ export interface TaskDefinitionListParams {
   limit?: number
 }
 
-export type TaskDefinitionCreateParamsParticipantRole =
-  | 'clinician'
-  | 'nurse'
-  | 'dietician'
-  | 'ob-gyn'
-
 export interface TaskDefinitionCreateParams {
   /**
    * Globally unique identifier of the task definition
@@ -87,16 +84,12 @@ export interface TaskDefinitionCreateParams {
    */
   name: string
   /**
-   * The default care team role that tasks should be assigned to.
+   * The ID of the care team role that tasks should be assigned to be default. If no
+   * role is set on the task definition, any tasks created without explicit
+   * assignment will remain unassigned.
    */
-  participant_role: TaskDefinitionCreateParamsParticipantRole
+  care_team_role?: string | null
 }
-
-export type TaskDefinitionUpdateParamsParticipantRole =
-  | 'clinician'
-  | 'nurse'
-  | 'dietician'
-  | 'ob-gyn'
 
 export interface TaskDefinitionUpdateParams {
   /**
@@ -108,9 +101,11 @@ export interface TaskDefinitionUpdateParams {
    */
   name?: string
   /**
-   * The default care team role that tasks should be assigned to.
+   * The ID of the care team role that tasks should be assigned to be default. If no
+   * role is set on the task definition, any tasks created without explicit
+   * assignment will remain unassigned.
    */
-  participant_role?: TaskDefinitionUpdateParamsParticipantRole
+  care_team_role?: string | null
 }
 
 export class TaskDefinitionResource extends Resource {

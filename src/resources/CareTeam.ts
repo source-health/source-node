@@ -4,17 +4,11 @@ import { SourceRequestOptions } from '../SourceClient'
 import { User } from './User'
 import { Expandable } from './shared'
 
-export type CareTeamParticipantRole = 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
-
 export interface CareTeamParticipant {
   /**
-   * The users who is on the care team.
+   * The user who is on the care team.
    */
   user: Expandable<User>
-  /**
-   * The role of this user on the care team.
-   */
-  role: CareTeamParticipantRole
 }
 
 export interface CareTeam {
@@ -31,8 +25,8 @@ export interface CareTeam {
    */
   member: string | null
   /**
-   * The users on the care team. Each user has an associated role on the care team
-   * (for example, nurse, endocrinologist, or health ally).
+   * The users on the care team. The user's care team role defines their role across
+   * all teams they are on.
    */
   participants: Array<CareTeamParticipant>
   /**
@@ -45,17 +39,12 @@ export interface CareTeam {
   updated_at: string
 }
 
-export type CareTeamUpdateParamsParticipantRole = 'clinician' | 'nurse' | 'dietician' | 'ob-gyn'
-
 export interface CareTeamUpdateParamsParticipant {
   /**
-   * Unique ID of the user to add to the care team.
+   * Unique ID of the user to add to the care team. The user must have a care team
+   * role defined.
    */
   user: string
-  /**
-   * Role that this user should have on the care team.
-   */
-  role: CareTeamUpdateParamsParticipantRole
 }
 
 export interface CareTeamUpdateParams {

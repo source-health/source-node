@@ -1,6 +1,8 @@
 import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
+export type FilePurpose = 'message_attachment' | 'photo' | 'user_profile_photo'
+
 export interface File {
   /**
    * Always `file`.
@@ -15,7 +17,7 @@ export interface File {
    * defined purpose, which controls what types of uploads are allowed and where the
    * file may be referenced.
    */
-  purpose: 'message_attachment'
+  purpose: FilePurpose
   /**
    * The filename of the file that was uploaded.
    */
@@ -35,6 +37,12 @@ export interface File {
    */
   url: string
   /**
+   * Variants represent different versions of a file (such as thumbnails). The
+   * variants available depend on the file's purpose. Files with the `photo` purpose
+   * will have variants.
+   */
+  variants: Record<string, unknown>
+  /**
    * Timestamp of when the url to access the file expires
    */
   url_expires_at: string
@@ -43,6 +51,8 @@ export interface File {
    */
   created_at: string
 }
+
+export type FileCreateParamsPurpose = 'message_attachment' | 'photo' | 'user_profile_photo'
 
 export interface FileCreateParams {
   /**
@@ -54,7 +64,7 @@ export interface FileCreateParams {
    * The purpose of the uploaded file. Each purpose imposes restrictions on supported
    * file types and use cases.
    */
-  purpose: 'message_attachment'
+  purpose: FileCreateParamsPurpose
 }
 
 export class FileResource extends Resource {
