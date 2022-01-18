@@ -26,6 +26,13 @@ export interface User {
    */
   last_name: string | null
   /**
+   * Display text that describes the user's title. The display title will appear in
+   * the Source application  and the member-facing Elements SDK but will not affect
+   * any Source configuration. For example, a physician  user's title may be set to
+   * 'Physician.'
+   */
+  display_title: string | null
+  /**
    * Email address for the user.
    */
   email: string
@@ -133,6 +140,13 @@ export interface UserCreateParams {
    */
   last_name: string
   /**
+   * Display text that describes the user's title. The display title will appear in
+   * the Source application  and the member-facing Elements SDK but will not affect
+   * any Source configuration. For example, a physician  user's title may be set to
+   * 'Physician.'
+   */
+  display_title?: string | null
+  /**
    * Email address for the user. Only admins and owners may update another user's
    * email address, this cannot be updated using API keys.
    */
@@ -174,6 +188,13 @@ export interface UserUpdateParams {
    * Last name of the user.
    */
   last_name?: string
+  /**
+   * Display text that describes the user's title. The display title will appear in
+   * the Source application  and the member-facing Elements SDK but will not affect
+   * any Source configuration. For example, a physician  user's title may be set to
+   * 'Physician.'
+   */
+  display_title?: string | null
   /**
    * Email address for the user. Only admins and owners may update another user's
    * email address, this cannot be updated using API keys.

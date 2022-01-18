@@ -6,7 +6,8 @@ import { Expandable } from './shared'
 
 export interface CareTeamParticipant {
   /**
-   * The user who is on the care team.
+   * The user on the care team. Only users with care team roles will be eligible for
+   * automatic routing of tasks.
    */
   user: Expandable<User>
 }
