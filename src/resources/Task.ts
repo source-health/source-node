@@ -39,7 +39,7 @@ export interface Task {
    */
   member: Expandable<Member>
   /**
-   * User on the care team to which this task is assigned.
+   * The user to which this task is assigned. If set to null, the task is unassigned.
    */
   assignee: Expandable<User> | null
   /**
@@ -101,6 +101,45 @@ export interface TaskListResponse {
 export type TaskListParamsSort = 'created_at' | 'due_at' | '-created_at' | '-due_at'
 export type TaskListParamsStatus = 'open' | 'resolved'
 
+export interface TaskListParamsDueAt {
+  /**
+   * Return results where the due_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the due_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the due_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the due_at field is greater than or equal to this value.
+   */
+  gte?: string
+}
+
+export interface TaskListParamsCreatedAt {
+  /**
+   * Return results where the created_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the created_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the created_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the created_at field is greater than or equal to this
+   * value.
+   */
+  gte?: string
+}
+
 export interface TaskListParams {
   /**
    * A cursor for use in pagination. `ending_before` is an object ID that defines
@@ -132,9 +171,35 @@ export interface TaskListParams {
    */
   status?: Array<TaskListParamsStatus>
   /**
-   * Filter results by member.
+   * Filter results by member. If multiple member ids are provided, tasks matching
+   * any of the provided members will be returned.
    */
-  member?: string
+  member?: Array<string>
+  /**
+   * Filter results by assignees. If multiple assignee ids are provided, tasks
+   * matching any of the provided assignees will be returned. Providing `unassigned`
+   * will return any tasks that are unassigned.
+   */
+  assignee?: Array<string>
+  /**
+   * Filter results by task definitons. If multiple task defintion ids are provided,
+   * tasks matching any of the provided definitions will be returned.
+   */
+  definition?: Array<string>
+  /**
+   * A time based range filter on the list based on the object due_at field. For
+   * example
+   * '?due_at[gt]=2021-05-10T16:51:38.075Z&due_at[lte]=2021-05-26T16:51:38.075Z'. The
+   * value is a dictionary with the following:
+   */
+  due_at?: TaskListParamsDueAt
+  /**
+   * A time based range filter on the list based on the object created_at field. For
+   * example
+   * '?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z'.
+   * The value is a dictionary with the following:
+   */
+  created_at?: TaskListParamsCreatedAt
 }
 
 export type TaskCreateParamsStatus = 'open' | 'resolved'
@@ -150,9 +215,10 @@ export interface TaskCreateParams {
    */
   member: string
   /**
-   * The user to which this task is assigned.
+   * The user to which this task is assigned. If set to null, the task will be
+   * unassigned.
    */
-  assignee?: string
+  assignee?: string | null
   /**
    * A brief summary of the task, which will be shown wherever the task is presented.
    */
@@ -183,9 +249,10 @@ export type TaskUpdateParamsStatus = 'open' | 'resolved'
 
 export interface TaskUpdateParams {
   /**
-   * The user to which this task is assigned.
+   * The user to which this task is assigned. If set to null, the task will be
+   * unassigned.
    */
-  assignee?: string
+  assignee?: string | null
   /**
    * A brief summary of the task, which will be shown wherever the task is presented.
    */
