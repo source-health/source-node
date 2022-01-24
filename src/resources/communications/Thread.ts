@@ -178,8 +178,8 @@ export interface ThreadCreateParamsMessage {
   thread_actions?: ThreadCreateParamsMessageThreadActions
   attachments?: Array<ThreadCreateParamsMessageAttachment>
   /**
-   * The ID of the user this message is being sent by. Required for sending messages
-   * with an API key.
+   * When calling this endpoint with an API key, you must use this field to specify
+   * the user on whose behalf the message is sent.
    */
   sender?: string
 }
@@ -222,9 +222,9 @@ export interface ThreadUpdateParams {
 
 export interface ThreadMarkParams {
   /**
-   * Timestamp indicating the point through which the member has read.  All messages
-   * with a `sent_at` after this point are considered unread.  If null, the member
-   * has not seen any messages on this thread.
+   * Timestamp indicating the point through which the member has read. All messages
+   * with a `sent_at` after this point are considered unread. If null, the member has
+   * not seen any messages on this thread.
    */
   member_last_read: string | null
 }
