@@ -27,8 +27,8 @@ export interface User {
   last_name: string | null
   /**
    * Display text that describes the user's title. The display title will appear in
-   * the Source application  and the member-facing Elements SDK but will not affect
-   * any Source configuration. For example, a physician  user's title may be set to
+   * the Source application and the member-facing Elements SDK but will not affect
+   * any Source configuration. For example, a physician user's title may be set to
    * 'Physician.'
    */
   display_title: string | null
@@ -88,6 +88,8 @@ export interface UserListResponse {
   has_more: boolean
 }
 
+export type UserListParamsSort = 'last_name' | 'created_at' | '-last_name' | '-created_at'
+
 export interface UserListParams {
   /**
    * A cursor for use in pagination. `ending_before` is an object ID that defines
@@ -108,6 +110,11 @@ export interface UserListParams {
    * 100.
    */
   limit?: number
+  /**
+   * Sort field for the results. A '-' prefix indicates sorting by that field in
+   * descending order, otherwise the order will be ascending.
+   */
+  sort?: UserListParamsSort
   /**
    * Limit results to users with email matching the given query.
    */
@@ -141,8 +148,8 @@ export interface UserCreateParams {
   last_name: string
   /**
    * Display text that describes the user's title. The display title will appear in
-   * the Source application  and the member-facing Elements SDK but will not affect
-   * any Source configuration. For example, a physician  user's title may be set to
+   * the Source application and the member-facing Elements SDK but will not affect
+   * any Source configuration. For example, a physician user's title may be set to
    * 'Physician.'
    */
   display_title?: string | null
@@ -190,8 +197,8 @@ export interface UserUpdateParams {
   last_name?: string
   /**
    * Display text that describes the user's title. The display title will appear in
-   * the Source application  and the member-facing Elements SDK but will not affect
-   * any Source configuration. For example, a physician  user's title may be set to
+   * the Source application and the member-facing Elements SDK but will not affect
+   * any Source configuration. For example, a physician user's title may be set to
    * 'Physician.'
    */
   display_title?: string | null

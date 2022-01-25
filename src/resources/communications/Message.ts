@@ -58,8 +58,8 @@ export interface Message {
    */
   attachments: Array<MessageAttachment>
   /**
-   * The person or API key who sent the message on behalf of `sender`. If null, the
-   * message sender was not impersonated.
+   * The API key who sent the message on behalf of `sender`. If null, the message
+   * sender was not impersonated.
    */
   impersonated_by: string | null
 }
@@ -146,17 +146,17 @@ export interface MessageCreateParams {
   thread_actions?: MessageCreateParamsThreadActions
   attachments?: Array<MessageCreateParamsAttachment>
   /**
-   * The ID of the user this message is being sent by. Required for sending messages
-   * with an API key.
+   * When calling this endpoint with an API key, you must use this field to specify
+   * the user on whose behalf the message is sent.
    */
   sender?: string
 }
 
 export class MessageResource extends Resource {
   /**
-   * Returns a list of threads within the current account.
+   * Returns a list of messages within a thread.
    *
-   * The threads returned are sorted with the most recently updated appearing first.
+   * The messages returned are sorted with the most recently sent appearing first.
    */
   public list(
     params: MessageListParams,
