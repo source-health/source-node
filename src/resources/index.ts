@@ -5,6 +5,7 @@ import { CareTeamResource } from './CareTeam'
 import { CareTeamRoleResource } from './CareTeamRole'
 import { EventResource } from './Event'
 import { FileResource } from './File'
+import { GroupResource } from './Group'
 import { MemberResource } from './Member'
 import { TaskResource } from './Task'
 import { TaskDefinitionResource } from './TaskDefinition'
@@ -22,6 +23,7 @@ export const allResources = resourceNamespace({
   careTeamRoles: resourceFactory(CareTeamRoleResource),
   events: resourceFactory(EventResource),
   files: resourceFactory(FileResource),
+  groups: resourceFactory(GroupResource),
   members: resourceFactory(MemberResource),
   tasks: resourceFactory(TaskResource),
   taskDefinitions: resourceFactory(TaskDefinitionResource),
@@ -44,6 +46,7 @@ export * from './CareTeamRole'
 export * from './Error'
 export * from './Event'
 export * from './File'
+export * from './Group'
 export * from './Member'
 export * from './Product'
 export * from './shared'
