@@ -54,7 +54,7 @@ export interface Member {
    */
   object: 'member'
   /**
-   * Unique ID of the member.
+   * Unique ID for the Member.
    */
   id: string
   /**

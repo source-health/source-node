@@ -17,7 +17,7 @@ export interface Group {
   /**
    * A description for this group.
    */
-  description?: string | null
+  description: string | null
   /**
    * Timestamp when the group was created.
    */
