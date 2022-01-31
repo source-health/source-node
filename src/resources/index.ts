@@ -31,11 +31,11 @@ export const allResources = resourceNamespace({
   taskDefinitions: resourceFactory(TaskDefinitionResource),
   users: resourceFactory(UserResource),
   webhooks: resourceFactory(WebhookResource),
-  schedulings: resourceNamespace({
+  scheduling: resourceNamespace({
     appointments: resourceFactory(AppointmentResource),
     appointmentTypes: resourceFactory(AppointmentTypeResource),
   }),
-  monitorings: resourceNamespace({
+  monitoring: resourceNamespace({
     devices: resourceFactory(DeviceResource),
     measurements: resourceFactory(MeasurementResource),
     orders: resourceFactory(OrderResource),
