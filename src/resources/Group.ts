@@ -7,7 +7,7 @@ export interface Group {
    */
   object: 'group'
   /**
-   * Unique ID for this group.
+   * Unique ID for the Group.
    */
   id: string
   /**

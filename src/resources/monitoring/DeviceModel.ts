@@ -1,4 +1,8 @@
-export type DeviceModelCategory = 'scale' | 'blood_pressure_monitor'
+export type DeviceModelCategory =
+  | 'scale'
+  | 'blood_pressure_monitor'
+  | 'pulse_oximeter'
+  | 'blood_glucose_monitor'
 export type DeviceModelCapability =
   | 'blood_pressure'
   | 'body_weight'

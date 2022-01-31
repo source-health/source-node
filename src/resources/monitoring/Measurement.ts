@@ -130,7 +130,7 @@ export interface MeasurementListParams {
   limit?: number
   /**
    * A time based range filter on the list based on the object time field. For
-   * example '?time[gt]=2021-05-10T16:51:38.075Z&time[lte]=2021-05-26T16:51:38.075Z'.
+   * example `?time[gt]=2021-05-10T16:51:38.075Z&time[lte]=2021-05-26T16:51:38.075Z`.
    * The value is a dictionary with the following:
    */
   time?: MeasurementListParamsTime

@@ -16,6 +16,7 @@ import { ThreadResource } from './communications/Thread'
 import { DeviceResource } from './monitoring/Device'
 import { MeasurementResource } from './monitoring/Measurement'
 import { OrderResource } from './monitoring/Order'
+import { AppointmentResource } from './scheduling/Appointment'
 import { AppointmentTypeResource } from './scheduling/AppointmentType'
 
 export const allResources = resourceNamespace({
@@ -31,6 +32,7 @@ export const allResources = resourceNamespace({
   users: resourceFactory(UserResource),
   webhooks: resourceFactory(WebhookResource),
   schedulings: resourceNamespace({
+    appointments: resourceFactory(AppointmentResource),
     appointmentTypes: resourceFactory(AppointmentTypeResource),
   }),
   monitorings: resourceNamespace({
@@ -63,4 +65,5 @@ export * from './monitoring/Device'
 export * from './monitoring/DeviceModel'
 export * from './monitoring/Measurement'
 export * from './monitoring/Order'
+export * from './scheduling/Appointment'
 export * from './scheduling/AppointmentType'

@@ -189,14 +189,14 @@ export interface TaskListParams {
   /**
    * A time based range filter on the list based on the object due_at field. For
    * example
-   * '?due_at[gt]=2021-05-10T16:51:38.075Z&due_at[lte]=2021-05-26T16:51:38.075Z'. The
+   * `?due_at[gt]=2021-05-10T16:51:38.075Z&due_at[lte]=2021-05-26T16:51:38.075Z`. The
    * value is a dictionary with the following:
    */
   due_at?: TaskListParamsDueAt
   /**
    * A time based range filter on the list based on the object created_at field. For
    * example
-   * '?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z'.
+   * `?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z`.
    * The value is a dictionary with the following:
    */
   created_at?: TaskListParamsCreatedAt

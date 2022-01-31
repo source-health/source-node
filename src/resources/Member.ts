@@ -402,4 +402,15 @@ export class MemberResource extends Resource {
       options,
     })
   }
+
+  /**
+   * Deletes the specified member. Members that have meaningful objects associated
+   * with them, such as tasks, threads, or files, may not be deleted.
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<Member> {
+    return this.source.request('DELETE', `/v1/members/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
 }
