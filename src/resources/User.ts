@@ -3,6 +3,7 @@ import { SourceRequestOptions } from '../SourceClient'
 
 import { CareTeamRole } from './CareTeamRole'
 import { File } from './File'
+import { Group } from './Group'
 import { Expandable } from './shared'
 
 export type UserRole = 'owner' | 'administrator' | 'developer' | 'clinician' | 'support'
@@ -40,6 +41,11 @@ export interface User {
    * Role the user is granted in your account.
    */
   role: UserRole
+  /**
+   * The groups for this user, which must reference groups that exists in your
+   * account. A user can be a member of up to 20 groups.
+   */
+  groups: Array<Expandable<Group>>
   /**
    * Care team role for this user, which must reference a role that exists in live
    * mode. Only users with a care team role can be added to a member's care team.
@@ -129,6 +135,11 @@ export interface UserListParams {
    */
   role?: Array<string>
   /**
+   * Filter results by group. If multiple groups are provided, users matching any of
+   * those groups will be returned.
+   */
+  groups?: Array<string>
+  /**
    * If set to 'true', this will also include deactivated users. If unset or `false`,
    * deactivated users are not returned in the list.
    */
@@ -168,6 +179,11 @@ export interface UserCreateParams {
    * another user's role, this cannot be updated using API keys.
    */
   role: UserCreateParamsRole
+  /**
+   * The groups for this user, which must reference groups that exists in your
+   * account. A user can be a member of  up to 20 groups.
+   */
+  groups?: Array<string>
   /**
    * Care team role for this user, which must reference a role that exists in live
    * mode. Only users with a care team role can be added to a member's care team.
@@ -213,6 +229,11 @@ export interface UserUpdateParams {
    */
   role?: UserUpdateParamsRole
   /**
+   * The groups for this user, which must reference groups that exists in your
+   * account. A user can be a member of  up to 20 groups.
+   */
+  groups?: Array<string>
+  /**
    * Care team role for this user, which must reference a role that exists in live
    * mode. Only users with a care team role can be added to a member's care team.
    */
@@ -252,7 +273,7 @@ export class UserResource extends Resource {
    * Administrators and owners can create users.
    *
    * API keys can create users but cannot create with role 'developer',
-   * 'administrator', or 'owner'.
+   * 'administrator', or 'owner' or assign users to groups.
    *
    * Other user roles cannot create users.
    */
@@ -284,6 +305,8 @@ export class UserResource extends Resource {
    *
    * Administrators and owners may update the name, care team roles, email and role
    * of other users.
+   *
+   * Administrators and owners may assign users to groups.
    *
    * Administrators and owners are not permitted to change their own role.
    */
