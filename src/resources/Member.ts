@@ -6,6 +6,42 @@ import { File } from './File'
 import { Expandable } from './shared'
 
 export type MemberBiologicalSex = 'male' | 'female' | 'non_binary' | 'undisclosed'
+export type MemberSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
+export type MemberAdministrativeGender = 'male' | 'female' | 'other'
+export type MemberGenderIdentityValue =
+  | 'female'
+  | 'male'
+  | 'non_binary'
+  | 'other'
+  | 'transgender_female'
+  | 'transgender_male'
+  | 'undisclosed'
+
+export interface MemberGenderIdentity {
+  /**
+   * Coded value
+   */
+  value: MemberGenderIdentityValue
+  /**
+   * Human-readable display text of coded value, or member-provided string when value
+   * is 'other'
+   */
+  text: string
+}
+
+export type MemberPronounsValue = 'she_her' | 'he_him' | 'they_them' | 'other'
+
+export interface MemberPronouns {
+  /**
+   * Coded value or 'other'
+   */
+  value: MemberPronounsValue
+  /**
+   * Human-readable display text of coded value, or member-provided string when value
+   * is 'other'
+   */
+  text: string
+}
 
 export interface MemberAddress {
   /**
@@ -87,9 +123,37 @@ export interface Member {
    */
   date_of_birth: string
   /**
-   * Biological sex of the member
+   * Biological sex of the member. This property should no longer be used, and
+   * `sex_at_birth` or `gender_identity` should be preferred going forward, depending
+   * on the use case. Source will be removing this property in the future.
    */
   biological_sex: MemberBiologicalSex
+  /**
+   * Sex assigned and recorded on the birth certificate at the time of the
+   * individual's birth. This information is often clinically useful, but is not
+   * necessarily indicative of the individual's gender identity.
+   *
+   * For backwards compatibility reasons, both `biological_sex` and `sex_at_birth`
+   * are supported inputs. If both `biological_sex` and `sex_at_birth` are provided,
+   * `sex_at_birth` is used.
+   */
+  sex_at_birth: MemberSexAtBirth
+  /**
+   * The gender of a person used for administrative purposes, such as on
+   * government-issued ID documents.
+   */
+  administrative_gender: MemberAdministrativeGender | null
+  /**
+   * The individual member's identification of gender. Note that receiving a null
+   * value for gender is not the same as an undisclosed gender. The latter means that
+   * the user specifically opted to not disclose a gender. The former indicates that
+   * the gender is unknown and/or was not provided.
+   */
+  gender_identity: MemberGenderIdentity | null
+  /**
+   * Describes how the person would like to be referred to when not using their name.
+   */
+  pronouns: MemberPronouns | null
   /**
    * Default address for the member. Used if no address is provided on a specific
    * order.
@@ -158,7 +222,40 @@ export interface MemberListParams {
   email?: string
 }
 
-export type MemberCreateParamsBiologicalSex = 'male' | 'female' | 'non_binary' | 'undisclosed'
+export type MemberCreateParamsSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
+export type MemberCreateParamsAdministrativeGender = 'male' | 'female' | 'other'
+export type MemberCreateParamsGenderIdentityValue =
+  | 'female'
+  | 'male'
+  | 'non_binary'
+  | 'other'
+  | 'transgender_female'
+  | 'transgender_male'
+  | 'undisclosed'
+
+export interface MemberCreateParamsGenderIdentity {
+  /**
+   * Coded value, or 'other'.
+   */
+  value: MemberCreateParamsGenderIdentityValue
+  /**
+   * Member-provided string when value is 'other'.
+   */
+  text?: string | null
+}
+
+export type MemberCreateParamsPronounsValue = 'she_her' | 'he_him' | 'they_them' | 'other'
+
+export interface MemberCreateParamsPronouns {
+  /**
+   * Coded value, or 'other'.
+   */
+  value: MemberCreateParamsPronounsValue
+  /**
+   * Member-provided string when value is 'other'.
+   */
+  text?: string | null
+}
 
 export interface MemberCreateParamsAddress {
   /**
@@ -232,9 +329,31 @@ export interface MemberCreateParams {
    */
   date_of_birth: string
   /**
-   * Biological sex of the member
+   * Sex assigned and recorded on the birth certificate at the time of the
+   * individual's birth. This information is often clinically useful, but is not
+   * necessarily indicative of the individual's gender identity.
+   *
+   * For backwards compatibility reasons, both `biological_sex` and `sex_at_birth`
+   * are supported. If both `biological_sex` and `sex_at_birth` are provided,
+   * `sex_at_birth` is used.
    */
-  biological_sex: MemberCreateParamsBiologicalSex
+  sex_at_birth: MemberCreateParamsSexAtBirth
+  /**
+   * The gender of a person used for administrative purposes, such as on
+   * government-issued ID documents.
+   */
+  administrative_gender?: MemberCreateParamsAdministrativeGender | null
+  /**
+   * The individual member's identification of gender. Note that receiving a null
+   * value for gender is not the same as an undisclosed gender. The latter means that
+   * the user specifically opted to not disclose a gender. The former indicates that
+   * the gender is unknown and/or was not provided.
+   */
+  gender_identity?: MemberCreateParamsGenderIdentity | null
+  /**
+   * Describes how the person would like to be referred to when not using their name.
+   */
+  pronouns?: MemberCreateParamsPronouns | null
   /**
    * Default address for the member. Used if no address is provided on a specific
    * order.
@@ -252,7 +371,40 @@ export interface MemberCreateParams {
   profile_image?: string | null
 }
 
-export type MemberUpdateParamsBiologicalSex = 'male' | 'female' | 'non_binary' | 'undisclosed'
+export type MemberUpdateParamsSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
+export type MemberUpdateParamsAdministrativeGender = 'male' | 'female' | 'other'
+export type MemberUpdateParamsGenderIdentityValue =
+  | 'female'
+  | 'male'
+  | 'non_binary'
+  | 'other'
+  | 'transgender_female'
+  | 'transgender_male'
+  | 'undisclosed'
+
+export interface MemberUpdateParamsGenderIdentity {
+  /**
+   * Coded value, or 'other'.
+   */
+  value: MemberUpdateParamsGenderIdentityValue
+  /**
+   * Member-provided string when value is 'other'.
+   */
+  text?: string | null
+}
+
+export type MemberUpdateParamsPronounsValue = 'she_her' | 'he_him' | 'they_them' | 'other'
+
+export interface MemberUpdateParamsPronouns {
+  /**
+   * Coded value, or 'other'.
+   */
+  value: MemberUpdateParamsPronounsValue
+  /**
+   * Member-provided string when value is 'other'.
+   */
+  text?: string | null
+}
 
 export interface MemberUpdateParamsAddress {
   /**
@@ -326,9 +478,31 @@ export interface MemberUpdateParams {
    */
   date_of_birth?: string
   /**
-   * Biological sex of the member
+   * Sex assigned and recorded on the birth certificate at the time of the
+   * individual's birth. This information is often clinically useful, but is not
+   * necessarily indicative of the individual's gender identity.
+   *
+   * For backwards compatibility reasons, both `biological_sex` and `sex_at_birth`
+   * are supported. If both `biological_sex` and `sex_at_birth` are provided,
+   * `sex_at_birth` is used.
    */
-  biological_sex?: MemberUpdateParamsBiologicalSex
+  sex_at_birth?: MemberUpdateParamsSexAtBirth
+  /**
+   * The gender of a person used for administrative purposes, such as on
+   * government-issued ID documents.
+   */
+  administrative_gender?: MemberUpdateParamsAdministrativeGender | null
+  /**
+   * The individual member's identification of gender. Note that receiving a null
+   * value for gender is not the same as an undisclosed gender. The latter means that
+   * the user specifically opted to not disclose a gender. The former indicates that
+   * the gender is unknown and/or was not provided.
+   */
+  gender_identity?: MemberUpdateParamsGenderIdentity | null
+  /**
+   * Describes how the person would like to be referred to when not using their name.
+   */
+  pronouns?: MemberUpdateParamsPronouns | null
   /**
    * Default address for the member. Used if no address is provided on a specific
    * order.

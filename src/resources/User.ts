@@ -42,7 +42,13 @@ export interface User {
    */
   role: UserRole
   /**
-   * The groups for this user, which must reference groups that exists in your
+   * The time zone identifier for this user. User time zones are used when checking
+   * their availability schedules, and may also be used when formatting times outside
+   * of the context of a browser (such as an email).
+   */
+  time_zone: string
+  /**
+   * The groups for this user, which must reference groups that exist in your
    * account. A user can be a member of up to 20 groups.
    */
   groups: Array<Expandable<Group>>
@@ -180,6 +186,12 @@ export interface UserCreateParams {
    */
   role: UserCreateParamsRole
   /**
+   * The time zone identifier for this user. User time zones are used when checking
+   * their availability schedules, and may also be used when formatting times outside
+   * of the context of a browser (such as an email).
+   */
+  time_zone?: string
+  /**
    * The groups for this user, which must reference groups that exists in your
    * account. A user can be a member of  up to 20 groups.
    */
@@ -228,6 +240,12 @@ export interface UserUpdateParams {
    * another user's role, this cannot be updated using API keys.
    */
   role?: UserUpdateParamsRole
+  /**
+   * The time zone identifier for this user. User time zones are used when checking
+   * their availability schedules, and may also be used when formatting times outside
+   * of the context of a browser (such as an email).
+   */
+  time_zone?: string
   /**
    * The groups for this user, which must reference groups that exists in your
    * account. A user can be a member of  up to 20 groups.

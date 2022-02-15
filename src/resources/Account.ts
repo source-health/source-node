@@ -19,6 +19,15 @@ export interface Account {
    */
   subdomain: string
   /**
+   * The time zone associated with this account. This value is rarely used in Source,
+   * however it serves an important purpose for appointment booking. In order to
+   * ensure each day has consistent appointment slots available, we use this time
+   * zone to determine when midnight is for your organization. Slots will reset when
+   * crossing midnight into the next day. You can read mroe about this in the
+   * documentation for the Slot resource.
+   */
+  time_zone: string
+  /**
    * Test mode API secret key for the account, only returned during account creation.
    */
   test_secret_key?: string
@@ -45,6 +54,14 @@ export interface AccountUpdateParams {
    * Subdomain for the account.
    */
   subdomain?: string
+  /**
+   * The time zone identifier for this account. Account level time zone identifiers
+   * are used to determine when "midnight" exists for your practice, and feed into
+   * Source's understanding of your organization's business hours. Note that each
+   * user has their own time zone as well, which is what is used when declaring user
+   * availability and booking appointments.
+   */
+  time_zone?: string
 }
 
 export class AccountResource extends Resource {
