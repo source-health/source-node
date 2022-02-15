@@ -236,14 +236,14 @@ export interface AppointmentTypeCreateParams {
    * Provides an additional buffer of time before an appointment to prepare. Buffers
    * do not change the appointment duration, but rather make the participants appear
    * "busy" for a certain amount of time before the appointment begins. Measured in
-   * minutes.
+   * minutes. Must not be greater than 60 minutes.
    */
   buffer_before?: number
   /**
    * Provides an additional buffer of time after an appointment to wrap up. Buffers
    * do not change the appointment duration, but rather make the participants appear
    * "busy" for a certain amount of time after the appointment ends. Measured in
-   * minutes.
+   * minutes. Must not be greater than 60 minutes.
    */
   buffer_after?: number
   /**
@@ -331,14 +331,14 @@ export interface AppointmentTypeUpdateParams {
    * Provides an additional buffer of time before an appointment to prepare. Buffers
    * do not change the appointment duration, but rather make the participants appear
    * "busy" for a certain amount of time before the appointment begins. Measured in
-   * minutes.
+   * minutes. Must not be greater than 60 minutes.
    */
   buffer_before?: number
   /**
    * Provides an additional buffer of time after an appointment to wrap up. Buffers
    * do not change the appointment duration, but rather make the participants appear
    * "busy" for a certain amount of time after the appointment ends. Measured in
-   * minutes.
+   * minutes. Must not be greater than 60 minutes.
    */
   buffer_after?: number
   /**

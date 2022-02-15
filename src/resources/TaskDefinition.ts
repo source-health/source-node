@@ -10,7 +10,7 @@ export interface TaskDefinition {
    */
   object: 'task_definition'
   /**
-   * Unique ID of the task definition.
+   * Unique ID for the Task Definition.
    */
   id: string
   /**
@@ -52,6 +52,8 @@ export interface TaskDefinitionListResponse {
   has_more: boolean
 }
 
+export type TaskDefinitionListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
+
 export interface TaskDefinitionListParams {
   /**
    * A cursor for use in pagination. `ending_before` is an object ID that defines
@@ -72,6 +74,11 @@ export interface TaskDefinitionListParams {
    * 100.
    */
   limit?: number
+  /**
+   * Sort field for the results. A '-' prefix indicates sorting by that field in
+   * descending order, otherwise the order will be ascending.
+   */
+  sort?: TaskDefinitionListParamsSort
 }
 
 export interface TaskDefinitionCreateParams {

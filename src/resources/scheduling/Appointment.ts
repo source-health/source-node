@@ -118,6 +118,13 @@ export interface AppointmentListResponse {
   has_more: boolean
 }
 
+export type AppointmentListParamsSort =
+  | 'start_at'
+  | 'end_at'
+  | 'created_at'
+  | '-start_at'
+  | '-end_at'
+  | '-created_at'
 export type AppointmentListParamsStatus = 'booked' | 'canceled'
 
 export interface AppointmentListParamsStartAt {
@@ -178,6 +185,11 @@ export interface AppointmentListParams {
    * 100.
    */
   limit?: number
+  /**
+   * Sort field for the results. A '-' prefix indicates sorting by that field in
+   * descending order, otherwise the order will be ascending.
+   */
+  sort?: AppointmentListParamsSort
   /**
    * Filter appointments by their status. You may provide multiple statuses.
    */
@@ -299,10 +311,6 @@ export interface AppointmentUpdateParamsParticipant {
 }
 
 export interface AppointmentUpdateParams {
-  /**
-   * Unique ID or key of the appointment type for this appointment.
-   */
-  appointment_type?: string
   /**
    * Time zone in which the appointment should be scheduled. Changing this value has
    * no impact on the actual time of the appointment, which is always provided in

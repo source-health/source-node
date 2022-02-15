@@ -58,7 +58,9 @@ export interface CareTeamUpdateParams {
 export class CareTeamResource extends Resource {
   /**
    * Retrieves the details of an existing care team. You need only supply the unique
-   * care team identifier that was returned upon creation.
+   * care team identifier that was returned upon creation, or that is associated with
+   * a particular member (see the `care_team` property in the
+   * [Member](/docs/api/reference/member/) object).
    */
   public retrieve(id: string, options?: SourceRequestOptions): Promise<CareTeam> {
     return this.source.request('GET', `/v1/care_teams/${id}`, {

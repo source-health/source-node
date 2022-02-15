@@ -18,6 +18,8 @@ import { MeasurementResource } from './monitoring/Measurement'
 import { OrderResource } from './monitoring/Order'
 import { AppointmentResource } from './scheduling/Appointment'
 import { AppointmentTypeResource } from './scheduling/AppointmentType'
+import { AvailabilityResource } from './scheduling/Availability'
+import { SlotResource } from './scheduling/Slot'
 
 export const allResources = resourceNamespace({
   accounts: resourceFactory(AccountResource),
@@ -34,6 +36,8 @@ export const allResources = resourceNamespace({
   scheduling: resourceNamespace({
     appointments: resourceFactory(AppointmentResource),
     appointmentTypes: resourceFactory(AppointmentTypeResource),
+    availabilities: resourceFactory(AvailabilityResource),
+    slots: resourceFactory(SlotResource),
   }),
   monitoring: resourceNamespace({
     devices: resourceFactory(DeviceResource),
@@ -67,3 +71,5 @@ export * from './monitoring/Measurement'
 export * from './monitoring/Order'
 export * from './scheduling/Appointment'
 export * from './scheduling/AppointmentType'
+export * from './scheduling/Availability'
+export * from './scheduling/Slot'
