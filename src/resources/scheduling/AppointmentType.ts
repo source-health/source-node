@@ -109,6 +109,11 @@ export interface AppointmentType {
    * Timestamp when the appointment type was last updated.
    */
   updated_at: string
+  /**
+   * Whether or not to create a video call for appointments of this type. Defaults to
+   * false.
+   */
+  video_enabled: boolean
 }
 
 export interface AppointmentTypeListResponse {
@@ -263,6 +268,11 @@ export interface AppointmentTypeCreateParams {
    * minutes.
    */
   minimum_notice?: number
+  /**
+   * Whether or not to create a video call for appointments of this type. Defaults to
+   * false.
+   */
+  video_enabled?: boolean
 }
 
 export type AppointmentTypeUpdateParamsColor =
@@ -358,6 +368,11 @@ export interface AppointmentTypeUpdateParams {
    * minutes.
    */
   minimum_notice?: number
+  /**
+   * Whether or not to create a video call for appointments of this type. Defaults to
+   * false.
+   */
+  video_enabled?: boolean
 }
 
 export class AppointmentTypeResource extends Resource {
@@ -405,7 +420,7 @@ export class AppointmentTypeResource extends Resource {
    *
    * Appointments are linked to appointment types in Source, so changes made to an
    * appointment type will be visible on past appointments as well. However, some
-   * fields, such as the duration and location  of the appointment, are copied at the
+   * fields, such as the duration and location of the appointment, are copied at the
    * time the appointment is created. Changing the duration of an appointment type
    * will not change the duration of past appointments.
    */

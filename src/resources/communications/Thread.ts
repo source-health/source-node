@@ -196,7 +196,7 @@ export interface ThreadCreateParams {
   /**
    * The thread subject.
    */
-  subject?: string
+  subject?: string | null
   /**
    * The initial message to send when creating this thread.
    */

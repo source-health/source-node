@@ -7,6 +7,7 @@ import { EventResource } from './Event'
 import { FileResource } from './File'
 import { GroupResource } from './Group'
 import { MemberResource } from './Member'
+import { QueueResource } from './Queue'
 import { TaskResource } from './Task'
 import { TaskDefinitionResource } from './TaskDefinition'
 import { UserResource } from './User'
@@ -29,6 +30,7 @@ export const allResources = resourceNamespace({
   files: resourceFactory(FileResource),
   groups: resourceFactory(GroupResource),
   members: resourceFactory(MemberResource),
+  queues: resourceFactory(QueueResource),
   tasks: resourceFactory(TaskResource),
   taskDefinitions: resourceFactory(TaskDefinitionResource),
   users: resourceFactory(UserResource),
@@ -58,6 +60,7 @@ export * from './File'
 export * from './Group'
 export * from './Member'
 export * from './Product'
+export * from './Queue'
 export * from './shared'
 export * from './Task'
 export * from './TaskDefinition'

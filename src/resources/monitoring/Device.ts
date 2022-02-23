@@ -17,7 +17,7 @@ export interface Device {
    */
   object: 'device'
   /**
-   * Unique ID of the device.
+   * Unique ID for the Device.
    */
   id: string
   /**

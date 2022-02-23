@@ -60,7 +60,7 @@ export interface SlotListResponse {
 
 export type SlotListParamsParticipant = string
 export type SlotListParamsExcludeParticipant = string
-export type SlotListParamsRouting =
+export type SlotListParamsRoutingStrategy =
   | 'care_team_required'
   | 'care_team_preferred'
   | 'care_team_hybrid'
@@ -171,7 +171,7 @@ export interface SlotListParams {
    * If you have a need for a routing model that isn't covered above, please don't
    * hesitate to reach out to our team.
    */
-  routing?: SlotListParamsRouting
+  routing_strategy?: SlotListParamsRoutingStrategy
 }
 
 export class SlotResource extends Resource {
