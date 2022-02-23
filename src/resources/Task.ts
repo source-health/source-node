@@ -27,7 +27,7 @@ export interface Task {
    */
   object: 'task'
   /**
-   * Unique ID of the task.
+   * Unique ID for the Task.
    */
   id: string
   /**

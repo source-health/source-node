@@ -27,6 +27,33 @@ export interface AppointmentParticipant {
   status: AppointmentParticipantStatus
 }
 
+export type AppointmentVideoCallProvider = 'custom' | 'source'
+
+export interface AppointmentVideoCall {
+  /**
+   * The video call provider. Source automatically generates video call links for
+   * every appointment type that is configured to do so. Alternatively, you can use
+   * the value `custom` to provide your own video call link.
+   */
+  provider: AppointmentVideoCallProvider
+  /**
+   * A unique secure token that identifies the video call and allows a member or a
+   * user to join the call. This token is also present in the join URL.
+   */
+  token: string
+  /**
+   * The URL to access the video call. Anyone with this link will be able to request
+   * to join this video call, so you should ensure it is kept safe.
+   */
+  join_url: string
+  /**
+   * Passcode used when joining the call. This value is not used for Source-generated
+   * video calls, but it may be used if using a custom video provider that requires a
+   * passcode.
+   */
+  passcode: string | null
+}
+
 export interface Appointment {
   /**
    * Always `appointment`.
@@ -93,6 +120,12 @@ export interface Appointment {
    * the API to allow other types of bookable resources.
    */
   participants: Array<AppointmentParticipant>
+  /**
+   * Information about the video call generated or provided for this appointment. By
+   * default, Source will generate a visit URL for all created appointments when the
+   * appointment type has `video_enabled = true`.
+   */
+  video_call: AppointmentVideoCall | null
   /**
    * Timestamp when the appointment type was created.
    */
@@ -232,6 +265,35 @@ export interface AppointmentCreateParamsParticipant {
   participant: string
 }
 
+export type AppointmentCreateParamsVideoCallProvider = 'custom' | 'source'
+
+export interface AppointmentCreateParamsVideoCall {
+  /**
+   * The video call provider. Source automatically generates video call links for
+   * every appointment type that is configured to do so. Alternatively, you can use
+   * the value `custom` to provide your own video call link.  When providing
+   * `custom`, you must provide a join URL and can optionally include a token or
+   * passcode.
+   */
+  provider: AppointmentCreateParamsVideoCallProvider
+  /**
+   * A unique secure token that identifies the video call and allows a member or a
+   * user to join the call.  This token is also present in the join URL.
+   */
+  token?: string | null
+  /**
+   * The URL to access the video call. Anyone with this link will be able to request
+   * to join this video call, so you should ensure it is kept safe.
+   */
+  join_url?: string | null
+  /**
+   * Passcode used when joining the call. This value is not used for Source-generated
+   * video calls, but it may be used if using a custom video provider that requires a
+   * passcode.
+   */
+  passcode?: string | null
+}
+
 export interface AppointmentCreateParams {
   /**
    * Unique ID or key of the appointment type for this appointment.
@@ -301,6 +363,19 @@ export interface AppointmentCreateParams {
    * permissions error if they attempt to.
    */
   skip_constraints?: boolean
+  /**
+   * Set the details of a video call, if this appointment will be a video visit. By
+   * default any appointment for an appointment type with `video_enabled: true` will
+   * have a Source video call created when the appointment is created.
+   *
+   * Members may not override the video call settings of an appointment, but users
+   * and API keys are able to set `provider: 'source'` to create a Source-managed
+   * call, or provide the details of a third-party video call.
+   *
+   * It is not possible to modify the video call provider of an appointment, once
+   * set.
+   */
+  video_call?: AppointmentCreateParamsVideoCall | null
 }
 
 export interface AppointmentUpdateParamsParticipant {
@@ -308,6 +383,35 @@ export interface AppointmentUpdateParamsParticipant {
    * The participant to include on this appointment. Must be a valid user identifier.
    */
   participant: string
+}
+
+export type AppointmentUpdateParamsVideoCallProvider = 'custom' | 'source'
+
+export interface AppointmentUpdateParamsVideoCall {
+  /**
+   * The video call provider. Source automatically generates video call links for
+   * every appointment type that is configured to do so. Alternatively, you can use
+   * the value `custom` to provide your own video call link.  When providing
+   * `custom`, you must provide a join URL and can optionally include a token or
+   * passcode.
+   */
+  provider: AppointmentUpdateParamsVideoCallProvider
+  /**
+   * A unique secure token that identifies the video call and allows a member or a
+   * user to join the call.  This token is also present in the join URL.
+   */
+  token?: string | null
+  /**
+   * The URL to access the video call. Anyone with this link will be able to request
+   * to join this video call, so you should ensure it is kept safe.
+   */
+  join_url?: string | null
+  /**
+   * Passcode used when joining the call. This value is not used for Source-generated
+   * video calls, but it may be used if using a custom video provider that requires a
+   * passcode.
+   */
+  passcode?: string | null
 }
 
 export interface AppointmentUpdateParams {
@@ -369,6 +473,19 @@ export interface AppointmentUpdateParams {
    * permissions error if they attempt to.
    */
   skip_constraints?: boolean
+  /**
+   * Set the details of a video call, if this appointment will be a video visit. By
+   * default any appointment for an appointment type with `video_enabled: true` will
+   * have a Source video call created when the appointment is created.
+   *
+   * Members may not override the video call settings of an appointment, but users
+   * and API keys are able to set `provider: 'source'` to create a Source-managed
+   * call, or provide the details of a third-party video call.
+   *
+   * It is not possible to modify the video call provider of an appointment, once
+   * set.
+   */
+  video_call?: AppointmentUpdateParamsVideoCall | null
 }
 
 export class AppointmentResource extends Resource {

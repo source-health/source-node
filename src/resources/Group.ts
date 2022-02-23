@@ -26,6 +26,12 @@ export interface Group {
    * Timestamp when the group was last updated.
    */
   updated_at: string
+  /**
+   * Timestamp when the group was deleted, which is only present for deleted groups.
+   * Deleted groups are not typically returned by the API, however they are returned
+   * in `group.deleted` events and expanded references on other objects.
+   */
+  deleted_at?: string
 }
 
 export interface GroupListResponse {
