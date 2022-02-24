@@ -235,8 +235,7 @@ export interface TaskCreateParams {
   status: TaskCreateParamsStatus
   /**
    * The time by which this task should be completed. If no due_at date is supplied,
-   * the due_at date will automatically be 24 hours after the task was created. The
-   * due_at date must be in the future.'
+   * the due_at date will automatically be 24 hours after the task was created.'
    */
   due_at?: string
   /**
@@ -269,8 +268,7 @@ export interface TaskUpdateParams {
   status?: TaskUpdateParamsStatus
   /**
    * The time by which this task should be completed. If no due_at date is supplied,
-   * the due_at date will automatically be 24 hours after the task was created. The
-   * due_at date must be in the future.'
+   * the due_at date will automatically be 24 hours after the task was created.'
    */
   due_at?: string
   /**

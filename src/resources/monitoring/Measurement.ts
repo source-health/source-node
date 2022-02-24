@@ -7,6 +7,8 @@ import { Device } from './Device'
 
 export type MeasurementKind = 'numeric' | 'composite'
 export type MeasurementType =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
   | 'blood_pressure'
   | 'body_weight'
   | 'diastolic_blood_pressure'
@@ -102,6 +104,8 @@ export interface MeasurementListParamsTime {
 }
 
 export type MeasurementListParamsType =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
   | 'blood_pressure'
   | 'body_weight'
   | 'diastolic_blood_pressure'
@@ -145,6 +149,8 @@ export interface MeasurementListParams {
 }
 
 export type MeasurementCreateParams0Type =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
   | 'blood_pressure'
   | 'body_weight'
   | 'diastolic_blood_pressure'
@@ -179,6 +185,8 @@ export interface MeasurementCreateParams0 {
 }
 
 export type MeasurementCreateParams1Type =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
   | 'blood_pressure'
   | 'body_weight'
   | 'diastolic_blood_pressure'

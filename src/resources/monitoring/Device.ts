@@ -5,6 +5,8 @@ import { Expandable } from '../shared'
 
 export type DeviceStatus = 'pending' | 'active' | 'deactivated'
 export type DeviceCapability =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
   | 'blood_pressure'
   | 'body_weight'
   | 'diastolic_blood_pressure'
