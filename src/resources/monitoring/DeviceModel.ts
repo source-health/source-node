@@ -4,6 +4,8 @@ export type DeviceModelCategory =
   | 'pulse_oximeter'
   | 'blood_glucose_monitor'
 export type DeviceModelCapability =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
   | 'blood_pressure'
   | 'body_weight'
   | 'diastolic_blood_pressure'
