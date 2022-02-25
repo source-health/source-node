@@ -123,6 +123,11 @@ export interface Member {
    */
   date_of_birth: string
   /**
+   * The IANA time zone identifier of the member, if one is known. If no time zone is
+   * known, null is returned.
+   */
+  time_zone: string | null
+  /**
    * Biological sex of the member. This property should no longer be used, and
    * `sex_at_birth` or `gender_identity` should be preferred going forward, depending
    * on the use case. Source will be removing this property in the future.
@@ -321,6 +326,12 @@ export interface MemberCreateParams {
    */
   preferred_name?: string | null
   /**
+   * The IANA time zone identifier of the member. Source uses this time zone when
+   * booking appointments on behalf of a member, and will use the time zone
+   * information when formatting email notifications to members.
+   */
+  time_zone: string | null
+  /**
    * Email address for the member
    */
   email?: string | null
@@ -469,6 +480,12 @@ export interface MemberUpdateParams {
    * the member typically prefers to be called.
    */
   preferred_name?: string | null
+  /**
+   * The IANA time zone identifier of the member. Source uses this time zone when
+   * booking appointments on behalf of a member, and will use the time zone
+   * information when formatting email notifications to members.
+   */
+  time_zone?: string | null
   /**
    * Email address for the member
    */
