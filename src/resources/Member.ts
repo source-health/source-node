@@ -330,7 +330,7 @@ export interface MemberCreateParams {
    * booking appointments on behalf of a member, and will use the time zone
    * information when formatting email notifications to members.
    */
-  time_zone: string | null
+  time_zone?: string | null
   /**
    * Email address for the member
    */
