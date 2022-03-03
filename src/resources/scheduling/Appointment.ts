@@ -38,9 +38,10 @@ export interface AppointmentVideoCall {
   provider: AppointmentVideoCallProvider
   /**
    * A unique secure token that identifies the video call and allows a member or a
-   * user to join the call. This token is also present in the join URL.
+   * user to join the call. This token is only used for 'source' video calls, and is
+   * also present in the join URL.
    */
-  token: string
+  token: string | null
   /**
    * The URL to access the video call. Anyone with this link will be able to request
    * to join this video call, so you should ensure it is kept safe.
@@ -277,13 +278,9 @@ export interface AppointmentCreateParamsVideoCall {
    */
   provider: AppointmentCreateParamsVideoCallProvider
   /**
-   * A unique secure token that identifies the video call and allows a member or a
-   * user to join the call.  This token is also present in the join URL.
-   */
-  token?: string | null
-  /**
    * The URL to access the video call. Anyone with this link will be able to request
-   * to join this video call, so you should ensure it is kept safe.
+   * to join this video call, so you should ensure it is kept safe. Only for 'custom'
+   * video calls - for 'source' video calls, we generate the join URL.
    */
   join_url?: string | null
   /**
@@ -397,13 +394,9 @@ export interface AppointmentUpdateParamsVideoCall {
    */
   provider: AppointmentUpdateParamsVideoCallProvider
   /**
-   * A unique secure token that identifies the video call and allows a member or a
-   * user to join the call.  This token is also present in the join URL.
-   */
-  token?: string | null
-  /**
    * The URL to access the video call. Anyone with this link will be able to request
-   * to join this video call, so you should ensure it is kept safe.
+   * to join this video call, so you should ensure it is kept safe. Only for 'custom'
+   * video calls - for 'source' video calls, we generate the join URL.
    */
   join_url?: string | null
   /**
