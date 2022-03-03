@@ -2,6 +2,7 @@ import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
 import { CareTeamRole } from './CareTeamRole'
+import { Queue } from './Queue'
 import { Expandable } from './shared'
 
 export interface TaskDefinition {
@@ -21,6 +22,14 @@ export interface TaskDefinition {
    * Human readable name of the task definition.
    */
   name: string
+  /**
+   * The queue to which tasks should be assigned. If no queue is set on the task
+   * definition, Source will default to routing based on the care_team_role
+   * associated with the task definition. Note that Source is deprecating routing by
+   * care team roles in favor of queues, which represent a much more flexible way to
+   * route tasks to your team.
+   */
+  queue: Expandable<Queue> | null
   /**
    * The default care team role that tasks should be assigned to. If no role is set
    * on the task definition, any tasks created without explicit assignment will
@@ -79,6 +88,11 @@ export interface TaskDefinitionListParams {
    * descending order, otherwise the order will be ascending.
    */
   sort?: TaskDefinitionListParamsSort
+  /**
+   * Filter results by queue. If multiple queues are provided, task definitions
+   * related to any of those queues will be returned.
+   */
+  queue?: Array<string>
 }
 
 export interface TaskDefinitionCreateParams {
@@ -90,6 +104,14 @@ export interface TaskDefinitionCreateParams {
    * Human readable name of the task definition
    */
   name: string
+  /**
+   * The ID of the queue to which tasks should be assigned. If no queue is set on the
+   * task definition, Source will default to routing based on the care_team_role
+   * associated with the task definition. Note that Source is deprecating routing by
+   * care team roles in favor of queues, which represent a much more flexible way to
+   * route tasks to your team.
+   */
+  queue?: string | null
   /**
    * The ID of the care team role that tasks should be assigned to be default. If no
    * role is set on the task definition, any tasks created without explicit
@@ -107,6 +129,14 @@ export interface TaskDefinitionUpdateParams {
    * Human readable name of the task definition
    */
   name?: string
+  /**
+   * The ID of the queue to which tasks should be assigned. If no queue is set on the
+   * task definition, Source will default to routing based on the care_team_role
+   * associated with the task definition. Note that Source is deprecating routing by
+   * care team roles in favor of queues, which represent a much more flexible way to
+   * route tasks to your team.
+   */
+  queue?: string | null
   /**
    * The ID of the care team role that tasks should be assigned to be default. If no
    * role is set on the task definition, any tasks created without explicit

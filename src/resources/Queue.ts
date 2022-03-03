@@ -67,6 +67,12 @@ export interface Queue {
    */
   routing_targets: Array<QueueRoutingTarget>
   /**
+   * The ID of the queue to use as a replacement for task definitions and tasks that
+   * reference the deleted  queue. If not specified, Source removes the reference to
+   * the deleted queue.
+   */
+  replacement_queue: Expandable<Queue>
+  /**
    * Timestamp when the queue was created.
    */
   created_at: string
@@ -248,6 +254,15 @@ export interface QueueUpdateParams {
   routing_targets?: Array<QueueUpdateParamsRoutingTarget>
 }
 
+export interface QueueDeleteParams {
+  /**
+   * The ID of the queue to use as a replacement for task definitions and tasks that
+   * reference the deleted  queue. If not specified, Source removes the reference to
+   * the deleted queue.
+   */
+  replacement_queue?: string
+}
+
 export class QueueResource extends Resource {
   /**
    * The queues returned are sorted by creation date, with the most recently added
@@ -311,8 +326,13 @@ export class QueueResource extends Resource {
    * between when the queue is deleted and open tasks are updated with a replacement
    * queue, open tasks may reference the now deleted queue.
    */
-  public delete(id: string, options?: SourceRequestOptions): Promise<Queue> {
+  public delete(
+    id: string,
+    params?: QueueDeleteParams,
+    options?: SourceRequestOptions,
+  ): Promise<Queue> {
     return this.source.request('DELETE', `/v1/queues/${id}`, {
+      data: params,
       contentType: 'json',
       options,
     })

@@ -2,6 +2,7 @@ import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
 import { Member } from './Member'
+import { Queue } from './Queue'
 import { TaskDefinition } from './TaskDefinition'
 import { User } from './User'
 import { Thread } from './communications/Thread'
@@ -42,6 +43,12 @@ export interface Task {
    * The user to which this task is assigned. If set to null, the task is unassigned.
    */
   assignee: Expandable<User> | null
+  /**
+   * The queue to which a task is assigned. When creating a task, if no queue is
+   * specified for the task, the task will use the queue of the task definition. If
+   * no queue exists on the task definition, the task will not be placed in a queue.
+   */
+  queue: Expandable<Queue> | null
   /**
    * A human-readable string that describes the task at a high level. For system
    * created tasks this field will be populated by the system.
@@ -187,6 +194,11 @@ export interface TaskListParams {
    */
   definition?: Array<string>
   /**
+   * Filter results by queue. If multiple queues are provided, task related to any of
+   * those queues will be returned.
+   */
+  queue?: Array<string>
+  /**
    * A time based range filter on the list based on the object due_at field. For
    * example
    * `?due_at[gt]=2021-05-10T16:51:38.075Z&due_at[lte]=2021-05-26T16:51:38.075Z`. The
@@ -220,6 +232,13 @@ export interface TaskCreateParams {
    */
   assignee?: string | null
   /**
+   * The ID of the queue to which a task is assigned. When creating a task, if no
+   * queue is specified for the task, the task will use the queue of the task
+   * definition. If no queue exists on the task definition, the task will not be
+   * placed in a queue.
+   */
+  queue?: string | null
+  /**
    * A brief summary of the task, which will be shown wherever the task is presented.
    */
   summary: string
@@ -252,6 +271,13 @@ export interface TaskUpdateParams {
    * unassigned.
    */
   assignee?: string | null
+  /**
+   * The ID of the queue to which a task is assigned. When creating a task, if no
+   * queue is specified for the task, the task will use the queue of the task
+   * definition. If no queue exists on the task definition, the task will not be
+   * placed in a queue.
+   */
+  queue?: string | null
   /**
    * A brief summary of the task, which will be shown wherever the task is presented.
    */
