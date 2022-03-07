@@ -172,6 +172,30 @@ export interface SlotListParams {
    * hesitate to reach out to our team.
    */
   routing_strategy?: SlotListParamsRoutingStrategy
+  /**
+   * Identifier of the appointment that is being rescheduled. When provided, Source
+   * makes a few changes to availability calculation:
+   *
+   * - Source assumes the duration of the appointment should remain the same, and
+   * thus will look for slots matching the appointment's current   duration, rather
+   * than the appointment type's duration (which is the default behavior). - Source
+   * will ignore the appointment when looking for conflicts, allowing you to rebook
+   * the same slot or a slot which overlaps with the   appointment's current time
+   * window.
+   *
+   * You should only provide rescheduling_appointment when you intend to update an
+   * existing appointment, rather than to book a new appointment.
+   */
+  rescheduling_appointment?: string
+  /**
+   * The duration of the appointment to book, in minutes. By default, Source will use
+   * either the appointment type's duration or, if provided, the rescheduling
+   * appointment's duration. However, you may specify an alternative duration here to
+   * calculate slots for an appointment of a different length.
+   *
+   * Must be a number between 5 and 360 minutes (6 hours).
+   */
+  duration?: number
 }
 
 export class SlotResource extends Resource {

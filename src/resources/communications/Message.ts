@@ -16,6 +16,20 @@ export interface MessageAttachment {
    */
   type: 'file'
   /**
+   *       A description of the attachment. If a file uploaded to Source is attached,
+   * the file's name is displayed.
+   *
+   */
+  description: string | null
+  /**
+   *       The URL where the attachment's contents can be accessed. For link
+   * attachments, the link to redirect. For file attachments,
+   *
+   * the URL returned by Source is a link to the file.
+   *
+   */
+  url: string
+  /**
    * The resource which is attached to the message
    */
   resource: Expandable<File>
