@@ -8,31 +8,38 @@ import { Expandable } from '../shared'
 import { Thread } from './Thread'
 
 export type MessageType = 'text' | 'system'
+export type MessageAttachmentType = 'file' | 'link'
 
 export interface MessageAttachment {
   /**
-   * The type of attachment. Currently, the only supported attachment type is `file`,
-   * but other attachment types may be added.
+   * The type of attachment. Currently, the only supported attachment types are
+   * `file` and `link`, but other attachment types may be added.
    */
-  type: 'file'
+  type: MessageAttachmentType
   /**
-   *       A description of the attachment. If a file uploaded to Source is attached,
-   * the file's name is displayed.
-   *
+   * A description of the attachment. If a file uploaded to Source is attached, the
+   * file's name is displayed. Otherwise, this description is displayed.
    */
   description: string | null
   /**
-   *       The URL where the attachment's contents can be accessed. For link
-   * attachments, the link to redirect. For file attachments,
-   *
-   * the URL returned by Source is a link to the file.
-   *
+   * The URL where the attachment's contents can be accessed. For link attachments,
+   * the link to redirect. For file attachments, the URL returned by Source is a link
+   * to the file.
    */
   url: string
   /**
    * The resource which is attached to the message
    */
-  resource: Expandable<File>
+  resource: Expandable<File> | null
+  /**
+   * A map of your own metadata to be included alongside this attachment. For
+   * example, you can use this metadata for bookkeeping or rendering in your member
+   * experience.
+   *
+   * Metadata may only be set when calling the API with your API keys. It cannot be
+   * set when using member tokens.
+   */
+  metadata: Record<string, unknown>
 }
 
 export interface Message {
@@ -68,7 +75,7 @@ export interface Message {
    */
   sent_at: string
   /**
-   * Any attachments to the message, such as files.
+   * Any attachments to the message, such as files and links.
    */
   attachments: Array<MessageAttachment>
   /**
@@ -133,13 +140,41 @@ export interface MessageCreateParamsThreadActions {
   status?: MessageCreateParamsThreadActionsStatus
 }
 
+export type MessageCreateParamsAttachmentType = 'file' | 'link'
+
 export interface MessageCreateParamsAttachment {
-  type: 'file'
+  /**
+   * The type of attachment. Currently, the supported attachment types are `file` and
+   * `link`. If set to file, then a resource must be provided. If set to link, then a
+   * URL must be provided. Other attachment types may be added in the future.
+   */
+  type: MessageCreateParamsAttachmentType
+  /**
+   * A description of the attachment to display. If a file uploaded to Source is
+   * attached, the file's name overrides a description and is displayed. Otherwise,
+   * this description is displayed.
+   */
+  description?: string | null
   /**
    * Unique ID of the resource to be attached to this message. When attaching a file,
    * this should be set to the uploaded file's ID.
    */
-  resource: string
+  resource?: string
+  /**
+   * The URL where the attachment's contents can be accessed. For link attachments,
+   * the link to redirect. For file attachments, the URL returned by Source is a link
+   * to the file.
+   */
+  url?: string
+  /**
+   * A map of your own metadata to be included alongside this attachment. For
+   * example, you can use this metadata for  bookkeeping or rendering in your member
+   * experience.
+   *
+   * Metadata may only be set when calling the API with your API keys. It cannot be
+   * set when using member tokens.
+   */
+  metadata?: Record<string, unknown>
 }
 
 export interface MessageCreateParams {
