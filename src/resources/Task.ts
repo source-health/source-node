@@ -8,7 +8,7 @@ import { User } from './User'
 import { Thread } from './communications/Thread'
 import { Expandable } from './shared'
 
-export type TaskStatus = 'open' | 'resolved'
+export type TaskStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved'
 export type TaskAssignmentMethod = 'direct' | 'indirect'
 
 export interface TaskRelated {
@@ -106,7 +106,7 @@ export interface TaskListResponse {
 }
 
 export type TaskListParamsSort = 'created_at' | 'due_at' | '-created_at' | '-due_at'
-export type TaskListParamsStatus = 'open' | 'resolved'
+export type TaskListParamsStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved'
 
 export interface TaskListParamsDueAt {
   /**
@@ -214,7 +214,7 @@ export interface TaskListParams {
   created_at?: TaskListParamsCreatedAt
 }
 
-export type TaskCreateParamsStatus = 'open' | 'resolved'
+export type TaskCreateParamsStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved'
 
 export interface TaskCreateParams {
   /**
@@ -263,7 +263,7 @@ export interface TaskCreateParams {
   related?: Array<string>
 }
 
-export type TaskUpdateParamsStatus = 'open' | 'resolved'
+export type TaskUpdateParamsStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved'
 
 export interface TaskUpdateParams {
   /**
