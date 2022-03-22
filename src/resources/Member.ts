@@ -47,7 +47,7 @@ export interface MemberAddress {
   /**
    * The first line of the street address.
    */
-  street_line_1: string
+  street_line_1: string | null
   /**
    * The second line of the street address.
    */
@@ -55,7 +55,7 @@ export interface MemberAddress {
   /**
    * The city.
    */
-  city: string
+  city: string | null
   /**
    * The region - in the US this should be the two-letter state code.
    */
@@ -63,7 +63,7 @@ export interface MemberAddress {
   /**
    * The postal code (i.e. zip code).
    */
-  postal_code: string
+  postal_code: string | null
   /**
    * The country, as a two-letter ISO 3166-1 code. US is the only supported country
    * at this time.
@@ -160,8 +160,8 @@ export interface Member {
    */
   pronouns: MemberPronouns | null
   /**
-   * Default address for the member. Used if no address is provided on a specific
-   * order.
+   * Primary address for the member. If you provide an address, you must specify at
+   * least the country and region.
    */
   address: MemberAddress | null
   /**
@@ -266,7 +266,7 @@ export interface MemberCreateParamsAddress {
   /**
    * The first line of the street address.
    */
-  street_line_1: string
+  street_line_1?: string | null
   /**
    * The second line of the street address.
    */
@@ -274,7 +274,7 @@ export interface MemberCreateParamsAddress {
   /**
    * The city.
    */
-  city: string
+  city?: string | null
   /**
    * The region - in the US this should be the two-letter state code.
    */
@@ -282,7 +282,7 @@ export interface MemberCreateParamsAddress {
   /**
    * The postal code (i.e. zip code).
    */
-  postal_code: string
+  postal_code?: string | null
   /**
    * The country, as a two-letter ISO 3166-1 code. US is the only supported country
    * at this time.
@@ -366,8 +366,8 @@ export interface MemberCreateParams {
    */
   pronouns?: MemberCreateParamsPronouns | null
   /**
-   * Default address for the member. Used if no address is provided on a specific
-   * order.
+   * Primary address for the member. If you provide an address, you must specify at
+   * least the country and region.
    */
   address?: MemberCreateParamsAddress | null
   /**
@@ -421,7 +421,7 @@ export interface MemberUpdateParamsAddress {
   /**
    * The first line of the street address.
    */
-  street_line_1: string
+  street_line_1?: string | null
   /**
    * The second line of the street address.
    */
@@ -429,7 +429,7 @@ export interface MemberUpdateParamsAddress {
   /**
    * The city.
    */
-  city: string
+  city?: string | null
   /**
    * The region - in the US this should be the two-letter state code.
    */
@@ -437,7 +437,7 @@ export interface MemberUpdateParamsAddress {
   /**
    * The postal code (i.e. zip code).
    */
-  postal_code: string
+  postal_code?: string | null
   /**
    * The country, as a two-letter ISO 3166-1 code. US is the only supported country
    * at this time.
@@ -521,8 +521,8 @@ export interface MemberUpdateParams {
    */
   pronouns?: MemberUpdateParamsPronouns | null
   /**
-   * Default address for the member. Used if no address is provided on a specific
-   * order.
+   * Primary address for the member. If you provide an address, you must specify at
+   * least the country and region.
    */
   address?: MemberUpdateParamsAddress | null
   /**
