@@ -1,5 +1,7 @@
 import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
+import { Group } from '../Group'
+import { Expandable } from '../shared'
 
 export type AppointmentTypeColor =
   | 'gray'
@@ -10,6 +12,11 @@ export type AppointmentTypeColor =
   | 'red'
   | 'orange'
   | 'purple'
+export type AppointmentTypeRoutingStrategy =
+  | 'care_team_required'
+  | 'care_team_preferred'
+  | 'care_team_hybrid'
+  | 'round_robin'
 
 export interface AppointmentType {
   /**
@@ -102,6 +109,48 @@ export interface AppointmentType {
    */
   minimum_notice: number
   /**
+   * Whether or not to create a video call for appointments of this type. Defaults to
+   * false.
+   */
+  video_enabled: boolean
+  /**
+   * Defines how an incoming slot availability query for the appointment type should
+   * be routed to possible users. Because of the complexity in routing, it's best
+   * explained by example. Assume you have created an appointment type that can be
+   * fulfilled by users in the Physicians group. The behavior of each routing
+   * strategy is as follows:
+   *
+   * - care_team_required - Appointment slots will only be shown for Physicians who
+   * are on the member's care team. If there are   no Physicians on the member's care
+   * team, the request will fail.
+   *
+   * - care_team_preferred - Appointment slots will be shown for all Physicians on
+   * the member's care team, if there are any. If   there are no Physicians on the
+   * member's care team, slots will be shown for all Physicians.
+   *
+   * - care_team_hybrid - Appointment slots will be shown for all users in the
+   * Physicians group. For any given appointment slot,   if a Physician of the
+   * member's care team is available, they will be preferred. However, slots for
+   * other Physicians will   still be shown.
+   *
+   * - round_robin - Appointment slots will be shown for all users in the Physicians
+   * group, and no preference will be given to   users who are also on the member's
+   * care team.
+   *
+   * By default, Source uses the care_team_preferred strategy to provide continuity
+   * of care and ensure patients have a consistent experience. However, this is not
+   * always the right booking strategy for all practices. In fact, even for a single
+   * practice, you may sometimes need to reach for another routing method.
+   *
+   * If you have a need for a routing model that isn't covered above, please don't
+   * hesitate to reach out to our team.
+   */
+  routing_strategy: AppointmentTypeRoutingStrategy
+  /**
+   * care_team_preferred
+   */
+  groups: Array<Expandable<Group>>
+  /**
    * Timestamp when the appointment type was created.
    */
   created_at: string
@@ -109,11 +158,6 @@ export interface AppointmentType {
    * Timestamp when the appointment type was last updated.
    */
   updated_at: string
-  /**
-   * Whether or not to create a video call for appointments of this type. Defaults to
-   * false.
-   */
-  video_enabled: boolean
 }
 
 export interface AppointmentTypeListResponse {
@@ -184,6 +228,11 @@ export type AppointmentTypeCreateParamsColor =
   | 'red'
   | 'orange'
   | 'purple'
+export type AppointmentTypeCreateParamsRoutingStrategy =
+  | 'care_team_required'
+  | 'care_team_preferred'
+  | 'care_team_hybrid'
+  | 'round_robin'
 
 export interface AppointmentTypeCreateParams {
   /**
@@ -269,6 +318,43 @@ export interface AppointmentTypeCreateParams {
    */
   minimum_notice?: number
   /**
+   * Defines how an incoming slot availability query for the appointment type should
+   * be routed to possible users. Because of the complexity in routing, it's best
+   * explained by example. Assume you have created an appointment type that can be
+   * fulfilled by users in the Physicians group. The behavior of each routing
+   * strategy is as follows:
+   *
+   * - care_team_required - Appointment slots will only be shown for Physicians who
+   * are on the member's care team. If there are   no Physicians on the member's care
+   * team, the request will fail.
+   *
+   * - care_team_preferred - Appointment slots will be shown for all Physicians on
+   * the member's care team, if there are any. If   there are no Physicians on the
+   * member's care team, slots will be shown for all Physicians.
+   *
+   * - care_team_hybrid - Appointment slots will be shown for all users in the
+   * Physicians group. For any given appointment slot,   if a Physician of the
+   * member's care team is available, they will be preferred. However, slots for
+   * other Physicians will   still be shown.
+   *
+   * - round_robin - Appointment slots will be shown for all users in the Physicians
+   * group, and no preference will be given to   users who are also on the member's
+   * care team.
+   *
+   * By default, Source uses the care_team_preferred strategy to provide continuity
+   * of care and ensure patients have a consistent experience. However, this is not
+   * always the right booking strategy for all practices. In fact, even for a single
+   * practice, you may sometimes need to reach for another routing method.
+   *
+   * If you have a need for a routing model that isn't covered above, please don't
+   * hesitate to reach out to our team.
+   */
+  routing_strategy?: AppointmentTypeCreateParamsRoutingStrategy
+  /**
+   * care_team_preferred
+   */
+  groups?: Array<string>
+  /**
    * Whether or not to create a video call for appointments of this type. Defaults to
    * false.
    */
@@ -284,6 +370,11 @@ export type AppointmentTypeUpdateParamsColor =
   | 'red'
   | 'orange'
   | 'purple'
+export type AppointmentTypeUpdateParamsRoutingStrategy =
+  | 'care_team_required'
+  | 'care_team_preferred'
+  | 'care_team_hybrid'
+  | 'round_robin'
 
 export interface AppointmentTypeUpdateParams {
   /**
@@ -368,6 +459,43 @@ export interface AppointmentTypeUpdateParams {
    * minutes.
    */
   minimum_notice?: number
+  /**
+   * Defines how an incoming slot availability query for the appointment type should
+   * be routed to possible users. Because of the complexity in routing, it's best
+   * explained by example. Assume you have created an appointment type that can be
+   * fulfilled by users in the Physicians group. The behavior of each routing
+   * strategy is as follows:
+   *
+   * - care_team_required - Appointment slots will only be shown for Physicians who
+   * are on the member's care team. If there are   no Physicians on the member's care
+   * team, the request will fail.
+   *
+   * - care_team_preferred - Appointment slots will be shown for all Physicians on
+   * the member's care team, if there are any. If   there are no Physicians on the
+   * member's care team, slots will be shown for all Physicians.
+   *
+   * - care_team_hybrid - Appointment slots will be shown for all users in the
+   * Physicians group. For any given appointment slot,   if a Physician of the
+   * member's care team is available, they will be preferred. However, slots for
+   * other Physicians will   still be shown.
+   *
+   * - round_robin - Appointment slots will be shown for all users in the Physicians
+   * group, and no preference will be given to   users who are also on the member's
+   * care team.
+   *
+   * By default, Source uses the care_team_preferred strategy to provide continuity
+   * of care and ensure patients have a consistent experience. However, this is not
+   * always the right booking strategy for all practices. In fact, even for a single
+   * practice, you may sometimes need to reach for another routing method.
+   *
+   * If you have a need for a routing model that isn't covered above, please don't
+   * hesitate to reach out to our team.
+   */
+  routing_strategy?: AppointmentTypeUpdateParamsRoutingStrategy
+  /**
+   * care_team_preferred
+   */
+  groups?: Array<string>
   /**
    * Whether or not to create a video call for appointments of this type. Defaults to
    * false.

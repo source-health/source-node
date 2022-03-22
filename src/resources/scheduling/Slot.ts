@@ -141,35 +141,9 @@ export interface SlotListParams {
    */
   exclude_participants?: Array<SlotListParamsExcludeParticipant>
   /**
-   * Defines how an incoming slot availability query should be routed to possible
-   * users. Because of the complexity in routing, it's best explained by example.
-   * Assume you have created an appointment type that can be fulfilled by users in
-   * the Physicians group. The behavior of each routing strategy is as follows:
-   *
-   * - care_team_required - Appointment slots will only be shown for Physicians who
-   * are on the member's care team. If there are no   Physicians on the member's care
-   * team, the request will fail.
-   *
-   * - care_team_preferred - Appointment slots will be shown for all Physicians on
-   * the member's care team, if there are any. If there   are no Physicians on the
-   * member's care team, slots will be shown for all Physicians.
-   *
-   * - care_team_hybrid - Appointment slots will be shown for all users in the
-   * Physicians group. For any given appointment slot, if a   Physician of the
-   * member's care team is available, they will be preferred. However, slots for
-   * other Physicians will still be shown.
-   *
-   * - round_robin - Appointment slots will be shown for all users in the Physicians
-   * group, and no preference will be given to users   who are also on the member's
-   * care team.
-   *
-   * By default, Source uses the care_team_preferred strategy to provide continuity
-   * of care and ensure patients have a consistent experience. However, this is not
-   * always the right booking strategy for all practices. In fact, even for a single
-   * practice, you may sometimes need to reach for another routing method.
-   *
-   * If you have a need for a routing model that isn't covered above, please don't
-   * hesitate to reach out to our team.
+   * Overrides the routing strategy configured on the appointment type. For more
+   * information about the available routing strategies and how they work, see the
+   * [Appointment Type](/docs/api/reference/appointment-type/) documentation.
    */
   routing_strategy?: SlotListParamsRoutingStrategy
   /**
