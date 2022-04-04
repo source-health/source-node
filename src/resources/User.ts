@@ -48,6 +48,13 @@ export interface User {
    */
   time_zone: string
   /**
+   * Whether or not the user is a licensed clinician. By default, this is set to
+   * false. If set to true, note that the user should have licenses configured to be
+   * able to perform workflows that require licensure. For example, licensure may be
+   * required to receive certain tasks and appointments.
+   */
+  licensed: boolean
+  /**
    * The groups for this user, which must reference groups that exist in your
    * account. A user can be a member of up to 20 groups.
    */
@@ -192,6 +199,13 @@ export interface UserCreateParams {
    */
   time_zone?: string
   /**
+   * Whether or not the user is a licensed clinician. By default, this is set to
+   * false. If set to true, note that the user should have licenses configured to be
+   * able to perform workflows that require licensure. For example, licensure may be
+   * required to receive certain tasks and appointments.
+   */
+  licensed?: boolean
+  /**
    * The groups for this user, which must reference groups that exists in your
    * account. A user can be a member of  up to 20 groups.
    */
@@ -246,6 +260,13 @@ export interface UserUpdateParams {
    * of the context of a browser (such as an email).
    */
   time_zone?: string
+  /**
+   * Whether or not the user is a licensed clinician. By default, this is set to
+   * false. If set to true, note that the user should have licenses configured to be
+   * able to perform workflows that require licensure. For example, licensure may be
+   * required to receive certain tasks and appointments.
+   */
+  licensed?: boolean
   /**
    * The groups for this user, which must reference groups that exists in your
    * account. A user can be a member of  up to 20 groups.

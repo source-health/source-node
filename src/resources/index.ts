@@ -6,6 +6,7 @@ import { CareTeamRoleResource } from './CareTeamRole'
 import { EventResource } from './Event'
 import { FileResource } from './File'
 import { GroupResource } from './Group'
+import { LicenseResource } from './License'
 import { MemberResource } from './Member'
 import { QueueResource } from './Queue'
 import { TaskResource } from './Task'
@@ -29,6 +30,7 @@ export const allResources = resourceNamespace({
   events: resourceFactory(EventResource),
   files: resourceFactory(FileResource),
   groups: resourceFactory(GroupResource),
+  licenses: resourceFactory(LicenseResource),
   members: resourceFactory(MemberResource),
   queues: resourceFactory(QueueResource),
   tasks: resourceFactory(TaskResource),
@@ -58,6 +60,7 @@ export * from './CareTeamRole'
 export * from './Event'
 export * from './File'
 export * from './Group'
+export * from './License'
 export * from './Member'
 export * from './Product'
 export * from './Queue'

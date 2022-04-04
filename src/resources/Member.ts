@@ -177,6 +177,11 @@ export interface Member {
    */
   profile_image: Expandable<File> | null
   /**
+   * Licensing region the member is located within.        This is represented as an
+   * ISO-3166-2:US code and always matches the region of the member's address.
+   */
+  license_region: string | null
+  /**
    * Timestamp of when the member was created.
    */
   created_at: string

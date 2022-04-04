@@ -18,6 +18,17 @@ export type AppointmentTypeRoutingStrategy =
   | 'care_team_hybrid'
   | 'round_robin'
 
+export interface AppointmentTypeLicenseCode {
+  /**
+   * The license code.
+   */
+  code: string
+  /**
+   * Full description of the license code
+   */
+  description: string
+}
+
 export interface AppointmentType {
   /**
    * Always `appointment_type`.
@@ -124,9 +135,10 @@ export interface AppointmentType {
    * are on the member's care team. If there are   no Physicians on the member's care
    * team, the request will fail.
    *
-   * - care_team_preferred - Appointment slots will be shown for all Physicians on
-   * the member's care team, if there are any. If   there are no Physicians on the
-   * member's care team, slots will be shown for all Physicians.
+   * - care_team_preferred - Appointment slots will be shown for any Physicians on
+   * the member's care team.    If the Physicians on the care team aren't available,
+   * slots will not be returned.    If there are no Physicians on the member's care
+   * team, then slots will be returned for any available Physician.
    *
    * - care_team_hybrid - Appointment slots will be shown for all users in the
    * Physicians group. For any given appointment slot,   if a Physician of the
@@ -147,9 +159,26 @@ export interface AppointmentType {
    */
   routing_strategy: AppointmentTypeRoutingStrategy
   /**
-   * care_team_preferred
+   * Select the groups that should be evaluated when booking an appointment. If no
+   * group is specified, you will not be able to use the appointment slot API to find
+   * bookable slots. When using the appointment slot API, you can specify more
+   * specific users and groups. For example, if your appointment type is linked to
+   * the group "Physicians," and when calling the slot API you provide an include
+   * parameter for the group "Nurses," you only receive available slots for users who
+   * are in both the Physicians and Nurses group.
    */
   groups: Array<Expandable<Group>>
+  /**
+   * The user license(s) that are required to perform appointments of this type. When
+   * looking for appointment slots, only the  availability of licensed users will be
+   * returned. When booking an appointment without the skip_constraints parameter,
+   * any  licensed user must have a matching license type, otherwise a warning will
+   * be returned. If more than one license code is  provided, a licensed user with
+   * any of the license codes can participate in the appointment.  Providing any
+   * value will override the entire array. Providing null or an empty array will
+   * empty out the array.
+   */
+  license_codes: Array<AppointmentTypeLicenseCode>
   /**
    * Timestamp when the appointment type was created.
    */
@@ -233,6 +262,10 @@ export type AppointmentTypeCreateParamsRoutingStrategy =
   | 'care_team_preferred'
   | 'care_team_hybrid'
   | 'round_robin'
+
+export interface AppointmentTypeCreateParamsLicenseCode {
+  code: string
+}
 
 export interface AppointmentTypeCreateParams {
   /**
@@ -328,9 +361,10 @@ export interface AppointmentTypeCreateParams {
    * are on the member's care team. If there are   no Physicians on the member's care
    * team, the request will fail.
    *
-   * - care_team_preferred - Appointment slots will be shown for all Physicians on
-   * the member's care team, if there are any. If   there are no Physicians on the
-   * member's care team, slots will be shown for all Physicians.
+   * - care_team_preferred - Appointment slots will be shown for any Physicians on
+   * the member's care team.    If the Physicians on the care team aren't available,
+   * slots will not be returned.    If there are no Physicians on the member's care
+   * team, then slots will be returned for any available Physician.
    *
    * - care_team_hybrid - Appointment slots will be shown for all users in the
    * Physicians group. For any given appointment slot,   if a Physician of the
@@ -351,9 +385,26 @@ export interface AppointmentTypeCreateParams {
    */
   routing_strategy?: AppointmentTypeCreateParamsRoutingStrategy
   /**
-   * care_team_preferred
+   * Select the groups that should be evaluated when booking an appointment. If no
+   * group is specified, you will not be able to use the appointment slot API to find
+   * bookable slots. When using the appointment slot API, you can specify more
+   * specific users and groups. For example, if your appointment type is linked to
+   * the group "Physicians," and when calling the slot API you provide an include
+   * parameter for the group "Nurses," you only receive available slots for users who
+   * are in both the Physicians and Nurses group.
    */
   groups?: Array<string>
+  /**
+   * The user license(s) that are required to perform appointments of this type. When
+   * looking for appointment slots, only the  availability of licensed users will be
+   * returned. When booking an appointment without the skip_constraints parameter,
+   * any  licensed user must have a matching license type, otherwise a warning will
+   * be returned. If more than one license code is  provided, a licensed user with
+   * any of the license codes can participate in the appointment.  Providing any
+   * value will override the entire array. Providing null or an empty array will
+   * empty out the array.
+   */
+  license_codes?: Array<AppointmentTypeCreateParamsLicenseCode> | null
   /**
    * Whether or not to create a video call for appointments of this type. Defaults to
    * false.
@@ -375,6 +426,10 @@ export type AppointmentTypeUpdateParamsRoutingStrategy =
   | 'care_team_preferred'
   | 'care_team_hybrid'
   | 'round_robin'
+
+export interface AppointmentTypeUpdateParamsLicenseCode {
+  code: string
+}
 
 export interface AppointmentTypeUpdateParams {
   /**
@@ -470,9 +525,10 @@ export interface AppointmentTypeUpdateParams {
    * are on the member's care team. If there are   no Physicians on the member's care
    * team, the request will fail.
    *
-   * - care_team_preferred - Appointment slots will be shown for all Physicians on
-   * the member's care team, if there are any. If   there are no Physicians on the
-   * member's care team, slots will be shown for all Physicians.
+   * - care_team_preferred - Appointment slots will be shown for any Physicians on
+   * the member's care team.    If the Physicians on the care team aren't available,
+   * slots will not be returned.    If there are no Physicians on the member's care
+   * team, then slots will be returned for any available Physician.
    *
    * - care_team_hybrid - Appointment slots will be shown for all users in the
    * Physicians group. For any given appointment slot,   if a Physician of the
@@ -493,9 +549,26 @@ export interface AppointmentTypeUpdateParams {
    */
   routing_strategy?: AppointmentTypeUpdateParamsRoutingStrategy
   /**
-   * care_team_preferred
+   * Select the groups that should be evaluated when booking an appointment. If no
+   * group is specified, you will not be able to use the appointment slot API to find
+   * bookable slots. When using the appointment slot API, you can specify more
+   * specific users and groups. For example, if your appointment type is linked to
+   * the group "Physicians," and when calling the slot API you provide an include
+   * parameter for the group "Nurses," you only receive available slots for users who
+   * are in both the Physicians and Nurses group.
    */
   groups?: Array<string>
+  /**
+   * The user license(s) that are required to perform appointments of this type. When
+   * looking for appointment slots, only the  availability of licensed users will be
+   * returned. When booking an appointment without the skip_constraints parameter,
+   * any  licensed user must have a matching license type, otherwise a warning will
+   * be returned. If more than one license code is  provided, a licensed user with
+   * any of the license codes can participate in the appointment.  Providing any
+   * value will override the entire array. Providing null or an empty array will
+   * empty out the array.
+   */
+  license_codes?: Array<AppointmentTypeUpdateParamsLicenseCode> | null
   /**
    * Whether or not to create a video call for appointments of this type. Defaults to
    * false.

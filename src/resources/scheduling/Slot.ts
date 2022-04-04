@@ -83,6 +83,15 @@ export interface SlotListParams {
    */
   member?: string
   /**
+   * Region of the member for whom the appointment is being booked. This is
+   * represented as an ISO-3166-2:US code. You can use this parameter when finding
+   * slots when you don't yet have a member or if the member's address is missing. If
+   * a member with an address is specified or inferred (using a member token), this
+   * parameter should not be used and fails if the license_region does not match that
+   * of the member.
+   */
+  license_region?: string
+  /**
    * The start time for the availability search. You may provide a fully qualified
    * timestamp at any point throughout the day. Note that Source always begins
    * computing slots at midnight, so the first available slot may not align with the
