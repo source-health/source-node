@@ -60,7 +60,7 @@ export interface Availability {
    */
   id: string
   /**
-   * User to whom this availabilty schedule corresponds. At this time, each user can
+   * User to whom this availability schedule corresponds. At this time, each user can
    * only have one availability schedule, and it's automatically created by Source.
    */
   user: Expandable<User>
@@ -176,7 +176,7 @@ export class AvailabilityResource extends Resource {
    *
    * Each user in Source has an availability schedule created for them by default.
    * The availability schedules are unique for each environment, so test and live
-   * mode will have different availabilty objects.
+   * mode will have different availability objects.
    */
   public retrieveForUser(user: string, options?: SourceRequestOptions): Promise<Availability> {
     return this.source.request('GET', `/v1/users/${user}/availability`, {

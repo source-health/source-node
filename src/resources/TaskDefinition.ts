@@ -5,6 +5,17 @@ import { CareTeamRole } from './CareTeamRole'
 import { Queue } from './Queue'
 import { Expandable } from './shared'
 
+export interface TaskDefinitionLicenseCode {
+  /**
+   * The license code.
+   */
+  code: string
+  /**
+   * Full description of the license code
+   */
+  description: string
+}
+
 export interface TaskDefinition {
   /**
    * Always `task_definition`.
@@ -36,6 +47,14 @@ export interface TaskDefinition {
    * remain unassigned.
    */
   care_team_role: Expandable<CareTeamRole> | null
+  /**
+   * The user license(s) that are required to perform tasks of this type. Automatic
+   * task routing by Source respects licensing.  If more than one license code is
+   * provided, a licensed user with any of the license codes can perform this task.
+   * Providing any value will override the entire array. Providing null or an empty
+   * array will empty out the array.
+   */
+  license_codes: Array<TaskDefinitionLicenseCode>
   /**
    * Timestamp of when the task definition was created.
    */
@@ -95,6 +114,10 @@ export interface TaskDefinitionListParams {
   queue?: Array<string>
 }
 
+export interface TaskDefinitionCreateParamsLicenseCode {
+  code: string
+}
+
 export interface TaskDefinitionCreateParams {
   /**
    * Globally unique identifier of the task definition
@@ -118,6 +141,18 @@ export interface TaskDefinitionCreateParams {
    * assignment will remain unassigned.
    */
   care_team_role?: string | null
+  /**
+   * The user license(s) that are required to perform tasks of this type. Automatic
+   * task routing by Source respects licensing.  If more than one license code is
+   * provided, a licensed user with any of the license codes can perform this task.
+   * Providing any value will override the entire array. Providing null or an empty
+   * array will empty out the array.
+   */
+  license_codes?: Array<TaskDefinitionCreateParamsLicenseCode> | null
+}
+
+export interface TaskDefinitionUpdateParamsLicenseCode {
+  code: string
 }
 
 export interface TaskDefinitionUpdateParams {
@@ -143,6 +178,14 @@ export interface TaskDefinitionUpdateParams {
    * assignment will remain unassigned.
    */
   care_team_role?: string | null
+  /**
+   * The user license(s) that are required to perform tasks of this type. Automatic
+   * task routing by Source respects licensing.  If more than one license code is
+   * provided, a licensed user with any of the license codes can perform this task.
+   * Providing any value will override the entire array. Providing null or an empty
+   * array will empty out the array.
+   */
+  license_codes?: Array<TaskDefinitionUpdateParamsLicenseCode> | null
 }
 
 export class TaskDefinitionResource extends Resource {
