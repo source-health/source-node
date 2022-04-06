@@ -18,13 +18,13 @@ export type AppointmentTypeRoutingStrategy =
   | 'care_team_hybrid'
   | 'round_robin'
 
-export interface AppointmentTypeLicenseCode {
+export interface AppointmentTypeLicenseType {
   /**
-   * The license code.
+   * Code for the license type.
    */
   code: string
   /**
-   * Full description of the license code
+   * Full description of the license type.
    */
   description: string
 }
@@ -178,7 +178,7 @@ export interface AppointmentType {
    * value will override the entire array. Providing null or an empty array will
    * empty out the array.
    */
-  license_codes: Array<AppointmentTypeLicenseCode>
+  license_types: Array<AppointmentTypeLicenseType>
   /**
    * Timestamp when the appointment type was created.
    */
@@ -263,7 +263,7 @@ export type AppointmentTypeCreateParamsRoutingStrategy =
   | 'care_team_hybrid'
   | 'round_robin'
 
-export interface AppointmentTypeCreateParamsLicenseCode {
+export interface AppointmentTypeCreateParamsLicenseType {
   code: string
 }
 
@@ -404,7 +404,7 @@ export interface AppointmentTypeCreateParams {
    * value will override the entire array. Providing null or an empty array will
    * empty out the array.
    */
-  license_codes?: Array<AppointmentTypeCreateParamsLicenseCode> | null
+  license_types?: Array<AppointmentTypeCreateParamsLicenseType> | null
   /**
    * Whether or not to create a video call for appointments of this type. Defaults to
    * false.
@@ -427,7 +427,7 @@ export type AppointmentTypeUpdateParamsRoutingStrategy =
   | 'care_team_hybrid'
   | 'round_robin'
 
-export interface AppointmentTypeUpdateParamsLicenseCode {
+export interface AppointmentTypeUpdateParamsLicenseType {
   code: string
 }
 
@@ -568,7 +568,7 @@ export interface AppointmentTypeUpdateParams {
    * value will override the entire array. Providing null or an empty array will
    * empty out the array.
    */
-  license_codes?: Array<AppointmentTypeUpdateParamsLicenseCode> | null
+  license_types?: Array<AppointmentTypeUpdateParamsLicenseType> | null
   /**
    * Whether or not to create a video call for appointments of this type. Defaults to
    * false.

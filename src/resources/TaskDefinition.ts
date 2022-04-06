@@ -5,13 +5,13 @@ import { CareTeamRole } from './CareTeamRole'
 import { Queue } from './Queue'
 import { Expandable } from './shared'
 
-export interface TaskDefinitionLicenseCode {
+export interface TaskDefinitionLicenseType {
   /**
-   * The license code.
+   * Code for the license type.
    */
   code: string
   /**
-   * Full description of the license code
+   * Full description of the license type.
    */
   description: string
 }
@@ -54,7 +54,7 @@ export interface TaskDefinition {
    * Providing any value will override the entire array. Providing null or an empty
    * array will empty out the array.
    */
-  license_codes: Array<TaskDefinitionLicenseCode>
+  license_types: Array<TaskDefinitionLicenseType>
   /**
    * Timestamp of when the task definition was created.
    */
@@ -114,7 +114,7 @@ export interface TaskDefinitionListParams {
   queue?: Array<string>
 }
 
-export interface TaskDefinitionCreateParamsLicenseCode {
+export interface TaskDefinitionCreateParamsLicenseType {
   code: string
 }
 
@@ -148,10 +148,10 @@ export interface TaskDefinitionCreateParams {
    * Providing any value will override the entire array. Providing null or an empty
    * array will empty out the array.
    */
-  license_codes?: Array<TaskDefinitionCreateParamsLicenseCode> | null
+  license_types?: Array<TaskDefinitionCreateParamsLicenseType> | null
 }
 
-export interface TaskDefinitionUpdateParamsLicenseCode {
+export interface TaskDefinitionUpdateParamsLicenseType {
   code: string
 }
 
@@ -185,7 +185,7 @@ export interface TaskDefinitionUpdateParams {
    * Providing any value will override the entire array. Providing null or an empty
    * array will empty out the array.
    */
-  license_codes?: Array<TaskDefinitionUpdateParamsLicenseCode> | null
+  license_types?: Array<TaskDefinitionUpdateParamsLicenseType> | null
 }
 
 export class TaskDefinitionResource extends Resource {

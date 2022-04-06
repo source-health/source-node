@@ -4,13 +4,13 @@ import { SourceRequestOptions } from '../SourceClient'
 import { User } from './User'
 import { Expandable } from './shared'
 
-export interface LicenseCode {
+export interface LicenseType {
   /**
-   * The license code.
+   * Code for the license type.
    */
   code: string
   /**
-   * Full description of the license code
+   * Full description of the license type.
    */
   description: string
 }
@@ -31,9 +31,9 @@ export interface License {
    */
   user: Expandable<User>
   /**
-   * Code describing the license type.
+   * The license type.
    */
-  code: LicenseCode
+  type: LicenseType
   /**
    * Region the license is associated with. This is represented as an ISO-3166-2:US
    * code
@@ -110,10 +110,11 @@ export interface LicenseListParams {
    */
   user?: Array<string>
   /**
-   * Filter results by code. If multiple codes are provided, licenses matching any of
-   * the provided codes will be returned.
+   * Filter results by type. The corresponding code for the license type should be
+   * provided. If multiple codes are provided, licenses matching any of the provided
+   * license types will be returned.
    */
-  code?: Array<string>
+  type?: Array<string>
   /**
    * Filter results by region. If multiple regions are provided, licenses matching
    * any of the provided regions will be returned.
@@ -126,7 +127,7 @@ export interface LicenseListParams {
   status?: Array<LicenseListParamsStatus>
 }
 
-export interface LicenseCreateParamsCode {
+export interface LicenseCreateParamsType {
   code: string
 }
 
@@ -138,9 +139,9 @@ export interface LicenseCreateParams {
    */
   user: string
   /**
-   * Code describing the license type.
+   * The license type.
    */
-  code: LicenseCreateParamsCode
+  type: LicenseCreateParamsType
   /**
    * Region the license is associated with. This is represented as an ISO-3166-2:US
    * code
