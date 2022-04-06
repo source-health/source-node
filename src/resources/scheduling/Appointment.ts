@@ -348,7 +348,8 @@ export interface AppointmentCreateParams {
    * By default, Source runs a number of checks to prevent you from creating
    * appointments that seem unsafe. For example, we prevent you from creating
    * appointments that take place in the past, from creating appointments outside of
-   * the bookable window for an appointment type, or from creating appointments
+   * the bookable window for an appointment type, from creating appointments that
+   * require licensure with unlicensed participants, or from creating appointments
    * during which one of the participants has a conflict.
    *
    * When calling the appointments endpoints with your API key, you can override this
@@ -454,7 +455,8 @@ export interface AppointmentUpdateParams {
    * By default, Source runs a number of checks to prevent you from creating
    * appointments that seem unsafe. For example, we prevent you from creating
    * appointments that take place in the past, from creating appointments outside of
-   * the bookable window for an appointment type, or from creating appointments
+   * the bookable window for an appointment type, from creating appointments that
+   * require licensure with unlicensed participants, or from creating appointments
    * during which one of the participants has a conflict.
    *
    * When calling the appointments endpoints with your API key, you can override this
