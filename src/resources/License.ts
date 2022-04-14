@@ -6,11 +6,11 @@ import { Expandable } from './shared'
 
 export interface LicenseType {
   /**
-   * Code for the license type.
+   * Code for the license type. For example, "MD".
    */
   code: string
   /**
-   * Full description of the license type.
+   * Description of the license type. For example, "Doctor of Medcine".
    */
   description: string
 }
@@ -23,20 +23,21 @@ export interface License {
    */
   object: 'license'
   /**
-   * Unique ID for the License.
+   * Unique ID for the license.
    */
   id: string
   /**
-   * User to whom the license belongs to.
+   * User to whom the license belongs.
    */
   user: Expandable<User>
   /**
-   * The license type.
+   * The type of clinical license.  If you have a need for a license type that is not
+   * supported, please don’t hesitate to reach out to Source.
    */
   type: LicenseType
   /**
-   * Region the license is associated with. This is represented as an ISO-3166-2:US
-   * code
+   * Region with which the license is associated.  This is represented as an
+   * ISO-3166-2:US code. For example, "US-NY".
    */
   region: string
   /**
@@ -135,16 +136,17 @@ export type LicenseCreateParamsStatus = 'active' | 'inactive'
 
 export interface LicenseCreateParams {
   /**
-   * User to whom the license belongs to.
+   * User to whom the license belongs.
    */
   user: string
   /**
-   * The license type.
+   * The type of clinical license.  If you have a need for a license type that is not
+   * supported, please don’t hesitate to reach out to Source.
    */
   type: LicenseCreateParamsType
   /**
-   * Region the license is associated with. This is represented as an ISO-3166-2:US
-   * code
+   * Region with which the license is associated.  This is represented as an
+   * ISO-3166-2:US code. For example, "US-NY".
    */
   region: string
   /**

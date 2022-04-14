@@ -28,7 +28,7 @@ export interface Task {
    */
   object: 'task'
   /**
-   * Unique ID for the Task.
+   * Unique ID for the task.
    */
   id: string
   /**
@@ -71,6 +71,12 @@ export interface Task {
    * in the interface, the value of this property will be `direct`.
    */
   assignment_method: TaskAssignmentMethod
+  /**
+   * Whether or not the task is managed automatically by Source. If a task is
+   * managed, only Source can resolve or create the task. You can still update other
+   * properties of the task."
+   */
+  managed: boolean
   /**
    * Timestamp of when the task was created.
    */
@@ -319,7 +325,9 @@ export class TaskResource extends Resource {
 
   /**
    * Creates a new task and registers it with Source. Once a task is created you
-   * cannot update the definition or member associated with that task.
+   * cannot update the definition or member associated with that task. Note that you
+   * cannot create a task using system-managed task definitions (those with keys
+   * starting with system).
    */
   public create(params: TaskCreateParams, options?: SourceRequestOptions): Promise<Task> {
     return this.source.request('POST', '/v1/tasks', {
@@ -343,7 +351,8 @@ export class TaskResource extends Resource {
    * Updates the specified task by setting the values of the parameters passed.
    *
    * Any parameters not provided will be left unchanged. For example, if you pass the
-   * assignee parameter, that assigns the task to the given user.
+   * assignee parameter, that assigns the task to the given user. Note that you
+   * cannot resolve system-managed tasks (those with `managed` set to `true`).
    */
   public update(
     id: string,

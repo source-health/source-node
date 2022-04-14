@@ -19,7 +19,7 @@ export interface Queue {
    */
   object: 'queue'
   /**
-   * Unique ID for the Queue.
+   * Unique ID for the queue.
    */
   id: string
   /**

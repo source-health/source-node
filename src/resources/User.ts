@@ -15,7 +15,7 @@ export interface User {
    */
   object: 'user'
   /**
-   * Unique ID for the User.
+   * Unique ID for the user.
    */
   id: string
   /**

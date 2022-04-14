@@ -61,7 +61,7 @@ export interface Appointment {
    */
   object: 'appointment'
   /**
-   * Unique ID for the Appointment.
+   * Unique ID for the appointment.
    */
   id: string
   /**

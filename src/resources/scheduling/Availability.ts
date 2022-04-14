@@ -56,7 +56,7 @@ export interface Availability {
    */
   object: 'availability'
   /**
-   * Unique ID for the Availability.
+   * Unique ID for the availability.
    */
   id: string
   /**
