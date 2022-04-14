@@ -20,11 +20,11 @@ export type AppointmentTypeRoutingStrategy =
 
 export interface AppointmentTypeLicenseType {
   /**
-   * Code for the license type.
+   * Code for the license type. For example, "MD".
    */
   code: string
   /**
-   * Full description of the license type.
+   * Description of the license type. For example, "Doctor of Medcine".
    */
   description: string
 }
@@ -35,7 +35,7 @@ export interface AppointmentType {
    */
   object: 'appointment_type'
   /**
-   * Unique ID for the Appointment Type.
+   * Unique ID for the appointment type.
    */
   id: string
   /**
