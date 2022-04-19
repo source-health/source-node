@@ -80,7 +80,7 @@ export default class NodeHttpClient implements HttpAdapter {
           } catch (ex) {
             if (this.options.dangerouslyLogRequestExceptions) {
               // eslint-disable-next-line no-console
-              console.error('Failed to resolve data, we caught this error:', ex, data)
+              console.error('Failed to resolve data, Source caught this error:', ex, data)
             }
 
             reject(
