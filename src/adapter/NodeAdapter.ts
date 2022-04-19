@@ -11,6 +11,13 @@ export interface NodeHttpClientOptions {
    * Default agent to use for requests. Must match the protocol.
    */
   readonly agent?: http.Agent | https.Agent | null
+
+  /**
+   * Setting this to true will cause the adapter to log failed requests. This
+   * can be helpful in decoding 'invalid_response' errors, but should not
+   * generally be used in production.
+   */
+  readonly dangerouslyLogRequestExceptions?: boolean
 }
 
 export default class NodeHttpClient implements HttpAdapter {
@@ -57,9 +64,10 @@ export default class NodeHttpClient implements HttpAdapter {
 
         res.on('end', () => {
           try {
-            const parsed = JSON.parse(data) // eslint-disable-line
+            const parsed = JSON.parse(data) as T & { object: string } // eslint-disable-line
 
-            if (parsed.object === 'error') { // eslint-disable-line
+            if (parsed.object === 'error') {
+              // eslint-disable-line
               reject(SourceError.from(parsed))
               return
             }
@@ -67,9 +75,14 @@ export default class NodeHttpClient implements HttpAdapter {
             resolve({
               status: res.statusCode ?? 0,
               headers: res.headers,
-              data: parsed as T,
+              data: parsed,
             })
           } catch (ex) {
+            if (this.options.dangerouslyLogRequestExceptions) {
+              // eslint-disable-next-line no-console
+              console.error('Failed to resolve data, we caught this error:', ex, data)
+            }
+
             reject(
               new SourceError({
                 type: 'client_error',
