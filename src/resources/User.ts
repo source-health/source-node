@@ -60,13 +60,13 @@ export interface User {
    */
   groups: Array<Expandable<Group>>
   /**
-   * Care team role for this user, which must reference a role that exists in live
-   * mode. Only users with a care team role can be added to a member's care team.
+   * Care team roles should no longer be used, and Source will be removing care team
+   * roles in the future. Use groups instead.
    */
   live_care_team_role: Expandable<CareTeamRole> | null
   /**
-   * Care team role for this user, which must reference a role that exists in test
-   * mode. Only users with a care team role can be added to a member's care team.
+   * Care team roles should no longer be used, and Source will be removing care team
+   * roles in the future. Use groups instead.
    */
   test_care_team_role: Expandable<CareTeamRole> | null
   /**
@@ -211,13 +211,13 @@ export interface UserCreateParams {
    */
   groups?: Array<string>
   /**
-   * Care team role for this user, which must reference a role that exists in live
-   * mode. Only users with a care team role can be added to a member's care team.
+   * Care team roles should no longer be used, and Source will be removing care team
+   * roles in the future. Use groups instead.
    */
   live_care_team_role?: string | null
   /**
-   * Care team role for this user, which must reference a role that exists in test
-   * mode. Only users with a care team role can be added to a member's care team.
+   * Care team roles should no longer be used, and Source will be removing care team
+   * roles in the future. Use groups instead.
    */
   test_care_team_role?: string | null
   /**
@@ -273,13 +273,13 @@ export interface UserUpdateParams {
    */
   groups?: Array<string>
   /**
-   * Care team role for this user, which must reference a role that exists in live
-   * mode. Only users with a care team role can be added to a member's care team.
+   * Care team roles should no longer be used, and Source will be removing care team
+   * roles in the future. Use groups instead.
    */
   live_care_team_role?: string | null
   /**
-   * Care team role for this user, which must reference a role that exists in test
-   * mode. Only users with a care team role can be added to a member's care team.
+   * Care team roles should no longer be used, and Source will be removing care team
+   * roles in the future. Use groups instead.
    */
   test_care_team_role?: string | null
   /**
