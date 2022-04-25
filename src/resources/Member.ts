@@ -5,7 +5,6 @@ import { CareTeam } from './CareTeam'
 import { File } from './File'
 import { Expandable } from './shared'
 
-export type MemberBiologicalSex = 'male' | 'female' | 'non_binary' | 'undisclosed'
 export type MemberSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
 export type MemberAdministrativeGender = 'male' | 'female' | 'other'
 export type MemberGenderIdentityValue =
@@ -128,19 +127,9 @@ export interface Member {
    */
   time_zone: string | null
   /**
-   * Biological sex of the member. This property should no longer be used, and
-   * `sex_at_birth` or `gender_identity` should be preferred going forward, depending
-   * on the use case. Source will be removing this property in the future.
-   */
-  biological_sex: MemberBiologicalSex
-  /**
    * Sex assigned and recorded on the birth certificate at the time of the
    * individual's birth. This information is often clinically useful, but is not
    * necessarily indicative of the individual's gender identity.
-   *
-   * For backwards compatibility reasons, both `biological_sex` and `sex_at_birth`
-   * are supported inputs. If both `biological_sex` and `sex_at_birth` are provided,
-   * `sex_at_birth` is used.
    */
   sex_at_birth: MemberSexAtBirth
   /**
@@ -177,7 +166,7 @@ export interface Member {
    */
   profile_image: Expandable<File> | null
   /**
-   * Licensing region the member is located within.        This is represented as an
+   * Licensing region the member is located within.       This is represented as an
    * ISO-3166-2:US code and always matches the region of the member's address.
    */
   license_region: string | null
@@ -348,10 +337,6 @@ export interface MemberCreateParams {
    * Sex assigned and recorded on the birth certificate at the time of the
    * individual's birth. This information is often clinically useful, but is not
    * necessarily indicative of the individual's gender identity.
-   *
-   * For backwards compatibility reasons, both `biological_sex` and `sex_at_birth`
-   * are supported. If both `biological_sex` and `sex_at_birth` are provided,
-   * `sex_at_birth` is used.
    */
   sex_at_birth: MemberCreateParamsSexAtBirth
   /**
@@ -503,10 +488,6 @@ export interface MemberUpdateParams {
    * Sex assigned and recorded on the birth certificate at the time of the
    * individual's birth. This information is often clinically useful, but is not
    * necessarily indicative of the individual's gender identity.
-   *
-   * For backwards compatibility reasons, both `biological_sex` and `sex_at_birth`
-   * are supported. If both `biological_sex` and `sex_at_birth` are provided,
-   * `sex_at_birth` is used.
    */
   sex_at_birth?: MemberUpdateParamsSexAtBirth
   /**

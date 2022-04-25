@@ -42,9 +42,8 @@ export interface TaskDefinition {
    */
   queue: Expandable<Queue> | null
   /**
-   * The default care team role that tasks should be assigned to. If no role is set
-   * on the task definition, any tasks created without explicit assignment will
-   * remain unassigned.
+   * Care team roles should no longer be used, and Source will be removing care team
+   * roles in the future. Use queues instead.
    */
   care_team_role: Expandable<CareTeamRole> | null
   /**
@@ -142,9 +141,8 @@ export interface TaskDefinitionCreateParams {
    */
   queue?: string | null
   /**
-   * The ID of the care team role that tasks should be assigned to be default. If no
-   * role is set on the task definition, any tasks created without explicit
-   * assignment will remain unassigned.
+   * Care team roles should no longer be used, and Source will be removing care team
+   * roles in the future. Use queues instead.
    */
   care_team_role?: string | null
   /**
@@ -179,9 +177,8 @@ export interface TaskDefinitionUpdateParams {
    */
   queue?: string | null
   /**
-   * The ID of the care team role that tasks should be assigned to be default. If no
-   * role is set on the task definition, any tasks created without explicit
-   * assignment will remain unassigned.
+   * Care team roles should no longer be used, and Source will be removing care team
+   * roles in the future. Use queues instead.
    */
   care_team_role?: string | null
   /**
