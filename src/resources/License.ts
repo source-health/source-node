@@ -31,12 +31,12 @@ export interface License {
    */
   user: Expandable<User>
   /**
-   * The type of clinical license.  If you have a need for a license type that is not
+   * The type of clinical license. If you have a need for a license type that is not
    * supported, please don’t hesitate to reach out to Source.
    */
   type: LicenseType
   /**
-   * Region with which the license is associated.  This is represented as an
+   * Region with which the license is associated. This is represented as an
    * ISO-3166-2:US code. For example, "US-NY".
    */
   region: string
@@ -140,12 +140,12 @@ export interface LicenseCreateParams {
    */
   user: string
   /**
-   * The type of clinical license.  If you have a need for a license type that is not
+   * The type of clinical license. If you have a need for a license type that is not
    * supported, please don’t hesitate to reach out to Source.
    */
   type: LicenseCreateParamsType
   /**
-   * Region with which the license is associated.  This is represented as an
+   * Region with which the license is associated. This is represented as an
    * ISO-3166-2:US code. For example, "US-NY".
    */
   region: string

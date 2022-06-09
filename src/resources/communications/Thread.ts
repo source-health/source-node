@@ -2,8 +2,9 @@ import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
 import { File } from '../File'
 import { Member } from '../Member'
+import { ThreadStatus } from '../ThreadStatus'
 import { User } from '../User'
-import { Expandable, ThreadStatus } from '../shared'
+import { Expandable } from '../shared'
 
 export type ThreadLastMessageAttachmentType = 'file' | 'link'
 
@@ -56,6 +57,10 @@ export interface ThreadLastMessage {
    * The time at which this message was sent.
    */
   sent_at: string
+  /**
+   * The time at which this message redacted.
+   */
+  redacted_at: string | null
 }
 
 export interface Thread {
@@ -214,6 +219,8 @@ export interface ThreadCreateParamsMessageAttachment {
   metadata?: Record<string, unknown>
 }
 
+export type ThreadCreateParamsMessageSender = string
+
 export interface ThreadCreateParamsMessage {
   /**
    * Contents of the message to send.
@@ -229,9 +236,16 @@ export interface ThreadCreateParamsMessage {
   attachments?: Array<ThreadCreateParamsMessageAttachment>
   /**
    * When calling this endpoint with an API key, you must use this field to specify
-   * the user on whose behalf the message is sent.
+   * the user or member on whose behalf the message is sent.
    */
-  sender?: string
+  sender?: ThreadCreateParamsMessageSender
+  /**
+   * The time at which this message was sent.  When calling this endpoint with an API
+   * key you can optionally specify the sent_at time, such as when backloading
+   * historical messages.  By default and when called as a user or a member, the
+   * current time is used.
+   */
+  sent_at?: string
 }
 
 export interface ThreadCreateParams {

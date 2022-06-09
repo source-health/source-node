@@ -3,10 +3,12 @@ import { SourceRequestOptions } from '../../SourceClient'
 import { User } from '../User'
 import { Expandable } from '../shared'
 
+import { AppointmentType } from './AppointmentType'
+
 export interface AvailabilityRule {
   /**
    * The day of the week to which this rule applies, as an ISO day of week. The value
-   * of this property must be  a number from 1 to 7, where 1 represents Monday, and 7
+   * of this property must be a number from 1 to 7, where 1 represents Monday, and 7
    * represents Sunday.
    */
   day: number
@@ -23,6 +25,17 @@ export interface AvailabilityRule {
    * day.
    */
   end: string
+  /**
+   * An optional set of appointment types that this availability rule is restricted
+   * to. Only appointments of the specified types are bookable during the period of
+   * this rule. Omitting this field or providing an empty array implies the rule can
+   * accommodate booking any appointment type.
+   *
+   * Rules are additive - when rules with different appointment type restrictions
+   * overlap in time, the set of all allowed appointment types in all overlapping
+   * rules may be booked during the overlap.
+   */
+  appointment_types: Array<Expandable<AppointmentType>>
 }
 
 export interface AvailabilityOverrideRule {
@@ -39,6 +52,17 @@ export interface AvailabilityOverrideRule {
    * day.
    */
   end: string
+  /**
+   * An optional set of appointment types that this override rule is restricted to.
+   * Only appointments of the specified types are bookable during the period of this
+   * override. Omitting this field or providing an empty array implies the override
+   * can accommodate booking any appointment type.
+   *
+   * Appointment type constraints are additive - when overrides with different
+   * appointment type restrictions overlap in time, the set of all allowed
+   * appointment types in all overlapping rules may be booked during the overlap.
+   */
+  appointment_types: Array<Expandable<AppointmentType>>
 }
 
 export interface AvailabilityOverride {
@@ -67,7 +91,7 @@ export interface Availability {
   /**
    * The IANA time zone identifier in which this schedule should be interpreted. A
    * time zone must be provided, but can be set to UTC. All times in a user's
-   * availability schedule are considered to be in "local" time, so they  are
+   * availability schedule are considered to be in "local" time, so they are
    * impossible to interpret without a time zone.
    *
    * Note that while availability schedules have a time zone field on them for
@@ -80,10 +104,11 @@ export interface Availability {
   time_zone: string
   /**
    * The list of rules for this person's availability. Each rule defines a day of
-   * week, start time, and end time of the rule. There may be multiple rules for a
-   * single day of the week. When that happens, the rules represent multiple blocks
-   * of times that the user is available in a given day. For example, you may be
-   * available from 9am-12pm, break for lunch, and then be available 1pm-5pm.
+   * week, start and end time, and an optional array of appointment types to which
+   * the rule applies. There may be multiple rules for a single day of the week. When
+   * that happens, the rules represent multiple blocks of times that the user is
+   * available in a given day. For example, you may be available from 9am-12pm, break
+   * for lunch, and then be available 1pm-5pm.
    */
   rules: Array<AvailabilityRule>
   /**
@@ -106,7 +131,7 @@ export interface Availability {
 export interface AvailabilityUpdateForUserParamsRule {
   /**
    * The day of the week to which this rule applies, as an ISO day of week. The value
-   * of this property must be  a number from 1 to 7, where 1 represents Monday, and 7
+   * of this property must be a number from 1 to 7, where 1 represents Monday, and 7
    * represents Sunday.
    */
   day: number
@@ -123,6 +148,17 @@ export interface AvailabilityUpdateForUserParamsRule {
    * day.
    */
   end: string
+  /**
+   * An optional set of appointment types that this availability rule is restricted
+   * to. Only appointments of the specified types are bookable during the period of
+   * this rule. Omitting this field or providing an empty array implies the rule can
+   * accommodate booking any appointment type.
+   *
+   * Rules are additive - when rules with different appointment type restrictions
+   * overlap in time, the set of all allowed appointment types in all overlapping
+   * rules may be booked during the overlap.
+   */
+  appointment_types?: Array<string>
 }
 
 export interface AvailabilityUpdateForUserParamsOverrideRule {
@@ -139,6 +175,17 @@ export interface AvailabilityUpdateForUserParamsOverrideRule {
    * day.
    */
   end: string
+  /**
+   * An optional set of appointment types that this override rule is restricted to.
+   * Only appointments of the specified types are bookable during the period of this
+   * override. Omitting this field or providing an empty array implies the override
+   * can accommodate booking any appointment type.
+   *
+   * Appointment type constraints are additive - when overrides with different
+   * appointment type restrictions overlap in time, the set of all allowed
+   * appointment types in all overlapping rules may be booked during the overlap.
+   */
+  appointment_types?: Array<string>
 }
 
 export interface AvailabilityUpdateForUserParamsOverride {
