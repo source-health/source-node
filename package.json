@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack",
     "lint": "eslint src",
+    "compile": "tsc --noEmit",
     "test": "jest"
   },
   "files": [
@@ -17,6 +18,7 @@
   "browser": "dist/source-client.js",
   "sideEffects": false,
   "devDependencies": {
+    "@faker-js/faker": "^7.2.0",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.7.10",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
@@ -25,6 +27,7 @@
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.3.1",
+    "nanoid": "3",
     "prettier": "^2.3.2",
     "ts-jest": "^27.0.7",
     "ts-loader": "^9.2.6",
@@ -36,8 +39,5 @@
   },
   "dependencies": {
     "jose": "^3.19.0"
-  },
-  "jest": {
-    "preset": "ts-jest"
   }
 }
