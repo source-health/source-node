@@ -1,6 +1,6 @@
 {
   "exclude": ["node_modules"],
-  "include": ["./src/**/*.ts", "./generator/**/*.ts", "jest.config.ts"],
+  "include": ["./src/**/*.ts", "./generator/**/*.ts", "jest.config.ts", "./@types/**/*.d.ts" ],
   "compilerOptions": {
     "outDir": "dist",
     "strict": true,
@@ -12,6 +12,7 @@
     "strictNullChecks": true,
     "noImplicitAny": true,
     "module": "CommonJS",
-    "target": "ES6"
+    "target": "ES6",
+    "typeRoots": ["node_modules/@types", "./@types"]
   }
 }
