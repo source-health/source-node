@@ -8,26 +8,20 @@ import NodeHttpClient from '../../adapter/NodeAdapter'
 import { ApiKey } from '../../authentication'
 import { Account } from '../../resources'
 
-export interface SetupAccountObject {
-  user: {
-    first_name: string
-    last_name: string
-    email: string
-    password: string
-  }
-  testApiKey: string
-  liveApiKey: string
-  subdomain: string
-  liveClient: Source
-  testClient: Source
-}
+import { getApiKeyId } from './api_keys'
+import { getOwnerToken } from './authentication'
+import { getBaseUrl } from './config'
 
-export function getBaseUrl(): string {
-  const baseUrl = process.env.BASE_URL
-  if (!baseUrl) {
-    throw new Error('You must define BASE_URL environment variable to run these tests')
-  }
-  return baseUrl
+export interface SetupAccountObject {
+  subdomain: string
+  liveApiKey: string
+  testApiKey: string
+  first_name: string
+  last_name: string
+  email: string
+  password: string
+  ownerToken: string
+  client: Source
 }
 
 /**
@@ -61,20 +55,24 @@ export async function setupAccount(): Promise<SetupAccountObject> {
     throw new Error(`Failed to create account: ${JSON.stringify(response.data)}`)
   }
 
-  // Note: we don't actually use the API key ID
-  const liveClient = new Source(new ApiKey('live', response.data.live_secret_key!), {
-    baseUrl,
+  const ownerToken = await getOwnerToken({
+    subdomain: createAccountParams.subdomain,
+    email: user.email,
+    password: user.password,
   })
-  const testClient = new Source(new ApiKey('test', response.data.test_secret_key!), {
+
+  const liveApiKeyId = await getApiKeyId(ownerToken, true)
+
+  const client = new Source(new ApiKey(liveApiKeyId, response.data.live_secret_key!), {
     baseUrl,
   })
 
   return {
-    user,
+    subdomain: response.data.subdomain,
+    ...user,
+    ownerToken,
     testApiKey: response.data.test_secret_key!,
     liveApiKey: response.data.live_secret_key!,
-    subdomain: response.data.subdomain,
-    liveClient,
-    testClient,
+    client,
   }
 }

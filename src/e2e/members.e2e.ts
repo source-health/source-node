@@ -6,13 +6,13 @@ import { Source } from '../Source'
 import { MemberSexAtBirth, MemberUpdateParams } from '../resources'
 
 import { setupAccount } from './data/account'
-import { createMember } from './data/member'
+import { createMember, getMemberClient } from './data/member'
 
 describe('members', () => {
   let client: Source
 
   beforeAll(async () => {
-    ;({ liveClient: client } = await setupAccount())
+    ;({ client } = await setupAccount())
   })
 
   it('creates a member and can retrieve it', async () => {
@@ -26,9 +26,15 @@ describe('members', () => {
 
     expect(member).toMatchObject(params)
 
+    // main API keys client can retrieve the member
     const retrieved = await client.members.retrieve(member.id)
 
     expect(omit(retrieved, 'response')).toStrictEqual(omit(member, 'response'))
+
+    // Member client can retrieve its own member
+    const memberClient = await getMemberClient(client, member)
+    const self = await memberClient.members.retrieve(member.id)
+    expect(omit(self, 'response')).toStrictEqual(omit(member, 'response'))
   })
 
   it('updates a member', async () => {
