@@ -3,8 +3,7 @@ import { omit } from 'lodash'
 import { nanoid } from 'nanoid'
 
 import { Source } from '../Source'
-import { ApiKey } from '../authentication'
-import { Member, MemberSexAtBirth, MemberUpdateParams } from '../resources'
+import { MemberSexAtBirth, MemberUpdateParams } from '../resources'
 
 import { setupAccount } from './data/account'
 import { createMember } from './data/member'
