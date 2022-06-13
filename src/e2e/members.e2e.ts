@@ -61,4 +61,27 @@ describe('members', () => {
 
     expect(found.data).toHaveLength(5)
   })
+
+  it('can act as authorized member on subject member', async () => {
+    const subject = await createMember(client)
+    const authorized = await createMember(client)
+    const authorizedMemberClient = await getMemberClient(client, subject, authorized)
+
+    // At first, this won't work, since they don't have a relationship.
+    await expect(async () => {
+      await authorizedMemberClient.members.retrieve(subject.id)
+    }).rejects.toThrowError(/a subject and actor who do not have a preexisting relationship/)
+
+    // If we create the relationship, it will work.
+    await client.relationships.create({
+      subject_member: subject.id,
+      authorized_member: authorized.id,
+      type: 'mother',
+      status: 'active',
+    })
+
+    const retrievedSubject = await authorizedMemberClient.members.retrieve(subject.id)
+
+    expect(omit(retrievedSubject, 'response')).toStrictEqual(omit(subject, 'response'))
+  })
 })
