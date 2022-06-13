@@ -16,9 +16,14 @@ export async function createMember(client: Source): Promise<Member> {
   return await client.members.create(params)
 }
 
-export async function getMemberClient(client: Source, member: Member): Promise<Source> {
+export async function getMemberClient(
+  client: Source,
+  subject: Member,
+  actor?: Member,
+): Promise<Source> {
   const jwt = await client.tokens.generate({
-    member: member.id,
+    subject: subject.id,
+    actor: actor?.id,
     expiration: new Date(Date.now() + 1000 * 60 * 5), // 5 minutes
   })
   return new Source(new Token(jwt), { baseUrl: getBaseUrl() })
