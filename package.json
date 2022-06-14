@@ -14,7 +14,7 @@
     "src"
   ],
   "main": "dist/source-client.node.js",
-  "typings": "dist/index.d.ts",
+  "typings": "dist/src/index.d.ts",
   "browser": "dist/source-client.js",
   "sideEffects": false,
   "devDependencies": {
