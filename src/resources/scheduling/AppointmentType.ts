@@ -29,6 +29,32 @@ export interface AppointmentTypeLicenseType {
   description: string
 }
 
+export type AppointmentTypeReminderWhenUnit = 'minute' | 'hour' | 'day'
+
+export interface AppointmentTypeReminderWhen {
+  /**
+   * The trigger for when this reminder should be scheduled. Currently, the only
+   * supported value is `before`, indicating that this reminder should be triggered
+   * based on the requested duration prior to the start of the appointment.
+   */
+  type: 'before'
+  /**
+   * The unit of time used in this reminder configuration. Units are interpreted
+   * within the appointment's scheduled time zone, meaning 24 hours and 1 day are not
+   * necessarily the same if the reminder window spans daylight savings.
+   */
+  unit: AppointmentTypeReminderWhenUnit
+  /**
+   * The number of units before the appointment at which this reminder should
+   * trigger. Must be an integer greater than zero.
+   */
+  time: number
+}
+
+export interface AppointmentTypeReminder {
+  when: AppointmentTypeReminderWhen
+}
+
 export interface AppointmentType {
   /**
    * Always `appointment_type`.
@@ -136,8 +162,8 @@ export interface AppointmentType {
    * team, the request will fail.
    *
    * - care_team_preferred - Appointment slots will be shown for any Physicians on
-   * the member's care team.    If the Physicians on the care team aren't available,
-   * slots will not be returned.    If there are no Physicians on the member's care
+   * the member's care team.   If the Physicians on the care team aren't available,
+   * slots will not be returned.   If there are no Physicians on the member's care
    * team, then slots will be returned for any available Physician.
    *
    * - care_team_hybrid - Appointment slots will be shown for all users in the
@@ -170,15 +196,23 @@ export interface AppointmentType {
   groups: Array<Expandable<Group>>
   /**
    * The user license(s) that are required to perform appointments of this type. When
-   * looking for appointment slots, only the  availability of licensed users will be
+   * looking for appointment slots, only the availability of licensed users will be
    * returned. When booking an appointment without the skip_constraints parameter,
-   * any  licensed user must have a matching license type, otherwise a warning will
-   * be returned. If more than one license code is  provided, a licensed user with
-   * any of the license codes can participate in the appointment.  Providing any
-   * value will override the entire array. Providing null or an empty array will
-   * empty out the array.
+   * any licensed user must have a matching license type, otherwise a warning will be
+   * returned. If more than one license code is provided, a licensed user with any of
+   * the license codes can participate in the appointment. Providing any value will
+   * override the entire array. Providing null or an empty array will empty out the
+   * array.
    */
   license_types: Array<AppointmentTypeLicenseType>
+  /**
+   * The reminder configuration for this appointment type. Each appointment created
+   * with this type will inherit the reminder configuration of the appointment type.
+   * Changes to reminder configuration will be applied to all future appointments.
+   *
+   * You may configure up to five reminders per appointment type.
+   */
+  reminders: Array<AppointmentTypeReminder>
   /**
    * Timestamp when the appointment type was created.
    */
@@ -265,6 +299,32 @@ export type AppointmentTypeCreateParamsRoutingStrategy =
 
 export interface AppointmentTypeCreateParamsLicenseType {
   code: string
+}
+
+export type AppointmentTypeCreateParamsReminderWhenUnit = 'minute' | 'hour' | 'day'
+
+export interface AppointmentTypeCreateParamsReminderWhen {
+  /**
+   * The trigger for when this reminder should be scheduled. Currently, the only
+   * supported value is `before`, indicating that this reminder should be triggered
+   * based on the requested duration prior to the start of the appointment.
+   */
+  type: 'before'
+  /**
+   * The unit of time used in this reminder configuration. Units are interpreted
+   * within the appointment's scheduled time zone, meaning 24 hours and 1 day are not
+   * necessarily the same if the reminder window spans daylight savings.
+   */
+  unit: AppointmentTypeCreateParamsReminderWhenUnit
+  /**
+   * The number of units before the appointment at which this reminder should
+   * trigger. Must be an integer greater than zero.
+   */
+  time: number
+}
+
+export interface AppointmentTypeCreateParamsReminder {
+  when: AppointmentTypeCreateParamsReminderWhen
 }
 
 export interface AppointmentTypeCreateParams {
@@ -362,8 +422,8 @@ export interface AppointmentTypeCreateParams {
    * team, the request will fail.
    *
    * - care_team_preferred - Appointment slots will be shown for any Physicians on
-   * the member's care team.    If the Physicians on the care team aren't available,
-   * slots will not be returned.    If there are no Physicians on the member's care
+   * the member's care team.   If the Physicians on the care team aren't available,
+   * slots will not be returned.   If there are no Physicians on the member's care
    * team, then slots will be returned for any available Physician.
    *
    * - care_team_hybrid - Appointment slots will be shown for all users in the
@@ -396,13 +456,13 @@ export interface AppointmentTypeCreateParams {
   groups?: Array<string>
   /**
    * The user license(s) that are required to perform appointments of this type. When
-   * looking for appointment slots, only the  availability of licensed users will be
+   * looking for appointment slots, only the availability of licensed users will be
    * returned. When booking an appointment without the skip_constraints parameter,
-   * any  licensed user must have a matching license type, otherwise a warning will
-   * be returned. If more than one license code is  provided, a licensed user with
-   * any of the license codes can participate in the appointment.  Providing any
-   * value will override the entire array. Providing null or an empty array will
-   * empty out the array.
+   * any licensed user must have a matching license type, otherwise a warning will be
+   * returned. If more than one license code is provided, a licensed user with any of
+   * the license codes can participate in the appointment. Providing any value will
+   * override the entire array. Providing null or an empty array will empty out the
+   * array.
    */
   license_types?: Array<AppointmentTypeCreateParamsLicenseType> | null
   /**
@@ -410,6 +470,14 @@ export interface AppointmentTypeCreateParams {
    * false.
    */
   video_enabled?: boolean
+  /**
+   * The reminder configuration for this appointment type. Each appointment created
+   * with this type will inherit the reminder configuration of the appointment type.
+   * Changes to reminder configuration will be applied to all future appointments.
+   *
+   * You may configure up to five reminders per appointment type.
+   */
+  reminders?: Array<AppointmentTypeCreateParamsReminder>
 }
 
 export type AppointmentTypeUpdateParamsColor =
@@ -429,6 +497,32 @@ export type AppointmentTypeUpdateParamsRoutingStrategy =
 
 export interface AppointmentTypeUpdateParamsLicenseType {
   code: string
+}
+
+export type AppointmentTypeUpdateParamsReminderWhenUnit = 'minute' | 'hour' | 'day'
+
+export interface AppointmentTypeUpdateParamsReminderWhen {
+  /**
+   * The trigger for when this reminder should be scheduled. Currently, the only
+   * supported value is `before`, indicating that this reminder should be triggered
+   * based on the requested duration prior to the start of the appointment.
+   */
+  type: 'before'
+  /**
+   * The unit of time used in this reminder configuration. Units are interpreted
+   * within the appointment's scheduled time zone, meaning 24 hours and 1 day are not
+   * necessarily the same if the reminder window spans daylight savings.
+   */
+  unit: AppointmentTypeUpdateParamsReminderWhenUnit
+  /**
+   * The number of units before the appointment at which this reminder should
+   * trigger. Must be an integer greater than zero.
+   */
+  time: number
+}
+
+export interface AppointmentTypeUpdateParamsReminder {
+  when: AppointmentTypeUpdateParamsReminderWhen
 }
 
 export interface AppointmentTypeUpdateParams {
@@ -526,8 +620,8 @@ export interface AppointmentTypeUpdateParams {
    * team, the request will fail.
    *
    * - care_team_preferred - Appointment slots will be shown for any Physicians on
-   * the member's care team.    If the Physicians on the care team aren't available,
-   * slots will not be returned.    If there are no Physicians on the member's care
+   * the member's care team.   If the Physicians on the care team aren't available,
+   * slots will not be returned.   If there are no Physicians on the member's care
    * team, then slots will be returned for any available Physician.
    *
    * - care_team_hybrid - Appointment slots will be shown for all users in the
@@ -560,13 +654,13 @@ export interface AppointmentTypeUpdateParams {
   groups?: Array<string>
   /**
    * The user license(s) that are required to perform appointments of this type. When
-   * looking for appointment slots, only the  availability of licensed users will be
+   * looking for appointment slots, only the availability of licensed users will be
    * returned. When booking an appointment without the skip_constraints parameter,
-   * any  licensed user must have a matching license type, otherwise a warning will
-   * be returned. If more than one license code is  provided, a licensed user with
-   * any of the license codes can participate in the appointment.  Providing any
-   * value will override the entire array. Providing null or an empty array will
-   * empty out the array.
+   * any licensed user must have a matching license type, otherwise a warning will be
+   * returned. If more than one license code is provided, a licensed user with any of
+   * the license codes can participate in the appointment. Providing any value will
+   * override the entire array. Providing null or an empty array will empty out the
+   * array.
    */
   license_types?: Array<AppointmentTypeUpdateParamsLicenseType> | null
   /**
@@ -574,6 +668,14 @@ export interface AppointmentTypeUpdateParams {
    * false.
    */
   video_enabled?: boolean
+  /**
+   * The reminder configuration for this appointment type. Each appointment created
+   * with this type will inherit the reminder configuration of the appointment type.
+   * Changes to reminder configuration will be applied to all future appointments.
+   *
+   * You may configure up to five reminders per appointment type.
+   */
+  reminders?: Array<AppointmentTypeUpdateParamsReminder>
 }
 
 export class AppointmentTypeResource extends Resource {

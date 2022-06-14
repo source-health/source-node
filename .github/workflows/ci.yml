@@ -1,0 +1,63 @@
+name: CI
+
+on: push
+
+# We limit concurrency to one workflow-at-a-time per branch.  On the main branch, we wait for any previous
+# workflows to complete. On other branches, we cancel previous workflows.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  # Lint - happens on all branches
+  lint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-eslint-${{ hashFiles('**/yarn.lock') }}
+      - name: Install modules
+        run: yarn --frozen-lockfile
+      - name: Run eslint
+        run: yarn lint
+
+  # Compile: (all branches) build the whole app cleanly to make sure our typescript is valid.
+  compile:
+    name: Compile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Register Problem Matcher
+        run: echo "##[add-matcher].github/matchers/tsc.json"
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-build-${{ hashFiles('**/yarn.lock') }}
+      - name: Install modules
+        run: yarn
+      - name: Run tsc
+        run: yarn compile
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Register Problem Matcher
+        run: echo "##[add-matcher].github/matchers/tsc.json"
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-build-${{ hashFiles('**/yarn.lock') }}
+      - name: Install modules
+        run: yarn
+      - name: Run jest
+        run: yarn test

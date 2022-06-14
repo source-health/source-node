@@ -51,4 +51,4 @@ export class Source {
   }
 }
 
-export interface Source extends RootResources { } // eslint-disable-line
+export interface Source extends RootResources {} // eslint-disable-line

@@ -79,10 +79,14 @@ export interface Message {
    */
   attachments: Array<MessageAttachment>
   /**
-   * The API key who sent the message on behalf of `sender`. If null, the message
+   * The API key who created the message on behalf of `sender`. If null, the message
    * sender was not impersonated.
    */
   impersonated_by: string | null
+  /**
+   * The time at which this message redacted.
+   */
+  redacted_at: string | null
 }
 
 export interface MessageListResponse {
@@ -177,6 +181,8 @@ export interface MessageCreateParamsAttachment {
   metadata?: Record<string, unknown>
 }
 
+export type MessageCreateParamsSender = string
+
 export interface MessageCreateParams {
   /**
    * Unique ID of the thread to which the message belongs.
@@ -196,9 +202,16 @@ export interface MessageCreateParams {
   attachments?: Array<MessageCreateParamsAttachment>
   /**
    * When calling this endpoint with an API key, you must use this field to specify
-   * the user on whose behalf the message is sent.
+   * the user or member on whose behalf the message is sent.
    */
-  sender?: string
+  sender?: MessageCreateParamsSender
+  /**
+   * The time at which this message was sent.  When calling this endpoint with an API
+   * key you can optionally specify the sent_at time, such as when backloading
+   * historical messages.  By default and when called as a user or a member, the
+   * current time is used.
+   */
+  sent_at?: string
 }
 
 export class MessageResource extends Resource {
@@ -234,6 +247,22 @@ export class MessageResource extends Resource {
    */
   public retrieve(id: string, options?: SourceRequestOptions): Promise<Message> {
     return this.source.request('GET', `/v1/communication/messages/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Redacts a message and its attachments that were sent in error to a member. You
+   * can redact a message sent by a user or an API key on behalf of a user.
+   *
+   * Once redacted, the message content and any attachments are no longer accessible
+   * to the member, however the fact that the message was redacted is displayed to
+   * the member. The message is labeled as redacted and remains visible to users in
+   * the Source UI or via API.
+   */
+  public redact(id: string, options?: SourceRequestOptions): Promise<Message> {
+    return this.source.request('POST', `/v1/communication/messages/${id}/redact`, {
+      contentType: 'json',
       options,
     })
   }

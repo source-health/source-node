@@ -3,6 +3,7 @@ import { SourceRequestOptions } from '../SourceClient'
 
 import { CareTeam } from './CareTeam'
 import { File } from './File'
+import { Tag } from './Tag'
 import { Expandable } from './shared'
 
 export type MemberSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
@@ -83,6 +84,8 @@ export interface MemberPhoneNumber {
   value: string
 }
 
+export type MemberEnrollmentStatus = 'enrolled' | 'not_enrolled'
+
 export interface Member {
   /**
    * Always `member`.
@@ -120,7 +123,7 @@ export interface Member {
   /**
    * Date of birth of the member.
    */
-  date_of_birth: string
+  date_of_birth: string | null
   /**
    * The IANA time zone identifier of the member, if one is known. If no time zone is
    * known, null is returned.
@@ -131,7 +134,7 @@ export interface Member {
    * individual's birth. This information is often clinically useful, but is not
    * necessarily indicative of the individual's gender identity.
    */
-  sex_at_birth: MemberSexAtBirth
+  sex_at_birth: MemberSexAtBirth | null
   /**
    * The gender of a person used for administrative purposes, such as on
    * government-issued ID documents.
@@ -170,6 +173,16 @@ export interface Member {
    * ISO-3166-2:US code and always matches the region of the member's address.
    */
   license_region: string | null
+  /**
+   * List of tags attached to this member.
+   */
+  tags: Array<Expandable<Tag>>
+  /**
+   * Current status of the member's enrollment in receiving care services. By
+   * default, newly created members are in the `enrolled` status. If a member is not
+   * actively receiving care, use the `not_enrolled` status.
+   */
+  enrollment_status: MemberEnrollmentStatus
   /**
    * Timestamp of when the member was created.
    */
@@ -215,6 +228,12 @@ export interface MemberListParams {
    * 100.
    */
   limit?: number
+  /**
+   * Limit results to members tagged with the provided tag. You may provide either
+   * tag IDs or tag names for previously created tags. If multiple tags are provided,
+   * searches for members containing any of the provided tags.
+   */
+  tag?: Array<string>
   /**
    * Limit results to members with the given email.
    */
@@ -297,6 +316,8 @@ export interface MemberCreateParamsPhoneNumber {
   value: string
 }
 
+export type MemberCreateParamsEnrollmentStatus = 'enrolled' | 'not_enrolled'
+
 export interface MemberCreateParams {
   /**
    * Title for the member (Mr., Mrs., Dr., etc).
@@ -330,15 +351,16 @@ export interface MemberCreateParams {
    */
   email?: string | null
   /**
-   * Date of birth of the member
+   * Date of birth of the member. Required when enrollment_status is `enrolled`.
    */
-  date_of_birth: string
+  date_of_birth?: string | null
   /**
    * Sex assigned and recorded on the birth certificate at the time of the
    * individual's birth. This information is often clinically useful, but is not
-   * necessarily indicative of the individual's gender identity.
+   * necessarily indicative of the individual's gender identity. Required if
+   * enrollment_status is `enrolled`.
    */
-  sex_at_birth: MemberCreateParamsSexAtBirth
+  sex_at_birth?: MemberCreateParamsSexAtBirth | null
   /**
    * The gender of a person used for administrative purposes, such as on
    * government-issued ID documents.
@@ -361,15 +383,27 @@ export interface MemberCreateParams {
    */
   address?: MemberCreateParamsAddress | null
   /**
-   * An array of phone numbers associated with the member. Providing any value will
-   * override the entire array. Providing null or an empty array will empty out the
-   * array.
+   * List of phone numbers associated with the member. Providing any value overrides
+   * the entire list. Providing null or an empty list empties out the list of phone
+   * numbers.
    */
   phone_numbers?: Array<MemberCreateParamsPhoneNumber> | null
+  /**
+   * List of tags to apply to the member. You may provide either tag IDs or tag names
+   * for previously created tags. Providing tags input replaces any existing tags on
+   * the member. Providing null or an empty list empties out the list of tags.
+   */
+  tags?: Array<string>
   /**
    * The file for the member's profile image. Must be of type `photo`
    */
   profile_image?: string | null
+  /**
+   * Current status of the member's enrollment in receiving care services. By
+   * default, newly created members are in the `enrolled` status. If a member is not
+   * actively receiving care, use the `not_enrolled` status.
+   */
+  enrollment_status?: MemberCreateParamsEnrollmentStatus
 }
 
 export type MemberUpdateParamsSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
@@ -448,6 +482,8 @@ export interface MemberUpdateParamsPhoneNumber {
   value: string
 }
 
+export type MemberUpdateParamsEnrollmentStatus = 'enrolled' | 'not_enrolled'
+
 export interface MemberUpdateParams {
   /**
    * Title for the member (Mr., Mrs., Dr., etc).
@@ -481,15 +517,16 @@ export interface MemberUpdateParams {
    */
   email?: string | null
   /**
-   * Date of birth of the member
+   * Date of birth of the member. Required when enrollment_status is `enrolled`.
    */
-  date_of_birth?: string
+  date_of_birth?: string | null
   /**
    * Sex assigned and recorded on the birth certificate at the time of the
    * individual's birth. This information is often clinically useful, but is not
-   * necessarily indicative of the individual's gender identity.
+   * necessarily indicative of the individual's gender identity. Required if
+   * enrollment_status is `enrolled`.
    */
-  sex_at_birth?: MemberUpdateParamsSexAtBirth
+  sex_at_birth?: MemberUpdateParamsSexAtBirth | null
   /**
    * The gender of a person used for administrative purposes, such as on
    * government-issued ID documents.
@@ -512,15 +549,27 @@ export interface MemberUpdateParams {
    */
   address?: MemberUpdateParamsAddress | null
   /**
-   * An array of phone numbers associated with the member. Providing any value will
-   * override the entire array. Providing null or an empty array will empty out the
-   * array.
+   * List of phone numbers associated with the member. Providing any value overrides
+   * the entire list. Providing null or an empty list empties out the list of phone
+   * numbers.
    */
   phone_numbers?: Array<MemberUpdateParamsPhoneNumber> | null
+  /**
+   * List of tags to apply to the member. You may provide either tag IDs or tag names
+   * for previously created tags. Providing tags input replaces any existing tags on
+   * the member. Providing null or an empty list empties out the list of tags.
+   */
+  tags?: Array<string>
   /**
    * The file for the member's profile image. Must be of type `photo`
    */
   profile_image?: string | null
+  /**
+   * Current status of the member's enrollment in receiving care services. By
+   * default, newly created members are in the `enrolled` status. If a member is not
+   * actively receiving care, use the `not_enrolled` status.
+   */
+  enrollment_status?: MemberUpdateParamsEnrollmentStatus
 }
 
 export class MemberResource extends Resource {

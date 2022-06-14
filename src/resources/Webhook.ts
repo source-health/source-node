@@ -1,7 +1,7 @@
 import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
-import { WebhookEvents } from './shared'
+import { WebhookEvents } from './WebhookEvents'
 
 export interface Webhook {
   /**

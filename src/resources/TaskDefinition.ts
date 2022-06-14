@@ -113,6 +113,10 @@ export interface TaskDefinitionListParams {
    */
   sort?: TaskDefinitionListParamsSort
   /**
+   * Limit results to task definitions with name containing the given query.
+   */
+  name?: string
+  /**
    * Filter results by queue. If multiple queues are provided, task definitions
    * related to any of those queues will be returned.
    */

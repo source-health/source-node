@@ -68,7 +68,7 @@ export interface Queue {
   routing_targets: Array<QueueRoutingTarget>
   /**
    * The ID of the queue to use as a replacement for task definitions and tasks that
-   * reference the deleted  queue. If not specified, Source removes the reference to
+   * reference the deleted queue. If not specified, Source removes the reference to
    * the deleted queue.
    */
   replacement_queue: Expandable<Queue>
@@ -257,7 +257,7 @@ export interface QueueUpdateParams {
 export interface QueueDeleteParams {
   /**
    * The ID of the queue to use as a replacement for task definitions and tasks that
-   * reference the deleted  queue. If not specified, Source removes the reference to
+   * reference the deleted queue. If not specified, Source removes the reference to
    * the deleted queue.
    */
   replacement_queue?: string
