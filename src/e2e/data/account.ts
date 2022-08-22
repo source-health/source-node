@@ -37,7 +37,7 @@ export async function setupAccount(): Promise<SetupAccountObject> {
   }
   const createAccountParams = {
     subdomain: nanoid(),
-    name: faker.company.companyName(),
+    name: faker.company.name(),
     user,
   }
 
