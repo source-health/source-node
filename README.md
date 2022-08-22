@@ -35,9 +35,9 @@ By default, we'll look for credentials in the environment variables `SOURCE_API_
 you'd like to capture your credentials from elsewhere, you can just pass them in:
 
 ```typescript
-import { Source, ApiKey } from '@source-health/client'
+import { Source, ApiKeyAuthentication } from '@source-health/client'
 
-const source = new Source(new ApiKey('KEY_ID', 'KEY_SECRET'))
+const source = new Source(new ApiKeyAuthentication('KEY_ID', 'KEY_SECRET'))
 ```
 
 And, finally, start querying the API!
