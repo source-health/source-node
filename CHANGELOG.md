@@ -1,6 +1,29 @@
 # Source Client Changelog
 
+## v1.0
+
+### Backwards Incompatible Changes and Deprecations
+
+- Authentication classes have been renamed as they collided with API resources. Note that no changes were made to the behavior of these classes, and only the names were changed. The following changes were made:
+   - `ApiKey` -> `ApiKeyAuthentication`
+   - `UserKey` -> `UserAuthentication`
+   - `Token` -> `JWTAuthentication`
+  - `Anonymous` -> `AnonymousAuthentication`
+- `CareTeamRole` resource has been removed. Its usage for user categorization can be replaced by Groups, and its usage in task routing can be replaced by Queues.
+- `Message` resources can now have a `sender` pointing to an `ApiKey`, in addition to the typical `User` and `Member`.
+
 ## v0.27
+
+### New API Features
+
+- Comments
+- Appointment Statuses
+- Account Branding Logos
+- Previous Values for *.updated events
+
+### Other Changes
+
+- All form question types can now support an optional description
 
 ### Backwards Incompatible Changes and Deprecations
 
