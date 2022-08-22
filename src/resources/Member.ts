@@ -84,7 +84,8 @@ export interface MemberPhoneNumber {
   value: string
 }
 
-export type MemberEnrollmentStatus = 'enrolled' | 'not_enrolled'
+export type MemberEnrollmentStatus = 'enrolled' | 'not_enrolled' | 'redacted'
+export type MemberAccessLevel = 'full' | 'limited'
 
 export interface Member {
   /**
@@ -181,8 +182,22 @@ export interface Member {
    * Current status of the member's enrollment in receiving care services. By
    * default, newly created members are in the `enrolled` status. If a member is not
    * actively receiving care, use the `not_enrolled` status.
+   *
+   * When viewing a member with `access_level = 'limited'`, the value of
+   * `enrollment_status` will be `redacted`. This is not valid as an input.
    */
   enrollment_status: MemberEnrollmentStatus
+  /**
+   * Indicates whether any of the member's information has been redacted for security
+   * reasons. Possible values are: full - all member fields that are populated in
+   * Source have been returned, for example a member viewing themselves, or a care
+   * team or API key retrieving a member within their account; or limited - only some
+   * very basic identifying information such as name and profile image has been
+   * returned, for example a caregiver who can see another caregiver participating in
+   * message threads for a member they are both related to, even when the caregivers
+   * are not directly related.
+   */
+  access_level: MemberAccessLevel
   /**
    * Timestamp of when the member was created.
    */
@@ -402,6 +417,9 @@ export interface MemberCreateParams {
    * Current status of the member's enrollment in receiving care services. By
    * default, newly created members are in the `enrolled` status. If a member is not
    * actively receiving care, use the `not_enrolled` status.
+   *
+   * When viewing a member with `access_level = 'limited'`, the value of
+   * `enrollment_status` will be `redacted`. This is not valid as an input.
    */
   enrollment_status?: MemberCreateParamsEnrollmentStatus
 }
@@ -568,6 +586,9 @@ export interface MemberUpdateParams {
    * Current status of the member's enrollment in receiving care services. By
    * default, newly created members are in the `enrolled` status. If a member is not
    * actively receiving care, use the `not_enrolled` status.
+   *
+   * When viewing a member with `access_level = 'limited'`, the value of
+   * `enrollment_status` will be `redacted`. This is not valid as an input.
    */
   enrollment_status?: MemberUpdateParamsEnrollmentStatus
 }
@@ -590,8 +611,7 @@ export class MemberResource extends Resource {
   }
 
   /**
-   * Creates a new member and registers them with Source. Members must be created in
-   * order to ship devices or track measurements.
+   * Creates a new member and registers them with Source.
    */
   public create(params: MemberCreateParams, options?: SourceRequestOptions): Promise<Member> {
     return this.source.request('POST', '/v1/members', {
@@ -631,7 +651,7 @@ export class MemberResource extends Resource {
 
   /**
    * Deletes the specified member. Members that have meaningful objects associated
-   * with them, such as tasks, threads, or files, may not be deleted.
+   * with them, such as tasks, threads, or documents, may not be deleted.
    */
   public delete(id: string, options?: SourceRequestOptions): Promise<Member> {
     return this.source.request('DELETE', `/v1/members/${id}`, {

@@ -1,7 +1,6 @@
 import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
-import { CareTeamRole } from './CareTeamRole'
 import { Queue } from './Queue'
 import { Expandable } from './shared'
 
@@ -34,18 +33,11 @@ export interface TaskDefinition {
    */
   name: string
   /**
-   * The queue to which tasks should be assigned. If no queue is set on the task
-   * definition, Source will default to routing based on the care_team_role
-   * associated with the task definition. Note that Source is deprecating routing by
-   * care team roles in favor of queues, which represent a much more flexible way to
-   * route tasks to your team.
+   * The queue through which tasks should be routed. This queue will be applied by
+   * default. However, you can override the queue for a given task during task
+   * creation.
    */
   queue: Expandable<Queue> | null
-  /**
-   * Care team roles should no longer be used, and Source will be removing care team
-   * roles in the future. Use queues instead.
-   */
-  care_team_role: Expandable<CareTeamRole> | null
   /**
    * The user license(s) that are required to perform tasks of this type. Automatic
    * task routing by Source respects licensing. If more than one license code is
@@ -137,18 +129,11 @@ export interface TaskDefinitionCreateParams {
    */
   name: string
   /**
-   * The ID of the queue to which tasks should be assigned. If no queue is set on the
-   * task definition, Source will default to routing based on the care_team_role
-   * associated with the task definition. Note that Source is deprecating routing by
-   * care team roles in favor of queues, which represent a much more flexible way to
-   * route tasks to your team.
+   * The ID of the queue to which tasks should be assigned. You may provide a queue
+   * when creating tasks definitions, and may also override it when creating a
+   * specific task.
    */
   queue?: string | null
-  /**
-   * Care team roles should no longer be used, and Source will be removing care team
-   * roles in the future. Use queues instead.
-   */
-  care_team_role?: string | null
   /**
    * The user license(s) that are required to perform tasks of this type. Automatic
    * task routing by Source respects licensing. If more than one license code is
@@ -173,18 +158,11 @@ export interface TaskDefinitionUpdateParams {
    */
   name?: string
   /**
-   * The ID of the queue to which tasks should be assigned. If no queue is set on the
-   * task definition, Source will default to routing based on the care_team_role
-   * associated with the task definition. Note that Source is deprecating routing by
-   * care team roles in favor of queues, which represent a much more flexible way to
-   * route tasks to your team.
+   * The ID of the queue to which tasks should be assigned. You may provide a queue
+   * when creating tasks definitions, and may also override it when creating a
+   * specific task.
    */
   queue?: string | null
-  /**
-   * Care team roles should no longer be used, and Source will be removing care team
-   * roles in the future. Use queues instead.
-   */
-  care_team_role?: string | null
   /**
    * The user license(s) that are required to perform tasks of this type. Automatic
    * task routing by Source respects licensing. If more than one license code is

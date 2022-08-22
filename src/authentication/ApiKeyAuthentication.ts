@@ -1,6 +1,6 @@
 import { Authentication } from './Authentication'
 
-export class ApiKey implements Authentication {
+export class ApiKeyAuthentication implements Authentication {
   /**
    * Creates a new API Key Authorization
    *
@@ -26,7 +26,7 @@ export class ApiKey implements Authentication {
   /**
    * Captures API keys from environment variables
    */
-  public static fromEnvironment(): ApiKey {
+  public static fromEnvironment(): ApiKeyAuthentication {
     const keyId = process.env.SOURCE_API_KEY_ID
     const keySecret = process.env.SOURCE_API_KEY_SECRET
     if (!keyId || !keySecret) {
@@ -35,6 +35,6 @@ export class ApiKey implements Authentication {
       )
     }
 
-    return new ApiKey(keyId, keySecret)
+    return new ApiKeyAuthentication(keyId, keySecret)
   }
 }

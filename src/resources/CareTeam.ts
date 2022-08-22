@@ -26,8 +26,7 @@ export interface CareTeam {
    */
   member: string | null
   /**
-   * The ordered list of users on the care team. The user's care team role defines
-   * their role across all teams they are on.
+   * The ordered list of users on the care team.
    */
   participants: Array<CareTeamParticipant>
   /**

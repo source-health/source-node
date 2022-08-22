@@ -23,6 +23,11 @@ export interface Question0 {
    */
   title: string
   /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
    * Whether a response to this question is required or optional. Questions that are
    * hidden by conditional rules are never required to have a response.
    */
@@ -58,6 +63,11 @@ export interface Question1 {
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
   /**
    * Whether a response to this question is required or optional. Questions that are
    * hidden by conditional rules are never required to have a response.
@@ -122,6 +132,11 @@ export interface Question2 {
    */
   title: string
   /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
    * Whether a response to this question is required or optional. Questions that are
    * hidden by conditional rules are never required to have a response.
    */
@@ -156,6 +171,11 @@ export interface Question3 {
    */
   title: string
   /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
    * Whether a response to this question is required or optional. Questions that are
    * hidden by conditional rules are never required to have a response.
    */
@@ -186,6 +206,11 @@ export interface Question4 {
    */
   title: string
   /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
    * Whether a response to this question is required or optional. Questions that are
    * hidden by conditional rules are never required to have a response.
    */
@@ -215,6 +240,11 @@ export interface Question5 {
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
   /**
    * Whether a response to this question is required or optional. Questions that are
    * hidden by conditional rules are never required to have a response.
@@ -247,6 +277,11 @@ export interface Question6 {
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
   /**
    * Whether a response to this question is required or optional. Questions that are
    * hidden by conditional rules are never required to have a response.
@@ -286,6 +321,11 @@ export interface Question7 {
    */
   title: string
   /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
    * Whether a response to this question is required or optional. Questions that are
    * hidden by conditional rules are never required to have a response.
    */
@@ -310,6 +350,11 @@ export interface Question8 {
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
   /**
    * Whether a response to this question is required or optional. Questions that are
    * hidden by conditional rules are never required to have a response.
@@ -368,6 +413,11 @@ export interface Question9 {
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
   /**
    * Whether a response to this question is required or optional. Questions that are
    * hidden by conditional rules are never required to have a response.
@@ -430,6 +480,11 @@ export interface Question10 {
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
   /**
    * Whether a response to this question is required or optional. Questions that are
    * hidden by conditional rules are never required to have a response.

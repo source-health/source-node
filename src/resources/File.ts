@@ -1,7 +1,13 @@
 import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
-export type FilePurpose = 'message_attachment' | 'photo' | 'user_profile_photo' | 'document'
+export type FilePurpose =
+  | 'message_attachment'
+  | 'photo'
+  | 'user_profile_photo'
+  | 'document'
+  | 'comment_attachment'
+  | 'account_logo'
 
 export interface File {
   /**
@@ -57,6 +63,8 @@ export type FileCreateParamsPurpose =
   | 'photo'
   | 'user_profile_photo'
   | 'document'
+  | 'comment_attachment'
+  | 'account_logo'
 
 export interface FileCreateParams {
   /**

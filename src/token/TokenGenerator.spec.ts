@@ -1,5 +1,5 @@
 import { Source } from '../Source'
-import { ApiKey } from '../authentication'
+import { ApiKeyAuthentication } from '../authentication'
 
 describe('TokenGenerator', () => {
   let client: Source
@@ -7,7 +7,10 @@ describe('TokenGenerator', () => {
 
   beforeAll(() => {
     client = new Source(
-      new ApiKey('key_123', 'sk_secret_that_is_at_least_256_bits_long_so_that_it_works'),
+      new ApiKeyAuthentication(
+        'key_123',
+        'sk_secret_that_is_at_least_256_bits_long_so_that_it_works',
+      ),
     )
     expiration = new Date(Date.now() + 1000 * 60 * 5) // 5 minutes
   })

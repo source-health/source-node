@@ -137,7 +137,8 @@ export class WebhookResource extends Resource {
   }
 
   /**
-   * A webhook endpoint must have a url and a list of events.
+   * Retrieves the details of an existing webhook. You need only supply the unique
+   * webhook identifier that was returned upon creation.
    */
   public retrieve(id: string, options?: SourceRequestOptions): Promise<Webhook> {
     return this.source.request('GET', `/v1/webhooks/${id}`, {

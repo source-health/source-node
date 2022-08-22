@@ -131,11 +131,11 @@ export interface AppointmentType {
   /**
    * Controls how far in the future appointments can be booked. By default,
    * appointment types have a 60 day planning horizon. You can extend this if you'd
-   * like members to be able to book appointments farther in the future. Setting to
-   * null disables the planning horizon limit, and allows an appointment to be
-   * created indefinitely into the future. Measured in days.
+   * like members to be able to book appointments farther in the future. Omitting
+   * this field will set the planning horizon to the maximum supported value of 365
+   * days.
    */
-  planning_horizon: number | null
+  planning_horizon: number
   /**
    * Controls the minimum amount of advance notice in order to book appointments of
    * this type. For example, if this parameter is set to 60, members will only be
@@ -396,11 +396,11 @@ export interface AppointmentTypeCreateParams {
   /**
    * Controls how far in the future appointments can be booked. By default,
    * appointment types have a 60 day planning horizon. You can extend this if you'd
-   * like members to be able to book appointments farther in the future. Setting to
-   * null disables the planning horizon limit, and allows an appointment to be
-   * created indefinitely into the future. Measured in days.
+   * like members to be able to book appointments farther in the future. Omitting
+   * this field will set the planning horizon to the maximum supported value of 365
+   * days.
    */
-  planning_horizon?: number | null
+  planning_horizon?: number
   /**
    * Controls the minimum amount of advance notice in order to book appointments of
    * this type. For example, if this parameter is set to 60, members will only be
@@ -594,11 +594,11 @@ export interface AppointmentTypeUpdateParams {
   /**
    * Controls how far in the future appointments can be booked. By default,
    * appointment types have a 60 day planning horizon. You can extend this if you'd
-   * like members to be able to book appointments farther in the future. Setting to
-   * null disables the planning horizon limit, and allows an appointment to be
-   * created indefinitely into the future. Measured in days.
+   * like members to be able to book appointments farther in the future. Omitting
+   * this field will set the planning horizon to the maximum supported value of 365
+   * days.
    */
-  planning_horizon?: number | null
+  planning_horizon?: number
   /**
    * Controls the minimum amount of advance notice in order to book appointments of
    * this type. For example, if this parameter is set to 60, members will only be

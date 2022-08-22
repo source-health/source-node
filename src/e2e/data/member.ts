@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { Source } from '../../Source'
-import { Token } from '../../authentication'
+import { JWTAuthentication } from '../../authentication'
 import { Member, MemberSexAtBirth } from '../../resources'
 
 import { getBaseUrl } from './config'
@@ -26,5 +26,5 @@ export async function getMemberClient(
     actor: actor?.id,
     expiration: new Date(Date.now() + 1000 * 60 * 5), // 5 minutes
   })
-  return new Source(new Token(jwt), { baseUrl: getBaseUrl() })
+  return new Source(new JWTAuthentication(jwt), { baseUrl: getBaseUrl() })
 }

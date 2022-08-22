@@ -1,6 +1,6 @@
 import { Authentication } from './Authentication'
 
-export class UserKey implements Authentication {
+export class UserAuthentication implements Authentication {
   /**
    * Creates a new User Key authorization
    *

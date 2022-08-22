@@ -210,7 +210,7 @@ export interface ThreadCreateParamsMessageAttachment {
   url?: string
   /**
    * A map of your own metadata to be included alongside this attachment. For
-   * example, you can use this metadata for  bookkeeping or rendering in your member
+   * example, you can use this metadata for bookkeeping or rendering in your member
    * experience.
    *
    * Metadata may only be set when calling the API with your API keys. It cannot be
@@ -240,9 +240,9 @@ export interface ThreadCreateParamsMessage {
    */
   sender?: ThreadCreateParamsMessageSender
   /**
-   * The time at which this message was sent.  When calling this endpoint with an API
+   * The time at which this message was sent. When calling this endpoint with an API
    * key you can optionally specify the sent_at time, such as when backloading
-   * historical messages.  By default and when called as a user or a member, the
+   * historical messages. By default and when called as a user or a member, the
    * current time is used.
    */
   sent_at?: string
@@ -254,7 +254,8 @@ export interface ThreadCreateParams {
    */
   member: string
   /**
-   * The ID of the care team user to which this thread is currently assigned, if any.
+   * The user who is assigned to the thread and who will be notified of new messages
+   * via a task.
    */
   assignee?: string
   /**
@@ -271,7 +272,8 @@ export type ThreadUpdateParamsStatus = 'awaiting_care_team' | 'awaiting_member' 
 
 export interface ThreadUpdateParams {
   /**
-   * ID of a user on the member's Care Team - assigns the thread to the new user.
+   * The user who is assigned to the thread and who will be notified of new messages
+   * via a task.
    */
   assignee?: string | null
   /**
@@ -331,8 +333,11 @@ export class ThreadResource extends Resource {
   }
 
   /**
-   * Change the thread status or subject, and re-assign the thread to a different
-   * member of the Care Team.
+   * Updates the specified thread by setting the values of the parameters passed. Any
+   * parameters not provided will be left unchanged.
+   *
+   * You can change the thread’s status or subject or reassign the thread to a
+   * different user.
    */
   public update(
     id: string,

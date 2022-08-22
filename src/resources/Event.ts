@@ -1,11 +1,23 @@
 import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
+import { Member } from './Member'
+import { User } from './User'
+import { Expandable } from './shared'
+
+export type EventActorType = 'user' | 'member' | 'api' | 'system' | 'anonymous' | 'unknown'
+
 export interface EventData {
   /**
    * Serialized object related to the event.
    */
   object: unknown
+  /**
+   * The previous values of any attributes that changed. This propery is typically
+   * only returned on *.updated events which may have modified several fields in a
+   * single request.
+   */
+  previous_values?: unknown
 }
 
 export interface Event {
@@ -21,6 +33,17 @@ export interface Event {
    * Type of event.
    */
   type: string
+  /**
+   * Actor whose action triggered this event. The actor may be a user, member, or
+   * null. When the actor value is null, such as for an action being performed by the
+   * system, the `actor_type` field is fully descriptive.
+   */
+  actor: Expandable<Member | User> | null
+  /**
+   * The type of actor whose action triggered this event. The `unknown` value should
+   * only be present in historical events created prior to December 2021.
+   */
+  actor_type: EventActorType
   /**
    * Payload contained within this event.
    */
@@ -44,6 +67,35 @@ export interface EventListResponse {
    * Contains `true` if there is another page of results available.
    */
   has_more: boolean
+}
+
+export type EventListParamsActorType =
+  | 'user'
+  | 'member'
+  | 'api'
+  | 'system'
+  | 'anonymous'
+  | 'unknown'
+export type EventListParamsActor = string
+
+export interface EventListParamsCreatedAt {
+  /**
+   * Return results where the created_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the created_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the created_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the created_at field is greater than or equal to this
+   * value.
+   */
+  gte?: string
 }
 
 export interface EventListParams {
@@ -71,6 +123,27 @@ export interface EventListParams {
    * types,         e.g. `?type=member.created&type=member.updated`
    */
   type?: Array<string>
+  /**
+   * Filter results to show only those events that were performed by a certain type
+   * of actor
+   */
+  actor_type?: Array<EventListParamsActorType>
+  /**
+   * Filter results to show only those events that were performed by a specific actor
+   */
+  actor?: Array<EventListParamsActor>
+  /**
+   * Filter results to show only those events that were performed on a specific
+   * resource
+   */
+  resource?: Array<string>
+  /**
+   * A time based range filter on the list based on the object created_at field. For
+   * example
+   * `?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z`.
+   * The value is a dictionary with the following:
+   */
+  created_at?: EventListParamsCreatedAt
 }
 
 export class EventResource extends Resource {

@@ -1,5 +1,6 @@
 import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
+import { ApiKey } from '../ApiKey'
 import { File } from '../File'
 import { Member } from '../Member'
 import { User } from '../User'
@@ -52,8 +53,8 @@ export interface Message {
    */
   id: string
   /**
-   * The type of message that was sent. Text messages are messages from one user to
-   * another, and represent most messages sent on the platform. System messages are
+   * The type of message that was sent. Text messages are messages from a member or
+   * user and represent most messages sent on the platform. System messages are
    * automatically generated when notable thread events occur (such as reassignments
    * and status changes).
    */
@@ -67,9 +68,9 @@ export interface Message {
    */
   text: string
   /**
-   * The person who sent this message.
+   * The person or api key who sent this message.
    */
-  sender: Expandable<Member | User>
+  sender: Expandable<Member | User | ApiKey>
   /**
    * The time at which this message was sent.
    */
@@ -172,7 +173,7 @@ export interface MessageCreateParamsAttachment {
   url?: string
   /**
    * A map of your own metadata to be included alongside this attachment. For
-   * example, you can use this metadata for  bookkeeping or rendering in your member
+   * example, you can use this metadata for bookkeeping or rendering in your member
    * experience.
    *
    * Metadata may only be set when calling the API with your API keys. It cannot be
@@ -206,9 +207,9 @@ export interface MessageCreateParams {
    */
   sender?: MessageCreateParamsSender
   /**
-   * The time at which this message was sent.  When calling this endpoint with an API
+   * The time at which this message was sent. When calling this endpoint with an API
    * key you can optionally specify the sent_at time, such as when backloading
-   * historical messages.  By default and when called as a user or a member, the
+   * historical messages. By default and when called as a user or a member, the
    * current time is used.
    */
   sent_at?: string
@@ -242,7 +243,7 @@ export class MessageResource extends Resource {
   }
 
   /**
-   * Retrieves the details of an Message. You need only supply the unique message
+   * Retrieves the details of a message. You need only supply the unique message
    * identifier that was returned upon creation.
    */
   public retrieve(id: string, options?: SourceRequestOptions): Promise<Message> {

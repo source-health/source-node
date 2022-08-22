@@ -1,6 +1,9 @@
 import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
+import { File } from './File'
+import { Expandable } from './shared'
+
 export interface Account {
   /**
    * Always `account`.
@@ -19,12 +22,16 @@ export interface Account {
    */
   subdomain: string
   /**
+   * Pointer to the file that should be used as the logo for this account
+   */
+  logo: Expandable<File> | null
+  /**
    * The time zone associated with this account. This value is rarely used in Source,
    * however it serves an important purpose for appointment booking. In order to
    * ensure each day has consistent appointment slots available, we use this time
    * zone to determine when midnight is for your organization. Slots will reset when
-   * crossing midnight into the next day. You can read mroe about this in the
-   * documentation for the Slot resource.
+   * crossing midnight into the next day. You can read more about this in the
+   * documentation for the [Slot resource](../slot/).
    */
   time_zone: string
   /**
@@ -62,6 +69,11 @@ export interface AccountUpdateParams {
    * availability and booking appointments.
    */
   time_zone?: string
+  /**
+   * Pointer to the file to use as the logo for this account. Must be of purpose
+   * account_logo.
+   */
+  logo?: string | null
 }
 
 export class AccountResource extends Resource {

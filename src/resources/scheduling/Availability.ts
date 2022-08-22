@@ -1,5 +1,6 @@
 import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
+import { Location } from '../Location'
 import { User } from '../User'
 import { Expandable } from '../shared'
 
@@ -25,6 +26,18 @@ export interface AvailabilityRule {
    * day.
    */
   end: string
+  /**
+   * The first date from which this rule should apply, expressed as an ISO date. If
+   * set to a non-null value, this rule will not be considered when evaluating
+   * availability before the given date.
+   */
+  start_date: string | null
+  /**
+   * The last date on which this rule should apply, expressed as an ISO date. If set
+   * to a non-null value, this rule will not be considered when evaluating
+   * availability after the given date.
+   */
+  end_date: string | null
   /**
    * An optional set of appointment types that this availability rule is restricted
    * to. Only appointments of the specified types are bookable during the period of
@@ -89,6 +102,12 @@ export interface Availability {
    */
   user: Expandable<User>
   /**
+   * Resource to which this availability schedule corresponds. Availability schedules
+   * may belong to either a location or a user. Note that this property replaces the
+   * `user` property, and should be preferred in all contexts.
+   */
+  resource: Expandable<User | Location>
+  /**
    * The IANA time zone identifier in which this schedule should be interpreted. A
    * time zone must be provided, but can be set to UTC. All times in a user's
    * availability schedule are considered to be in "local" time, so they are
@@ -149,6 +168,18 @@ export interface AvailabilityUpdateForUserParamsRule {
    */
   end: string
   /**
+   * The first date from which this rule should apply, expressed as an ISO date. If
+   * set to a non-null value, this rule will not be considered when evaluating
+   * availability before the given date.
+   */
+  start_date?: string | null
+  /**
+   * The last date on which this rule should apply, expressed as an ISO date. If set
+   * to a non-null value, this rule will not be considered when evaluating
+   * availability after the given date.
+   */
+  end_date?: string | null
+  /**
    * An optional set of appointment types that this availability rule is restricted
    * to. Only appointments of the specified types are bookable during the period of
    * this rule. Omitting this field or providing an empty array implies the rule can
@@ -198,6 +229,10 @@ export interface AvailabilityUpdateForUserParamsOverride {
 }
 
 export interface AvailabilityUpdateForUserParams {
+  /**
+   * The time zone in which rules on this schedule should be evaluated.
+   */
+  time_zone?: string | null
   /**
    * The list of rules for this person's availability. Each rule defines a day of
    * week, start time, and end time of the rule. There may be multiple rules for a

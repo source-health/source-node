@@ -1,6 +1,6 @@
 import { Authentication } from './Authentication'
 
-export class Token implements Authentication {
+export class JWTAuthentication implements Authentication {
   /**
    * Creates a new token authentication
    *
