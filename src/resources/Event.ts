@@ -69,6 +69,35 @@ export interface EventListResponse {
   has_more: boolean
 }
 
+export type EventListParamsActorType =
+  | 'user'
+  | 'member'
+  | 'api'
+  | 'system'
+  | 'anonymous'
+  | 'unknown'
+export type EventListParamsActor = string
+
+export interface EventListParamsCreatedAt {
+  /**
+   * Return results where the created_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the created_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the created_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the created_at field is greater than or equal to this
+   * value.
+   */
+  gte?: string
+}
+
 export interface EventListParams {
   /**
    * A cursor for use in pagination. `ending_before` is an object ID that defines
@@ -94,6 +123,27 @@ export interface EventListParams {
    * types,         e.g. `?type=member.created&type=member.updated`
    */
   type?: Array<string>
+  /**
+   * Filter results to show only those events that were performed by a certain type
+   * of actor
+   */
+  actor_type?: Array<EventListParamsActorType>
+  /**
+   * Filter results to show only those events that were performed by a specific actor
+   */
+  actor?: Array<EventListParamsActor>
+  /**
+   * Filter results to show only those events that were performed on a specific
+   * resource
+   */
+  resource?: Array<string>
+  /**
+   * A time based range filter on the list based on the object created_at field. For
+   * example
+   * `?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z`.
+   * The value is a dictionary with the following:
+   */
+  created_at?: EventListParamsCreatedAt
 }
 
 export class EventResource extends Resource {
