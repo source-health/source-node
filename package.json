@@ -1,6 +1,6 @@
 {
   "name": "@source-health/client",
-  "version": "0.27.1",
+  "version": "1.0.0",
   "license": "MIT",
   "description": "Official TypeScript bindings for the Source Health API",
   "scripts": {
