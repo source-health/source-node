@@ -34,7 +34,7 @@ export interface Queue {
    * Defines how a new task should be routed to the possible users defined in
    * `routing_targets`. Because of the complexity in routing, it's best explained by
    * example. Assume you have created a task that must be completed by a user in the
-   * Physicians group, which you have specified in the queue's `routing_targets. The
+   * Physicians group, which you have specified in the queue's `routing_targets`. The
    * behavior of each routing strategy is as follows:
    *
    * * care_team_required - The task will be assigned only to a user who is in the
@@ -161,7 +161,7 @@ export interface QueueCreateParams {
    * Defines how a new task should be routed to the possible users defined in
    * `routing_targets`. Because of the complexity in routing, it's best explained by
    * example. Assume you have created a task that must be completed by a user in the
-   * Physicians group, which you have specified in the queue's `routing_targets. The
+   * Physicians group, which you have specified in the queue's `routing_targets`. The
    * behavior of each routing strategy is as follows:
    *
    * * care_team_required - The task will be assigned only to a user who is in the
@@ -220,7 +220,7 @@ export interface QueueUpdateParams {
    * Defines how a new task should be routed to the possible users defined in
    * `routing_targets`. Because of the complexity in routing, it's best explained by
    * example. Assume you have created a task that must be completed by a user in the
-   * Physicians group, which you have specified in the queue's `routing_targets. The
+   * Physicians group, which you have specified in the queue's `routing_targets`. The
    * behavior of each routing strategy is as follows:
    *
    * * care_team_required - The task will be assigned only to a user who is in the
@@ -265,8 +265,8 @@ export interface QueueDeleteParams {
 
 export class QueueResource extends Resource {
   /**
-   * The queues returned are sorted by creation date, with the most recently added
-   * queue appearing first.
+   * Returns a list of queues within the current account. The queues returned are
+   * sorted by creation date, with the most recently added queue appearing first.
    */
   public list(
     params?: QueueListParams,

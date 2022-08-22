@@ -2,7 +2,7 @@ import { SourceInstance, resourceFactory, resourceNamespace } from '../factories
 
 import { AccountResource } from './Account'
 import { CareTeamResource } from './CareTeam'
-import { CareTeamRoleResource } from './CareTeamRole'
+import { CommentResource } from './Comment'
 import { DocumentResource } from './Document'
 import { EventResource } from './Event'
 import { FileResource } from './File'
@@ -32,7 +32,7 @@ import { SlotResource } from './scheduling/Slot'
 export const allResources = resourceNamespace({
   accounts: resourceFactory(AccountResource),
   careTeams: resourceFactory(CareTeamResource),
-  careTeamRoles: resourceFactory(CareTeamRoleResource),
+  comments: resourceFactory(CommentResource),
   documents: resourceFactory(DocumentResource),
   events: resourceFactory(EventResource),
   files: resourceFactory(FileResource),
@@ -69,8 +69,9 @@ export const allResources = resourceNamespace({
 })
 export type RootResources = SourceInstance<typeof allResources>
 export * from './Account'
+export * from './ApiKey'
 export * from './CareTeam'
-export * from './CareTeamRole'
+export * from './Comment'
 export * from './CompoundConditional'
 export * from './ConcreteConditional'
 export * from './Conditional'
@@ -81,6 +82,7 @@ export * from './Event'
 export * from './File'
 export * from './Group'
 export * from './License'
+export * from './Location'
 export * from './Member'
 export * from './Product'
 export * from './Question'

@@ -86,6 +86,11 @@ export interface FormVersionExitScreen {
    */
   key: string
   /**
+   * A description of this exit screen. If the responder reaches this exit screen,
+   * the screen's description is displayed within the completed form response.
+   */
+  description: string
+  /**
    * Type of the rich text content. Currently only `md` (i.e. Markdown) is supported.
    */
   content_type: 'md'
@@ -233,6 +238,11 @@ export interface FormVersionLatestParamsExitScreen {
    * with key 'default' must exist in every form.
    */
   key: string
+  /**
+   * A description of this exit screen. If the responder reaches this exit screen,
+   * the screen's description is displayed within the completed form response.
+   */
+  description: string
   /**
    * Type of the rich text content. Currently only `md` (i.e. Markdown) is supported.
    */

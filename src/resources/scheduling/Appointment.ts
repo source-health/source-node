@@ -6,7 +6,7 @@ import { Expandable } from '../shared'
 
 import { AppointmentType } from './AppointmentType'
 
-export type AppointmentStatus = 'booked' | 'canceled'
+export type AppointmentStatus = 'booked' | 'confirmed' | 'no_show' | 'completed' | 'canceled'
 export type AppointmentParticipantStatus = 'tentative' | 'accepted' | 'declined'
 
 export interface AppointmentParticipant {
@@ -65,9 +65,9 @@ export interface Appointment {
    */
   id: string
   /**
-   * Reference to the type of appointemnt that was booked.
+   * Reference to the type of appointment that was booked.
    */
-  appointment_type: Expandable<AppointmentType>
+  appointment_type: Expandable<AppointmentType> | null
   /**
    * The member to which this appointment belongs. Setting a member on this property
    * will allow the member to access this appointment via the API. Members can only
@@ -128,6 +128,12 @@ export interface Appointment {
    */
   video_call: AppointmentVideoCall | null
   /**
+   * Indicates that this appointment was imported from an external integrated
+   * calendar, such as Google Calendar. External appointments are managed by Source
+   * directly and cannot be updated via API.
+   */
+  externally_managed: boolean
+  /**
    * Timestamp when the appointment type was created.
    */
   created_at: string
@@ -159,7 +165,12 @@ export type AppointmentListParamsSort =
   | '-start_at'
   | '-end_at'
   | '-created_at'
-export type AppointmentListParamsStatus = 'booked' | 'canceled'
+export type AppointmentListParamsStatus =
+  | 'booked'
+  | 'confirmed'
+  | 'no_show'
+  | 'completed'
+  | 'canceled'
 
 export interface AppointmentListParamsStartAt {
   /**
@@ -243,6 +254,11 @@ export interface AppointmentListParams {
    * or keys.
    */
   type?: Array<string>
+  /**
+   * Filter appointments by whether they are externally managed or not (e.g. imported
+   * from a Google calendar).
+   */
+  externally_managed?: boolean
   /**
    * A time based range filter on the list based on the object start_at field. For
    * example
@@ -410,6 +426,10 @@ export interface AppointmentUpdateParamsVideoCall {
 
 export interface AppointmentUpdateParams {
   /**
+   * Unique ID or key of the appointment type for this appointment.
+   */
+  appointment_type?: string
+  /**
    * Time zone in which the appointment should be scheduled. Changing this value has
    * no impact on the actual time of the appointment, which is always provided in
    * UTC. However, this value may be used when formatting the appointment time for
@@ -483,6 +503,17 @@ export interface AppointmentUpdateParams {
   video_call?: AppointmentUpdateParamsVideoCall | null
 }
 
+export type AppointmentTransitionParamsStatus =
+  | 'booked'
+  | 'confirmed'
+  | 'no_show'
+  | 'completed'
+  | 'canceled'
+
+export interface AppointmentTransitionParams {
+  status: AppointmentTransitionParamsStatus
+}
+
 export class AppointmentResource extends Resource {
   /**
    * List all appointments in a given time range, or for a given set of participants.
@@ -549,7 +580,7 @@ export class AppointmentResource extends Resource {
    * When adding participants to an existing appointment, Source will only perform
    * conflict checks on the newly added participants, ignoring any potential
    * conflicts for participants who are already on the appointment. You may bypass
-   * this check by setting the skip_constraintss param to true.
+   * this check by setting the `skip_constraints` param to true.
    */
   public update(
     id: string,
@@ -557,6 +588,25 @@ export class AppointmentResource extends Resource {
     options?: SourceRequestOptions,
   ): Promise<Appointment> {
     return this.source.request('POST', `/v1/scheduling/appointments/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Transitions an existing appointment into another status.
+   *
+   * Canceled appointments will not show up by default when listing appointments, but
+   * they can be optionally requested. Appointments must be canceled before they can
+   * be deleted. Once an appointment is canceled, it can no longer be modified.
+   */
+  public transition(
+    id: string,
+    params: AppointmentTransitionParams,
+    options?: SourceRequestOptions,
+  ): Promise<Appointment> {
+    return this.source.request('POST', `/v1/scheduling/appointments/${id}/transition`, {
       data: params,
       contentType: 'json',
       options,

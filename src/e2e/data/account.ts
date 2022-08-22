@@ -5,7 +5,7 @@ import { nanoid } from 'nanoid'
 
 import { Source } from '../../Source'
 import NodeHttpClient from '../../adapter/NodeAdapter'
-import { ApiKey } from '../../authentication'
+import { ApiKeyAuthentication } from '../../authentication'
 import { Account } from '../../resources'
 
 import { getApiKeyId } from './api_keys'
@@ -63,9 +63,12 @@ export async function setupAccount(): Promise<SetupAccountObject> {
 
   const liveApiKeyId = await getApiKeyId(ownerToken, true)
 
-  const client = new Source(new ApiKey(liveApiKeyId, response.data.live_secret_key!), {
-    baseUrl,
-  })
+  const client = new Source(
+    new ApiKeyAuthentication(liveApiKeyId, response.data.live_secret_key!),
+    {
+      baseUrl,
+    },
+  )
 
   return {
     subdomain: response.data.subdomain,

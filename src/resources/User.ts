@@ -1,7 +1,6 @@
 import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
-import { CareTeamRole } from './CareTeamRole'
 import { File } from './File'
 import { Group } from './Group'
 import { Expandable } from './shared'
@@ -28,8 +27,8 @@ export interface User {
   last_name: string | null
   /**
    * Display text that describes the user's title. The display title will appear in
-   * the Source application and the member-facing Elements SDK but will not affect
-   * any Source configuration. For example, a physician user's title may be set to
+   * the Source application and the member experience SDKs but will not affect any
+   * Source configuration. For example, a physician user's title may be set to
    * 'Physician.'
    */
   display_title: string | null
@@ -59,16 +58,6 @@ export interface User {
    * account. A user can be a member of up to 20 groups.
    */
   groups: Array<Expandable<Group>>
-  /**
-   * Care team roles should no longer be used, and Source will be removing care team
-   * roles in the future. Use groups instead.
-   */
-  live_care_team_role: Expandable<CareTeamRole> | null
-  /**
-   * Care team roles should no longer be used, and Source will be removing care team
-   * roles in the future. Use groups instead.
-   */
-  test_care_team_role: Expandable<CareTeamRole> | null
   /**
    * Current status of the user. Possible status values are `active`, `invited`, and
    * `deactivated`.
@@ -211,16 +200,6 @@ export interface UserCreateParams {
    */
   groups?: Array<string>
   /**
-   * Care team roles should no longer be used, and Source will be removing care team
-   * roles in the future. Use groups instead.
-   */
-  live_care_team_role?: string | null
-  /**
-   * Care team roles should no longer be used, and Source will be removing care team
-   * roles in the future. Use groups instead.
-   */
-  test_care_team_role?: string | null
-  /**
    * The file for the user's profile image. Must be of type `user_profile_photo`
    */
   profile_image?: string | null
@@ -272,16 +251,6 @@ export interface UserUpdateParams {
    * account. A user can be a member of  up to 20 groups.
    */
   groups?: Array<string>
-  /**
-   * Care team roles should no longer be used, and Source will be removing care team
-   * roles in the future. Use groups instead.
-   */
-  live_care_team_role?: string | null
-  /**
-   * Care team roles should no longer be used, and Source will be removing care team
-   * roles in the future. Use groups instead.
-   */
-  test_care_team_role?: string | null
   /**
    * The file for the user's profile image. Must be of type `user_profile_photo`
    */
@@ -338,12 +307,11 @@ export class UserResource extends Resource {
    * parameters not provided will be left unchanged. For example, if you only provide
    * the first_name parameter, that only updates the user's first_name.
    *
-   * All users can update their own name and care team roles.
+   * All users can update their own name.
    *
-   * API keys can update the name and care team roles of users.
+   * API keys can update the name of users.
    *
-   * Administrators and owners may update the name, care team roles, email and role
-   * of other users.
+   * Administrators and owners may update the name, email and role of other users.
    *
    * Administrators and owners may assign users to groups.
    *

@@ -15,7 +15,7 @@ export interface Document {
    */
   id: string
   /**
-   * A short form name of the document.
+   * A short-form name of the document.
    */
   name: string
   /**
@@ -31,7 +31,7 @@ export interface Document {
    */
   file: Expandable<File>
   /**
-   *  Whether only internal users or a member can view this document. If not
+   * Whether only internal users or a member can view this document. If not
    * specified, the default is false and a member can view the document.
    */
   internal: boolean
@@ -185,12 +185,12 @@ export interface DocumentCreateParams {
    */
   date?: string
   /**
-   *  Whether only internal users or a member can view this document. If not
+   * Whether only internal users or a member can view this document. If not
    * specified, the default is false and a member can view the document.
    */
   internal?: boolean
   /**
-   * A short form name of the document.
+   * A short-form name of the document.
    */
   name: string
   /**
@@ -206,12 +206,12 @@ export interface DocumentUpdateParams {
    */
   date?: string
   /**
-   *  Whether only internal users or a member can view this document. If not
+   * Whether only internal users or a member can view this document. If not
    * specified, the default is false and a member can view the document.
    */
   internal?: boolean
   /**
-   * A short form name of the document.
+   * A short-form name of the document.
    */
   name?: string
   /**
@@ -238,8 +238,8 @@ export class DocumentResource extends Resource {
   }
 
   /**
-   * Creates a new document for the member you specify.  Use the Files API to upload
-   * a file with a purpose of document to include in the document resource.
+   * Creates a new document for the member you specify. Use the [Files API](../file/)
+   * to upload a file with a purpose of document to include in the document resource.
    */
   public create(params: DocumentCreateParams, options?: SourceRequestOptions): Promise<Document> {
     return this.source.request('POST', '/v1/documents', {
@@ -250,7 +250,7 @@ export class DocumentResource extends Resource {
   }
 
   /**
-   * Retrieves the details of an existing document.  You need only supply the unique
+   * Retrieves the details of an existing document. You need only supply the unique
    * document identifier that was returned upon creation or when listing documents.
    */
   public retrieve(id: string, options?: SourceRequestOptions): Promise<Document> {

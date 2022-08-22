@@ -78,6 +78,10 @@ export interface Task {
    */
   managed: boolean
   /**
+   * The number of comments that have been made on this task.
+   */
+  comments: number
+  /**
    * Timestamp of when the task was created.
    */
   created_at: string

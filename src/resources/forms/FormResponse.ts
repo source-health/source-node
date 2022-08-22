@@ -165,6 +165,11 @@ export interface FormResponseListParams {
    */
   sort?: FormResponseListParamsSort
   /**
+   * Filter results by form. If multiple form ids are provided, responses matching
+   * any of the provided forms will be returned.
+   */
+  form?: Array<string>
+  /**
    * Filter results by member. If multiple member ids are provided, responses
    * matching any of the provided members will be returned.
    */

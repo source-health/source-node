@@ -2,7 +2,7 @@ import { SignJWT } from 'jose/jwt/sign' // eslint-disable-line
 
 import { SourceConfiguration } from '../SourceConfiguration'
 import { SourceError } from '../SourceError'
-import { ApiKey } from '../authentication'
+import { ApiKeyAuthentication } from '../authentication'
 
 import { TokenGenerator, TokenOptions } from './TokenGenerator'
 
@@ -39,7 +39,7 @@ export default class NodeTokenGenerator implements TokenGenerator {
    */
   private async generateWithValidOptions(options: ValidatedTokenOptions): Promise<string> {
     const authentication = this.configuration.getAuthentication()
-    if (!(authentication instanceof ApiKey)) {
+    if (!(authentication instanceof ApiKeyAuthentication)) {
       throw new Error('You may only generate tokens when using API key authentication')
     }
 

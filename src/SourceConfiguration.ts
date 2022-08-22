@@ -1,6 +1,6 @@
 import { SourceRequestOptions } from './SourceClient'
 import { HttpRequestInterceptor } from './adapter'
-import { ApiKey, Authentication } from './authentication'
+import { ApiKeyAuthentication, Authentication } from './authentication'
 
 export interface SourceConfigurationOptions {
   /**
@@ -34,7 +34,7 @@ export class SourceConfiguration {
     this._baseUrl = values.baseUrl
     this._authentication =
       typeof values.authentication === 'undefined'
-        ? ApiKey.fromEnvironment()
+        ? ApiKeyAuthentication.fromEnvironment()
         : values.authentication
     this._requestOptions = values.defaultRequestOptions ?? {}
     this._interceptors = values.requestInterceptors ?? []

@@ -1,11 +1,23 @@
 import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
+import { Member } from './Member'
+import { User } from './User'
+import { Expandable } from './shared'
+
+export type EventActorType = 'user' | 'member' | 'api' | 'system' | 'anonymous' | 'unknown'
+
 export interface EventData {
   /**
    * Serialized object related to the event.
    */
   object: unknown
+  /**
+   * The previous values of any attributes that changed. This propery is typically
+   * only returned on *.updated events which may have modified several fields in a
+   * single request.
+   */
+  previous_values?: unknown
 }
 
 export interface Event {
@@ -21,6 +33,17 @@ export interface Event {
    * Type of event.
    */
   type: string
+  /**
+   * Actor whose action triggered this event. The actor may be a user, member, or
+   * null. When the actor value is null, such as for an action being performed by the
+   * system, the `actor_type` field is fully descriptive.
+   */
+  actor: Expandable<Member | User> | null
+  /**
+   * The type of actor whose action triggered this event. The `unknown` value should
+   * only be present in historical events created prior to December 2021.
+   */
+  actor_type: EventActorType
   /**
    * Payload contained within this event.
    */
