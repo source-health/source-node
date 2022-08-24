@@ -18,6 +18,10 @@ export interface User {
    */
   id: string
   /**
+   * Title of this user.
+   */
+  title: string | null
+  /**
    * First name of the user.
    */
   first_name: string | null
@@ -25,6 +29,10 @@ export interface User {
    * Last name of the user.
    */
   last_name: string | null
+  /**
+   * Suffix for this user.
+   */
+  suffix: string | null
   /**
    * Display text that describes the user's title. The display title will appear in
    * the Source application and the member experience SDKs but will not affect any
@@ -152,6 +160,10 @@ export type UserCreateParamsRole = 'owner' | 'administrator' | 'developer' | 'cl
 
 export interface UserCreateParams {
   /**
+   * Title of this user.
+   */
+  title?: string | null
+  /**
    * First name of the user.
    */
   first_name: string
@@ -159,6 +171,10 @@ export interface UserCreateParams {
    * Last name of the user.
    */
   last_name: string
+  /**
+   * Suffix for this user.
+   */
+  suffix?: string | null
   /**
    * Display text that describes the user's title. The display title will appear in
    * the Source application and the member-facing Elements SDK but will not affect
@@ -209,6 +225,10 @@ export type UserUpdateParamsRole = 'owner' | 'administrator' | 'developer' | 'cl
 
 export interface UserUpdateParams {
   /**
+   * Title of this user.
+   */
+  title?: string | null
+  /**
    * First name of the user.
    */
   first_name?: string
@@ -216,6 +236,10 @@ export interface UserUpdateParams {
    * Last name of the user.
    */
   last_name?: string
+  /**
+   * Suffix for this user.
+   */
+  suffix?: string | null
   /**
    * Display text that describes the user's title. The display title will appear in
    * the Source application and the member-facing Elements SDK but will not affect
