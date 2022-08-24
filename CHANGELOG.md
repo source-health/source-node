@@ -1,13 +1,30 @@
 # Source Client Changelog
 
+## v1.1
+
+### New API Features
+
+- Add 'title' and 'suffix' to users
+- New member list filter params:
+  - care_team
+  - enrollment_status
+  - region
+  - sex_at_birth
+  - gender_identity
+- New member list sort params
+
+### Backwards Incompatibility Changes
+
+- Member search filter param 'email' becomes an array of email addresses.
+
 ## v1.0
 
 ### Backwards Incompatible Changes and Deprecations
 
 - Authentication classes have been renamed as they collided with API resources. Note that no changes were made to the behavior of these classes, and only the names were changed. The following changes were made:
-   - `ApiKey` -> `ApiKeyAuthentication`
-   - `UserKey` -> `UserAuthentication`
-   - `Token` -> `JWTAuthentication`
+  - `ApiKey` -> `ApiKeyAuthentication`
+  - `UserKey` -> `UserAuthentication`
+  - `Token` -> `JWTAuthentication`
   - `Anonymous` -> `AnonymousAuthentication`
 - `CareTeamRole` resource has been removed. Its usage for user categorization can be replaced by Groups, and its usage in task routing can be replaced by Queues.
 - `Message` resources can now have a `sender` pointing to an `ApiKey`, in addition to the typical `User` and `Member`.
@@ -19,7 +36,7 @@
 - Comments
 - Appointment Statuses
 - Account Branding Logos
-- Previous Values for *.updated events
+- Previous Values for \*.updated events
 
 ### Other Changes
 

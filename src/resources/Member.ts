@@ -223,6 +223,24 @@ export interface MemberListResponse {
   has_more: boolean
 }
 
+export type MemberListParamsSort =
+  | 'created_at'
+  | 'name'
+  | 'date_of_birth'
+  | '-created_at'
+  | '-name'
+  | '-date_of_birth'
+export type MemberListParamsEnrollmentStatus = 'enrolled' | 'not_enrolled'
+export type MemberListParamsSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
+export type MemberListParamsGenderIdentity =
+  | 'female'
+  | 'male'
+  | 'non_binary'
+  | 'other'
+  | 'transgender_female'
+  | 'transgender_male'
+  | 'undisclosed'
+
 export interface MemberListParams {
   /**
    * A cursor for use in pagination. `ending_before` is an object ID that defines
@@ -244,15 +262,48 @@ export interface MemberListParams {
    */
   limit?: number
   /**
+   * Sort field for the results. A '-' prefix indicates sorting by that field in
+   * descending order, otherwise the order will be ascending.
+   */
+  sort?: MemberListParamsSort
+  /**
    * Limit results to members tagged with the provided tag. You may provide either
    * tag IDs or tag names for previously created tags. If multiple tags are provided,
    * searches for members containing any of the provided tags.
    */
   tag?: Array<string>
   /**
-   * Limit results to members with the given email.
+   * Limit results to members with the specified email. If multiple emails are
+   * provided, members who have any of the emails are returned.
    */
-  email?: string
+  email?: Array<string>
+  /**
+   * Filter results to members who have a specified user on their care team. Users
+   * must be provided as a list of user identifiers. If multiple users are provided,
+   * members who have any of the specified users on their care team are returned.
+   */
+  care_team?: Array<string>
+  /**
+   * Filter results to members who have a specified enrollment status.
+   */
+  enrollment_status?: Array<MemberListParamsEnrollmentStatus>
+  /**
+   * Filter results to members whose addresses match the specified region. In the US
+   * this should be the two-letter state code. If multiple regions are provided,
+   * members who are located in any of the specified regions are returned.
+   */
+  region?: Array<string>
+  /**
+   * Filter results to members who have a specified sex at birth. If multiple sexes
+   * at birth are provided, members who have any of those specified are returned.
+   */
+  sex_at_birth?: Array<MemberListParamsSexAtBirth>
+  /**
+   * Filter results to members who have a specified gender identity. You must specify
+   * the `gender_identity.value`. If multiple gender identities are provided, members
+   * who have any of those specified are returned.
+   */
+  gender_identity?: Array<MemberListParamsGenderIdentity>
 }
 
 export type MemberCreateParamsSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
