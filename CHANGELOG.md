@@ -1,5 +1,11 @@
 # Source Client Changelog
 
+## v1.1.1
+
+### Other Changes
+
+- Polyfill `Object.fromEntries` to support older browsers
+
 ## v1.1
 
 ### New API Features
