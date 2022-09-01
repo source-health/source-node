@@ -1,3 +1,4 @@
+import './polyfill'
 export * from './authentication'
 export * from './adapter'
 export * from './resources'
