@@ -41,7 +41,6 @@
     "webpack-cli": "^4.8.0"
   },
   "dependencies": {
-    "jose": "^3.19.0",
-    "object.fromentries": "^2.0.5"
+    "jose": "^3.19.0"
   }
 }
