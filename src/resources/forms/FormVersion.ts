@@ -1,7 +1,6 @@
 import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
 import { CompoundConditional } from '../CompoundConditional'
-import { EarlyExitPoint } from '../EarlyExitPoint'
 import { Question } from '../Question'
 import { Expandable } from '../shared'
 
@@ -19,13 +18,19 @@ export interface FormVersionItemItem0Item1 {
    */
   content: string
   /**
-   * A conditional statement - if it evaluates to true, this element will be
-   * displayed, if false the element will not be displayed.
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
    */
   conditional?: CompoundConditional
 }
 
-export type FormVersionItemItem0Item = Question | FormVersionItemItem0Item1 | EarlyExitPoint
+export type FormVersionItemItem0Item = Question | FormVersionItemItem0Item1
 
 export interface FormVersionItemItem0 {
   type: 'group'
@@ -34,8 +39,14 @@ export interface FormVersionItemItem0 {
    */
   items: Array<FormVersionItemItem0Item>
   /**
-   * A conditional statement - if it evaluates to true, this group will be displayed,
-   * if false the items inside this group will not be displayed.
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
    */
   conditional?: CompoundConditional
 }
@@ -52,17 +63,35 @@ export interface FormVersionItemItem2 {
    */
   content: string
   /**
-   * A conditional statement - if it evaluates to true, this element will be
-   * displayed, if false the element will not be displayed.
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
    */
   conditional?: CompoundConditional
 }
 
-export type FormVersionItemItem =
-  | FormVersionItemItem0
-  | Question
-  | FormVersionItemItem2
-  | EarlyExitPoint
+export type FormVersionItemItem = FormVersionItemItem0 | Question | FormVersionItemItem2
+
+export interface FormVersionItemExit {
+  type: 'exit'
+  /**
+   * Indicates which exit screen to display if the conditions are met.
+   */
+  exit_screen_key: string
+  /**
+   * A 'compound' conditional (in contrast to a 'concrete' one) takes a set of other
+   * conditionals and applies the give '$or' or '$and' condition to combine them.
+   *
+   * The operands may be concrete conditionals or compound ones, allowing nested
+   * 'and'/'or' combinations.
+   */
+  conditional: CompoundConditional
+}
 
 export interface FormVersionItem {
   type: 'page'
@@ -71,8 +100,18 @@ export interface FormVersionItem {
    */
   items: Array<FormVersionItemItem>
   /**
-   * A conditional statement - if it evaluates to true, this group will be displayed,
-   * if false the items inside this group will not be displayed.
+   * Array of exit points.
+   */
+  exits?: Array<FormVersionItemExit> | null
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
    */
   conditional?: CompoundConditional
 }
@@ -80,9 +119,9 @@ export interface FormVersionItem {
 export interface FormVersionExitScreen {
   type: 'exit_screen'
   /**
-   * A unique key for this exit screen within the form. The keys are used in early
-   * exit points to indicate which screen is used for the early exit. An exit screen
-   * with key 'default' must exist in every form.
+   * A unique key for this exit screen within the form. The keys are used in exits to
+   * indicate which screen is used for the exit. An exit screen with key 'default'
+   * must exist in every form.
    */
   key: string
   /**
@@ -134,13 +173,13 @@ export interface FormVersion {
   /**
    * An array of items that describe the form version's content and configuration.
    * Pages form the top-level item and contain additional elements, such as
-   * questions, display elements, early exit points, and groups of items.
+   * questions, display elements, and groups of items.
    */
   items: Array<FormVersionItem>
   /**
    * A map of 'key' to exit screen content. Each form must contain an exit screen
    * with the key 'default', and additional exit screens can be configured and
-   * referenced by early exit points within the form.
+   * referenced by exits within the form.
    */
   exit_screens: Array<FormVersionExitScreen>
   /**
@@ -169,16 +208,19 @@ export interface FormVersionLatestParamsItemItem0Item1 {
    */
   content: string
   /**
-   * A conditional statement - if it evaluates to true, this element will be
-   * displayed, if false the element will not be displayed.
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
    */
   conditional?: CompoundConditional
 }
 
-export type FormVersionLatestParamsItemItem0Item =
-  | Question
-  | FormVersionLatestParamsItemItem0Item1
-  | EarlyExitPoint
+export type FormVersionLatestParamsItemItem0Item = Question | FormVersionLatestParamsItemItem0Item1
 
 export interface FormVersionLatestParamsItemItem0 {
   type: 'group'
@@ -187,8 +229,14 @@ export interface FormVersionLatestParamsItemItem0 {
    */
   items: Array<FormVersionLatestParamsItemItem0Item>
   /**
-   * A conditional statement - if it evaluates to true, this group will be displayed,
-   * if false the items inside this group will not be displayed.
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
    */
   conditional?: CompoundConditional
 }
@@ -205,8 +253,14 @@ export interface FormVersionLatestParamsItemItem2 {
    */
   content: string
   /**
-   * A conditional statement - if it evaluates to true, this element will be
-   * displayed, if false the element will not be displayed.
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
    */
   conditional?: CompoundConditional
 }
@@ -215,7 +269,22 @@ export type FormVersionLatestParamsItemItem =
   | FormVersionLatestParamsItemItem0
   | Question
   | FormVersionLatestParamsItemItem2
-  | EarlyExitPoint
+
+export interface FormVersionLatestParamsItemExit {
+  type: 'exit'
+  /**
+   * Indicates which exit screen to display if the conditions are met.
+   */
+  exit_screen_key: string
+  /**
+   * A 'compound' conditional (in contrast to a 'concrete' one) takes a set of other
+   * conditionals and applies the give '$or' or '$and' condition to combine them.
+   *
+   * The operands may be concrete conditionals or compound ones, allowing nested
+   * 'and'/'or' combinations.
+   */
+  conditional: CompoundConditional
+}
 
 export interface FormVersionLatestParamsItem {
   type: 'page'
@@ -224,8 +293,18 @@ export interface FormVersionLatestParamsItem {
    */
   items: Array<FormVersionLatestParamsItemItem>
   /**
-   * A conditional statement - if it evaluates to true, this group will be displayed,
-   * if false the items inside this group will not be displayed.
+   * Array of exit points.
+   */
+  exits?: Array<FormVersionLatestParamsItemExit> | null
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
    */
   conditional?: CompoundConditional
 }
@@ -233,9 +312,9 @@ export interface FormVersionLatestParamsItem {
 export interface FormVersionLatestParamsExitScreen {
   type: 'exit_screen'
   /**
-   * A unique key for this exit screen within the form. The keys are used in early
-   * exit points to indicate which screen is used for the early exit. An exit screen
-   * with key 'default' must exist in every form.
+   * A unique key for this exit screen within the form. The keys are used in exits to
+   * indicate which screen is used for the exit. An exit screen with key 'default'
+   * must exist in every form.
    */
   key: string
   /**
@@ -264,13 +343,13 @@ export interface FormVersionLatestParams {
   /**
    * An array of items that describe the form version's content and configuration.
    * Pages form the top-level item and contain additional elements, such as
-   * questions, display elements, early exit points, and groups of items.
+   * questions, display elements, and groups of items.
    */
   items: Array<FormVersionLatestParamsItem>
   /**
-   * A map of early exit point keys to exit screen content. Each form version must
-   * contain an exit screen with the key 'default', and additional exit screens can
-   * be configured and referenced by early exit points within the form version.
+   * A map of exit keys to exit screen content. Each form version must contain an
+   * exit screen with the key 'default', and additional exit screens can be
+   * configured and referenced by exits within the form version.
    */
   exit_screens: Array<FormVersionLatestParamsExitScreen>
 }

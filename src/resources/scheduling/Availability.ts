@@ -6,6 +6,13 @@ import { Expandable } from '../shared'
 
 import { AppointmentType } from './AppointmentType'
 
+export type AvailabilityRuleReleaseWindowUnit = 'day' | 'hour' | 'minute'
+
+export interface AvailabilityRuleReleaseWindow {
+  unit: AvailabilityRuleReleaseWindowUnit
+  time: number
+}
+
 export interface AvailabilityRule {
   /**
    * The day of the week to which this rule applies, as an ISO day of week. The value
@@ -49,6 +56,29 @@ export interface AvailabilityRule {
    * rules may be booked during the overlap.
    */
   appointment_types: Array<Expandable<AppointmentType>>
+  /**
+   * The time (in hours) before this availability rule when this availability is
+   * released and appointments that don't match the rule criteria can be booked.
+   *
+   * For example, say you have a 3pm - 5pm availability rule restricted to Urgent
+   * Care visits. Typically, this would mean that only Urgent Care visits could be
+   * scheduled during that time. If you only had one hour of Urgent Care visits
+   * booked, then an hour of your day would go unutilized.
+   *
+   * Using release windows, you can set the time at which the remaining Urgent Care
+   * visit capacity is released for any appointment type. if you set release window
+   * to 1 hour, for example, then starting at 2pm, your members would be able to book
+   * non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book
+   * non-Urgent Care visits at 4pm, and so on.
+   */
+  release_window: AvailabilityRuleReleaseWindow | null
+}
+
+export type AvailabilityOverrideRuleReleaseWindowUnit = 'day' | 'hour' | 'minute'
+
+export interface AvailabilityOverrideRuleReleaseWindow {
+  unit: AvailabilityOverrideRuleReleaseWindowUnit
+  time: number
 }
 
 export interface AvailabilityOverrideRule {
@@ -76,6 +106,22 @@ export interface AvailabilityOverrideRule {
    * appointment types in all overlapping rules may be booked during the overlap.
    */
   appointment_types: Array<Expandable<AppointmentType>>
+  /**
+   * The time (in hours) before this availability rule when this availability is
+   * released and appointments that don't match the rule criteria can be booked.
+   *
+   * For example, say you have a 3pm - 5pm availability rule restricted to Urgent
+   * Care visits. Typically, this would mean that only Urgent Care visits could be
+   * scheduled during that time. If you only had one hour of Urgent Care visits
+   * booked, then an hour of your day would go unutilized.
+   *
+   * Using release windows, you can set the time at which the remaining Urgent Care
+   * visit capacity is released for any appointment type. if you set release window
+   * to 1 hour, for example, then starting at 2pm, your members would be able to book
+   * non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book
+   * non-Urgent Care visits at 4pm, and so on.
+   */
+  release_window: AvailabilityOverrideRuleReleaseWindow | null
 }
 
 export interface AvailabilityOverride {
@@ -147,6 +193,13 @@ export interface Availability {
   updated_at: string
 }
 
+export type AvailabilityUpdateForUserParamsRuleReleaseWindowUnit = 'day' | 'hour' | 'minute'
+
+export interface AvailabilityUpdateForUserParamsRuleReleaseWindow {
+  unit: AvailabilityUpdateForUserParamsRuleReleaseWindowUnit
+  time: number
+}
+
 export interface AvailabilityUpdateForUserParamsRule {
   /**
    * The day of the week to which this rule applies, as an ISO day of week. The value
@@ -190,6 +243,29 @@ export interface AvailabilityUpdateForUserParamsRule {
    * rules may be booked during the overlap.
    */
   appointment_types?: Array<string>
+  /**
+   * The time (in hours) before this availability rule when this availability is
+   * released and appointments that don't match the rule criteria can be booked.
+   *
+   * For example, say you have a 3pm - 5pm availability rule restricted to Urgent
+   * Care visits. Typically, this would mean that only Urgent Care visits could be
+   * scheduled during that time. If you only had one hour of Urgent Care visits
+   * booked, then an hour of your day would go unutilized.
+   *
+   * Using release windows, you can set the time at which the remaining Urgent Care
+   * visit capacity is released for any appointment type. if you set release window
+   * to 1 hour, for example, then starting at 2pm, your members would be able to book
+   * non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book
+   * non-Urgent Care visits at 4pm, and so on.
+   */
+  release_window?: AvailabilityUpdateForUserParamsRuleReleaseWindow | null
+}
+
+export type AvailabilityUpdateForUserParamsOverrideRuleReleaseWindowUnit = 'day' | 'hour' | 'minute'
+
+export interface AvailabilityUpdateForUserParamsOverrideRuleReleaseWindow {
+  unit: AvailabilityUpdateForUserParamsOverrideRuleReleaseWindowUnit
+  time: number
 }
 
 export interface AvailabilityUpdateForUserParamsOverrideRule {
@@ -217,6 +293,22 @@ export interface AvailabilityUpdateForUserParamsOverrideRule {
    * appointment types in all overlapping rules may be booked during the overlap.
    */
   appointment_types?: Array<string>
+  /**
+   * The time (in hours) before this availability rule when this availability is
+   * released and appointments that don't match the rule criteria can be booked.
+   *
+   * For example, say you have a 3pm - 5pm availability rule restricted to Urgent
+   * Care visits. Typically, this would mean that only Urgent Care visits could be
+   * scheduled during that time. If you only had one hour of Urgent Care visits
+   * booked, then an hour of your day would go unutilized.
+   *
+   * Using release windows, you can set the time at which the remaining Urgent Care
+   * visit capacity is released for any appointment type. if you set release window
+   * to 1 hour, for example, then starting at 2pm, your members would be able to book
+   * non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book
+   * non-Urgent Care visits at 4pm, and so on.
+   */
+  release_window?: AvailabilityUpdateForUserParamsOverrideRuleReleaseWindow | null
 }
 
 export interface AvailabilityUpdateForUserParamsOverride {

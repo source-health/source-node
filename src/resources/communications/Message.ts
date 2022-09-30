@@ -1,14 +1,18 @@
 import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
 import { ApiKey } from '../ApiKey'
+import { ContactPoint } from '../ContactPoint'
 import { File } from '../File'
 import { Member } from '../Member'
 import { User } from '../User'
 import { Expandable } from '../shared'
 
+import { Channel } from './Channel'
 import { Thread } from './Thread'
 
 export type MessageType = 'text' | 'system'
+export type MessageStatus = 'pending' | 'sent' | 'failed'
+export type MessageDirection = 'inbound' | 'outbound'
 export type MessageAttachmentType = 'file' | 'link'
 
 export interface MessageAttachment {
@@ -64,6 +68,32 @@ export interface Message {
    */
   thread: Expandable<Thread>
   /**
+   * The channel over which the message was sent. For messages sent via Source's
+   * in-app chat feature, the channel is null.
+   */
+  channel: Expandable<Channel> | null
+  /**
+   * The type of channel. Currently, Source supports chat (in-app messaging) and sms
+   * channel types.
+   */
+  channel_type: string
+  /**
+   * Contact point from which the message was sent. For inbound messages from a
+   * member or caregiver, this value is the contact point they used (for example, the
+   * member's phone number). For outbound messages from the care team, this value is
+   * the channel's contact point (for example, the practice's provisioned phone
+   * number).
+   */
+  from: ContactPoint | null
+  /**
+   * Contact point to which the message was sent. For inbound messages from a member
+   * or caregiver, this value is the channel's contact point (for example, the
+   * practice's provisioned phone number). For outbound messages sent to a member or
+   * caregiver, this value is the contact point of the member or caregiver (for
+   * example, the member's phone number).
+   */
+  to: ContactPoint | null
+  /**
    * Plain text contents of the message.
    */
   text: string
@@ -72,9 +102,23 @@ export interface Message {
    */
   sender: Expandable<Member | User | ApiKey>
   /**
+   * The current status of the message. For messages sent via Source's in-app chat
+   * feature, messages go directly to the 'sent' status. For all other channels, the
+   * message is created in a 'pending' status and then transitions to the 'sent'
+   * status upon successful sending, or the 'failed' status if an error occurs.
+   */
+  status: MessageStatus
+  /**
    * The time at which this message was sent.
    */
   sent_at: string
+  /**
+   * Inbound or outbound from the perspective of the care team. All messages sent by
+   * members have an inbound direction. This field can be useful when displaying a
+   * thread in a member experience, with messages from the care team on one side of
+   * the display and messages from the member on the opposite side.
+   */
+  direction: MessageDirection
   /**
    * Any attachments to the message, such as files and links.
    */
@@ -193,6 +237,22 @@ export interface MessageCreateParams {
    * Contents of the message to send.
    */
   text: string
+  /**
+   * The channel over which the message will be sent. If a channel is specified, you
+   * must also specify the contact point in the `to` field. For example, to send a
+   * message via SMS, provide the ID of a channel of type 'sms' and specify the
+   * member's contact point in the `to` field. If no channel is provided, the message
+   * will be sent as an in-app message.
+   */
+  channel?: string | null
+  /**
+   * Contact point to which the message will be sent. For messages sent to a member
+   * or caregiver, this value is the contact point of the member or caregiver (for
+   * example, the member's phone number). The contact point provided must be
+   * supported by the channel you specify. If you provide this contact point but no
+   * channel, this contact point is ignored.
+   */
+  to?: ContactPoint | null
   /**
    * Actions to apply to the thread after the message has been sent. Source
    * guarantees that these actions will only be applied if the message has been

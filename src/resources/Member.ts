@@ -3,6 +3,7 @@ import { SourceRequestOptions } from '../SourceClient'
 
 import { CareTeam } from './CareTeam'
 import { File } from './File'
+import { Integration } from './Integration'
 import { Tag } from './Tag'
 import { Expandable } from './shared'
 
@@ -86,6 +87,17 @@ export interface MemberPhoneNumber {
 
 export type MemberEnrollmentStatus = 'enrolled' | 'not_enrolled' | 'redacted'
 export type MemberAccessLevel = 'full' | 'limited'
+
+export interface MemberExternalIdentifier {
+  /**
+   * Expandable reference to an Integration
+   */
+  integration: Expandable<Integration>
+  /**
+   * The unique identifier of the member in the integrated system.
+   */
+  external_id: string
+}
 
 export interface Member {
   /**
@@ -198,6 +210,12 @@ export interface Member {
    * are not directly related.
    */
   access_level: MemberAccessLevel
+  /**
+   * An array of external identifiers for the member. Each identifier is associated
+   * with a particular external integration. The member's external identifier must be
+   * unique for a given integration.
+   */
+  external_identifiers: Array<MemberExternalIdentifier>
   /**
    * Timestamp of when the member was created.
    */
@@ -384,6 +402,14 @@ export interface MemberCreateParamsPhoneNumber {
 
 export type MemberCreateParamsEnrollmentStatus = 'enrolled' | 'not_enrolled'
 
+export interface MemberCreateParamsExternalIdentifier {
+  integration: string
+  /**
+   * The unique identifier of the member in the integrated system.
+   */
+  external_id: string
+}
+
 export interface MemberCreateParams {
   /**
    * Title for the member (Mr., Mrs., Dr., etc).
@@ -473,6 +499,12 @@ export interface MemberCreateParams {
    * `enrollment_status` will be `redacted`. This is not valid as an input.
    */
   enrollment_status?: MemberCreateParamsEnrollmentStatus
+  /**
+   * An array of external identifiers for the member. Each identifier is associated
+   * with a particular external integration. The member's external identifier must be
+   * unique for a given integration.
+   */
+  external_identifiers?: Array<MemberCreateParamsExternalIdentifier>
 }
 
 export type MemberUpdateParamsSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
@@ -552,6 +584,14 @@ export interface MemberUpdateParamsPhoneNumber {
 }
 
 export type MemberUpdateParamsEnrollmentStatus = 'enrolled' | 'not_enrolled'
+
+export interface MemberUpdateParamsExternalIdentifier {
+  integration: string
+  /**
+   * The unique identifier of the member in the integrated system.
+   */
+  external_id: string
+}
 
 export interface MemberUpdateParams {
   /**
@@ -642,6 +682,12 @@ export interface MemberUpdateParams {
    * `enrollment_status` will be `redacted`. This is not valid as an input.
    */
   enrollment_status?: MemberUpdateParamsEnrollmentStatus
+  /**
+   * An array of external identifiers for the member. Each identifier is associated
+   * with a particular external integration. The member's external identifier must be
+   * unique for a given integration.
+   */
+  external_identifiers?: Array<MemberUpdateParamsExternalIdentifier>
 }
 
 export class MemberResource extends Resource {

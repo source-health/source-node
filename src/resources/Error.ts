@@ -4,6 +4,7 @@ export type ErrorType =
   | 'invalid_request_error'
   | 'authentication_error'
   | 'authorization_error'
+  | 'unprocessable_request_error'
 
 export interface Error {
   object: 'error'

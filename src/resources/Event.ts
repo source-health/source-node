@@ -45,6 +45,11 @@ export interface Event {
    */
   actor_type: EventActorType
   /**
+   * The member on which this event was performed. This will be null on events that
+   * are not specific to a single member.
+   */
+  member: Expandable<Member> | null
+  /**
    * Payload contained within this event.
    */
   data: EventData
@@ -137,6 +142,10 @@ export interface EventListParams {
    * resource
    */
   resource?: Array<string>
+  /**
+   * Filter events for only those which pertain to the given members
+   */
+  member?: Array<string>
   /**
    * A time based range filter on the list based on the object created_at field. For
    * example

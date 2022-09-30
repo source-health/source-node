@@ -14,11 +14,6 @@ export interface Question0 {
   type: 'question'
   question_type: 'name'
   /**
-   * Unique key of this question within the form. Used in responses and conditional
-   * logic.
-   */
-  key: string
-  /**
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
@@ -32,6 +27,11 @@ export interface Question0 {
    * hidden by conditional rules are never required to have a response.
    */
   required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
   /**
    * A conditional statement - if it evaluates to true, this question will be
    * displayed, if false the question will not be displayed and no response will be
@@ -55,11 +55,6 @@ export interface Question1 {
   type: 'question'
   question_type: 'date'
   /**
-   * Unique key of this question within the form. Used in responses and conditional
-   * logic.
-   */
-  key: string
-  /**
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
@@ -73,6 +68,11 @@ export interface Question1 {
    * hidden by conditional rules are never required to have a response.
    */
   required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
   /**
    * A conditional statement - if it evaluates to true, this question will be
    * displayed, if false the question will not be displayed and no response will be
@@ -123,11 +123,6 @@ export interface Question2 {
   type: 'question'
   question_type: 'address'
   /**
-   * Unique key of this question within the form. Used in responses and conditional
-   * logic.
-   */
-  key: string
-  /**
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
@@ -141,6 +136,11 @@ export interface Question2 {
    * hidden by conditional rules are never required to have a response.
    */
   required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
   /**
    * A conditional statement - if it evaluates to true, this question will be
    * displayed, if false the question will not be displayed and no response will be
@@ -162,11 +162,6 @@ export interface Question3 {
   type: 'question'
   question_type: 'gender_identity'
   /**
-   * Unique key of this question within the form. Used in responses and conditional
-   * logic.
-   */
-  key: string
-  /**
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
@@ -180,6 +175,11 @@ export interface Question3 {
    * hidden by conditional rules are never required to have a response.
    */
   required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
   /**
    * A conditional statement - if it evaluates to true, this question will be
    * displayed, if false the question will not be displayed and no response will be
@@ -197,11 +197,6 @@ export interface Question4 {
   type: 'question'
   question_type: 'sex_at_birth'
   /**
-   * Unique key of this question within the form. Used in responses and conditional
-   * logic.
-   */
-  key: string
-  /**
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
@@ -215,6 +210,11 @@ export interface Question4 {
    * hidden by conditional rules are never required to have a response.
    */
   required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
   /**
    * A conditional statement - if it evaluates to true, this question will be
    * displayed, if false the question will not be displayed and no response will be
@@ -232,11 +232,6 @@ export interface Question5 {
   type: 'question'
   question_type: 'pronouns'
   /**
-   * Unique key of this question within the form. Used in responses and conditional
-   * logic.
-   */
-  key: string
-  /**
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
@@ -250,6 +245,11 @@ export interface Question5 {
    * hidden by conditional rules are never required to have a response.
    */
   required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
   /**
    * A conditional statement - if it evaluates to true, this question will be
    * displayed, if false the question will not be displayed and no response will be
@@ -269,11 +269,6 @@ export interface Question6 {
   type: 'question'
   question_type: 'phone_numbers'
   /**
-   * Unique key of this question within the form. Used in responses and conditional
-   * logic.
-   */
-  key: string
-  /**
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
@@ -287,6 +282,11 @@ export interface Question6 {
    * hidden by conditional rules are never required to have a response.
    */
   required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
   /**
    * A conditional statement - if it evaluates to true, this question will be
    * displayed, if false the question will not be displayed and no response will be
@@ -312,11 +312,6 @@ export interface Question7 {
   type: 'question'
   question_type: 'free_text'
   /**
-   * Unique key of this question within the form. Used in responses and conditional
-   * logic.
-   */
-  key: string
-  /**
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
@@ -330,6 +325,11 @@ export interface Question7 {
    * hidden by conditional rules are never required to have a response.
    */
   required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
   /**
    * A conditional statement - if it evaluates to true, this question will be
    * displayed, if false the question will not be displayed and no response will be
@@ -342,11 +342,6 @@ export interface Question8 {
   type: 'question'
   question_type: 'number'
   /**
-   * Unique key of this question within the form. Used in responses and conditional
-   * logic.
-   */
-  key: string
-  /**
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
@@ -360,6 +355,11 @@ export interface Question8 {
    * hidden by conditional rules are never required to have a response.
    */
   required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
   /**
    * A conditional statement - if it evaluates to true, this question will be
    * displayed, if false the question will not be displayed and no response will be
@@ -405,11 +405,6 @@ export interface Question9 {
   type: 'question'
   question_type: 'single_select'
   /**
-   * Unique key of this question within the form. Used in responses and conditional
-   * logic.
-   */
-  key: string
-  /**
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
@@ -423,6 +418,11 @@ export interface Question9 {
    * hidden by conditional rules are never required to have a response.
    */
   required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
   /**
    * A conditional statement - if it evaluates to true, this question will be
    * displayed, if false the question will not be displayed and no response will be
@@ -472,11 +472,6 @@ export interface Question10 {
   type: 'question'
   question_type: 'multi_select'
   /**
-   * Unique key of this question within the form. Used in responses and conditional
-   * logic.
-   */
-  key: string
-  /**
    * Display title of this question in the form, i.e. the question text itself.
    */
   title: string
@@ -490,6 +485,11 @@ export interface Question10 {
    * hidden by conditional rules are never required to have a response.
    */
   required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
   /**
    * A conditional statement - if it evaluates to true, this question will be
    * displayed, if false the question will not be displayed and no response will be
@@ -512,6 +512,51 @@ export interface Question10 {
   input_type: 'checkbox'
 }
 
+export interface Question11Labels {
+  /**
+   * Display label for the 'yes' option.
+   */
+  yes?: string | null
+  /**
+   * Display label for the 'no' option.
+   */
+  no?: string | null
+}
+
+export interface Question11 {
+  type: 'question'
+  question_type: 'yes_no'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Display labels for the yes or no options.
+   */
+  labels?: Question11Labels | null
+}
+
 export type Question =
   | Question0
   | Question1
@@ -524,3 +569,4 @@ export type Question =
   | Question8
   | Question9
   | Question10
+  | Question11
