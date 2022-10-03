@@ -1,5 +1,29 @@
 # Source Client Changelog
 
+## v1.2.0
+
+### New API Features
+
+- Errors:
+  - Add an 'unprocessable_request_error' type.
+- Core:
+  - Add intents (schedule and form intents, pre-release).
+  - Add expandable member to events API.
+  - Support Canvas integrations and add member `external_identifiers`
+- Communications:
+  - Add channels and contact point concepts (work in progress)
+- Forms (pre-release):
+  - Fix `$neq` operator, should be `$ne`.
+  - Changes to config and response API objects.
+- Scheduling:
+  - Add participant operator
+  - Add availability release window
+
+### Other Changes
+
+- Export the 'SourceClient' sub-module in index.ts (makes SourceClient and
+  SourceClientOptions types available for import).
+
 ## v1.1.1
 
 ### Other Changes

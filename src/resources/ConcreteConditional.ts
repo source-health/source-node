@@ -1,6 +1,6 @@
 export type ConcreteConditionalOperator =
   | '$eq'
-  | '$neq'
+  | '$ne'
   | '$exists'
   | '$gt'
   | '$gte'

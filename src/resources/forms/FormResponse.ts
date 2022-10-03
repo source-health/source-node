@@ -14,6 +14,29 @@ export interface FormResponseResponse {
 
 export type FormResponseStatus = 'started' | 'completed'
 
+export interface FormResponseExitScreen {
+  type: 'exit_screen'
+  /**
+   * A unique key for this exit screen within the form. The keys are used in exits to
+   * indicate which screen is used for the exit. An exit screen with key 'default'
+   * must exist in every form.
+   */
+  key: string
+  /**
+   * A description of this exit screen. If the responder reaches this exit screen,
+   * the screen's description is displayed within the completed form response.
+   */
+  description: string
+  /**
+   * Type of the rich text content. Currently only `md` (i.e. Markdown) is supported.
+   */
+  content_type: 'md'
+  /**
+   * The rich text content, represented as Markdown text.
+   */
+  content: string
+}
+
 export interface FormResponse {
   /**
    * Always `form_response`.
@@ -57,12 +80,11 @@ export interface FormResponse {
    */
   status: FormResponseStatus
   /**
-   * The key of the early exit point the author reached, if any. Forms support
-   * conditional early exits that appear based on the author's responses. If the
-   * author reaches an early exit point during the response, the key of that early
-   * exit point is specified here.
+   * The exit screen the author reached, if any. Forms support conditional exits that
+   * appear based on the author's responses. If the author reaches an exit during the
+   * response, the exit screen is specified here.
    */
-  early_exit_point: string | null
+  exit_screen: FormResponseExitScreen | null
   /**
    * Timestamp when the form response was created.
    */

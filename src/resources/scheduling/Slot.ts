@@ -60,6 +60,8 @@ export interface SlotListResponse {
 
 export type SlotListParamsParticipant = string
 export type SlotListParamsExcludeParticipant = string
+export type SlotListParamsParticipantOperator = 'and' | 'or'
+export type SlotListParamsExcludeParticipantOperator = 'and' | 'or'
 export type SlotListParamsRoutingStrategy =
   | 'care_team_required'
   | 'care_team_preferred'
@@ -149,6 +151,31 @@ export interface SlotListParams {
    * in the slot results.
    */
   exclude_participants?: Array<SlotListParamsExcludeParticipant>
+  /**
+   * Controls the operator used when providing multiple groups to the `participants`
+   * parameter. By default, participants use the `or` operator. If you want to only
+   * show participants who are in multiple groups, you can use the `and` operator.
+   * This operator will only impact the `participants` parameter, please see
+   * `exclude_participant_operator` for the same option for exclusion.
+   *
+   * Note: when using the `and` filter, you should not provide user identifiers to
+   * the `participants` parameter, because a user cannot have multiple identifiers at
+   * the same time.
+   */
+  participant_operator?: SlotListParamsParticipantOperator
+  /**
+   * Controls the operator used when providing multiple groups to the
+   * `exclude_participants` parameter. By default, participants use the `or`
+   * operator. If you want to only show participants who are in multiple groups, you
+   * can use the `and` operator. This operator will only impact the
+   * `exclude_participants` parameter, please see `participant_operator` for the same
+   * option for inclusion.
+   *
+   * Note: when using the `and` filter, you should not provide user identifiers to
+   * the `exclude_participants` parameter, because a user cannot have multiple
+   * identifiers at the same time.
+   */
+  exclude_participant_operator?: SlotListParamsExcludeParticipantOperator
   /**
    * Overrides the routing strategy configured on the appointment type. For more
    * information about the available routing strategies and how they work, see the

@@ -7,6 +7,7 @@ import { DocumentResource } from './Document'
 import { EventResource } from './Event'
 import { FileResource } from './File'
 import { GroupResource } from './Group'
+import { IntentResource } from './Intent'
 import { LicenseResource } from './License'
 import { MemberResource } from './Member'
 import { QueueResource } from './Queue'
@@ -37,6 +38,7 @@ export const allResources = resourceNamespace({
   events: resourceFactory(EventResource),
   files: resourceFactory(FileResource),
   groups: resourceFactory(GroupResource),
+  intents: resourceFactory(IntentResource),
   licenses: resourceFactory(LicenseResource),
   members: resourceFactory(MemberResource),
   queues: resourceFactory(QueueResource),
@@ -52,6 +54,10 @@ export const allResources = resourceNamespace({
     availabilities: resourceFactory(AvailabilityResource),
     slots: resourceFactory(SlotResource),
   }),
+  communications: resourceNamespace({
+    messages: resourceFactory(MessageResource),
+    threads: resourceFactory(ThreadResource),
+  }),
   monitoring: resourceNamespace({
     devices: resourceFactory(DeviceResource),
     measurements: resourceFactory(MeasurementResource),
@@ -62,10 +68,6 @@ export const allResources = resourceNamespace({
     formResponses: resourceFactory(FormResponseResource),
     formVersions: resourceFactory(FormVersionResource),
   }),
-  communications: resourceNamespace({
-    messages: resourceFactory(MessageResource),
-    threads: resourceFactory(ThreadResource),
-  }),
 })
 export type RootResources = SourceInstance<typeof allResources>
 export * from './Account'
@@ -75,12 +77,14 @@ export * from './Comment'
 export * from './CompoundConditional'
 export * from './ConcreteConditional'
 export * from './Conditional'
+export * from './ContactPoint'
 export * from './Document'
-export * from './EarlyExitPoint'
 export * from './Error'
 export * from './Event'
 export * from './File'
 export * from './Group'
+export * from './Integration'
+export * from './Intent'
 export * from './License'
 export * from './Location'
 export * from './Member'
@@ -97,6 +101,7 @@ export * from './ThreadStatus'
 export * from './User'
 export * from './Webhook'
 export * from './WebhookEvents'
+export * from './communications/Channel'
 export * from './communications/Message'
 export * from './communications/Thread'
 export * from './forms/Form'
