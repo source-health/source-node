@@ -7,7 +7,7 @@
 - Errors:
   - Add an 'unprocessable_request_error' type.
 - Core:
-  - Add intents (schedule and form intents)
+  - Add intents (schedule and form intents, pre-release).
   - Add expandable member to events API.
   - Support Canvas integrations and add member `external_identifiers`
 - Communications:
