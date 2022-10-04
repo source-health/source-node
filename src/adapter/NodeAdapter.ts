@@ -1,5 +1,6 @@
 import * as http from 'http'
 import * as https from 'https'
+import { Readable } from 'stream'
 
 import { SourceError } from '../SourceError'
 import { createUrl, isTimeoutError } from '../utils'
@@ -18,6 +19,25 @@ export interface NodeHttpClientOptions {
    * generally be used in production.
    */
   readonly dangerouslyLogRequestExceptions?: boolean
+}
+
+/**
+ * This interface represents the part of FormData that we use for multipart form uploads, without having to import
+ * FormData itself to do `instanceof`.
+ */
+interface WithHeaders {
+  getHeaders(): {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any
+  }
+}
+
+function hasHeaders(content: unknown): content is WithHeaders {
+  return (
+    !!content &&
+    typeof content === 'object' &&
+    typeof (content as WithHeaders).getHeaders === 'function'
+  )
 }
 
 export default class NodeHttpClient implements HttpAdapter {
@@ -117,19 +137,23 @@ export default class NodeHttpClient implements HttpAdapter {
         )
       })
 
-      req.once('socket', (socket) => {
-        if (socket.connecting) {
-          socket.once(isInsecureConnection ? 'connect' : 'secureConnect', () => {
-            // Send payload; we're safe:
+      if (request.contentType === 'multipart') {
+        ;(request.data as Readable).pipe(req)
+      } else {
+        req.once('socket', (socket) => {
+          if (socket.connecting) {
+            socket.once(isInsecureConnection ? 'connect' : 'secureConnect', () => {
+              // Send payload; we're safe:
+              req.write(data ?? '')
+              req.end()
+            })
+          } else {
+            // we're already connected
             req.write(data ?? '')
             req.end()
-          })
-        } else {
-          // we're already connected
-          req.write(data ?? '')
-          req.end()
-        }
-      })
+          }
+        })
+      }
     })
   }
 
@@ -150,7 +174,12 @@ export default class NodeHttpClient implements HttpAdapter {
           data: JSON.stringify(content),
         }
       case 'multipart':
-        throw new Error('Multipart requests are not currently supported in the fetch client')
+        if (hasHeaders(content)) {
+          return {
+            headers: content.getHeaders(),
+          }
+        }
+        throw new Error('Multipart requests require request data as FormData instance')
     }
   }
 }
