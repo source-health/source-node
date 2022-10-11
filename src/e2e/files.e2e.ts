@@ -29,4 +29,23 @@ describe('files', () => {
       purpose: 'photo',
     })
   })
+
+  it('gets error if data is not FormData', async () => {
+    const fileString = 'fakefiledata'
+
+    await expect(async () => {
+      await client.request('POST', '/v1/files', {
+        data: fileString,
+        contentType: 'multipart',
+      })
+    }).rejects.toThrow('Multipart requests require request data as FormData instance')
+
+    // Using the generated files.create() method will trigger the same issue.
+    await expect(async () => {
+      await client.files.create({
+        file: fileString,
+        purpose: 'photo',
+      })
+    }).rejects.toThrow('Multipart requests require request data as FormData instance')
+  })
 })
