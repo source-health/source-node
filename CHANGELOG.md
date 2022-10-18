@@ -1,5 +1,11 @@
 # Source Client Changelog
 
+## Unreleased
+
+### Other Changes
+
+- Add (and document) a workaround for file uploads (see README).
+
 ## v1.2.0
 
 ### New API Features
