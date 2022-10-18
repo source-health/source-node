@@ -1,14 +1,12 @@
 import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
 import { CompoundConditional } from '../CompoundConditional'
-import { Question } from '../Question'
 import { Expandable } from '../shared'
 
 import { Form } from './Form'
 
-export interface FormVersionItemItem0Item1 {
-  type: 'display'
-  display_type: 'rich_text'
+export interface FormVersionItemItem0Item0 {
+  type: 'rich_text'
   /**
    * Type of the rich text content. Currently only `md` (i.e. Markdown) is supported.
    */
@@ -30,7 +28,565 @@ export interface FormVersionItemItem0Item1 {
   conditional?: CompoundConditional
 }
 
-export type FormVersionItemItem0Item = Question | FormVersionItemItem0Item1
+export type FormVersionItemItem0Item1FieldsPreferred = 'none' | 'optional' | 'required'
+
+export interface FormVersionItemItem0Item1Fields {
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  preferred: FormVersionItemItem0Item1FieldsPreferred
+}
+
+export interface FormVersionItemItem0Item1 {
+  type: 'name'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's name.
+   */
+  destination?: 'member.name'
+  /**
+   * Indicates which fields are optional, required, or should not be shown at all.
+   */
+  fields: FormVersionItemItem0Item1Fields
+}
+
+export type FormVersionItemItem0Item2InputType = 'date_picker' | 'date_entry'
+
+export interface FormVersionItemItem0Item2 {
+  type: 'date'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's date of birth.
+   */
+  destination?: 'member.date_of_birth'
+  /**
+   * Which type of UI element to use - a calendar-style date picker or direct
+   * keyboard entry input box.
+   */
+  input_type: FormVersionItemItem0Item2InputType
+}
+
+export type FormVersionItemItem0Item3FieldsStreetLine1 = 'none' | 'optional' | 'required'
+export type FormVersionItemItem0Item3FieldsStreetLine2 = 'none' | 'optional' | 'required'
+export type FormVersionItemItem0Item3FieldsCity = 'none' | 'optional' | 'required'
+export type FormVersionItemItem0Item3FieldsPostalCode = 'none' | 'optional' | 'required'
+
+export interface FormVersionItemItem0Item3Fields {
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  street_line_1: FormVersionItemItem0Item3FieldsStreetLine1
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  street_line_2: FormVersionItemItem0Item3FieldsStreetLine2
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  city: FormVersionItemItem0Item3FieldsCity
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  postal_code: FormVersionItemItem0Item3FieldsPostalCode
+}
+
+export interface FormVersionItemItem0Item3 {
+  type: 'address'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's address.
+   */
+  destination?: 'member.address'
+  /**
+   * Indicates which fields are optional, required, or should not be shown at all.
+   */
+  fields: FormVersionItemItem0Item3Fields
+}
+
+export interface FormVersionItemItem0Item4 {
+  type: 'gender_identity'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's gender identity. See also: sex at birth, pronouns.
+   */
+  destination?: 'member.gender_identity'
+}
+
+export interface FormVersionItemItem0Item5 {
+  type: 'sex_at_birth'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's sex at birth.
+   */
+  destination?: 'member.sex_at_birth'
+}
+
+export interface FormVersionItemItem0Item6 {
+  type: 'pronouns'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's pronouns.
+   */
+  destination?: 'member.pronouns'
+}
+
+export type FormVersionItemItem0Item7AllowedUs = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+
+export interface FormVersionItemItem0Item7 {
+  type: 'phone_numbers'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's phone numbers.
+   */
+  destination?: 'member.phone_numbers'
+  /**
+   * Control which 'use' values are allowed (e.g. 'mobile', or 'fax').
+   */
+  allowed_uses: Array<FormVersionItemItem0Item7AllowedUs>
+  /**
+   * The maximum number of phone numbers that can be collected.
+   */
+  max: number
+}
+
+export interface FormVersionItemItem0Item8 {
+  type: 'free_text'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+}
+
+export interface FormVersionItemItem0Item9 {
+  type: 'number'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Control the minimum allowed value
+   */
+  min?: number | null
+  /**
+   * Control the maximum allowed value
+   */
+  max?: number | null
+}
+
+export interface FormVersionItemItem0Item10Option {
+  /**
+   * Hidden 'key' for this option. Must be unique within the question.
+   */
+  key: string
+  /**
+   * Display label for this option. Must be unique within the question.
+   */
+  label: string
+}
+
+export interface FormVersionItemItem0Item10Other {
+  /**
+   * Display label for the 'other' option.
+   */
+  label: string
+  /**
+   * Whether or not a response to the free-text input is required if the responder
+   * selected 'other'
+   */
+  required: boolean
+}
+
+export type FormVersionItemItem0Item10InputType = 'radio' | 'drop_down'
+
+export interface FormVersionItemItem0Item10 {
+  type: 'single_select'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * The list of options available for this question.
+   */
+  options: Array<FormVersionItemItem0Item10Option>
+  /**
+   * Controls whether a user-generated 'other' free text field is offered, and
+   * whether a free text response is required. If this object is blank or null, no
+   * 'other' option is presented.
+   */
+  other?: FormVersionItemItem0Item10Other | null
+  /**
+   * Control the input type of the single-select question.
+   */
+  input_type: FormVersionItemItem0Item10InputType
+}
+
+export interface FormVersionItemItem0Item11Option {
+  /**
+   * Hidden 'key' for this option. Must be unique within the question.
+   */
+  key: string
+  /**
+   * Display label for this option. Must be unique within the question.
+   */
+  label: string
+}
+
+export interface FormVersionItemItem0Item11Other {
+  /**
+   * Display label for the 'other' option.
+   */
+  label: string
+  /**
+   * Whether or not a response to the free-text input is required if the responder
+   * selected 'other'
+   */
+  required: boolean
+}
+
+export interface FormVersionItemItem0Item11 {
+  type: 'multi_select'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * The list of options available for this question.
+   */
+  options: Array<FormVersionItemItem0Item11Option>
+  /**
+   * Controls whether user-generated 'other' free text fields is offered, and whether
+   * at least one free text response is required. If this object is blank or null, no
+   * 'other' option is presented.
+   */
+  other?: FormVersionItemItem0Item11Other | null
+  /**
+   * Control the input type of the multi-select question.
+   */
+  input_type: 'checkbox'
+}
+
+export interface FormVersionItemItem0Item12Labels {
+  /**
+   * Display label for the 'yes' option.
+   */
+  yes?: string | null
+  /**
+   * Display label for the 'no' option.
+   */
+  no?: string | null
+}
+
+export interface FormVersionItemItem0Item12 {
+  type: 'yes_no'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Display labels for the yes or no options.
+   */
+  labels?: FormVersionItemItem0Item12Labels | null
+}
+
+export type FormVersionItemItem0Item =
+  | FormVersionItemItem0Item0
+  | FormVersionItemItem0Item1
+  | FormVersionItemItem0Item2
+  | FormVersionItemItem0Item3
+  | FormVersionItemItem0Item4
+  | FormVersionItemItem0Item5
+  | FormVersionItemItem0Item6
+  | FormVersionItemItem0Item7
+  | FormVersionItemItem0Item8
+  | FormVersionItemItem0Item9
+  | FormVersionItemItem0Item10
+  | FormVersionItemItem0Item11
+  | FormVersionItemItem0Item12
 
 export interface FormVersionItemItem0 {
   type: 'group'
@@ -51,9 +607,8 @@ export interface FormVersionItemItem0 {
   conditional?: CompoundConditional
 }
 
-export interface FormVersionItemItem2 {
-  type: 'display'
-  display_type: 'rich_text'
+export interface FormVersionItemItem1 {
+  type: 'rich_text'
   /**
    * Type of the rich text content. Currently only `md` (i.e. Markdown) is supported.
    */
@@ -75,7 +630,566 @@ export interface FormVersionItemItem2 {
   conditional?: CompoundConditional
 }
 
-export type FormVersionItemItem = FormVersionItemItem0 | Question | FormVersionItemItem2
+export type FormVersionItemItem2FieldsPreferred = 'none' | 'optional' | 'required'
+
+export interface FormVersionItemItem2Fields {
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  preferred: FormVersionItemItem2FieldsPreferred
+}
+
+export interface FormVersionItemItem2 {
+  type: 'name'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's name.
+   */
+  destination?: 'member.name'
+  /**
+   * Indicates which fields are optional, required, or should not be shown at all.
+   */
+  fields: FormVersionItemItem2Fields
+}
+
+export type FormVersionItemItem3InputType = 'date_picker' | 'date_entry'
+
+export interface FormVersionItemItem3 {
+  type: 'date'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's date of birth.
+   */
+  destination?: 'member.date_of_birth'
+  /**
+   * Which type of UI element to use - a calendar-style date picker or direct
+   * keyboard entry input box.
+   */
+  input_type: FormVersionItemItem3InputType
+}
+
+export type FormVersionItemItem4FieldsStreetLine1 = 'none' | 'optional' | 'required'
+export type FormVersionItemItem4FieldsStreetLine2 = 'none' | 'optional' | 'required'
+export type FormVersionItemItem4FieldsCity = 'none' | 'optional' | 'required'
+export type FormVersionItemItem4FieldsPostalCode = 'none' | 'optional' | 'required'
+
+export interface FormVersionItemItem4Fields {
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  street_line_1: FormVersionItemItem4FieldsStreetLine1
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  street_line_2: FormVersionItemItem4FieldsStreetLine2
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  city: FormVersionItemItem4FieldsCity
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  postal_code: FormVersionItemItem4FieldsPostalCode
+}
+
+export interface FormVersionItemItem4 {
+  type: 'address'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's address.
+   */
+  destination?: 'member.address'
+  /**
+   * Indicates which fields are optional, required, or should not be shown at all.
+   */
+  fields: FormVersionItemItem4Fields
+}
+
+export interface FormVersionItemItem5 {
+  type: 'gender_identity'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's gender identity. See also: sex at birth, pronouns.
+   */
+  destination?: 'member.gender_identity'
+}
+
+export interface FormVersionItemItem6 {
+  type: 'sex_at_birth'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's sex at birth.
+   */
+  destination?: 'member.sex_at_birth'
+}
+
+export interface FormVersionItemItem7 {
+  type: 'pronouns'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's pronouns.
+   */
+  destination?: 'member.pronouns'
+}
+
+export type FormVersionItemItem8AllowedUs = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+
+export interface FormVersionItemItem8 {
+  type: 'phone_numbers'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's phone numbers.
+   */
+  destination?: 'member.phone_numbers'
+  /**
+   * Control which 'use' values are allowed (e.g. 'mobile', or 'fax').
+   */
+  allowed_uses: Array<FormVersionItemItem8AllowedUs>
+  /**
+   * The maximum number of phone numbers that can be collected.
+   */
+  max: number
+}
+
+export interface FormVersionItemItem9 {
+  type: 'free_text'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+}
+
+export interface FormVersionItemItem10 {
+  type: 'number'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Control the minimum allowed value
+   */
+  min?: number | null
+  /**
+   * Control the maximum allowed value
+   */
+  max?: number | null
+}
+
+export interface FormVersionItemItem11Option {
+  /**
+   * Hidden 'key' for this option. Must be unique within the question.
+   */
+  key: string
+  /**
+   * Display label for this option. Must be unique within the question.
+   */
+  label: string
+}
+
+export interface FormVersionItemItem11Other {
+  /**
+   * Display label for the 'other' option.
+   */
+  label: string
+  /**
+   * Whether or not a response to the free-text input is required if the responder
+   * selected 'other'
+   */
+  required: boolean
+}
+
+export type FormVersionItemItem11InputType = 'radio' | 'drop_down'
+
+export interface FormVersionItemItem11 {
+  type: 'single_select'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * The list of options available for this question.
+   */
+  options: Array<FormVersionItemItem11Option>
+  /**
+   * Controls whether a user-generated 'other' free text field is offered, and
+   * whether a free text response is required. If this object is blank or null, no
+   * 'other' option is presented.
+   */
+  other?: FormVersionItemItem11Other | null
+  /**
+   * Control the input type of the single-select question.
+   */
+  input_type: FormVersionItemItem11InputType
+}
+
+export interface FormVersionItemItem12Option {
+  /**
+   * Hidden 'key' for this option. Must be unique within the question.
+   */
+  key: string
+  /**
+   * Display label for this option. Must be unique within the question.
+   */
+  label: string
+}
+
+export interface FormVersionItemItem12Other {
+  /**
+   * Display label for the 'other' option.
+   */
+  label: string
+  /**
+   * Whether or not a response to the free-text input is required if the responder
+   * selected 'other'
+   */
+  required: boolean
+}
+
+export interface FormVersionItemItem12 {
+  type: 'multi_select'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * The list of options available for this question.
+   */
+  options: Array<FormVersionItemItem12Option>
+  /**
+   * Controls whether user-generated 'other' free text fields is offered, and whether
+   * at least one free text response is required. If this object is blank or null, no
+   * 'other' option is presented.
+   */
+  other?: FormVersionItemItem12Other | null
+  /**
+   * Control the input type of the multi-select question.
+   */
+  input_type: 'checkbox'
+}
+
+export interface FormVersionItemItem13Labels {
+  /**
+   * Display label for the 'yes' option.
+   */
+  yes?: string | null
+  /**
+   * Display label for the 'no' option.
+   */
+  no?: string | null
+}
+
+export interface FormVersionItemItem13 {
+  type: 'yes_no'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Display labels for the yes or no options.
+   */
+  labels?: FormVersionItemItem13Labels | null
+}
+
+export type FormVersionItemItem =
+  | FormVersionItemItem0
+  | FormVersionItemItem1
+  | FormVersionItemItem2
+  | FormVersionItemItem3
+  | FormVersionItemItem4
+  | FormVersionItemItem5
+  | FormVersionItemItem6
+  | FormVersionItemItem7
+  | FormVersionItemItem8
+  | FormVersionItemItem9
+  | FormVersionItemItem10
+  | FormVersionItemItem11
+  | FormVersionItemItem12
+  | FormVersionItemItem13
 
 export interface FormVersionItemExit {
   type: 'exit'
@@ -196,9 +1310,8 @@ export interface FormVersion {
   published_at: string | null
 }
 
-export interface FormVersionLatestParamsItemItem0Item1 {
-  type: 'display'
-  display_type: 'rich_text'
+export interface FormVersionLatestParamsItemItem0Item0 {
+  type: 'rich_text'
   /**
    * Type of the rich text content. Currently only `md` (i.e. Markdown) is supported.
    */
@@ -220,7 +1333,576 @@ export interface FormVersionLatestParamsItemItem0Item1 {
   conditional?: CompoundConditional
 }
 
-export type FormVersionLatestParamsItemItem0Item = Question | FormVersionLatestParamsItemItem0Item1
+export type FormVersionLatestParamsItemItem0Item1FieldsPreferred = 'none' | 'optional' | 'required'
+
+export interface FormVersionLatestParamsItemItem0Item1Fields {
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  preferred: FormVersionLatestParamsItemItem0Item1FieldsPreferred
+}
+
+export interface FormVersionLatestParamsItemItem0Item1 {
+  type: 'name'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's name.
+   */
+  destination?: 'member.name'
+  /**
+   * Indicates which fields are optional, required, or should not be shown at all.
+   */
+  fields: FormVersionLatestParamsItemItem0Item1Fields
+}
+
+export type FormVersionLatestParamsItemItem0Item2InputType = 'date_picker' | 'date_entry'
+
+export interface FormVersionLatestParamsItemItem0Item2 {
+  type: 'date'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's date of birth.
+   */
+  destination?: 'member.date_of_birth'
+  /**
+   * Which type of UI element to use - a calendar-style date picker or direct
+   * keyboard entry input box.
+   */
+  input_type: FormVersionLatestParamsItemItem0Item2InputType
+}
+
+export type FormVersionLatestParamsItemItem0Item3FieldsStreetLine1 =
+  | 'none'
+  | 'optional'
+  | 'required'
+export type FormVersionLatestParamsItemItem0Item3FieldsStreetLine2 =
+  | 'none'
+  | 'optional'
+  | 'required'
+export type FormVersionLatestParamsItemItem0Item3FieldsCity = 'none' | 'optional' | 'required'
+export type FormVersionLatestParamsItemItem0Item3FieldsPostalCode = 'none' | 'optional' | 'required'
+
+export interface FormVersionLatestParamsItemItem0Item3Fields {
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  street_line_1: FormVersionLatestParamsItemItem0Item3FieldsStreetLine1
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  street_line_2: FormVersionLatestParamsItemItem0Item3FieldsStreetLine2
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  city: FormVersionLatestParamsItemItem0Item3FieldsCity
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  postal_code: FormVersionLatestParamsItemItem0Item3FieldsPostalCode
+}
+
+export interface FormVersionLatestParamsItemItem0Item3 {
+  type: 'address'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's address.
+   */
+  destination?: 'member.address'
+  /**
+   * Indicates which fields are optional, required, or should not be shown at all.
+   */
+  fields: FormVersionLatestParamsItemItem0Item3Fields
+}
+
+export interface FormVersionLatestParamsItemItem0Item4 {
+  type: 'gender_identity'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's gender identity. See also: sex at birth, pronouns.
+   */
+  destination?: 'member.gender_identity'
+}
+
+export interface FormVersionLatestParamsItemItem0Item5 {
+  type: 'sex_at_birth'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's sex at birth.
+   */
+  destination?: 'member.sex_at_birth'
+}
+
+export interface FormVersionLatestParamsItemItem0Item6 {
+  type: 'pronouns'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's pronouns.
+   */
+  destination?: 'member.pronouns'
+}
+
+export type FormVersionLatestParamsItemItem0Item7AllowedUs =
+  | 'home'
+  | 'work'
+  | 'mobile'
+  | 'fax'
+  | 'other'
+
+export interface FormVersionLatestParamsItemItem0Item7 {
+  type: 'phone_numbers'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's phone numbers.
+   */
+  destination?: 'member.phone_numbers'
+  /**
+   * Control which 'use' values are allowed (e.g. 'mobile', or 'fax').
+   */
+  allowed_uses: Array<FormVersionLatestParamsItemItem0Item7AllowedUs>
+  /**
+   * The maximum number of phone numbers that can be collected.
+   */
+  max: number
+}
+
+export interface FormVersionLatestParamsItemItem0Item8 {
+  type: 'free_text'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+}
+
+export interface FormVersionLatestParamsItemItem0Item9 {
+  type: 'number'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Control the minimum allowed value
+   */
+  min?: number | null
+  /**
+   * Control the maximum allowed value
+   */
+  max?: number | null
+}
+
+export interface FormVersionLatestParamsItemItem0Item10Option {
+  /**
+   * Hidden 'key' for this option. Must be unique within the question.
+   */
+  key: string
+  /**
+   * Display label for this option. Must be unique within the question.
+   */
+  label: string
+}
+
+export interface FormVersionLatestParamsItemItem0Item10Other {
+  /**
+   * Display label for the 'other' option.
+   */
+  label: string
+  /**
+   * Whether or not a response to the free-text input is required if the responder
+   * selected 'other'
+   */
+  required: boolean
+}
+
+export type FormVersionLatestParamsItemItem0Item10InputType = 'radio' | 'drop_down'
+
+export interface FormVersionLatestParamsItemItem0Item10 {
+  type: 'single_select'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * The list of options available for this question.
+   */
+  options: Array<FormVersionLatestParamsItemItem0Item10Option>
+  /**
+   * Controls whether a user-generated 'other' free text field is offered, and
+   * whether a free text response is required. If this object is blank or null, no
+   * 'other' option is presented.
+   */
+  other?: FormVersionLatestParamsItemItem0Item10Other | null
+  /**
+   * Control the input type of the single-select question.
+   */
+  input_type: FormVersionLatestParamsItemItem0Item10InputType
+}
+
+export interface FormVersionLatestParamsItemItem0Item11Option {
+  /**
+   * Hidden 'key' for this option. Must be unique within the question.
+   */
+  key: string
+  /**
+   * Display label for this option. Must be unique within the question.
+   */
+  label: string
+}
+
+export interface FormVersionLatestParamsItemItem0Item11Other {
+  /**
+   * Display label for the 'other' option.
+   */
+  label: string
+  /**
+   * Whether or not a response to the free-text input is required if the responder
+   * selected 'other'
+   */
+  required: boolean
+}
+
+export interface FormVersionLatestParamsItemItem0Item11 {
+  type: 'multi_select'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * The list of options available for this question.
+   */
+  options: Array<FormVersionLatestParamsItemItem0Item11Option>
+  /**
+   * Controls whether user-generated 'other' free text fields is offered, and whether
+   * at least one free text response is required. If this object is blank or null, no
+   * 'other' option is presented.
+   */
+  other?: FormVersionLatestParamsItemItem0Item11Other | null
+  /**
+   * Control the input type of the multi-select question.
+   */
+  input_type: 'checkbox'
+}
+
+export interface FormVersionLatestParamsItemItem0Item12Labels {
+  /**
+   * Display label for the 'yes' option.
+   */
+  yes?: string | null
+  /**
+   * Display label for the 'no' option.
+   */
+  no?: string | null
+}
+
+export interface FormVersionLatestParamsItemItem0Item12 {
+  type: 'yes_no'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Display labels for the yes or no options.
+   */
+  labels?: FormVersionLatestParamsItemItem0Item12Labels | null
+}
+
+export type FormVersionLatestParamsItemItem0Item =
+  | FormVersionLatestParamsItemItem0Item0
+  | FormVersionLatestParamsItemItem0Item1
+  | FormVersionLatestParamsItemItem0Item2
+  | FormVersionLatestParamsItemItem0Item3
+  | FormVersionLatestParamsItemItem0Item4
+  | FormVersionLatestParamsItemItem0Item5
+  | FormVersionLatestParamsItemItem0Item6
+  | FormVersionLatestParamsItemItem0Item7
+  | FormVersionLatestParamsItemItem0Item8
+  | FormVersionLatestParamsItemItem0Item9
+  | FormVersionLatestParamsItemItem0Item10
+  | FormVersionLatestParamsItemItem0Item11
+  | FormVersionLatestParamsItemItem0Item12
 
 export interface FormVersionLatestParamsItemItem0 {
   type: 'group'
@@ -241,9 +1923,8 @@ export interface FormVersionLatestParamsItemItem0 {
   conditional?: CompoundConditional
 }
 
-export interface FormVersionLatestParamsItemItem2 {
-  type: 'display'
-  display_type: 'rich_text'
+export interface FormVersionLatestParamsItemItem1 {
+  type: 'rich_text'
   /**
    * Type of the rich text content. Currently only `md` (i.e. Markdown) is supported.
    */
@@ -265,10 +1946,566 @@ export interface FormVersionLatestParamsItemItem2 {
   conditional?: CompoundConditional
 }
 
+export type FormVersionLatestParamsItemItem2FieldsPreferred = 'none' | 'optional' | 'required'
+
+export interface FormVersionLatestParamsItemItem2Fields {
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  preferred: FormVersionLatestParamsItemItem2FieldsPreferred
+}
+
+export interface FormVersionLatestParamsItemItem2 {
+  type: 'name'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's name.
+   */
+  destination?: 'member.name'
+  /**
+   * Indicates which fields are optional, required, or should not be shown at all.
+   */
+  fields: FormVersionLatestParamsItemItem2Fields
+}
+
+export type FormVersionLatestParamsItemItem3InputType = 'date_picker' | 'date_entry'
+
+export interface FormVersionLatestParamsItemItem3 {
+  type: 'date'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's date of birth.
+   */
+  destination?: 'member.date_of_birth'
+  /**
+   * Which type of UI element to use - a calendar-style date picker or direct
+   * keyboard entry input box.
+   */
+  input_type: FormVersionLatestParamsItemItem3InputType
+}
+
+export type FormVersionLatestParamsItemItem4FieldsStreetLine1 = 'none' | 'optional' | 'required'
+export type FormVersionLatestParamsItemItem4FieldsStreetLine2 = 'none' | 'optional' | 'required'
+export type FormVersionLatestParamsItemItem4FieldsCity = 'none' | 'optional' | 'required'
+export type FormVersionLatestParamsItemItem4FieldsPostalCode = 'none' | 'optional' | 'required'
+
+export interface FormVersionLatestParamsItemItem4Fields {
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  street_line_1: FormVersionLatestParamsItemItem4FieldsStreetLine1
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  street_line_2: FormVersionLatestParamsItemItem4FieldsStreetLine2
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  city: FormVersionLatestParamsItemItem4FieldsCity
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  postal_code: FormVersionLatestParamsItemItem4FieldsPostalCode
+}
+
+export interface FormVersionLatestParamsItemItem4 {
+  type: 'address'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's address.
+   */
+  destination?: 'member.address'
+  /**
+   * Indicates which fields are optional, required, or should not be shown at all.
+   */
+  fields: FormVersionLatestParamsItemItem4Fields
+}
+
+export interface FormVersionLatestParamsItemItem5 {
+  type: 'gender_identity'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's gender identity. See also: sex at birth, pronouns.
+   */
+  destination?: 'member.gender_identity'
+}
+
+export interface FormVersionLatestParamsItemItem6 {
+  type: 'sex_at_birth'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's sex at birth.
+   */
+  destination?: 'member.sex_at_birth'
+}
+
+export interface FormVersionLatestParamsItemItem7 {
+  type: 'pronouns'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's pronouns.
+   */
+  destination?: 'member.pronouns'
+}
+
+export type FormVersionLatestParamsItemItem8AllowedUs = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+
+export interface FormVersionLatestParamsItemItem8 {
+  type: 'phone_numbers'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Indicates that the response from this question should be used to populate or
+   * update the member's phone numbers.
+   */
+  destination?: 'member.phone_numbers'
+  /**
+   * Control which 'use' values are allowed (e.g. 'mobile', or 'fax').
+   */
+  allowed_uses: Array<FormVersionLatestParamsItemItem8AllowedUs>
+  /**
+   * The maximum number of phone numbers that can be collected.
+   */
+  max: number
+}
+
+export interface FormVersionLatestParamsItemItem9 {
+  type: 'free_text'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+}
+
+export interface FormVersionLatestParamsItemItem10 {
+  type: 'number'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Control the minimum allowed value
+   */
+  min?: number | null
+  /**
+   * Control the maximum allowed value
+   */
+  max?: number | null
+}
+
+export interface FormVersionLatestParamsItemItem11Option {
+  /**
+   * Hidden 'key' for this option. Must be unique within the question.
+   */
+  key: string
+  /**
+   * Display label for this option. Must be unique within the question.
+   */
+  label: string
+}
+
+export interface FormVersionLatestParamsItemItem11Other {
+  /**
+   * Display label for the 'other' option.
+   */
+  label: string
+  /**
+   * Whether or not a response to the free-text input is required if the responder
+   * selected 'other'
+   */
+  required: boolean
+}
+
+export type FormVersionLatestParamsItemItem11InputType = 'radio' | 'drop_down'
+
+export interface FormVersionLatestParamsItemItem11 {
+  type: 'single_select'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * The list of options available for this question.
+   */
+  options: Array<FormVersionLatestParamsItemItem11Option>
+  /**
+   * Controls whether a user-generated 'other' free text field is offered, and
+   * whether a free text response is required. If this object is blank or null, no
+   * 'other' option is presented.
+   */
+  other?: FormVersionLatestParamsItemItem11Other | null
+  /**
+   * Control the input type of the single-select question.
+   */
+  input_type: FormVersionLatestParamsItemItem11InputType
+}
+
+export interface FormVersionLatestParamsItemItem12Option {
+  /**
+   * Hidden 'key' for this option. Must be unique within the question.
+   */
+  key: string
+  /**
+   * Display label for this option. Must be unique within the question.
+   */
+  label: string
+}
+
+export interface FormVersionLatestParamsItemItem12Other {
+  /**
+   * Display label for the 'other' option.
+   */
+  label: string
+  /**
+   * Whether or not a response to the free-text input is required if the responder
+   * selected 'other'
+   */
+  required: boolean
+}
+
+export interface FormVersionLatestParamsItemItem12 {
+  type: 'multi_select'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * The list of options available for this question.
+   */
+  options: Array<FormVersionLatestParamsItemItem12Option>
+  /**
+   * Controls whether user-generated 'other' free text fields is offered, and whether
+   * at least one free text response is required. If this object is blank or null, no
+   * 'other' option is presented.
+   */
+  other?: FormVersionLatestParamsItemItem12Other | null
+  /**
+   * Control the input type of the multi-select question.
+   */
+  input_type: 'checkbox'
+}
+
+export interface FormVersionLatestParamsItemItem13Labels {
+  /**
+   * Display label for the 'yes' option.
+   */
+  yes?: string | null
+  /**
+   * Display label for the 'no' option.
+   */
+  no?: string | null
+}
+
+export interface FormVersionLatestParamsItemItem13 {
+  type: 'yes_no'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * Display labels for the yes or no options.
+   */
+  labels?: FormVersionLatestParamsItemItem13Labels | null
+}
+
 export type FormVersionLatestParamsItemItem =
   | FormVersionLatestParamsItemItem0
-  | Question
+  | FormVersionLatestParamsItemItem1
   | FormVersionLatestParamsItemItem2
+  | FormVersionLatestParamsItemItem3
+  | FormVersionLatestParamsItemItem4
+  | FormVersionLatestParamsItemItem5
+  | FormVersionLatestParamsItemItem6
+  | FormVersionLatestParamsItemItem7
+  | FormVersionLatestParamsItemItem8
+  | FormVersionLatestParamsItemItem9
+  | FormVersionLatestParamsItemItem10
+  | FormVersionLatestParamsItemItem11
+  | FormVersionLatestParamsItemItem12
+  | FormVersionLatestParamsItemItem13
 
 export interface FormVersionLatestParamsItemExit {
   type: 'exit'

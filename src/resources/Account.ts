@@ -4,6 +4,69 @@ import { SourceRequestOptions } from '../SourceClient'
 import { File } from './File'
 import { Expandable } from './shared'
 
+export interface AccountThemeColors {
+  /**
+   * Color hex for the primary interface elements such as buttons.
+   */
+  primary: string | null
+  /**
+   * Color hex for text that appears on primary interface elements.
+   */
+  primary_text: string | null
+  /**
+   * Color hex for the accent elements like checkboxes, radio buttons, links, and
+   * similar second-level indications.
+   */
+  accent: string | null
+  /**
+   * Color hex for text that appears on accent interface elements.
+   */
+  accent_text: string | null
+  /**
+   * Color hex for the color of the primary page background.
+   */
+  surface: string | null
+  /**
+   * Color hex for the text that appears directly on the primary surface.
+   */
+  surface_text: string | null
+  /**
+   * Color hex for the background color of elements sitting on the surface, such as a
+   * card.
+   */
+  component: string | null
+  /**
+   * Color hex for the text that appears within a component element.
+   */
+  component_text: string | null
+  /**
+   * Color hex for the border color on interactive elements.
+   */
+  border: string | null
+}
+
+export interface AccountThemeShapes {
+  /**
+   * Border radius, defined in pixels.
+   */
+  border_radius: string | null
+  /**
+   * Whether or not to enable default shadows on elements.
+   */
+  shadows: boolean
+}
+
+export interface AccountTheme {
+  /**
+   * Brand colors used throughout the application.
+   */
+  colors: AccountThemeColors
+  /**
+   * Brand settings that affect the shape of elements.
+   */
+  shapes: AccountThemeShapes
+}
+
 export interface Account {
   /**
    * Always `account`.
@@ -35,6 +98,10 @@ export interface Account {
    */
   time_zone: string
   /**
+   * Theme settings to apply when using Source-hosted elements.
+   */
+  theme: AccountTheme
+  /**
    * Test mode API secret key for the account, only returned during account creation.
    */
   test_secret_key?: string
@@ -50,6 +117,69 @@ export interface Account {
    * Timestamp when the account was last updated.
    */
   updated_at: string
+}
+
+export interface AccountUpdateParamsThemeColors {
+  /**
+   * Color hex for the primary interface elements such as buttons.
+   */
+  primary: string | null
+  /**
+   * Color hex for text that appears on primary interface elements.
+   */
+  primary_text: string | null
+  /**
+   * Color hex for the accent elements like checkboxes, radio buttons, links, and
+   * similar second-level indications.
+   */
+  accent: string | null
+  /**
+   * Color hex for text that appears on accent interface elements.
+   */
+  accent_text: string | null
+  /**
+   * Color hex for the color of the primary page background.
+   */
+  surface: string | null
+  /**
+   * Color hex for the text that appears directly on the primary surface.
+   */
+  surface_text: string | null
+  /**
+   * Color hex for the background color of elements sitting on the surface, such as a
+   * card.
+   */
+  component: string | null
+  /**
+   * Color hex for the text that appears within a component element.
+   */
+  component_text: string | null
+  /**
+   * Color hex for the border color on interactive elements.
+   */
+  border: string | null
+}
+
+export interface AccountUpdateParamsThemeShapes {
+  /**
+   * Border radius, defined in pixels.
+   */
+  border_radius: string | null
+  /**
+   * Whether or not to enable default shadows on elements.
+   */
+  shadows: boolean
+}
+
+export interface AccountUpdateParamsTheme {
+  /**
+   * Brand colors used throughout the application.
+   */
+  colors: AccountUpdateParamsThemeColors
+  /**
+   * Brand settings that affect the shape of elements.
+   */
+  shapes: AccountUpdateParamsThemeShapes
 }
 
 export interface AccountUpdateParams {
@@ -69,6 +199,10 @@ export interface AccountUpdateParams {
    * availability and booking appointments.
    */
   time_zone?: string
+  /**
+   * Theme configuration to apply to the account.
+   */
+  theme?: AccountUpdateParamsTheme
   /**
    * Pointer to the file to use as the logo for this account. Must be of purpose
    * account_logo.
