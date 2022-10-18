@@ -12,7 +12,7 @@ Our SDK is written in TypeScript and compiled to ES6.
 
 This is an early releaes of our TypeScript SDK, and it comes with some known limitations:
 
-- Does not currently support file uploads to Source
+- Does not currently support file uploads to Source (see [below](#file-uploads)).
 - Some types may be defined as `unknown` as we improve our type generation
 
 ## Getting Started
@@ -71,5 +71,25 @@ const jwt = await source.tokens.generate({
   subject: 'mem_123',
   actor: 'mem_456',
   expiration: new Date(Date.now() + 1000 * 60 * 5), // 5 minutes
+})
+```
+
+## File Uploads
+
+The generated SDK client code for file uploads does not use a 'multipart/form-data' content type which the API requires, thus the `source.files.create()` SDK method will always fail.
+
+As a workaround, you can use the lower-level `request()` method in the client SDK to upload a form using the `form-data` NPM package.
+
+```typescript
+import * as FormData from 'form-data'
+
+const filename = './image.png'
+const formData = new FormData()
+const fileStream = createReadStream(filename)
+formData.append('file', fileStream, 'image.png')
+formData.append('purpose', 'photo')
+const response = await client.request('POST', '/v1/files', {
+  data: formData,
+  contentType: 'multipart',
 })
 ```
