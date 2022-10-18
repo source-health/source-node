@@ -109,6 +109,10 @@ export interface FormListParams {
    * Filter forms by archived or unarchived.
    */
   archived?: boolean
+  /**
+   * Filter forms by published or unpublished.
+   */
+  published?: boolean
 }
 
 export interface FormCreateParams {
@@ -206,11 +210,24 @@ export class FormResource extends Resource {
   }
 
   /**
-   * Archives a form. Once archived, it can no longer be used to generate new form
-   * responses.  Existing form responses are not affected when a form is archived.
+   * Archives a specified form. Once archived, it can no longer be used to generate
+   * new form responses.  Existing form responses are not affected when a form is
+   * archived.
    */
   public archive(id: string, options?: SourceRequestOptions): Promise<Form> {
     return this.source.request('POST', `/v1/forms/${id}/archive`, {
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Unarchives the specified form. Once unarchived, the form's published version can
+   * be again accessed to create form responses and the draft version of the form can
+   * be edited.
+   */
+  public unarchive(id: string, options?: SourceRequestOptions): Promise<Form> {
+    return this.source.request('POST', `/v1/forms/${id}/unarchive`, {
       contentType: 'json',
       options,
     })

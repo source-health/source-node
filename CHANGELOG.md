@@ -1,6 +1,20 @@
 # Source Client Changelog
 
-## Unreleased
+## v1.3.0
+
+### New API Features
+
+- Core:
+  - Account theme settings
+  - Location support, including availability support.
+  - Events: intents, license, and location events.
+- Forms (pre-release):
+  - Changes to form config schema
+  - Unarchiving
+- Scheduling:
+  - Add support for availability-by-location
+- Measurements:
+  - Use enum for units
 
 ### Other Changes
 

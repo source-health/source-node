@@ -9,6 +9,7 @@ import { FileResource } from './File'
 import { GroupResource } from './Group'
 import { IntentResource } from './Intent'
 import { LicenseResource } from './License'
+import { LocationResource } from './Location'
 import { MemberResource } from './Member'
 import { QueueResource } from './Queue'
 import { RelationshipResource } from './Relationship'
@@ -40,6 +41,7 @@ export const allResources = resourceNamespace({
   groups: resourceFactory(GroupResource),
   intents: resourceFactory(IntentResource),
   licenses: resourceFactory(LicenseResource),
+  locations: resourceFactory(LocationResource),
   members: resourceFactory(MemberResource),
   queues: resourceFactory(QueueResource),
   relationships: resourceFactory(RelationshipResource),

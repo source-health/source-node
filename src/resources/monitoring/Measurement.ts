@@ -192,6 +192,15 @@ export type MeasurementCreateParams1Type =
   | 'diastolic_blood_pressure'
   | 'heart_rate'
   | 'systolic_blood_pressure'
+export type MeasurementCreateParams1Unit =
+  | 'lbs'
+  | 'kg'
+  | 'mmHg'
+  | 'Pa'
+  | 'kPa'
+  | 'bpm'
+  | 'mg/dL'
+  | '%'
 
 export interface MeasurementCreateParams1 {
   /**
@@ -221,7 +230,7 @@ export interface MeasurementCreateParams1 {
   /**
    * Unit that the measurement is reported in.
    */
-  unit: string
+  unit: MeasurementCreateParams1Unit
 }
 
 export type MeasurementCreateParams = MeasurementCreateParams0 | MeasurementCreateParams1

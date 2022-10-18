@@ -9,7 +9,7 @@ import { FormVersion } from './FormVersion'
 
 export interface FormResponseResponse {
   item: Question
-  response: Record<string, unknown>
+  response: unknown
 }
 
 export type FormResponseStatus = 'started' | 'completed'
@@ -222,7 +222,8 @@ export interface FormResponseListParams {
 
 export interface FormResponseCreateParamsResponse {
   key: string
-  values: Record<string, unknown>
+  value?: unknown
+  values?: unknown
 }
 
 export interface FormResponseCreateParams {
@@ -253,7 +254,8 @@ export interface FormResponseCreateParams {
 
 export interface FormResponseUpdateParamsResponse {
   key: string
-  values: Record<string, unknown>
+  value?: unknown
+  values?: unknown
 }
 
 export interface FormResponseUpdateParams {

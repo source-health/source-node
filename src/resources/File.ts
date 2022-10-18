@@ -8,6 +8,7 @@ export type FilePurpose =
   | 'document'
   | 'comment_attachment'
   | 'account_logo'
+  | 'location_photo'
 
 export interface File {
   /**
@@ -65,6 +66,7 @@ export type FileCreateParamsPurpose =
   | 'document'
   | 'comment_attachment'
   | 'account_logo'
+  | 'location_photo'
 
 export interface FileCreateParams {
   /**

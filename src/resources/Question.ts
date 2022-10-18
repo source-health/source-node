@@ -11,8 +11,7 @@ export interface Question0Fields {
 }
 
 export interface Question0 {
-  type: 'question'
-  question_type: 'name'
+  type: 'name'
   /**
    * Display title of this question in the form, i.e. the question text itself.
    */
@@ -52,8 +51,7 @@ export interface Question0 {
 export type Question1InputType = 'date_picker' | 'date_entry'
 
 export interface Question1 {
-  type: 'question'
-  question_type: 'date'
+  type: 'date'
   /**
    * Display title of this question in the form, i.e. the question text itself.
    */
@@ -120,8 +118,7 @@ export interface Question2Fields {
 }
 
 export interface Question2 {
-  type: 'question'
-  question_type: 'address'
+  type: 'address'
   /**
    * Display title of this question in the form, i.e. the question text itself.
    */
@@ -159,8 +156,7 @@ export interface Question2 {
 }
 
 export interface Question3 {
-  type: 'question'
-  question_type: 'gender_identity'
+  type: 'gender_identity'
   /**
    * Display title of this question in the form, i.e. the question text itself.
    */
@@ -194,8 +190,7 @@ export interface Question3 {
 }
 
 export interface Question4 {
-  type: 'question'
-  question_type: 'sex_at_birth'
+  type: 'sex_at_birth'
   /**
    * Display title of this question in the form, i.e. the question text itself.
    */
@@ -229,8 +224,7 @@ export interface Question4 {
 }
 
 export interface Question5 {
-  type: 'question'
-  question_type: 'pronouns'
+  type: 'pronouns'
   /**
    * Display title of this question in the form, i.e. the question text itself.
    */
@@ -266,8 +260,7 @@ export interface Question5 {
 export type Question6AllowedUs = 'home' | 'work' | 'mobile' | 'fax' | 'other'
 
 export interface Question6 {
-  type: 'question'
-  question_type: 'phone_numbers'
+  type: 'phone_numbers'
   /**
    * Display title of this question in the form, i.e. the question text itself.
    */
@@ -309,8 +302,7 @@ export interface Question6 {
 }
 
 export interface Question7 {
-  type: 'question'
-  question_type: 'free_text'
+  type: 'free_text'
   /**
    * Display title of this question in the form, i.e. the question text itself.
    */
@@ -339,8 +331,7 @@ export interface Question7 {
 }
 
 export interface Question8 {
-  type: 'question'
-  question_type: 'number'
+  type: 'number'
   /**
    * Display title of this question in the form, i.e. the question text itself.
    */
@@ -402,8 +393,7 @@ export interface Question9Other {
 export type Question9InputType = 'radio' | 'drop_down'
 
 export interface Question9 {
-  type: 'question'
-  question_type: 'single_select'
+  type: 'single_select'
   /**
    * Display title of this question in the form, i.e. the question text itself.
    */
@@ -469,8 +459,7 @@ export interface Question10Other {
 }
 
 export interface Question10 {
-  type: 'question'
-  question_type: 'multi_select'
+  type: 'multi_select'
   /**
    * Display title of this question in the form, i.e. the question text itself.
    */
@@ -524,8 +513,7 @@ export interface Question11Labels {
 }
 
 export interface Question11 {
-  type: 'question'
-  question_type: 'yes_no'
+  type: 'yes_no'
   /**
    * Display title of this question in the form, i.e. the question text itself.
    */
