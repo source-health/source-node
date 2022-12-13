@@ -3,6 +3,18 @@
   "version": "1.3.0",
   "license": "MIT",
   "description": "Official TypeScript bindings for the Source Health API",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/source-health/source-node"
+  },
+  "keywords": [
+    "Source", "Source Health"
+  ],
+  "author": "Source Health, Inc",
+  "bugs": {
+    "url": "https://github.com/source-health/source-node/issues"
+  },
+  "homepage": "https://github.com/source-health/source-node#readme",
   "scripts": {
     "build": "webpack",
     "lint": "eslint src",
