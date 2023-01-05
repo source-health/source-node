@@ -1,20 +1,6 @@
 import { User } from './User'
 import { Expandable } from './shared'
 
-export type IntegrationType = 'cronofy' | 'canvas'
-
-export interface IntegrationConfig {
-  type: 'canvas'
-  /**
-   * The URL of the Canvas instance FHIR API to connect to.
-   */
-  api_base_url: string
-  /**
-   * The URL of the Canvas instance web application to connect to.
-   */
-  web_base_url: string
-}
-
 export interface Integration {
   /**
    * Always `integration`.
@@ -40,4 +26,18 @@ export interface Integration {
    * Timestamp of when the integration was last updated.
    */
   updated_at: string
+}
+
+export type IntegrationType = 'cronofy' | 'canvas'
+
+export interface IntegrationConfig {
+  type: 'canvas'
+  /**
+   * The URL of the Canvas instance FHIR API to connect to.
+   */
+  api_base_url: string
+  /**
+   * The URL of the Canvas instance web application to connect to.
+   */
+  web_base_url: string
 }

@@ -39,6 +39,70 @@ export interface Webhook {
   updated_at: string
 }
 
+export class WebhookResource extends Resource {
+  /**
+   * Lists all webhooks for the current account. The webhooks returned are sorted by
+   * creation date, with the most recently created webhooks appearing first.
+   */
+  public list(
+    params?: WebhookListParams,
+    options?: SourceRequestOptions,
+  ): Promise<WebhookListResponse> {
+    return this.source.request('GET', '/v1/webhooks', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * A webhook endpoint must have a URL and a list of events.
+   */
+  public create(params: WebhookCreateParams, options?: SourceRequestOptions): Promise<Webhook> {
+    return this.source.request('POST', '/v1/webhooks', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing webhook. You need only supply the unique
+   * webhook identifier that was returned upon creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Webhook> {
+    return this.source.request('GET', `/v1/webhooks/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates the webhook endpoint. You may edit the URL and list of events for the
+   * webhook.
+   */
+  public update(
+    id: string,
+    params?: WebhookUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Webhook> {
+    return this.source.request('POST', `/v1/webhooks/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Removes a webhook from your account, which will stop sending events to your
+   * endpoint
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<Webhook> {
+    return this.source.request('DELETE', `/v1/webhooks/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
+}
+
 export interface WebhookListResponse {
   /**
    * Always `list`.
@@ -108,68 +172,4 @@ export interface WebhookUpdateParams {
    * Whether or not this webhook should be enabled to receive events
    */
   is_enabled?: boolean
-}
-
-export class WebhookResource extends Resource {
-  /**
-   * Lists all webhooks for the current account. The webhooks returned are sorted by
-   * creation date, with the most recently created webhooks appearing first.
-   */
-  public list(
-    params?: WebhookListParams,
-    options?: SourceRequestOptions,
-  ): Promise<WebhookListResponse> {
-    return this.source.request('GET', '/v1/webhooks', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * A webhook endpoint must have a URL and a list of events.
-   */
-  public create(params: WebhookCreateParams, options?: SourceRequestOptions): Promise<Webhook> {
-    return this.source.request('POST', '/v1/webhooks', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing webhook. You need only supply the unique
-   * webhook identifier that was returned upon creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Webhook> {
-    return this.source.request('GET', `/v1/webhooks/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates the webhook endpoint. You may edit the URL and list of events for the
-   * webhook.
-   */
-  public update(
-    id: string,
-    params?: WebhookUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Webhook> {
-    return this.source.request('POST', `/v1/webhooks/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Removes a webhook from your account, which will stop sending events to your
-   * endpoint
-   */
-  public delete(id: string, options?: SourceRequestOptions): Promise<Webhook> {
-    return this.source.request('DELETE', `/v1/webhooks/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
 }

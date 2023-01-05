@@ -1,5 +1,3 @@
-export type ContactPointSystem = 'phone' | 'email' | 'other'
-
 export interface ContactPoint {
   /**
    * The system that this contact point represents.
@@ -12,3 +10,5 @@ export interface ContactPoint {
    */
   value: string
 }
+
+export type ContactPointSystem = 'phone' | 'email' | 'other'

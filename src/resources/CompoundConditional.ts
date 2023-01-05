@@ -1,7 +1,5 @@
 import { Conditional } from './Conditional'
 
-export type CompoundConditionalOperator = '$and' | '$or'
-
 export interface CompoundConditional {
   type: 'compound_conditional'
   /**
@@ -14,3 +12,5 @@ export interface CompoundConditional {
    */
   operands: Array<Conditional>
 }
+
+export type CompoundConditionalOperator = '$and' | '$or'

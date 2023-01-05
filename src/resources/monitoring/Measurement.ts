@@ -5,16 +5,6 @@ import { Expandable } from '../shared'
 
 import { Device } from './Device'
 
-export type MeasurementKind = 'numeric' | 'composite'
-export type MeasurementType =
-  | 'blood_glucose'
-  | 'blood_oxygen_saturation'
-  | 'blood_pressure'
-  | 'body_weight'
-  | 'diastolic_blood_pressure'
-  | 'heart_rate'
-  | 'systolic_blood_pressure'
-
 export interface Measurement {
   /**
    * Always `measurement`.
@@ -69,41 +59,8 @@ export interface Measurement {
   created_at: string
 }
 
-export interface MeasurementListResponse {
-  /**
-   * Always `list`.
-   */
-  object: 'list'
-  /**
-   * Array of results
-   */
-  data: Array<Measurement>
-  /**
-   * Contains `true` if there is another page of results available.
-   */
-  has_more: boolean
-}
-
-export interface MeasurementListParamsTime {
-  /**
-   * Return results where the time field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the time field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the time field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the time field is greater than or equal to this value.
-   */
-  gte?: string
-}
-
-export type MeasurementListParamsType =
+export type MeasurementKind = 'numeric' | 'composite'
+export type MeasurementType =
   | 'blood_glucose'
   | 'blood_oxygen_saturation'
   | 'blood_pressure'
@@ -111,129 +68,6 @@ export type MeasurementListParamsType =
   | 'diastolic_blood_pressure'
   | 'heart_rate'
   | 'systolic_blood_pressure'
-
-export interface MeasurementListParams {
-  /**
-   * A cursor for use in pagination. `ending_before` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, starting with obj_bar, your subsequent call can include
-   * ending_before=obj_bar in order to fetch the previous page of the list.
-   */
-  ending_before?: string
-  /**
-   * A cursor for use in pagination. `starting_after` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, ending with obj_foo, your subsequent call can include
-   * starting_after=obj_foo in order to fetch the next page of the list.
-   */
-  starting_after?: string
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and
-   * 100.
-   */
-  limit?: number
-  /**
-   * A time based range filter on the list based on the object time field. For
-   * example `?time[gt]=2021-05-10T16:51:38.075Z&time[lte]=2021-05-26T16:51:38.075Z`.
-   * The value is a dictionary with the following:
-   */
-  time?: MeasurementListParamsTime
-  /**
-   * Filter measurements to only those belonging to the given member.
-   */
-  member?: string
-  /**
-   * Filter measurements to only those of the given type.
-   */
-  type?: Array<MeasurementListParamsType>
-}
-
-export type MeasurementCreateParams0Type =
-  | 'blood_glucose'
-  | 'blood_oxygen_saturation'
-  | 'blood_pressure'
-  | 'body_weight'
-  | 'diastolic_blood_pressure'
-  | 'heart_rate'
-  | 'systolic_blood_pressure'
-
-export interface MeasurementCreateParams0 {
-  /**
-   * Source measurement type to create.
-   */
-  type: MeasurementCreateParams0Type
-  /**
-   * Device to which this measurement belongs.
-   */
-  device: string
-  /**
-   * Member to which this measurement belongs.
-   */
-  member: string
-  /**
-   * Timestamp that the measurement was taken.
-   */
-  time: string
-  /**
-   * Always `composite`.
-   */
-  kind: 'composite'
-  /**
-   * Items to be included in the composite measurement.
-   */
-  items: Record<string, unknown>
-}
-
-export type MeasurementCreateParams1Type =
-  | 'blood_glucose'
-  | 'blood_oxygen_saturation'
-  | 'blood_pressure'
-  | 'body_weight'
-  | 'diastolic_blood_pressure'
-  | 'heart_rate'
-  | 'systolic_blood_pressure'
-export type MeasurementCreateParams1Unit =
-  | 'lbs'
-  | 'kg'
-  | 'mmHg'
-  | 'Pa'
-  | 'kPa'
-  | 'bpm'
-  | 'mg/dL'
-  | '%'
-
-export interface MeasurementCreateParams1 {
-  /**
-   * Source measurement type to create.
-   */
-  type: MeasurementCreateParams1Type
-  /**
-   * Device to which this measurement belongs.
-   */
-  device: string
-  /**
-   * Member to which this measurement belongs.
-   */
-  member: string
-  /**
-   * Timestamp that the measurement was taken.
-   */
-  time: string
-  /**
-   * Always `numeric`.
-   */
-  kind: 'numeric'
-  /**
-   * Value for the measurement.
-   */
-  value: string
-  /**
-   * Unit that the measurement is reported in.
-   */
-  unit: MeasurementCreateParams1Unit
-}
-
-export type MeasurementCreateParams = MeasurementCreateParams0 | MeasurementCreateParams1
 
 export class MeasurementResource extends Resource {
   /**
@@ -276,3 +110,168 @@ export class MeasurementResource extends Resource {
     })
   }
 }
+
+export interface MeasurementListResponse {
+  /**
+   * Always `list`.
+   */
+  object: 'list'
+  /**
+   * Array of results
+   */
+  data: Array<Measurement>
+  /**
+   * Contains `true` if there is another page of results available.
+   */
+  has_more: boolean
+}
+
+export interface MeasurementListParams {
+  /**
+   * A cursor for use in pagination. `ending_before` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, starting with obj_bar, your subsequent call can include
+   * ending_before=obj_bar in order to fetch the previous page of the list.
+   */
+  ending_before?: string
+  /**
+   * A cursor for use in pagination. `starting_after` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, ending with obj_foo, your subsequent call can include
+   * starting_after=obj_foo in order to fetch the next page of the list.
+   */
+  starting_after?: string
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and
+   * 100.
+   */
+  limit?: number
+  /**
+   * A time based range filter on the list based on the object time field. For
+   * example `?time[gt]=2021-05-10T16:51:38.075Z&time[lte]=2021-05-26T16:51:38.075Z`.
+   * The value is a dictionary with the following:
+   */
+  time?: MeasurementListParamsTime
+  /**
+   * Filter measurements to only those belonging to the given member.
+   */
+  member?: string
+  /**
+   * Filter measurements to only those of the given type.
+   */
+  type?: Array<MeasurementListParamsType>
+}
+
+export interface MeasurementListParamsTime {
+  /**
+   * Return results where the time field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the time field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the time field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the time field is greater than or equal to this value.
+   */
+  gte?: string
+}
+
+export type MeasurementListParamsType =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
+
+export interface MeasurementCreateParams0 {
+  /**
+   * Source measurement type to create.
+   */
+  type: MeasurementCreateParams0Type
+  /**
+   * Device to which this measurement belongs.
+   */
+  device: string
+  /**
+   * Member to which this measurement belongs.
+   */
+  member: string
+  /**
+   * Timestamp that the measurement was taken.
+   */
+  time: string
+  /**
+   * Always `composite`.
+   */
+  kind: 'composite'
+  /**
+   * Items to be included in the composite measurement.
+   */
+  items: Record<string, unknown>
+}
+
+export type MeasurementCreateParams0Type =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
+
+export interface MeasurementCreateParams1 {
+  /**
+   * Source measurement type to create.
+   */
+  type: MeasurementCreateParams1Type
+  /**
+   * Device to which this measurement belongs.
+   */
+  device: string
+  /**
+   * Member to which this measurement belongs.
+   */
+  member: string
+  /**
+   * Timestamp that the measurement was taken.
+   */
+  time: string
+  /**
+   * Always `numeric`.
+   */
+  kind: 'numeric'
+  /**
+   * Value for the measurement.
+   */
+  value: string
+  /**
+   * Unit that the measurement is reported in.
+   */
+  unit: MeasurementCreateParams1Unit
+}
+
+export type MeasurementCreateParams1Type =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
+export type MeasurementCreateParams1Unit =
+  | 'lbs'
+  | 'kg'
+  | 'mmHg'
+  | 'Pa'
+  | 'kPa'
+  | 'bpm'
+  | 'mg/dL'
+  | '%'
+export type MeasurementCreateParams = MeasurementCreateParams0 | MeasurementCreateParams1

@@ -7,36 +7,6 @@ import { Expandable } from '../shared'
 import { Form } from './Form'
 import { FormVersion } from './FormVersion'
 
-export interface FormResponseResponse {
-  item: Question
-  response: unknown
-}
-
-export type FormResponseStatus = 'started' | 'completed'
-
-export interface FormResponseExitScreen {
-  type: 'exit_screen'
-  /**
-   * A unique key for this exit screen within the form. The keys are used in exits to
-   * indicate which screen is used for the exit. An exit screen with key 'default'
-   * must exist in every form.
-   */
-  key: string
-  /**
-   * A description of this exit screen. If the responder reaches this exit screen,
-   * the screen's description is displayed within the completed form response.
-   */
-  description: string
-  /**
-   * Type of the rich text content. Currently only `md` (i.e. Markdown) is supported.
-   */
-  content_type: 'md'
-  /**
-   * The rich text content, represented as Markdown text.
-   */
-  content: string
-}
-
 export interface FormResponse {
   /**
    * Always `form_response`.
@@ -99,177 +69,35 @@ export interface FormResponse {
   completed_at: string | null
 }
 
-export interface FormResponseListResponse {
-  /**
-   * Always `list`.
-   */
-  object: 'list'
-  /**
-   * Array of results
-   */
-  data: Array<FormResponse>
-  /**
-   * Contains `true` if there is another page of results available.
-   */
-  has_more: boolean
+export interface FormResponseResponse {
+  item: Question
+  response: unknown
+  value: unknown
 }
 
-export type FormResponseListParamsSort =
-  | 'created_at'
-  | 'completed_at'
-  | '-created_at'
-  | '-completed_at'
-export type FormResponseListParamsStatus = 'started' | 'completed'
+export type FormResponseStatus = 'not_started' | 'started' | 'completed'
 
-export interface FormResponseListParamsCreatedAt {
+export interface FormResponseExitScreen {
+  type: 'exit_screen'
   /**
-   * Return results where the created_at field is less than this value.
+   * A unique key for this exit screen within the form. The keys are used in exits to
+   * indicate which screen is used for the exit. An exit screen with key 'default'
+   * must exist in every form.
    */
-  lt?: string
-  /**
-   * Return results where the created_at field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the created_at field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the created_at field is greater than or equal to this
-   * value.
-   */
-  gte?: string
-}
-
-export interface FormResponseListParamsCompletedAt {
-  /**
-   * Return results where the completed_at field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the completed_at field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the completed_at field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the completed_at field is greater than or equal to this
-   * value.
-   */
-  gte?: string
-}
-
-export interface FormResponseListParams {
-  /**
-   * A cursor for use in pagination. `ending_before` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, starting with obj_bar, your subsequent call can include
-   * ending_before=obj_bar in order to fetch the previous page of the list.
-   */
-  ending_before?: string
-  /**
-   * A cursor for use in pagination. `starting_after` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, ending with obj_foo, your subsequent call can include
-   * starting_after=obj_foo in order to fetch the next page of the list.
-   */
-  starting_after?: string
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and
-   * 100.
-   */
-  limit?: number
-  /**
-   * Sort field for the results. A '-' prefix indicates sorting by that field in
-   * descending order, otherwise the order will be ascending.
-   */
-  sort?: FormResponseListParamsSort
-  /**
-   * Filter results by form. If multiple form ids are provided, responses matching
-   * any of the provided forms will be returned.
-   */
-  form?: Array<string>
-  /**
-   * Filter results by member. If multiple member ids are provided, responses
-   * matching any of the provided members will be returned.
-   */
-  member?: Array<string>
-  /**
-   * Filter results by author.
-   */
-  author?: Array<string>
-  /**
-   * Filter results by status.
-   */
-  status?: Array<FormResponseListParamsStatus>
-  /**
-   * A time based range filter on the list based on the object created_at field. For
-   * example
-   * `?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z`.
-   * The value is a dictionary with the following:
-   */
-  created_at?: FormResponseListParamsCreatedAt
-  /**
-   * A time based range filter on the list based on the object completed_at field.
-   * For example
-   * `?completed_at[gt]=2021-05-10T16:51:38.075Z&completed_at[lte]=2021-05-26T16:51:38.075Z`.
-   * The value is a dictionary with the following:
-   */
-  completed_at?: FormResponseListParamsCompletedAt
-}
-
-export interface FormResponseCreateParamsResponse {
   key: string
-  value?: unknown
-  values?: unknown
-}
-
-export interface FormResponseCreateParams {
   /**
-   * The version of the form associated with this form response.  The form version
-   * associated with the response cannot be changed after creation. Any updates to
-   * this response relate to this same form version.
+   * A description of this exit screen. If the responder reaches this exit screen,
+   * the screen's description is displayed within the completed form response.
    */
-  form_version: string
+  description: string
   /**
-   * Member to which the form response belongs. Members can only view responses that
-   * are associated with them or with a member whose data they are authorized to
-   * access via a relationship.
+   * Type of the rich text content. Currently only `md` (i.e. Markdown) is supported.
    */
-  member?: string
+  content_type: 'md'
   /**
-   * The individual responses that capture the author's answers to corresponding
-   * items within the form version. Each response is associated with the item key of
-   * the corresponding question in the form version.
+   * The rich text content, represented as Markdown text.
    */
-  responses?: Array<FormResponseCreateParamsResponse>
-  /**
-   * If true, submits the response after updating any included responses. Updates the
-   * form response status to 'completed'.
-   */
-  submit?: boolean
-}
-
-export interface FormResponseUpdateParamsResponse {
-  key: string
-  value?: unknown
-  values?: unknown
-}
-
-export interface FormResponseUpdateParams {
-  /**
-   * The individual responses that capture the author's answers to corresponding
-   * items within the form version. Each response is associated with the item key of
-   * the corresponding question in the form version.
-   */
-  responses?: Array<FormResponseUpdateParamsResponse>
-  /**
-   * If true, submits the response after updating any included responses. Updates the
-   * form response status to 'completed'.
-   */
-  submit?: boolean
+  content: string
 }
 
 export class FormResponseResource extends Resource {
@@ -331,4 +159,177 @@ export class FormResponseResource extends Resource {
       options,
     })
   }
+}
+
+export interface FormResponseListResponse {
+  /**
+   * Always `list`.
+   */
+  object: 'list'
+  /**
+   * Array of results
+   */
+  data: Array<FormResponse>
+  /**
+   * Contains `true` if there is another page of results available.
+   */
+  has_more: boolean
+}
+
+export interface FormResponseListParams {
+  /**
+   * A cursor for use in pagination. `ending_before` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, starting with obj_bar, your subsequent call can include
+   * ending_before=obj_bar in order to fetch the previous page of the list.
+   */
+  ending_before?: string
+  /**
+   * A cursor for use in pagination. `starting_after` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, ending with obj_foo, your subsequent call can include
+   * starting_after=obj_foo in order to fetch the next page of the list.
+   */
+  starting_after?: string
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and
+   * 100.
+   */
+  limit?: number
+  /**
+   * Sort field for the results. A '-' prefix indicates sorting by that field in
+   * descending order, otherwise the order will be ascending.
+   */
+  sort?: FormResponseListParamsSort
+  /**
+   * Filter results by form. If multiple form ids are provided, responses matching
+   * any of the provided forms will be returned.
+   */
+  form?: Array<string>
+  /**
+   * Filter results by member. If multiple member ids are provided, responses
+   * matching any of the provided members will be returned.
+   */
+  member?: Array<string>
+  /**
+   * Filter results by author.
+   */
+  author?: Array<string>
+  /**
+   * Filter results by status.
+   */
+  status?: Array<FormResponseListParamsStatus>
+  /**
+   * A time based range filter on the list based on the object created_at field. For
+   * example
+   * `?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z`.
+   * The value is a dictionary with the following:
+   */
+  created_at?: FormResponseListParamsCreatedAt
+  /**
+   * A time based range filter on the list based on the object completed_at field.
+   * For example
+   * `?completed_at[gt]=2021-05-10T16:51:38.075Z&completed_at[lte]=2021-05-26T16:51:38.075Z`.
+   * The value is a dictionary with the following:
+   */
+  completed_at?: FormResponseListParamsCompletedAt
+}
+
+export type FormResponseListParamsSort =
+  | 'created_at'
+  | 'completed_at'
+  | '-created_at'
+  | '-completed_at'
+export type FormResponseListParamsStatus = 'not_started' | 'started' | 'completed'
+
+export interface FormResponseListParamsCreatedAt {
+  /**
+   * Return results where the created_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the created_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the created_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the created_at field is greater than or equal to this
+   * value.
+   */
+  gte?: string
+}
+
+export interface FormResponseListParamsCompletedAt {
+  /**
+   * Return results where the completed_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the completed_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the completed_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the completed_at field is greater than or equal to this
+   * value.
+   */
+  gte?: string
+}
+
+export interface FormResponseCreateParams {
+  /**
+   * The version of the form associated with this form response.  The form version
+   * associated with the response cannot be changed after creation. Any updates to
+   * this response relate to this same form version.
+   */
+  form_version: string
+  /**
+   * Member to which the form response belongs. Members can only view responses that
+   * are associated with them or with a member whose data they are authorized to
+   * access via a relationship.
+   */
+  member?: string
+  /**
+   * The individual responses that capture the author's answers to corresponding
+   * items within the form version. Each response is associated with the item key of
+   * the corresponding question in the form version.
+   */
+  responses?: Array<FormResponseCreateParamsResponse>
+  /**
+   * If true, submits the response after updating any included responses. Updates the
+   * form response status to 'completed'.
+   */
+  submit?: boolean
+}
+
+export interface FormResponseCreateParamsResponse {
+  key: string
+  value?: unknown
+  values?: unknown
+}
+
+export interface FormResponseUpdateParams {
+  /**
+   * The individual responses that capture the author's answers to corresponding
+   * items within the form version. Each response is associated with the item key of
+   * the corresponding question in the form version.
+   */
+  responses?: Array<FormResponseUpdateParamsResponse>
+  /**
+   * If true, submits the response after updating any included responses. Updates the
+   * form response status to 'completed'.
+   */
+  submit?: boolean
+}
+
+export interface FormResponseUpdateParamsResponse {
+  key: string
+  value?: unknown
+  values?: unknown
 }

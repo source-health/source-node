@@ -4,49 +4,6 @@ import { SourceRequestOptions } from '../SourceClient'
 import { File } from './File'
 import { Expandable } from './shared'
 
-export type LocationType = 'physical' | 'virtual'
-
-export interface LocationAddress {
-  /**
-   * The first line of the street address.
-   */
-  street_line_1: string
-  /**
-   * The second line of the street address.
-   */
-  street_line_2: string | null
-  /**
-   * The city.
-   */
-  city: string
-  /**
-   * The region - in the US this should be the two-letter state code.
-   */
-  region: string
-  /**
-   * The postal code (i.e. zip code).
-   */
-  postal_code: string
-  /**
-   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
-   * at this time.
-   */
-  country: string
-}
-
-export type LocationPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
-
-export interface LocationPhoneNumber {
-  /**
-   * Type of phone number.
-   */
-  use: LocationPhoneNumberUse
-  /**
-   * The phone number to use. This should be formatted in E.164 format.
-   */
-  value: string
-}
-
 export interface Location {
   /**
    * Always `location`.
@@ -129,20 +86,9 @@ export interface Location {
   deleted_at?: string
 }
 
-export type LocationUpdateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+export type LocationType = 'physical' | 'virtual'
 
-export interface LocationUpdateParamsPhoneNumber {
-  /**
-   * Type of phone number.
-   */
-  use: LocationUpdateParamsPhoneNumberUse
-  /**
-   * The phone number to use. This should be formatted in E.164 format.
-   */
-  value: string
-}
-
-export interface LocationUpdateParamsAddress {
+export interface LocationAddress {
   /**
    * The first line of the street address.
    */
@@ -150,7 +96,7 @@ export interface LocationUpdateParamsAddress {
   /**
    * The second line of the street address.
    */
-  street_line_2?: string | null
+  street_line_2: string | null
   /**
    * The city.
    */
@@ -170,219 +116,18 @@ export interface LocationUpdateParamsAddress {
   country: string
 }
 
-export interface LocationUpdateParams {
-  /**
-   * Unique, friendly name for this location.
-   */
-  name?: string
-  /**
-   * Free text description for this location. This might be used to include
-   * information about this location, the services that are offered here, or
-   * exceptions to operating hours.
-   */
-  description?: string | null
-  /**
-   * Free text directions for accessing this location. Typically, this is used to
-   * store information that is broadly applicable, such as "take exit 45 off of
-   * I-485, and turn right on Front Street." You may also use it to provide more
-   * specific building level access information, such as "enter through the north
-   * lobby, pass the security desk and take the elevator to the 3rd floor."
-   */
-  directions?: string | null
-  /**
-   * Image associated with the physical location. Must be a file of type
-   * `location_photo`. Images are optional, but can be helpful for patients to
-   * identify the location.
-   */
-  image?: string | null
-  /**
-   * The physical coordinates (expressed as a pair of [longitude, latitude]) for this
-   * physical location. Source attempts to geocode addresses and set coordinates
-   * automatically when creating locations. However, in some cases, such as when
-   * opening an office in new construction, geolocation may not succeed. If this
-   * occurs, you may manually specify coordinates to override our geolocation.
-   */
-  coordinates?: Array<number>
-  phone_numbers?: Array<LocationUpdateParamsPhoneNumber> | null
-  /**
-   * The physical address for this location. Note that added locations must have a
-   * physical address, which Source must be able to geocode.
-   */
-  address?: LocationUpdateParamsAddress
-  /**
-   * The time zone in which this location operates. It is used whenever Source need
-   * to determine the local time for a location.
-   *
-   * If no time zone is provided, Source will attempt to automatically determine a
-   * time zone based on the physical location's address.
-   */
-  time_zone?: string
-}
-
-export interface LocationListResponse {
-  /**
-   * Always `list`.
-   */
-  object: 'list'
-  /**
-   * Array of results
-   */
-  data: Array<Location>
-  /**
-   * Contains `true` if there is another page of results available.
-   */
-  has_more: boolean
-}
-
-export type LocationListParamsSort =
-  | 'created_at'
-  | 'name'
-  | 'distance'
-  | '-created_at'
-  | '-name'
-  | '-distance'
-export type LocationListParamsType = 'virtual' | 'physical'
-
-export interface LocationListParams {
-  /**
-   * A cursor for use in pagination. `ending_before` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, starting with obj_bar, your subsequent call can include
-   * ending_before=obj_bar in order to fetch the previous page of the list.
-   */
-  ending_before?: string
-  /**
-   * A cursor for use in pagination. `starting_after` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, ending with obj_foo, your subsequent call can include
-   * starting_after=obj_foo in order to fetch the next page of the list.
-   */
-  starting_after?: string
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and
-   * 100.
-   */
-  limit?: number
-  /**
-   * Sort field for the results. A '-' prefix indicates sorting by that field in
-   * descending order, otherwise the order will be ascending.
-   */
-  sort?: LocationListParamsSort
-  /**
-   * Limit results to locations of the provided type.
-   */
-  type?: LocationListParamsType
-  /**
-   * Limit results to locations with name containing the given query.
-   */
-  name?: string
-  /**
-   * Filter for locations that are within a specified distance of the provided
-   * location. The value provided here can be a postal code, city/state combination,
-   * or a fully specified address. If you have coordinates, such as from a GPS
-   * device, you may also provide a coordinate pair as a comma-separated string,
-   * providing the longitude first, and then the latitude.
-   *
-   * When this filter is applied, the default sorting mechanism will automatically
-   * switch to "distance" unless an explicit sort option is provided.
-   */
-  nearby?: string
-  /**
-   * When using geo-search, this limits the locations that will be shown to only
-   * those that are within the provided number of miles of the target location.
-   */
-  distance?: number
-}
-
-export type LocationCreateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
-
-export interface LocationCreateParamsPhoneNumber {
+export interface LocationPhoneNumber {
   /**
    * Type of phone number.
    */
-  use: LocationCreateParamsPhoneNumberUse
+  use: LocationPhoneNumberUse
   /**
    * The phone number to use. This should be formatted in E.164 format.
    */
   value: string
 }
 
-export interface LocationCreateParamsAddress {
-  /**
-   * The first line of the street address.
-   */
-  street_line_1: string
-  /**
-   * The second line of the street address.
-   */
-  street_line_2?: string | null
-  /**
-   * The city.
-   */
-  city: string
-  /**
-   * The region - in the US this should be the two-letter state code.
-   */
-  region: string
-  /**
-   * The postal code (i.e. zip code).
-   */
-  postal_code: string
-  /**
-   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
-   * at this time.
-   */
-  country: string
-}
-
-export interface LocationCreateParams {
-  /**
-   * Unique, friendly name for this location.
-   */
-  name: string
-  /**
-   * Free text description for this location. This might be used to include
-   * information about this location, the services that are offered here, or
-   * exceptions to operating hours.
-   */
-  description?: string | null
-  /**
-   * Free text directions for accessing this location. Typically, this is used to
-   * store information that is broadly applicable, such as "take exit 45 off of
-   * I-485, and turn right on Front Street." You may also use it to provide more
-   * specific building level access information, such as "enter through the north
-   * lobby, pass the security desk and take the elevator to the 3rd floor."
-   */
-  directions?: string | null
-  /**
-   * Image associated with the physical location. Must be a file of type
-   * `location_photo`. Images are optional, but can be helpful for patients to
-   * identify the location.
-   */
-  image?: string | null
-  /**
-   * The physical coordinates (expressed as a pair of [longitude, latitude]) for this
-   * physical location. Source attempts to geocode addresses and set coordinates
-   * automatically when creating locations. However, in some cases, such as when
-   * opening an office in new construction, geolocation may not succeed. If this
-   * occurs, you may manually specify coordinates to override our geolocation.
-   */
-  coordinates?: Array<number>
-  phone_numbers?: Array<LocationCreateParamsPhoneNumber> | null
-  /**
-   * The physical address for this location. Note that added locations must have a
-   * physical address, which Source must be able to geocode.
-   */
-  address: LocationCreateParamsAddress
-  /**
-   * The time zone in which this location operates. It is used whenever Source need
-   * to determine the local time for a location.
-   *
-   * If no time zone is provided, Source will attempt to automatically determine a
-   * time zone based on the physical location's address.
-   */
-  time_zone?: string
-}
+export type LocationPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
 
 export class LocationResource extends Resource {
   /**
@@ -454,4 +199,259 @@ export class LocationResource extends Resource {
       options,
     })
   }
+}
+
+export interface LocationUpdateParams {
+  /**
+   * Unique, friendly name for this location.
+   */
+  name?: string
+  /**
+   * Free text description for this location. This might be used to include
+   * information about this location, the services that are offered here, or
+   * exceptions to operating hours.
+   */
+  description?: string | null
+  /**
+   * Free text directions for accessing this location. Typically, this is used to
+   * store information that is broadly applicable, such as "take exit 45 off of
+   * I-485, and turn right on Front Street." You may also use it to provide more
+   * specific building level access information, such as "enter through the north
+   * lobby, pass the security desk and take the elevator to the 3rd floor."
+   */
+  directions?: string | null
+  /**
+   * Image associated with the physical location. Must be a file of type
+   * `location_photo`. Images are optional, but can be helpful for patients to
+   * identify the location.
+   */
+  image?: string | null
+  /**
+   * The physical coordinates (expressed as a pair of [longitude, latitude]) for this
+   * physical location. Source attempts to geocode addresses and set coordinates
+   * automatically when creating locations. However, in some cases, such as when
+   * opening an office in new construction, geolocation may not succeed. If this
+   * occurs, you may manually specify coordinates to override our geolocation.
+   */
+  coordinates?: Array<number>
+  phone_numbers?: Array<LocationUpdateParamsPhoneNumber> | null
+  /**
+   * The physical address for this location. Note that added locations must have a
+   * physical address, which Source must be able to geocode.
+   */
+  address?: LocationUpdateParamsAddress
+  /**
+   * The time zone in which this location operates. It is used whenever Source need
+   * to determine the local time for a location.
+   *
+   * If no time zone is provided, Source will attempt to automatically determine a
+   * time zone based on the physical location's address.
+   */
+  time_zone?: string
+}
+
+export interface LocationUpdateParamsPhoneNumber {
+  /**
+   * Type of phone number.
+   */
+  use: LocationUpdateParamsPhoneNumberUse
+  /**
+   * The phone number to use. This should be formatted in E.164 format.
+   */
+  value: string
+}
+
+export type LocationUpdateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+
+export interface LocationUpdateParamsAddress {
+  /**
+   * The first line of the street address.
+   */
+  street_line_1: string
+  /**
+   * The second line of the street address.
+   */
+  street_line_2?: string | null
+  /**
+   * The city.
+   */
+  city: string
+  /**
+   * The region - in the US this should be the two-letter state code.
+   */
+  region: string
+  /**
+   * The postal code (i.e. zip code).
+   */
+  postal_code: string
+  /**
+   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
+   * at this time.
+   */
+  country: string
+}
+
+export interface LocationListResponse {
+  /**
+   * Always `list`.
+   */
+  object: 'list'
+  /**
+   * Array of results
+   */
+  data: Array<Location>
+  /**
+   * Contains `true` if there is another page of results available.
+   */
+  has_more: boolean
+}
+
+export interface LocationListParams {
+  /**
+   * A cursor for use in pagination. `ending_before` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, starting with obj_bar, your subsequent call can include
+   * ending_before=obj_bar in order to fetch the previous page of the list.
+   */
+  ending_before?: string
+  /**
+   * A cursor for use in pagination. `starting_after` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, ending with obj_foo, your subsequent call can include
+   * starting_after=obj_foo in order to fetch the next page of the list.
+   */
+  starting_after?: string
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and
+   * 100.
+   */
+  limit?: number
+  /**
+   * Sort field for the results. A '-' prefix indicates sorting by that field in
+   * descending order, otherwise the order will be ascending.
+   */
+  sort?: LocationListParamsSort
+  /**
+   * Limit results to locations of the provided type.
+   */
+  type?: LocationListParamsType
+  /**
+   * Limit results to locations with name containing the given query.
+   */
+  name?: string
+  /**
+   * Filter for locations that are within a specified distance of the provided
+   * location. The value provided here can be a postal code, city/state combination,
+   * or a fully specified address. If you have coordinates, such as from a GPS
+   * device, you may also provide a coordinate pair as a comma-separated string,
+   * providing the longitude first, and then the latitude.
+   *
+   * When this filter is applied, the default sorting mechanism will automatically
+   * switch to "distance" unless an explicit sort option is provided.
+   */
+  nearby?: string
+  /**
+   * When using geo-search, this limits the locations that will be shown to only
+   * those that are within the provided number of miles of the target location.
+   */
+  distance?: number
+}
+
+export type LocationListParamsSort =
+  | 'created_at'
+  | 'name'
+  | 'distance'
+  | '-created_at'
+  | '-name'
+  | '-distance'
+export type LocationListParamsType = 'physical' | 'virtual'
+
+export interface LocationCreateParams {
+  /**
+   * Unique, friendly name for this location.
+   */
+  name: string
+  /**
+   * Free text description for this location. This might be used to include
+   * information about this location, the services that are offered here, or
+   * exceptions to operating hours.
+   */
+  description?: string | null
+  /**
+   * Free text directions for accessing this location. Typically, this is used to
+   * store information that is broadly applicable, such as "take exit 45 off of
+   * I-485, and turn right on Front Street." You may also use it to provide more
+   * specific building level access information, such as "enter through the north
+   * lobby, pass the security desk and take the elevator to the 3rd floor."
+   */
+  directions?: string | null
+  /**
+   * Image associated with the physical location. Must be a file of type
+   * `location_photo`. Images are optional, but can be helpful for patients to
+   * identify the location.
+   */
+  image?: string | null
+  /**
+   * The physical coordinates (expressed as a pair of [longitude, latitude]) for this
+   * physical location. Source attempts to geocode addresses and set coordinates
+   * automatically when creating locations. However, in some cases, such as when
+   * opening an office in new construction, geolocation may not succeed. If this
+   * occurs, you may manually specify coordinates to override our geolocation.
+   */
+  coordinates?: Array<number>
+  phone_numbers?: Array<LocationCreateParamsPhoneNumber> | null
+  /**
+   * The physical address for this location. Note that added locations must have a
+   * physical address, which Source must be able to geocode.
+   */
+  address: LocationCreateParamsAddress
+  /**
+   * The time zone in which this location operates. It is used whenever Source need
+   * to determine the local time for a location.
+   *
+   * If no time zone is provided, Source will attempt to automatically determine a
+   * time zone based on the physical location's address.
+   */
+  time_zone?: string
+}
+
+export interface LocationCreateParamsPhoneNumber {
+  /**
+   * Type of phone number.
+   */
+  use: LocationCreateParamsPhoneNumberUse
+  /**
+   * The phone number to use. This should be formatted in E.164 format.
+   */
+  value: string
+}
+
+export type LocationCreateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+
+export interface LocationCreateParamsAddress {
+  /**
+   * The first line of the street address.
+   */
+  street_line_1: string
+  /**
+   * The second line of the street address.
+   */
+  street_line_2?: string | null
+  /**
+   * The city.
+   */
+  city: string
+  /**
+   * The region - in the US this should be the two-letter state code.
+   */
+  region: string
+  /**
+   * The postal code (i.e. zip code).
+   */
+  postal_code: string
+  /**
+   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
+   * at this time.
+   */
+  country: string
 }

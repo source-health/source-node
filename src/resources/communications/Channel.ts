@@ -1,11 +1,5 @@
 import { ContactPoint } from '../ContactPoint'
 
-export interface ChannelCapabilities {
-  attachment_types: Array<string>
-  rich_text: boolean
-  max_length: number | null
-}
-
 export interface Channel {
   /**
    * Always `channel`.
@@ -44,4 +38,10 @@ export interface Channel {
    * Timestamp of when the channel was deleted.
    */
   deleted_at?: string
+}
+
+export interface ChannelCapabilities {
+  attachment_types: Array<string>
+  rich_text: boolean
+  max_length: number | null
 }

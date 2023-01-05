@@ -5,22 +5,9 @@ import { Member } from './Member'
 import { Queue } from './Queue'
 import { TaskDefinition } from './TaskDefinition'
 import { User } from './User'
+import { Encounter } from './clinical/Encounter'
 import { Thread } from './communications/Thread'
 import { Expandable } from './shared'
-
-export type TaskStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved'
-export type TaskAssignmentMethod = 'direct' | 'indirect'
-
-export interface TaskRelated {
-  /**
-   * Related object type
-   */
-  resource_type: 'thread'
-  /**
-   * Unique identifier for the related resource.
-   */
-  resource: Expandable<Thread>
-}
 
 export interface Task {
   /**
@@ -100,218 +87,21 @@ export interface Task {
   related: Array<TaskRelated>
 }
 
-export interface TaskListResponse {
+export type TaskStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved' | 'canceled'
+export type TaskAssignmentMethod = 'direct' | 'indirect'
+
+export interface TaskRelated {
   /**
-   * Always `list`.
+   * Related object type
    */
-  object: 'list'
+  resource_type: TaskRelatedResourceType
   /**
-   * Array of results
+   * Unique identifier for the related resource.
    */
-  data: Array<Task>
-  /**
-   * Contains `true` if there is another page of results available.
-   */
-  has_more: boolean
+  resource: Expandable<Thread | Encounter>
 }
 
-export type TaskListParamsSort = 'created_at' | 'due_at' | '-created_at' | '-due_at'
-export type TaskListParamsStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved'
-
-export interface TaskListParamsDueAt {
-  /**
-   * Return results where the due_at field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the due_at field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the due_at field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the due_at field is greater than or equal to this value.
-   */
-  gte?: string
-}
-
-export interface TaskListParamsCreatedAt {
-  /**
-   * Return results where the created_at field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the created_at field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the created_at field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the created_at field is greater than or equal to this
-   * value.
-   */
-  gte?: string
-}
-
-export interface TaskListParams {
-  /**
-   * A cursor for use in pagination. `ending_before` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, starting with obj_bar, your subsequent call can include
-   * ending_before=obj_bar in order to fetch the previous page of the list.
-   */
-  ending_before?: string
-  /**
-   * A cursor for use in pagination. `starting_after` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, ending with obj_foo, your subsequent call can include
-   * starting_after=obj_foo in order to fetch the next page of the list.
-   */
-  starting_after?: string
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and
-   * 100.
-   */
-  limit?: number
-  /**
-   * Sort field for the results. A '-' prefix indicates sorting by that field in
-   * descending order, otherwise the order will be ascending.
-   */
-  sort?: TaskListParamsSort
-  /**
-   * Filter results by status. If multiple statuses are provided, tasks matching any
-   * of the provided statuses will be returned.
-   */
-  status?: Array<TaskListParamsStatus>
-  /**
-   * Filter results by member. If multiple member ids are provided, tasks matching
-   * any of the provided members will be returned.
-   */
-  member?: Array<string>
-  /**
-   * Filter results by assignees. If multiple assignee ids are provided, tasks
-   * matching any of the provided assignees will be returned. Providing `unassigned`
-   * will return any tasks that are unassigned.
-   */
-  assignee?: Array<string>
-  /**
-   * Filter results by task definitons. If multiple task defintion ids are provided,
-   * tasks matching any of the provided definitions will be returned.
-   */
-  definition?: Array<string>
-  /**
-   * Filter results by queue. If multiple queues are provided, task related to any of
-   * those queues will be returned.
-   */
-  queue?: Array<string>
-  /**
-   * A time based range filter on the list based on the object due_at field. For
-   * example
-   * `?due_at[gt]=2021-05-10T16:51:38.075Z&due_at[lte]=2021-05-26T16:51:38.075Z`. The
-   * value is a dictionary with the following:
-   */
-  due_at?: TaskListParamsDueAt
-  /**
-   * A time based range filter on the list based on the object created_at field. For
-   * example
-   * `?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z`.
-   * The value is a dictionary with the following:
-   */
-  created_at?: TaskListParamsCreatedAt
-}
-
-export type TaskCreateParamsStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved'
-
-export interface TaskCreateParams {
-  /**
-   * The task definition that this task models. You may provide either the definition
-   * ID or key.
-   */
-  definition: string
-  /**
-   * The member to which this task belongs.
-   */
-  member: string
-  /**
-   * The user to which this task is assigned. If set to null, the task will be
-   * unassigned.
-   */
-  assignee?: string | null
-  /**
-   * The ID of the queue to which a task is assigned. When creating a task, if no
-   * queue is specified for the task, the task will use the queue of the task
-   * definition. If no queue exists on the task definition, the task will not be
-   * placed in a queue.
-   */
-  queue?: string | null
-  /**
-   * A brief summary of the task, which will be shown wherever the task is presented.
-   */
-  summary: string
-  /**
-   * Long-form text describing the task to be performed. You can use this field to
-   * share any additional relevant context to the care team that will be acting on
-   * this task.
-   */
-  description?: string | null
-  /**
-   * The status of the task
-   */
-  status: TaskCreateParamsStatus
-  /**
-   * The time by which this task should be completed. If no due_at date is supplied,
-   * the due_at date will automatically be 24 hours after the task was created.'
-   */
-  due_at?: string
-  /**
-   * A list of object IDs, such as threads, that are related to the task.
-   */
-  related?: Array<string>
-}
-
-export type TaskUpdateParamsStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved'
-
-export interface TaskUpdateParams {
-  /**
-   * The user to which this task is assigned. If set to null, the task will be
-   * unassigned.
-   */
-  assignee?: string | null
-  /**
-   * The ID of the queue to which a task is assigned. When creating a task, if no
-   * queue is specified for the task, the task will use the queue of the task
-   * definition. If no queue exists on the task definition, the task will not be
-   * placed in a queue.
-   */
-  queue?: string | null
-  /**
-   * A brief summary of the task, which will be shown wherever the task is presented.
-   */
-  summary?: string
-  /**
-   * Long-form text describing the task to be performed. You can use this field to
-   * share any additional relevant context to the care team that will be acting on
-   * this task.
-   */
-  description?: string | null
-  /**
-   * The status of the task
-   */
-  status?: TaskUpdateParamsStatus
-  /**
-   * The time by which this task should be completed. If no due_at date is supplied,
-   * the due_at date will automatically be 24 hours after the task was created.'
-   */
-  due_at?: string
-  /**
-   * A list of object IDs, such as threads, that are related to the task.
-   */
-  related?: Array<string>
-}
+export type TaskRelatedResourceType = 'thread' | 'encounter'
 
 export class TaskResource extends Resource {
   /**
@@ -370,3 +160,234 @@ export class TaskResource extends Resource {
     })
   }
 }
+
+export interface TaskListResponse {
+  /**
+   * Always `list`.
+   */
+  object: 'list'
+  /**
+   * Array of results
+   */
+  data: Array<Task>
+  /**
+   * Contains `true` if there is another page of results available.
+   */
+  has_more: boolean
+}
+
+export interface TaskListParams {
+  /**
+   * A cursor for use in pagination. `ending_before` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, starting with obj_bar, your subsequent call can include
+   * ending_before=obj_bar in order to fetch the previous page of the list.
+   */
+  ending_before?: string
+  /**
+   * A cursor for use in pagination. `starting_after` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, ending with obj_foo, your subsequent call can include
+   * starting_after=obj_foo in order to fetch the next page of the list.
+   */
+  starting_after?: string
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and
+   * 100.
+   */
+  limit?: number
+  /**
+   * Sort field for the results. A '-' prefix indicates sorting by that field in
+   * descending order, otherwise the order will be ascending.
+   */
+  sort?: TaskListParamsSort
+  /**
+   * Filter results by status. If multiple statuses are provided, tasks matching any
+   * of the provided statuses will be returned.
+   */
+  status?: Array<TaskListParamsStatus>
+  /**
+   * Filter results by member. If multiple member ids are provided, tasks matching
+   * any of the provided members will be returned.
+   */
+  member?: Array<string>
+  /**
+   * Filter results by assignees. If multiple assignee ids are provided, tasks
+   * matching any of the provided assignees will be returned. Providing `unassigned`
+   * will return any tasks that are unassigned.
+   */
+  assignee?: Array<string>
+  /**
+   * Filter results by task definitons. If multiple task definition ids are provided,
+   * tasks matching any of the provided definitions will be returned.
+   */
+  definition?: Array<string>
+  /**
+   * Filter results by queue. If multiple queues are provided, task related to any of
+   * those queues will be returned.
+   */
+  queue?: Array<string>
+  /**
+   * A time based range filter on the list based on the object due_at field. For
+   * example
+   * `?due_at[gt]=2021-05-10T16:51:38.075Z&due_at[lte]=2021-05-26T16:51:38.075Z`. The
+   * value is a dictionary with the following:
+   */
+  due_at?: TaskListParamsDueAt
+  /**
+   * A time based range filter on the list based on the object created_at field. For
+   * example
+   * `?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z`.
+   * The value is a dictionary with the following:
+   */
+  created_at?: TaskListParamsCreatedAt
+}
+
+export type TaskListParamsSort = 'created_at' | 'due_at' | '-created_at' | '-due_at'
+export type TaskListParamsStatus =
+  | 'open'
+  | 'in_progress'
+  | 'blocked'
+  | 'on_hold'
+  | 'resolved'
+  | 'canceled'
+
+export interface TaskListParamsDueAt {
+  /**
+   * Return results where the due_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the due_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the due_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the due_at field is greater than or equal to this value.
+   */
+  gte?: string
+}
+
+export interface TaskListParamsCreatedAt {
+  /**
+   * Return results where the created_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the created_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the created_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the created_at field is greater than or equal to this
+   * value.
+   */
+  gte?: string
+}
+
+export interface TaskCreateParams {
+  /**
+   * The task definition that this task models. You may provide either the definition
+   * ID or key.
+   */
+  definition: string
+  /**
+   * The member to which this task belongs.
+   */
+  member: string
+  /**
+   * The user to which this task is assigned. If set to null, the task will be
+   * unassigned.
+   */
+  assignee?: string | null
+  /**
+   * The ID of the queue to which a task is assigned. When creating a task, if no
+   * queue is specified for the task, the task will use the queue of the task
+   * definition. If no queue exists on the task definition, the task will not be
+   * placed in a queue.
+   */
+  queue?: string | null
+  /**
+   * A brief summary of the task, which will be shown wherever the task is presented.
+   */
+  summary: string
+  /**
+   * Long-form text describing the task to be performed. You can use this field to
+   * share any additional relevant context to the care team that will be acting on
+   * this task.
+   */
+  description?: string | null
+  /**
+   * The status of the task
+   */
+  status: TaskCreateParamsStatus
+  /**
+   * The time by which this task should be completed. If no due_at date is supplied,
+   * the due_at date will automatically be 24 hours after the task was created.'
+   */
+  due_at?: string
+  /**
+   * A list of object IDs, such as threads, that are related to the task.
+   */
+  related?: Array<string>
+}
+
+export type TaskCreateParamsStatus =
+  | 'open'
+  | 'in_progress'
+  | 'blocked'
+  | 'on_hold'
+  | 'resolved'
+  | 'canceled'
+
+export interface TaskUpdateParams {
+  /**
+   * The user to which this task is assigned. If set to null, the task will be
+   * unassigned.
+   */
+  assignee?: string | null
+  /**
+   * The ID of the queue to which a task is assigned. When creating a task, if no
+   * queue is specified for the task, the task will use the queue of the task
+   * definition. If no queue exists on the task definition, the task will not be
+   * placed in a queue.
+   */
+  queue?: string | null
+  /**
+   * A brief summary of the task, which will be shown wherever the task is presented.
+   */
+  summary?: string
+  /**
+   * Long-form text describing the task to be performed. You can use this field to
+   * share any additional relevant context to the care team that will be acting on
+   * this task.
+   */
+  description?: string | null
+  /**
+   * The status of the task
+   */
+  status?: TaskUpdateParamsStatus
+  /**
+   * The time by which this task should be completed. If no due_at date is supplied,
+   * the due_at date will automatically be 24 hours after the task was created.'
+   */
+  due_at?: string
+  /**
+   * A list of object IDs, such as threads, that are related to the task.
+   */
+  related?: Array<string>
+}
+
+export type TaskUpdateParamsStatus =
+  | 'open'
+  | 'in_progress'
+  | 'blocked'
+  | 'on_hold'
+  | 'resolved'
+  | 'canceled'

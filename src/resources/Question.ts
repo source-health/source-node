@@ -1,15 +1,5 @@
 import { CompoundConditional } from './CompoundConditional'
 
-export type Question0FieldsPreferred = 'none' | 'optional' | 'required'
-
-export interface Question0Fields {
-  /**
-   * Indicates whether the given sub-field should be displayed or not, and if so,
-   * whether a response is optional or required.
-   */
-  preferred: Question0FieldsPreferred
-}
-
 export interface Question0 {
   type: 'name'
   /**
@@ -48,7 +38,15 @@ export interface Question0 {
   fields: Question0Fields
 }
 
-export type Question1InputType = 'date_picker' | 'date_entry'
+export interface Question0Fields {
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  preferred: Question0FieldsPreferred
+}
+
+export type Question0FieldsPreferred = 'none' | 'optional' | 'required'
 
 export interface Question1 {
   type: 'date'
@@ -89,33 +87,7 @@ export interface Question1 {
   input_type: Question1InputType
 }
 
-export type Question2FieldsStreetLine1 = 'none' | 'optional' | 'required'
-export type Question2FieldsStreetLine2 = 'none' | 'optional' | 'required'
-export type Question2FieldsCity = 'none' | 'optional' | 'required'
-export type Question2FieldsPostalCode = 'none' | 'optional' | 'required'
-
-export interface Question2Fields {
-  /**
-   * Indicates whether the given sub-field should be displayed or not, and if so,
-   * whether a response is optional or required.
-   */
-  street_line_1: Question2FieldsStreetLine1
-  /**
-   * Indicates whether the given sub-field should be displayed or not, and if so,
-   * whether a response is optional or required.
-   */
-  street_line_2: Question2FieldsStreetLine2
-  /**
-   * Indicates whether the given sub-field should be displayed or not, and if so,
-   * whether a response is optional or required.
-   */
-  city: Question2FieldsCity
-  /**
-   * Indicates whether the given sub-field should be displayed or not, and if so,
-   * whether a response is optional or required.
-   */
-  postal_code: Question2FieldsPostalCode
-}
+export type Question1InputType = 'date_picker' | 'date_entry'
 
 export interface Question2 {
   type: 'address'
@@ -154,6 +126,34 @@ export interface Question2 {
    */
   fields: Question2Fields
 }
+
+export interface Question2Fields {
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  street_line_1: Question2FieldsStreetLine1
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  street_line_2: Question2FieldsStreetLine2
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  city: Question2FieldsCity
+  /**
+   * Indicates whether the given sub-field should be displayed or not, and if so,
+   * whether a response is optional or required.
+   */
+  postal_code: Question2FieldsPostalCode
+}
+
+export type Question2FieldsStreetLine1 = 'none' | 'optional' | 'required'
+export type Question2FieldsStreetLine2 = 'none' | 'optional' | 'required'
+export type Question2FieldsCity = 'none' | 'optional' | 'required'
+export type Question2FieldsPostalCode = 'none' | 'optional' | 'required'
 
 export interface Question3 {
   type: 'gender_identity'
@@ -257,8 +257,6 @@ export interface Question5 {
   destination?: 'member.pronouns'
 }
 
-export type Question6AllowedUs = 'home' | 'work' | 'mobile' | 'fax' | 'other'
-
 export interface Question6 {
   type: 'phone_numbers'
   /**
@@ -301,6 +299,8 @@ export interface Question6 {
   max: number
 }
 
+export type Question6AllowedUs = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+
 export interface Question7 {
   type: 'free_text'
   /**
@@ -331,6 +331,35 @@ export interface Question7 {
 }
 
 export interface Question8 {
+  type: 'long_text'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+}
+
+export interface Question9 {
   type: 'number'
   /**
    * Display title of this question in the form, i.e. the question text itself.
@@ -367,99 +396,8 @@ export interface Question8 {
   max?: number | null
 }
 
-export interface Question9Option {
-  /**
-   * Hidden 'key' for this option. Must be unique within the question.
-   */
-  key: string
-  /**
-   * Display label for this option. Must be unique within the question.
-   */
-  label: string
-}
-
-export interface Question9Other {
-  /**
-   * Display label for the 'other' option.
-   */
-  label: string
-  /**
-   * Whether or not a response to the free-text input is required if the responder
-   * selected 'other'
-   */
-  required: boolean
-}
-
-export type Question9InputType = 'radio' | 'drop_down'
-
-export interface Question9 {
-  type: 'single_select'
-  /**
-   * Display title of this question in the form, i.e. the question text itself.
-   */
-  title: string
-  /**
-   * An optional secondary text for this question, which will be displayed under the
-   * title and can contain, for example, instructions on how to answer the question.
-   */
-  description?: string
-  /**
-   * Whether a response to this question is required or optional. Questions that are
-   * hidden by conditional rules are never required to have a response.
-   */
-  required: boolean
-  /**
-   * Unique key of this item within the form. Used in responses and conditional
-   * logic.
-   */
-  key: string
-  /**
-   * A conditional statement - if it evaluates to true, this question will be
-   * displayed, if false the question will not be displayed and no response will be
-   * recorded for it.
-   */
-  conditional?: CompoundConditional
-  /**
-   * The list of options available for this question.
-   */
-  options: Array<Question9Option>
-  /**
-   * Controls whether a user-generated 'other' free text field is offered, and
-   * whether a free text response is required. If this object is blank or null, no
-   * 'other' option is presented.
-   */
-  other?: Question9Other | null
-  /**
-   * Control the input type of the single-select question.
-   */
-  input_type: Question9InputType
-}
-
-export interface Question10Option {
-  /**
-   * Hidden 'key' for this option. Must be unique within the question.
-   */
-  key: string
-  /**
-   * Display label for this option. Must be unique within the question.
-   */
-  label: string
-}
-
-export interface Question10Other {
-  /**
-   * Display label for the 'other' option.
-   */
-  label: string
-  /**
-   * Whether or not a response to the free-text input is required if the responder
-   * selected 'other'
-   */
-  required: boolean
-}
-
 export interface Question10 {
-  type: 'multi_select'
+  type: 'single_select'
   /**
    * Display title of this question in the form, i.e. the question text itself.
    */
@@ -490,29 +428,109 @@ export interface Question10 {
    */
   options: Array<Question10Option>
   /**
+   * Controls whether a user-generated 'other' free text field is offered, and
+   * whether a free text response is required. If this object is blank or null, no
+   * 'other' option is presented.
+   */
+  other?: Question10Other | null
+  /**
+   * Control the input type of the single-select question.
+   */
+  input_type: Question10InputType
+}
+
+export interface Question10Option {
+  /**
+   * Hidden 'key' for this option. Must be unique within the question.
+   */
+  key: string
+  /**
+   * Display label for this option. Must be unique within the question.
+   */
+  label: string
+}
+
+export interface Question10Other {
+  /**
+   * Display label for the 'other' option.
+   */
+  label: string
+  /**
+   * Whether or not a response to the free-text input is required if the responder
+   * selected 'other'
+   */
+  required: boolean
+}
+
+export type Question10InputType = 'radio' | 'drop_down'
+
+export interface Question11 {
+  type: 'multi_select'
+  /**
+   * Display title of this question in the form, i.e. the question text itself.
+   */
+  title: string
+  /**
+   * An optional secondary text for this question, which will be displayed under the
+   * title and can contain, for example, instructions on how to answer the question.
+   */
+  description?: string
+  /**
+   * Whether a response to this question is required or optional. Questions that are
+   * hidden by conditional rules are never required to have a response.
+   */
+  required: boolean
+  /**
+   * Unique key of this item within the form. Used in responses and conditional
+   * logic.
+   */
+  key: string
+  /**
+   * A conditional statement - if it evaluates to true, this question will be
+   * displayed, if false the question will not be displayed and no response will be
+   * recorded for it.
+   */
+  conditional?: CompoundConditional
+  /**
+   * The list of options available for this question.
+   */
+  options: Array<Question11Option>
+  /**
    * Controls whether user-generated 'other' free text fields is offered, and whether
    * at least one free text response is required. If this object is blank or null, no
    * 'other' option is presented.
    */
-  other?: Question10Other | null
+  other?: Question11Other | null
   /**
    * Control the input type of the multi-select question.
    */
   input_type: 'checkbox'
 }
 
-export interface Question11Labels {
+export interface Question11Option {
   /**
-   * Display label for the 'yes' option.
+   * Hidden 'key' for this option. Must be unique within the question.
    */
-  yes?: string | null
+  key: string
   /**
-   * Display label for the 'no' option.
+   * Display label for this option. Must be unique within the question.
    */
-  no?: string | null
+  label: string
 }
 
-export interface Question11 {
+export interface Question11Other {
+  /**
+   * Display label for the 'other' option.
+   */
+  label: string
+  /**
+   * Whether or not a response to the free-text input is required if the responder
+   * selected 'other'
+   */
+  required: boolean
+}
+
+export interface Question12 {
   type: 'yes_no'
   /**
    * Display title of this question in the form, i.e. the question text itself.
@@ -542,7 +560,18 @@ export interface Question11 {
   /**
    * Display labels for the yes or no options.
    */
-  labels?: Question11Labels | null
+  labels?: Question12Labels | null
+}
+
+export interface Question12Labels {
+  /**
+   * Display label for the 'yes' option.
+   */
+  yes?: string | null
+  /**
+   * Display label for the 'no' option.
+   */
+  no?: string | null
 }
 
 export type Question =
@@ -558,3 +587,4 @@ export type Question =
   | Question9
   | Question10
   | Question11
+  | Question12

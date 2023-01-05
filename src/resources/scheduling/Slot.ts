@@ -3,6 +3,8 @@ import { SourceRequestOptions } from '../../SourceClient'
 import { User } from '../User'
 import { Expandable } from '../shared'
 
+import { RecurringSlot } from './RecurringSlot'
+
 export interface Slot {
   /**
    * Always `slot`.
@@ -37,6 +39,46 @@ export interface Slot {
   available: Array<Expandable<User>>
 }
 
+export class SlotResource extends Resource {
+  /**
+   * This endpoint lists all bookable appointments slots for a set of users, given a
+   * list of participants to include and a list of participants to exclude.
+   *
+   * This endpoint is accessible using member tokens, allowing your patient portal to
+   * query the Source API for availability directly.
+   *
+   * Availability queries can only look at a maximum window of 31 days (a complete
+   * calendar month). If you need to look at availability windows greater than 31
+   * days, please reach out to our team.
+   */
+  public list(params: SlotListParams, options?: SourceRequestOptions): Promise<SlotListResponse> {
+    return this.source.request('GET', '/v1/scheduling/slots', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * This endpoint lists all potential recurring instances of a recurring series,
+   * given the proposed start timestamp of the first appointment in the series. The
+   * response will indicate which instances of the series are not bookable due to
+   * lack of provider availability or conflicting appointments.
+   *
+   * This endpoint is accessible using member tokens, allowing your patient portal to
+   * query the Source API for availability directly.
+   */
+  public listRecurring(
+    params: SlotListRecurringParams,
+    options?: SourceRequestOptions,
+  ): Promise<RecurringSlot> {
+    return this.source.request('POST', '/v1/scheduling/recurring_slots', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+}
+
 export interface SlotListResponse {
   /**
    * The list of all slots that were returned for your availability query. Slots will
@@ -57,16 +99,6 @@ export interface SlotListResponse {
    */
   participants: Array<Expandable<User>>
 }
-
-export type SlotListParamsParticipant = string
-export type SlotListParamsExcludeParticipant = string
-export type SlotListParamsParticipantOperator = 'and' | 'or'
-export type SlotListParamsExcludeParticipantOperator = 'and' | 'or'
-export type SlotListParamsRoutingStrategy =
-  | 'care_team_required'
-  | 'care_team_preferred'
-  | 'care_team_hybrid'
-  | 'round_robin'
 
 export interface SlotListParams {
   /**
@@ -90,7 +122,8 @@ export interface SlotListParams {
    * slots when you don't yet have a member or if the member's address is missing. If
    * a member with an address is specified or inferred (using a member token), this
    * parameter should not be used and fails if the license_region does not match that
-   * of the member.
+   * of the member. If a physical location is specified in the location parameter,
+   * this parameter should not be used.
    */
   license_region?: string
   /**
@@ -206,24 +239,112 @@ export interface SlotListParams {
    * Must be a number between 5 and 360 minutes (6 hours).
    */
   duration?: number
+  /**
+   * Type of location for which to find availability. By default, slots are returned
+   * for the `virtual` location type. If you specify a `physical` location type, you
+   * must also specify the location's identifier in the `location` parameter.
+   */
+  location_type?: SlotListParamsLocationType
+  /**
+   * Identifier of the location for which to find availability. This parameter is
+   * required if you specify a `physical` location in the `location_type` parameter.
+   * If you are searching for `virtual` availability, this parameter should not be
+   * used and fails if a location identifier is passed. If the appointment type
+   * requires that license checks be performed, the location's region is used to
+   * evaluate participants' licensure.
+   */
+  location?: string
 }
 
-export class SlotResource extends Resource {
+export type SlotListParamsParticipant = string
+export type SlotListParamsExcludeParticipant = string
+export type SlotListParamsParticipantOperator = 'and' | 'or'
+export type SlotListParamsExcludeParticipantOperator = 'and' | 'or'
+export type SlotListParamsRoutingStrategy =
+  | 'care_team_required'
+  | 'care_team_preferred'
+  | 'care_team_hybrid'
+  | 'round_robin'
+export type SlotListParamsLocationType = 'physical' | 'virtual'
+
+export interface SlotListRecurringParams {
   /**
-   * This endpoint lists all bookable appointments slots for a set of users, given a
-   * list of participants to include and a list of participants to exclude.
-   *
-   * This endpoint is accessible using member tokens, allowing your patient portal to
-   * query the Source API for availability directly.
-   *
-   * Availability queries can only look at a maximum window of 31 days (a complete
-   * calendar month). If you need to look at availability windows greater than 31
-   * days, please reach out to our team.
+   * The appointment type of the proposed recurring series. You may provide either
+   * the appointment types ID or key.
    */
-  public list(params: SlotListParams, options?: SourceRequestOptions): Promise<SlotListResponse> {
-    return this.source.request('GET', '/v1/scheduling/slots', {
-      query: params,
-      options,
-    })
-  }
+  appointment_type: string
+  /**
+   * The start time of the proposed first appointment in the series.
+   */
+  start_at: string
+  /**
+   * The end time of the proposed first appointment in the series.
+   */
+  end_at: string
+  /**
+   * The time zone that recurring slots are calculated in. When the recurring series
+   * crosses a daylight savings boundary, the time zone defines the behavior: "Every
+   * Monday at 4pm" means "4pm in this time zone" and the appointment time will be
+   * 4pm on before and after the daylight savings change.
+   */
+  time_zone: string
+  /**
+   * By default, slots are formatted in UTC time. Providing another time zone here
+   * has only effect: the slots returned from the API will be formatted in this time
+   * zone. This differs from most other endpoints, which always return times in UTC.
+   */
+  output_time_zone?: string
+  /**
+   * Provide a set of users that will be participating in the recurring appointments.
+   * This should match the particpants selected for the proposed initial appointment.
+   */
+  participants: Array<string>
+  /**
+   * The configuration of the recurring series.
+   */
+  recurrence: SlotListRecurringParamsRecurrence
+  /**
+   * Identifier of the physical location for which to find availability. If no
+   * location is provided, slots are returned for the `virtual` location type.
+   */
+  location?: string
 }
+
+export interface SlotListRecurringParamsRecurrence {
+  /**
+   * How often the appointments should recur. Source only supports 'weekly' at this
+   * time (including "every N weeks", using 'interval').
+   */
+  frequency: 'weekly'
+  /**
+   * How many of the `frequency` intervals between each appointment, i.e. 'every N
+   * weeks'.
+   */
+  interval: number
+  /**
+   * How many total appointments should be in the series.
+   *
+   * One and only one of `count` or `until` must be set.
+   */
+  count?: number
+  /**
+   * The date at which the recurring series will end. This date is inclusive, so if
+   * an appointment instance falls on this date, that appointment will be booked. One
+   * and only one of `count` or `until` must be set.
+   */
+  until?: string
+  /**
+   * The days of the week on which appointments should occur. By providing multiple
+   * days, you can indicate multiple recurring appointments per week.
+   */
+  days_of_week: Array<SlotListRecurringParamsRecurrenceDaysOfWeek>
+}
+
+export type SlotListRecurringParamsRecurrenceDaysOfWeek =
+  | 'monday'
+  | 'tuesday'
+  | 'wednesday'
+  | 'thursday'
+  | 'friday'
+  | 'saturday'
+  | 'sunday'

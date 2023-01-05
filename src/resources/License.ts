@@ -4,19 +4,6 @@ import { SourceRequestOptions } from '../SourceClient'
 import { User } from './User'
 import { Expandable } from './shared'
 
-export interface LicenseType {
-  /**
-   * Code for the license type. For example, "MD".
-   */
-  code: string
-  /**
-   * Description of the license type. For example, "Doctor of Medcine".
-   */
-  description: string
-}
-
-export type LicenseStatus = 'active' | 'inactive'
-
 export interface License {
   /**
    * Always `license`.
@@ -62,123 +49,18 @@ export interface License {
   updated_at: string
 }
 
-export interface LicenseListResponse {
+export interface LicenseType {
   /**
-   * Always `list`.
+   * Code for the license type. For example, "MD".
    */
-  object: 'list'
-  /**
-   * Array of results
-   */
-  data: Array<License>
-  /**
-   * Contains `true` if there is another page of results available.
-   */
-  has_more: boolean
-}
-
-export type LicenseListParamsSort = 'created_at' | '-created_at'
-export type LicenseListParamsStatus = 'active' | 'inactive'
-
-export interface LicenseListParams {
-  /**
-   * A cursor for use in pagination. `ending_before` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, starting with obj_bar, your subsequent call can include
-   * ending_before=obj_bar in order to fetch the previous page of the list.
-   */
-  ending_before?: string
-  /**
-   * A cursor for use in pagination. `starting_after` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, ending with obj_foo, your subsequent call can include
-   * starting_after=obj_foo in order to fetch the next page of the list.
-   */
-  starting_after?: string
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and
-   * 100.
-   */
-  limit?: number
-  /**
-   * Sort field for the results. A '-' prefix indicates sorting by that field in
-   * descending order, otherwise the order will be ascending.
-   */
-  sort?: LicenseListParamsSort
-  /**
-   * Filter results by user. If multiple users are provided, licenses matching any of
-   * the provided users will be returned.
-   */
-  user?: Array<string>
-  /**
-   * Filter results by type. The corresponding code for the license type should be
-   * provided. If multiple codes are provided, licenses matching any of the provided
-   * license types will be returned.
-   */
-  type?: Array<string>
-  /**
-   * Filter results by region. If multiple regions are provided, licenses matching
-   * any of the provided regions will be returned.
-   */
-  region?: Array<string>
-  /**
-   * Filter results by status. If multiple statuses are provided, licenses matching
-   * any of the provided statuses will be returned.
-   */
-  status?: Array<LicenseListParamsStatus>
-}
-
-export interface LicenseCreateParamsType {
   code: string
+  /**
+   * Description of the license type. For example, "Doctor of Medcine".
+   */
+  description: string
 }
 
-export type LicenseCreateParamsStatus = 'active' | 'inactive'
-
-export interface LicenseCreateParams {
-  /**
-   * User to whom the license belongs.
-   */
-  user: string
-  /**
-   * The type of clinical license. If you have a need for a license type that is not
-   * supported, please don’t hesitate to reach out to Source.
-   */
-  type: LicenseCreateParamsType
-  /**
-   * Region with which the license is associated. This is represented as an
-   * ISO-3166-2:US code. For example, "US-NY".
-   */
-  region: string
-  /**
-   * The ID or number issued by the licensing body for this license.
-   */
-  license_number?: string | null
-  /**
-   * Status of the license.
-   */
-  status: LicenseCreateParamsStatus
-  /**
-   * Description of the license.
-   */
-  description?: string | null
-}
-
-export type LicenseUpdateParamsStatus = 'active' | 'inactive'
-
-export interface LicenseUpdateParams {
-  /**
-   * The ID or number issued by the licensing body for this license.
-   */
-  license_number?: string | null
-  /**
-   * Status of the license.
-   */
-  status?: LicenseUpdateParamsStatus
-  /**
-   * Description of the license.
-   */
-  description?: string | null
-}
+export type LicenseStatus = 'active' | 'inactive'
 
 export class LicenseResource extends Resource {
   /**
@@ -242,3 +124,121 @@ export class LicenseResource extends Resource {
     })
   }
 }
+
+export interface LicenseListResponse {
+  /**
+   * Always `list`.
+   */
+  object: 'list'
+  /**
+   * Array of results
+   */
+  data: Array<License>
+  /**
+   * Contains `true` if there is another page of results available.
+   */
+  has_more: boolean
+}
+
+export interface LicenseListParams {
+  /**
+   * A cursor for use in pagination. `ending_before` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, starting with obj_bar, your subsequent call can include
+   * ending_before=obj_bar in order to fetch the previous page of the list.
+   */
+  ending_before?: string
+  /**
+   * A cursor for use in pagination. `starting_after` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, ending with obj_foo, your subsequent call can include
+   * starting_after=obj_foo in order to fetch the next page of the list.
+   */
+  starting_after?: string
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and
+   * 100.
+   */
+  limit?: number
+  /**
+   * Sort field for the results. A '-' prefix indicates sorting by that field in
+   * descending order, otherwise the order will be ascending.
+   */
+  sort?: LicenseListParamsSort
+  /**
+   * Filter results by user. If multiple users are provided, licenses matching any of
+   * the provided users will be returned.
+   */
+  user?: Array<string>
+  /**
+   * Filter results by type. The corresponding code for the license type should be
+   * provided. If multiple codes are provided, licenses matching any of the provided
+   * license types will be returned.
+   */
+  type?: Array<string>
+  /**
+   * Filter results by region. If multiple regions are provided, licenses matching
+   * any of the provided regions will be returned.
+   */
+  region?: Array<string>
+  /**
+   * Filter results by status. If multiple statuses are provided, licenses matching
+   * any of the provided statuses will be returned.
+   */
+  status?: Array<LicenseListParamsStatus>
+}
+
+export type LicenseListParamsSort = 'created_at' | '-created_at'
+export type LicenseListParamsStatus = 'active' | 'inactive'
+
+export interface LicenseCreateParams {
+  /**
+   * User to whom the license belongs.
+   */
+  user: string
+  /**
+   * The type of clinical license. If you have a need for a license type that is not
+   * supported, please don’t hesitate to reach out to Source.
+   */
+  type: LicenseCreateParamsType
+  /**
+   * Region with which the license is associated. This is represented as an
+   * ISO-3166-2:US code. For example, "US-NY".
+   */
+  region: string
+  /**
+   * The ID or number issued by the licensing body for this license.
+   */
+  license_number?: string | null
+  /**
+   * Status of the license.
+   */
+  status: LicenseCreateParamsStatus
+  /**
+   * Description of the license.
+   */
+  description?: string | null
+}
+
+export interface LicenseCreateParamsType {
+  code: string
+}
+
+export type LicenseCreateParamsStatus = 'active' | 'inactive'
+
+export interface LicenseUpdateParams {
+  /**
+   * The ID or number issued by the licensing body for this license.
+   */
+  license_number?: string | null
+  /**
+   * Status of the license.
+   */
+  status?: LicenseUpdateParamsStatus
+  /**
+   * Description of the license.
+   */
+  description?: string | null
+}
+
+export type LicenseUpdateParamsStatus = 'active' | 'inactive'

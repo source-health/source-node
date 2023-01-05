@@ -1,59 +1,9 @@
 import { Resource } from '../../BaseResource'
 import { SourceRequestOptions } from '../../SourceClient'
 import { Group } from '../Group'
+import { EncounterType } from '../clinical/EncounterType'
+import { Form } from '../forms/Form'
 import { Expandable } from '../shared'
-
-export type AppointmentTypeColor =
-  | 'gray'
-  | 'blue'
-  | 'teal'
-  | 'yellow'
-  | 'green'
-  | 'red'
-  | 'orange'
-  | 'purple'
-export type AppointmentTypeRoutingStrategy =
-  | 'care_team_required'
-  | 'care_team_preferred'
-  | 'care_team_hybrid'
-  | 'round_robin'
-
-export interface AppointmentTypeLicenseType {
-  /**
-   * Code for the license type. For example, "MD".
-   */
-  code: string
-  /**
-   * Description of the license type. For example, "Doctor of Medcine".
-   */
-  description: string
-}
-
-export type AppointmentTypeReminderWhenUnit = 'minute' | 'hour' | 'day'
-
-export interface AppointmentTypeReminderWhen {
-  /**
-   * The trigger for when this reminder should be scheduled. Currently, the only
-   * supported value is `before`, indicating that this reminder should be triggered
-   * based on the requested duration prior to the start of the appointment.
-   */
-  type: 'before'
-  /**
-   * The unit of time used in this reminder configuration. Units are interpreted
-   * within the appointment's scheduled time zone, meaning 24 hours and 1 day are not
-   * necessarily the same if the reminder window spans daylight savings.
-   */
-  unit: AppointmentTypeReminderWhenUnit
-  /**
-   * The number of units before the appointment at which this reminder should
-   * trigger. Must be an integer greater than zero.
-   */
-  time: number
-}
-
-export interface AppointmentTypeReminder {
-  when: AppointmentTypeReminderWhen
-}
 
 export interface AppointmentType {
   /**
@@ -214,6 +164,38 @@ export interface AppointmentType {
    */
   reminders: Array<AppointmentTypeReminder>
   /**
+   * Defines the default recurrence of this appointment type, if any.  Because
+   * creating an actual recurring series requires more information than can be
+   * defined in the default (in particular, 'days_of_week' defining which day(s) to
+   * recur on), setting the appointment type recurrence will not cause an appointment
+   * created with that type to have a recurring series. The appointment must be
+   * explicitly created with the full recurrence config for the series.
+   *
+   * Expressed as a subset of RRULE fields (see [rrule.js
+   * docs](https://github.com/jakubroztocil/rrule#api) for more context, but note
+   * that we only support a limited subset of the full RRULE spec).
+   *
+   * Recurrence configuration at the appointment type level is slightly different
+   * than what is allowed on an actual recurring series, notably rather than `until`,
+   * we can specifiy a `duration`. Also, specifying the day of week or month using
+   * `days_of_week` is not allowed at the appointment type level.
+   *
+   * Note: the recurring appointments feature is currently in preview. Please contact
+   * Source for more details.
+   */
+  recurrence: AppointmentTypeRecurrence | null
+  /**
+   * The encounter type used by default when creating encounters related to
+   * appointments of this type.
+   */
+  encounter_type: Expandable<EncounterType> | null
+  /**
+   * A list of forms that members should complete before appointments of this type.
+   * When an appointment is booked, form responses to these forms are automatically
+   * created for the member to complete.
+   */
+  forms: Array<Expandable<Form>>
+  /**
    * Timestamp when the appointment type was created.
    */
   created_at: string
@@ -221,6 +203,170 @@ export interface AppointmentType {
    * Timestamp when the appointment type was last updated.
    */
   updated_at: string
+  /**
+   * Timestamp when the appointment type was deleted.
+   */
+  deleted_at: string | null
+}
+
+export type AppointmentTypeColor =
+  | 'gray'
+  | 'blue'
+  | 'teal'
+  | 'yellow'
+  | 'green'
+  | 'red'
+  | 'orange'
+  | 'purple'
+export type AppointmentTypeRoutingStrategy =
+  | 'care_team_required'
+  | 'care_team_preferred'
+  | 'care_team_hybrid'
+  | 'round_robin'
+
+export interface AppointmentTypeLicenseType {
+  /**
+   * Code for the license type. For example, "MD".
+   */
+  code: string
+  /**
+   * Description of the license type. For example, "Doctor of Medcine".
+   */
+  description: string
+}
+
+export interface AppointmentTypeReminder {
+  when: AppointmentTypeReminderWhen
+}
+
+export interface AppointmentTypeReminderWhen {
+  /**
+   * The trigger for when this reminder should be scheduled. Currently, the only
+   * supported value is `before`, indicating that this reminder should be triggered
+   * based on the requested duration prior to the start of the appointment.
+   */
+  type: 'before'
+  /**
+   * The unit of time used in this reminder configuration. Units are interpreted
+   * within the appointment's scheduled time zone, meaning 24 hours and 1 day are not
+   * necessarily the same if the reminder window spans daylight savings.
+   */
+  unit: AppointmentTypeReminderWhenUnit
+  /**
+   * The number of units before the appointment at which this reminder should
+   * trigger. Must be an integer greater than zero.
+   */
+  time: number
+}
+
+export type AppointmentTypeReminderWhenUnit = 'minute' | 'hour' | 'day'
+
+export interface AppointmentTypeRecurrence {
+  /**
+   * How often the appointments should recur. Source only supports 'weekly' at this
+   * time (including "every N weeks", using 'interval')
+   */
+  frequency: 'weekly'
+  /**
+   * How many of the `frequency` intervals between each appointment, i.e. 'every N
+   * weeks'.
+   */
+  interval: number
+  /**
+   * How many total appointments should be in the series.
+   *
+   * One and only one of `count` or `duration` must be set.
+   */
+  count?: number
+  /**
+   * Total length of time, expressed in number of days or weeks.
+   *
+   * One and only one of `count` or `duration` must be set.
+   */
+  duration?: AppointmentTypeRecurrenceDuration
+}
+
+export interface AppointmentTypeRecurrenceDuration {
+  amount: number
+  unit: AppointmentTypeRecurrenceDurationUnit
+}
+
+export type AppointmentTypeRecurrenceDurationUnit = 'days' | 'weeks'
+
+export class AppointmentTypeResource extends Resource {
+  /**
+   * Lists all available appointment types.
+   */
+  public list(
+    params?: AppointmentTypeListParams,
+    options?: SourceRequestOptions,
+  ): Promise<AppointmentTypeListResponse> {
+    return this.source.request('GET', '/v1/scheduling/appointment_types', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new appointment type on Source.
+   *
+   * After creating an appointment type, you can use the availability endpoints to
+   * begin searching your team and scheduling them.
+   */
+  public create(
+    params: AppointmentTypeCreateParams,
+    options?: SourceRequestOptions,
+  ): Promise<AppointmentType> {
+    return this.source.request('POST', '/v1/scheduling/appointment_types', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieve an appointment type by its unique identifier.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<AppointmentType> {
+    return this.source.request('GET', `/v1/scheduling/appointment_types/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates an appointment type.
+   *
+   * Appointments are linked to appointment types in Source, so changes made to an
+   * appointment type will be visible on past appointments as well. However, some
+   * fields, such as the duration and location of the appointment, are copied at the
+   * time the appointment is created. Changing the duration of an appointment type
+   * will not change the duration of past appointments.
+   */
+  public update(
+    id: string,
+    params?: AppointmentTypeUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<AppointmentType> {
+    return this.source.request('POST', `/v1/scheduling/appointment_types/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes an appointment type from Source.
+   *
+   * Once an appointment type is deleted, it can no longer be used to schedule
+   * further appointments. It will still be visible on past appointments that used
+   * this type. You can delete an appontment type at any time.
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<AppointmentType> {
+    return this.source.request('DELETE', `/v1/scheduling/appointment_types/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
 }
 
 export interface AppointmentTypeListResponse {
@@ -237,8 +383,6 @@ export interface AppointmentTypeListResponse {
    */
   has_more: boolean
 }
-
-export type AppointmentTypeListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
 
 export interface AppointmentTypeListParams {
   /**
@@ -280,52 +424,13 @@ export interface AppointmentTypeListParams {
    * member.
    */
   bookable?: boolean
-}
-
-export type AppointmentTypeCreateParamsColor =
-  | 'gray'
-  | 'blue'
-  | 'teal'
-  | 'yellow'
-  | 'green'
-  | 'red'
-  | 'orange'
-  | 'purple'
-export type AppointmentTypeCreateParamsRoutingStrategy =
-  | 'care_team_required'
-  | 'care_team_preferred'
-  | 'care_team_hybrid'
-  | 'round_robin'
-
-export interface AppointmentTypeCreateParamsLicenseType {
-  code: string
-}
-
-export type AppointmentTypeCreateParamsReminderWhenUnit = 'minute' | 'hour' | 'day'
-
-export interface AppointmentTypeCreateParamsReminderWhen {
   /**
-   * The trigger for when this reminder should be scheduled. Currently, the only
-   * supported value is `before`, indicating that this reminder should be triggered
-   * based on the requested duration prior to the start of the appointment.
+   * When set to true, deleted appointment types are included.
    */
-  type: 'before'
-  /**
-   * The unit of time used in this reminder configuration. Units are interpreted
-   * within the appointment's scheduled time zone, meaning 24 hours and 1 day are not
-   * necessarily the same if the reminder window spans daylight savings.
-   */
-  unit: AppointmentTypeCreateParamsReminderWhenUnit
-  /**
-   * The number of units before the appointment at which this reminder should
-   * trigger. Must be an integer greater than zero.
-   */
-  time: number
+  include_deleted?: boolean
 }
 
-export interface AppointmentTypeCreateParamsReminder {
-  when: AppointmentTypeCreateParamsReminderWhen
-}
+export type AppointmentTypeListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
 
 export interface AppointmentTypeCreateParams {
   /**
@@ -478,9 +583,41 @@ export interface AppointmentTypeCreateParams {
    * You may configure up to five reminders per appointment type.
    */
   reminders?: Array<AppointmentTypeCreateParamsReminder>
+  /**
+   * Defines the default recurrence of this appointment type, if any.  Because
+   * creating an actual recurring series requires more information than can be
+   * defined in the default (in particular, 'days_of_week' defining which day(s) to
+   * recur on), setting the appointment type recurrence will not cause an appointment
+   * created with that type to have a recurring series. The appointment must be
+   * explicitly created with the full recurrence config for the series.
+   *
+   * Expressed as a subset of RRULE fields (see [rrule.js
+   * docs](https://github.com/jakubroztocil/rrule#api) for more context, but note
+   * that we only support a limited subset of the full RRULE spec).
+   *
+   * Recurrence configuration at the appointment type level is slightly different
+   * than what is allowed on an actual recurring series, notably rather than `until`,
+   * we can specifiy a `duration`. Also, specifying the day of week or month using
+   * `days_of_week` is not allowed at the appointment type level.
+   *
+   * Note: the recurring appointments feature is currently in preview. Please contact
+   * Source for more details.
+   */
+  recurrence?: AppointmentTypeCreateParamsRecurrence | null
+  /**
+   * The encounter type to use by default when creating encounters related to
+   * appointments of this type.
+   */
+  encounter_type?: AppointmentTypeCreateParamsEncounterType | null
+  /**
+   * A list of forms that members should complete before appointments of this type.
+   * When an appointment is booked, form responses to these forms are automatically
+   * created for the member to complete.
+   */
+  forms?: Array<string>
 }
 
-export type AppointmentTypeUpdateParamsColor =
+export type AppointmentTypeCreateParamsColor =
   | 'gray'
   | 'blue'
   | 'teal'
@@ -489,19 +626,21 @@ export type AppointmentTypeUpdateParamsColor =
   | 'red'
   | 'orange'
   | 'purple'
-export type AppointmentTypeUpdateParamsRoutingStrategy =
+export type AppointmentTypeCreateParamsRoutingStrategy =
   | 'care_team_required'
   | 'care_team_preferred'
   | 'care_team_hybrid'
   | 'round_robin'
 
-export interface AppointmentTypeUpdateParamsLicenseType {
+export interface AppointmentTypeCreateParamsLicenseType {
   code: string
 }
 
-export type AppointmentTypeUpdateParamsReminderWhenUnit = 'minute' | 'hour' | 'day'
+export interface AppointmentTypeCreateParamsReminder {
+  when: AppointmentTypeCreateParamsReminderWhen
+}
 
-export interface AppointmentTypeUpdateParamsReminderWhen {
+export interface AppointmentTypeCreateParamsReminderWhen {
   /**
    * The trigger for when this reminder should be scheduled. Currently, the only
    * supported value is `before`, indicating that this reminder should be triggered
@@ -513,7 +652,7 @@ export interface AppointmentTypeUpdateParamsReminderWhen {
    * within the appointment's scheduled time zone, meaning 24 hours and 1 day are not
    * necessarily the same if the reminder window spans daylight savings.
    */
-  unit: AppointmentTypeUpdateParamsReminderWhenUnit
+  unit: AppointmentTypeCreateParamsReminderWhenUnit
   /**
    * The number of units before the appointment at which this reminder should
    * trigger. Must be an integer greater than zero.
@@ -521,9 +660,40 @@ export interface AppointmentTypeUpdateParamsReminderWhen {
   time: number
 }
 
-export interface AppointmentTypeUpdateParamsReminder {
-  when: AppointmentTypeUpdateParamsReminderWhen
+export type AppointmentTypeCreateParamsReminderWhenUnit = 'minute' | 'hour' | 'day'
+
+export interface AppointmentTypeCreateParamsRecurrence {
+  /**
+   * How often the appointments should recur. Source only supports 'weekly' at this
+   * time (including "every N weeks", using 'interval')
+   */
+  frequency: 'weekly'
+  /**
+   * How many of the `frequency` intervals between each appointment, i.e. 'every N
+   * weeks'.
+   */
+  interval: number
+  /**
+   * How many total appointments should be in the series.
+   *
+   * One and only one of `count` or `duration` must be set.
+   */
+  count?: number
+  /**
+   * Total length of time, expressed in number of days or weeks.
+   *
+   * One and only one of `count` or `duration` must be set.
+   */
+  duration?: AppointmentTypeCreateParamsRecurrenceDuration
 }
+
+export interface AppointmentTypeCreateParamsRecurrenceDuration {
+  amount: number
+  unit: AppointmentTypeCreateParamsRecurrenceDurationUnit
+}
+
+export type AppointmentTypeCreateParamsRecurrenceDurationUnit = 'days' | 'weeks'
+export type AppointmentTypeCreateParamsEncounterType = string
 
 export interface AppointmentTypeUpdateParams {
   /**
@@ -676,80 +846,114 @@ export interface AppointmentTypeUpdateParams {
    * You may configure up to five reminders per appointment type.
    */
   reminders?: Array<AppointmentTypeUpdateParamsReminder>
+  /**
+   * Defines the default recurrence of this appointment type, if any.  Because
+   * creating an actual recurring series requires more information than can be
+   * defined in the default (in particular, 'days_of_week' defining which day(s) to
+   * recur on), setting the appointment type recurrence will not cause an appointment
+   * created with that type to have a recurring series. The appointment must be
+   * explicitly created with the full recurrence config for the series.
+   *
+   * Expressed as a subset of RRULE fields (see [rrule.js
+   * docs](https://github.com/jakubroztocil/rrule#api) for more context, but note
+   * that we only support a limited subset of the full RRULE spec).
+   *
+   * Recurrence configuration at the appointment type level is slightly different
+   * than what is allowed on an actual recurring series, notably rather than `until`,
+   * we can specifiy a `duration`. Also, specifying the day of week or month using
+   * `days_of_week` is not allowed at the appointment type level.
+   *
+   * Note: the recurring appointments feature is currently in preview. Please contact
+   * Source for more details.
+   */
+  recurrence?: AppointmentTypeUpdateParamsRecurrence | null
+  /**
+   * The encounter type to use by default when creating encounters related to
+   * appointments of this type.
+   */
+  encounter_type?: AppointmentTypeUpdateParamsEncounterType | null
+  /**
+   * A list of forms that members should complete before appointments of this type.
+   * When an appointment is booked, form responses to these forms are automatically
+   * created for the member to complete.
+   */
+  forms?: Array<string>
 }
 
-export class AppointmentTypeResource extends Resource {
-  /**
-   * Lists all available appointment types.
-   */
-  public list(
-    params?: AppointmentTypeListParams,
-    options?: SourceRequestOptions,
-  ): Promise<AppointmentTypeListResponse> {
-    return this.source.request('GET', '/v1/scheduling/appointment_types', {
-      query: params,
-      options,
-    })
-  }
+export type AppointmentTypeUpdateParamsColor =
+  | 'gray'
+  | 'blue'
+  | 'teal'
+  | 'yellow'
+  | 'green'
+  | 'red'
+  | 'orange'
+  | 'purple'
+export type AppointmentTypeUpdateParamsRoutingStrategy =
+  | 'care_team_required'
+  | 'care_team_preferred'
+  | 'care_team_hybrid'
+  | 'round_robin'
 
-  /**
-   * Creates a new appointment type on Source.
-   *
-   * After creating an appointment type, you can use the availability endpoints to
-   * begin searching your team and scheduling them.
-   */
-  public create(
-    params: AppointmentTypeCreateParams,
-    options?: SourceRequestOptions,
-  ): Promise<AppointmentType> {
-    return this.source.request('POST', '/v1/scheduling/appointment_types', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieve an appointment type by its unique identifier.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<AppointmentType> {
-    return this.source.request('GET', `/v1/scheduling/appointment_types/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates an appointment type.
-   *
-   * Appointments are linked to appointment types in Source, so changes made to an
-   * appointment type will be visible on past appointments as well. However, some
-   * fields, such as the duration and location of the appointment, are copied at the
-   * time the appointment is created. Changing the duration of an appointment type
-   * will not change the duration of past appointments.
-   */
-  public update(
-    id: string,
-    params?: AppointmentTypeUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<AppointmentType> {
-    return this.source.request('POST', `/v1/scheduling/appointment_types/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes an appointment type from Source.
-   *
-   * Once an appointment type is deleted, it can no longer be used to schedule
-   * further appointments. It will still be visible on past appointments that used
-   * this type. You can delete an appontment type at any time.
-   */
-  public delete(id: string, options?: SourceRequestOptions): Promise<AppointmentType> {
-    return this.source.request('DELETE', `/v1/scheduling/appointment_types/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
+export interface AppointmentTypeUpdateParamsLicenseType {
+  code: string
 }
+
+export interface AppointmentTypeUpdateParamsReminder {
+  when: AppointmentTypeUpdateParamsReminderWhen
+}
+
+export interface AppointmentTypeUpdateParamsReminderWhen {
+  /**
+   * The trigger for when this reminder should be scheduled. Currently, the only
+   * supported value is `before`, indicating that this reminder should be triggered
+   * based on the requested duration prior to the start of the appointment.
+   */
+  type: 'before'
+  /**
+   * The unit of time used in this reminder configuration. Units are interpreted
+   * within the appointment's scheduled time zone, meaning 24 hours and 1 day are not
+   * necessarily the same if the reminder window spans daylight savings.
+   */
+  unit: AppointmentTypeUpdateParamsReminderWhenUnit
+  /**
+   * The number of units before the appointment at which this reminder should
+   * trigger. Must be an integer greater than zero.
+   */
+  time: number
+}
+
+export type AppointmentTypeUpdateParamsReminderWhenUnit = 'minute' | 'hour' | 'day'
+
+export interface AppointmentTypeUpdateParamsRecurrence {
+  /**
+   * How often the appointments should recur. Source only supports 'weekly' at this
+   * time (including "every N weeks", using 'interval')
+   */
+  frequency: 'weekly'
+  /**
+   * How many of the `frequency` intervals between each appointment, i.e. 'every N
+   * weeks'.
+   */
+  interval: number
+  /**
+   * How many total appointments should be in the series.
+   *
+   * One and only one of `count` or `duration` must be set.
+   */
+  count?: number
+  /**
+   * Total length of time, expressed in number of days or weeks.
+   *
+   * One and only one of `count` or `duration` must be set.
+   */
+  duration?: AppointmentTypeUpdateParamsRecurrenceDuration
+}
+
+export interface AppointmentTypeUpdateParamsRecurrenceDuration {
+  amount: number
+  unit: AppointmentTypeUpdateParamsRecurrenceDurationUnit
+}
+
+export type AppointmentTypeUpdateParamsRecurrenceDurationUnit = 'days' | 'weeks'
+export type AppointmentTypeUpdateParamsEncounterType = string

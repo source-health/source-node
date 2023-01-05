@@ -1,8 +1,6 @@
 import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
-export type TagColor = 'gray' | 'blue' | 'teal' | 'yellow' | 'green' | 'red' | 'orange' | 'purple'
-
 export interface Tag {
   /**
    * Always `tag`.
@@ -47,114 +45,7 @@ export interface Tag {
   deleted_at?: string
 }
 
-export interface TagListResponse {
-  /**
-   * Always `list`.
-   */
-  object: 'list'
-  /**
-   * Array of results
-   */
-  data: Array<Tag>
-  /**
-   * Contains `true` if there is another page of results available.
-   */
-  has_more: boolean
-}
-
-export type TagListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
-
-export interface TagListParams {
-  /**
-   * A cursor for use in pagination. `ending_before` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, starting with obj_bar, your subsequent call can include
-   * ending_before=obj_bar in order to fetch the previous page of the list.
-   */
-  ending_before?: string
-  /**
-   * A cursor for use in pagination. `starting_after` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, ending with obj_foo, your subsequent call can include
-   * starting_after=obj_foo in order to fetch the next page of the list.
-   */
-  starting_after?: string
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and
-   * 100.
-   */
-  limit?: number
-  /**
-   * Sort field for the results. A '-' prefix indicates sorting by that field in
-   * descending order, otherwise the order will be ascending.
-   */
-  sort?: TagListParamsSort
-  /**
-   * Filter results by tags matching the provided name. This parameter is case
-   * insensitive.
-   */
-  name?: string
-  /**
-   * Filter tags to only those whose archive status matches the provided value. By
-   * default, this operation return all tags. You may pass `archived=true` to show
-   * archived tags, or `archived=false` to show unarchived tags.
-   */
-  archived?: boolean
-}
-
-export type TagCreateParamsColor =
-  | 'gray'
-  | 'blue'
-  | 'teal'
-  | 'yellow'
-  | 'green'
-  | 'red'
-  | 'orange'
-  | 'purple'
-
-export interface TagCreateParams {
-  /**
-   * Unique name of the tag that is used for display. Must not start with tag_
-   */
-  name: string
-  /**
-   * Description for this tag. The description is not displayed and is used to
-   * capture administrative notes about the tag.
-   */
-  description?: string | null
-  /**
-   * The color of the tag when displaying the tag. This is primarily used in the
-   * Source UI, but you're able to use this in your own system as well.
-   */
-  color?: TagCreateParamsColor
-}
-
-export type TagUpdateParamsColor =
-  | 'gray'
-  | 'blue'
-  | 'teal'
-  | 'yellow'
-  | 'green'
-  | 'red'
-  | 'orange'
-  | 'purple'
-
-export interface TagUpdateParams {
-  /**
-   * Unique name of the tag that is used for display. Must not start with tag_
-   */
-  name?: string
-  /**
-   * Description for this tag. The description is not displayed and is used to
-   * capture administrative notes about the tag.
-   */
-  description?: string | null
-  /**
-   * The color of the tag when displaying the tag. This is primarily used in the
-   * Source UI, but you're able to use this in your own system as well.
-   */
-  color?: TagUpdateParamsColor
-}
+export type TagColor = 'gray' | 'blue' | 'teal' | 'yellow' | 'green' | 'red' | 'orange' | 'purple'
 
 export class TagResource extends Resource {
   /**
@@ -239,3 +130,112 @@ export class TagResource extends Resource {
     })
   }
 }
+
+export interface TagListResponse {
+  /**
+   * Always `list`.
+   */
+  object: 'list'
+  /**
+   * Array of results
+   */
+  data: Array<Tag>
+  /**
+   * Contains `true` if there is another page of results available.
+   */
+  has_more: boolean
+}
+
+export interface TagListParams {
+  /**
+   * A cursor for use in pagination. `ending_before` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, starting with obj_bar, your subsequent call can include
+   * ending_before=obj_bar in order to fetch the previous page of the list.
+   */
+  ending_before?: string
+  /**
+   * A cursor for use in pagination. `starting_after` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, ending with obj_foo, your subsequent call can include
+   * starting_after=obj_foo in order to fetch the next page of the list.
+   */
+  starting_after?: string
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and
+   * 100.
+   */
+  limit?: number
+  /**
+   * Sort field for the results. A '-' prefix indicates sorting by that field in
+   * descending order, otherwise the order will be ascending.
+   */
+  sort?: TagListParamsSort
+  /**
+   * Filter results by tags matching the provided name. This parameter is case
+   * insensitive.
+   */
+  name?: string
+  /**
+   * Filter tags to only those whose archive status matches the provided value. By
+   * default, this operation return all tags. You may pass `archived=true` to show
+   * archived tags, or `archived=false` to show unarchived tags.
+   */
+  archived?: boolean
+}
+
+export type TagListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
+
+export interface TagCreateParams {
+  /**
+   * Unique name of the tag that is used for display. Must not start with tag_
+   */
+  name: string
+  /**
+   * Description for this tag. The description is not displayed and is used to
+   * capture administrative notes about the tag.
+   */
+  description?: string | null
+  /**
+   * The color of the tag when displaying the tag. This is primarily used in the
+   * Source UI, but you're able to use this in your own system as well.
+   */
+  color?: TagCreateParamsColor
+}
+
+export type TagCreateParamsColor =
+  | 'gray'
+  | 'blue'
+  | 'teal'
+  | 'yellow'
+  | 'green'
+  | 'red'
+  | 'orange'
+  | 'purple'
+
+export interface TagUpdateParams {
+  /**
+   * Unique name of the tag that is used for display. Must not start with tag_
+   */
+  name?: string
+  /**
+   * Description for this tag. The description is not displayed and is used to
+   * capture administrative notes about the tag.
+   */
+  description?: string | null
+  /**
+   * The color of the tag when displaying the tag. This is primarily used in the
+   * Source UI, but you're able to use this in your own system as well.
+   */
+  color?: TagUpdateParamsColor
+}
+
+export type TagUpdateParamsColor =
+  | 'gray'
+  | 'blue'
+  | 'teal'
+  | 'yellow'
+  | 'green'
+  | 'red'
+  | 'orange'
+  | 'purple'

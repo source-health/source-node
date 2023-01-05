@@ -4,14 +4,6 @@ import { SourceRequestOptions } from '../SourceClient'
 import { User } from './User'
 import { Expandable } from './shared'
 
-export interface CareTeamParticipant {
-  /**
-   * The user on the care team. Only users with care team roles will be eligible for
-   * automatic routing of tasks.
-   */
-  user: Expandable<User>
-}
-
 export interface CareTeam {
   /**
    * Always `care_team`.
@@ -39,19 +31,12 @@ export interface CareTeam {
   updated_at: string
 }
 
-export interface CareTeamUpdateParamsParticipant {
+export interface CareTeamParticipant {
   /**
-   * Unique ID of the user to add to the care team. The user must have a care team
-   * role defined.
+   * The user on the care team. Only users with care team roles will be eligible for
+   * automatic routing of tasks.
    */
-  user: string
-}
-
-export interface CareTeamUpdateParams {
-  /**
-   * List of users to put on the care team.
-   */
-  participants?: Array<CareTeamUpdateParamsParticipant>
+  user: Expandable<User>
 }
 
 export class CareTeamResource extends Resource {
@@ -84,4 +69,19 @@ export class CareTeamResource extends Resource {
       options,
     })
   }
+}
+
+export interface CareTeamUpdateParams {
+  /**
+   * List of users to put on the care team.
+   */
+  participants?: Array<CareTeamUpdateParamsParticipant>
+}
+
+export interface CareTeamUpdateParamsParticipant {
+  /**
+   * Unique ID of the user to add to the care team. The user must have a care team
+   * role defined.
+   */
+  user: string
 }

@@ -34,76 +34,6 @@ export interface Group {
   deleted_at?: string
 }
 
-export interface GroupListResponse {
-  /**
-   * Always `list`.
-   */
-  object: 'list'
-  /**
-   * Array of results
-   */
-  data: Array<Group>
-  /**
-   * Contains `true` if there is another page of results available.
-   */
-  has_more: boolean
-}
-
-export type GroupListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
-
-export interface GroupListParams {
-  /**
-   * A cursor for use in pagination. `ending_before` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, starting with obj_bar, your subsequent call can include
-   * ending_before=obj_bar in order to fetch the previous page of the list.
-   */
-  ending_before?: string
-  /**
-   * A cursor for use in pagination. `starting_after` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, ending with obj_foo, your subsequent call can include
-   * starting_after=obj_foo in order to fetch the next page of the list.
-   */
-  starting_after?: string
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and
-   * 100.
-   */
-  limit?: number
-  /**
-   * Sort field for the results. A '-' prefix indicates sorting by that field in
-   * descending order, otherwise the order will be ascending.
-   */
-  sort?: GroupListParamsSort
-  /**
-   * Limit results to groups with name containing the given query.
-   */
-  name?: string
-}
-
-export interface GroupCreateParams {
-  /**
-   * Public display name for this group. The name must be unique across all groups.
-   */
-  name: string
-  /**
-   * A description for this group.
-   */
-  description?: string | null
-}
-
-export interface GroupUpdateParams {
-  /**
-   * Public display name for this group. The name must be unique across all groups.
-   */
-  name?: string
-  /**
-   * A description for this group.
-   */
-  description?: string | null
-}
-
 export class GroupResource extends Resource {
   /**
    * Returns a list of groups within the current account.
@@ -170,4 +100,74 @@ export class GroupResource extends Resource {
       options,
     })
   }
+}
+
+export interface GroupListResponse {
+  /**
+   * Always `list`.
+   */
+  object: 'list'
+  /**
+   * Array of results
+   */
+  data: Array<Group>
+  /**
+   * Contains `true` if there is another page of results available.
+   */
+  has_more: boolean
+}
+
+export interface GroupListParams {
+  /**
+   * A cursor for use in pagination. `ending_before` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, starting with obj_bar, your subsequent call can include
+   * ending_before=obj_bar in order to fetch the previous page of the list.
+   */
+  ending_before?: string
+  /**
+   * A cursor for use in pagination. `starting_after` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, ending with obj_foo, your subsequent call can include
+   * starting_after=obj_foo in order to fetch the next page of the list.
+   */
+  starting_after?: string
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and
+   * 100.
+   */
+  limit?: number
+  /**
+   * Sort field for the results. A '-' prefix indicates sorting by that field in
+   * descending order, otherwise the order will be ascending.
+   */
+  sort?: GroupListParamsSort
+  /**
+   * Limit results to groups with name containing the given query.
+   */
+  name?: string
+}
+
+export type GroupListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
+
+export interface GroupCreateParams {
+  /**
+   * Public display name for this group. The name must be unique across all groups.
+   */
+  name: string
+  /**
+   * A description for this group.
+   */
+  description?: string | null
+}
+
+export interface GroupUpdateParams {
+  /**
+   * Public display name for this group. The name must be unique across all groups.
+   */
+  name?: string
+  /**
+   * A description for this group.
+   */
+  description?: string | null
 }

@@ -35,6 +35,12 @@ export interface Comment {
    */
   attachments: Array<Expandable<File>>
   /**
+   * List of users that were mentioned in this comment. Mentions are automatically
+   * detected by scanning the markdown text content for links to the mention://
+   * scheme.
+   */
+  mentioned_users: Array<Expandable<User>>
+  /**
    * Timestamp when the comment was created.
    */
   created_at: string
@@ -47,76 +53,6 @@ export interface Comment {
    * comment is deleted.
    */
   deleted_at?: string
-}
-
-export interface CommentListResponse {
-  /**
-   * Always `list`.
-   */
-  object: 'list'
-  /**
-   * Array of results
-   */
-  data: Array<Comment>
-  /**
-   * Contains `true` if there is another page of results available.
-   */
-  has_more: boolean
-}
-
-export type CommentListParamsSort = 'created_at' | '-created_at'
-
-export interface CommentListParams {
-  /**
-   * A cursor for use in pagination. `ending_before` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, starting with obj_bar, your subsequent call can include
-   * ending_before=obj_bar in order to fetch the previous page of the list.
-   */
-  ending_before?: string
-  /**
-   * A cursor for use in pagination. `starting_after` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, ending with obj_foo, your subsequent call can include
-   * starting_after=obj_foo in order to fetch the next page of the list.
-   */
-  starting_after?: string
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and
-   * 100.
-   */
-  limit?: number
-  /**
-   * Sort field for the results. A '-' prefix indicates sorting by that field in
-   * descending order, otherwise the order will be ascending.
-   */
-  sort?: CommentListParamsSort
-}
-
-export interface CommentCreateParams {
-  /**
-   * Markdown formatted contents of the comment. Comments support limited Markdown
-   * syntax.
-   */
-  text: string
-  /**
-   * Any attachments related to this comment. Currently, up to five file attachments
-   * are supported.
-   */
-  attachments?: Array<string>
-}
-
-export interface CommentUpdateParams {
-  /**
-   * Markdown formatted contents of the comment. Comments support limited Markdown
-   * syntax.
-   */
-  text?: string
-  /**
-   * Any attachments related to this comment. Currently, up to five file attachments
-   * are supported.
-   */
-  attachments?: Array<string>
 }
 
 export class CommentResource extends Resource {
@@ -186,4 +122,74 @@ export class CommentResource extends Resource {
       options,
     })
   }
+}
+
+export interface CommentListResponse {
+  /**
+   * Always `list`.
+   */
+  object: 'list'
+  /**
+   * Array of results
+   */
+  data: Array<Comment>
+  /**
+   * Contains `true` if there is another page of results available.
+   */
+  has_more: boolean
+}
+
+export interface CommentListParams {
+  /**
+   * A cursor for use in pagination. `ending_before` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, starting with obj_bar, your subsequent call can include
+   * ending_before=obj_bar in order to fetch the previous page of the list.
+   */
+  ending_before?: string
+  /**
+   * A cursor for use in pagination. `starting_after` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, ending with obj_foo, your subsequent call can include
+   * starting_after=obj_foo in order to fetch the next page of the list.
+   */
+  starting_after?: string
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and
+   * 100.
+   */
+  limit?: number
+  /**
+   * Sort field for the results. A '-' prefix indicates sorting by that field in
+   * descending order, otherwise the order will be ascending.
+   */
+  sort?: CommentListParamsSort
+}
+
+export type CommentListParamsSort = 'created_at' | '-created_at'
+
+export interface CommentCreateParams {
+  /**
+   * Markdown formatted contents of the comment. Comments support limited Markdown
+   * syntax.
+   */
+  text: string
+  /**
+   * Any attachments related to this comment. Currently, up to five file attachments
+   * are supported.
+   */
+  attachments?: Array<string>
+}
+
+export interface CommentUpdateParams {
+  /**
+   * Markdown formatted contents of the comment. Comments support limited Markdown
+   * syntax.
+   */
+  text?: string
+  /**
+   * Any attachments related to this comment. Currently, up to five file attachments
+   * are supported.
+   */
+  attachments?: Array<string>
 }

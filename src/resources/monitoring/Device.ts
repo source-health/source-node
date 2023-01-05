@@ -3,16 +3,6 @@ import { SourceRequestOptions } from '../../SourceClient'
 import { Member } from '../Member'
 import { Expandable } from '../shared'
 
-export type DeviceStatus = 'pending' | 'active' | 'deactivated'
-export type DeviceCapability =
-  | 'blood_glucose'
-  | 'blood_oxygen_saturation'
-  | 'blood_pressure'
-  | 'body_weight'
-  | 'diastolic_blood_pressure'
-  | 'heart_rate'
-  | 'systolic_blood_pressure'
-
 export interface Device {
   /**
    * Always `device`.
@@ -61,6 +51,42 @@ export interface Device {
   updated_at: string
 }
 
+export type DeviceStatus = 'pending' | 'active' | 'deactivated'
+export type DeviceCapability =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
+
+export class DeviceResource extends Resource {
+  /**
+   * Retrieves the details of an existing device. You need only supply the unique
+   * device identifier that was returned upon device creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Device> {
+    return this.source.request('GET', `/v1/devices/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Returns a list of devices within the current account. The devices returned are
+   * sorted by creation date, with the most recently added devices appearing first.
+   */
+  public list(
+    params?: DeviceListParams,
+    options?: SourceRequestOptions,
+  ): Promise<DeviceListResponse> {
+    return this.source.request('GET', '/v1/devices', {
+      query: params,
+      options,
+    })
+  }
+}
+
 export interface DeviceListResponse {
   /**
    * Always `list`.
@@ -100,30 +126,4 @@ export interface DeviceListParams {
    * The ID of the member whose devices should be returned.
    */
   member?: string
-}
-
-export class DeviceResource extends Resource {
-  /**
-   * Retrieves the details of an existing device. You need only supply the unique
-   * device identifier that was returned upon device creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Device> {
-    return this.source.request('GET', `/v1/devices/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Returns a list of devices within the current account. The devices returned are
-   * sorted by creation date, with the most recently added devices appearing first.
-   */
-  public list(
-    params?: DeviceListParams,
-    options?: SourceRequestOptions,
-  ): Promise<DeviceListResponse> {
-    return this.source.request('GET', '/v1/devices', {
-      query: params,
-      options,
-    })
-  }
 }

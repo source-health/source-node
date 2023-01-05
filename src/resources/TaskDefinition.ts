@@ -4,17 +4,6 @@ import { SourceRequestOptions } from '../SourceClient'
 import { Queue } from './Queue'
 import { Expandable } from './shared'
 
-export interface TaskDefinitionLicenseType {
-  /**
-   * Code for the license type. For example, "MD".
-   */
-  code: string
-  /**
-   * Description of the license type. For example, "Doctor of Medcine".
-   */
-  description: string
-}
-
 export interface TaskDefinition {
   /**
    * Always `task_definition`.
@@ -62,115 +51,15 @@ export interface TaskDefinition {
   updated_at: string
 }
 
-export interface TaskDefinitionListResponse {
+export interface TaskDefinitionLicenseType {
   /**
-   * Always `list`.
+   * Code for the license type. For example, "MD".
    */
-  object: 'list'
-  /**
-   * Array of results
-   */
-  data: Array<TaskDefinition>
-  /**
-   * Contains `true` if there is another page of results available.
-   */
-  has_more: boolean
-}
-
-export type TaskDefinitionListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
-
-export interface TaskDefinitionListParams {
-  /**
-   * A cursor for use in pagination. `ending_before` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, starting with obj_bar, your subsequent call can include
-   * ending_before=obj_bar in order to fetch the previous page of the list.
-   */
-  ending_before?: string
-  /**
-   * A cursor for use in pagination. `starting_after` is an object ID that defines
-   * your place in the list. For instance, if you make a list request and receive 100
-   * objects, ending with obj_foo, your subsequent call can include
-   * starting_after=obj_foo in order to fetch the next page of the list.
-   */
-  starting_after?: string
-  /**
-   * A limit on the number of objects to be returned. Limit can range between 1 and
-   * 100.
-   */
-  limit?: number
-  /**
-   * Sort field for the results. A '-' prefix indicates sorting by that field in
-   * descending order, otherwise the order will be ascending.
-   */
-  sort?: TaskDefinitionListParamsSort
-  /**
-   * Limit results to task definitions with name containing the given query.
-   */
-  name?: string
-  /**
-   * Filter results by queue. If multiple queues are provided, task definitions
-   * related to any of those queues will be returned.
-   */
-  queue?: Array<string>
-}
-
-export interface TaskDefinitionCreateParamsLicenseType {
   code: string
-}
-
-export interface TaskDefinitionCreateParams {
   /**
-   * Globally unique identifier of the task definition
+   * Description of the license type. For example, "Doctor of Medcine".
    */
-  key: string
-  /**
-   * Human readable name of the task definition
-   */
-  name: string
-  /**
-   * The ID of the queue to which tasks should be assigned. You may provide a queue
-   * when creating tasks definitions, and may also override it when creating a
-   * specific task.
-   */
-  queue?: string | null
-  /**
-   * The user license(s) that are required to perform tasks of this type. Automatic
-   * task routing by Source respects licensing. If more than one license code is
-   * provided, a licensed user with any of the license codes can perform this task.
-   * Providing any value will override the entire array. Providing null or an empty
-   * array will empty out the array.
-   */
-  license_types?: Array<TaskDefinitionCreateParamsLicenseType> | null
-}
-
-export interface TaskDefinitionUpdateParamsLicenseType {
-  code: string
-}
-
-export interface TaskDefinitionUpdateParams {
-  /**
-   * Globally unique identifier of the task definition
-   */
-  key?: string
-  /**
-   * Human readable name of the task definition
-   */
-  name?: string
-  /**
-   * The ID of the queue to which tasks should be assigned. You may provide a queue
-   * when creating tasks definitions, and may also override it when creating a
-   * specific task.
-   */
-  queue?: string | null
-  /**
-   * The user license(s) that are required to perform tasks of this type. Automatic
-   * task routing by Source respects licensing. If more than one license code is
-   * provided, a licensed user with any of the license codes can perform this task.
-   * Providing any value will override the entire array. Providing null or an empty
-   * array will empty out the array.
-   */
-  license_types?: Array<TaskDefinitionUpdateParamsLicenseType> | null
+  description: string
 }
 
 export class TaskDefinitionResource extends Resource {
@@ -234,4 +123,115 @@ export class TaskDefinitionResource extends Resource {
       options,
     })
   }
+}
+
+export interface TaskDefinitionListResponse {
+  /**
+   * Always `list`.
+   */
+  object: 'list'
+  /**
+   * Array of results
+   */
+  data: Array<TaskDefinition>
+  /**
+   * Contains `true` if there is another page of results available.
+   */
+  has_more: boolean
+}
+
+export interface TaskDefinitionListParams {
+  /**
+   * A cursor for use in pagination. `ending_before` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, starting with obj_bar, your subsequent call can include
+   * ending_before=obj_bar in order to fetch the previous page of the list.
+   */
+  ending_before?: string
+  /**
+   * A cursor for use in pagination. `starting_after` is an object ID that defines
+   * your place in the list. For instance, if you make a list request and receive 100
+   * objects, ending with obj_foo, your subsequent call can include
+   * starting_after=obj_foo in order to fetch the next page of the list.
+   */
+  starting_after?: string
+  /**
+   * A limit on the number of objects to be returned. Limit can range between 1 and
+   * 100.
+   */
+  limit?: number
+  /**
+   * Sort field for the results. A '-' prefix indicates sorting by that field in
+   * descending order, otherwise the order will be ascending.
+   */
+  sort?: TaskDefinitionListParamsSort
+  /**
+   * Limit results to task definitions with name containing the given query.
+   */
+  name?: string
+  /**
+   * Filter results by queue. If multiple queues are provided, task definitions
+   * related to any of those queues will be returned.
+   */
+  queue?: Array<string>
+}
+
+export type TaskDefinitionListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
+
+export interface TaskDefinitionCreateParams {
+  /**
+   * Globally unique identifier of the task definition
+   */
+  key: string
+  /**
+   * Human readable name of the task definition
+   */
+  name: string
+  /**
+   * The ID of the queue to which tasks should be assigned. You may provide a queue
+   * when creating tasks definitions, and may also override it when creating a
+   * specific task.
+   */
+  queue?: string | null
+  /**
+   * The user license(s) that are required to perform tasks of this type. Automatic
+   * task routing by Source respects licensing. If more than one license code is
+   * provided, a licensed user with any of the license codes can perform this task.
+   * Providing any value will override the entire array. Providing null or an empty
+   * array will empty out the array.
+   */
+  license_types?: Array<TaskDefinitionCreateParamsLicenseType> | null
+}
+
+export interface TaskDefinitionCreateParamsLicenseType {
+  code: string
+}
+
+export interface TaskDefinitionUpdateParams {
+  /**
+   * Globally unique identifier of the task definition
+   */
+  key?: string
+  /**
+   * Human readable name of the task definition
+   */
+  name?: string
+  /**
+   * The ID of the queue to which tasks should be assigned. You may provide a queue
+   * when creating tasks definitions, and may also override it when creating a
+   * specific task.
+   */
+  queue?: string | null
+  /**
+   * The user license(s) that are required to perform tasks of this type. Automatic
+   * task routing by Source respects licensing. If more than one license code is
+   * provided, a licensed user with any of the license codes can perform this task.
+   * Providing any value will override the entire array. Providing null or an empty
+   * array will empty out the array.
+   */
+  license_types?: Array<TaskDefinitionUpdateParamsLicenseType> | null
+}
+
+export interface TaskDefinitionUpdateParamsLicenseType {
+  code: string
 }

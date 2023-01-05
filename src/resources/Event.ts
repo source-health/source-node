@@ -5,21 +5,6 @@ import { Member } from './Member'
 import { User } from './User'
 import { Expandable } from './shared'
 
-export type EventActorType = 'user' | 'member' | 'api' | 'system' | 'anonymous' | 'unknown'
-
-export interface EventData {
-  /**
-   * Serialized object related to the event.
-   */
-  object: unknown
-  /**
-   * The previous values of any attributes that changed. This propery is typically
-   * only returned on *.updated events which may have modified several fields in a
-   * single request.
-   */
-  previous_values?: unknown
-}
-
 export interface Event {
   /**
    * Always `event`.
@@ -59,6 +44,50 @@ export interface Event {
   created_at: string
 }
 
+export type EventActorType = 'user' | 'member' | 'api' | 'system' | 'anonymous' | 'unknown'
+
+export interface EventData {
+  /**
+   * Serialized object related to the event.
+   */
+  object: unknown
+  /**
+   * The previous values of any attributes that changed. This propery is typically
+   * only returned on *.updated events which may have modified several fields in a
+   * single request.
+   */
+  previous_values?: unknown
+}
+
+export class EventResource extends Resource {
+  /**
+   * Each event data is rendered according to Source API version at its creation
+   * time,       specified in event object api_version attribute (not according to
+   * your current Source       API version or Source-Version header).
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Event> {
+    return this.source.request('GET', `/v1/events/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * List all stored events. Each event data is rendered according to Source API
+   * version at its creation time, specified in event object api_version attribute
+   * (not according       to your current Source API version or Source-Version
+   * header).
+   */
+  public list(
+    params?: EventListParams,
+    options?: SourceRequestOptions,
+  ): Promise<EventListResponse> {
+    return this.source.request('GET', '/v1/events', {
+      query: params,
+      options,
+    })
+  }
+}
+
 export interface EventListResponse {
   /**
    * Always `list`.
@@ -72,35 +101,6 @@ export interface EventListResponse {
    * Contains `true` if there is another page of results available.
    */
   has_more: boolean
-}
-
-export type EventListParamsActorType =
-  | 'user'
-  | 'member'
-  | 'api'
-  | 'system'
-  | 'anonymous'
-  | 'unknown'
-export type EventListParamsActor = string
-
-export interface EventListParamsCreatedAt {
-  /**
-   * Return results where the created_at field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the created_at field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the created_at field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the created_at field is greater than or equal to this
-   * value.
-   */
-  gte?: string
 }
 
 export interface EventListParams {
@@ -155,31 +155,31 @@ export interface EventListParams {
   created_at?: EventListParamsCreatedAt
 }
 
-export class EventResource extends Resource {
-  /**
-   * Each event data is rendered according to Source API version at its creation
-   * time,       specified in event object api_version attribute (not according to
-   * your current Source       API version or Source-Version header).
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Event> {
-    return this.source.request('GET', `/v1/events/${id}`, {
-      options,
-    })
-  }
+export type EventListParamsActorType =
+  | 'user'
+  | 'member'
+  | 'api'
+  | 'system'
+  | 'anonymous'
+  | 'unknown'
+export type EventListParamsActor = string
 
+export interface EventListParamsCreatedAt {
   /**
-   * List all stored events. Each event data is rendered according to Source API
-   * version at its creation time, specified in event object api_version attribute
-   * (not according       to your current Source API version or Source-Version
-   * header).
+   * Return results where the created_at field is less than this value.
    */
-  public list(
-    params?: EventListParams,
-    options?: SourceRequestOptions,
-  ): Promise<EventListResponse> {
-    return this.source.request('GET', '/v1/events', {
-      query: params,
-      options,
-    })
-  }
+  lt?: string
+  /**
+   * Return results where the created_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the created_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the created_at field is greater than or equal to this
+   * value.
+   */
+  gte?: string
 }
