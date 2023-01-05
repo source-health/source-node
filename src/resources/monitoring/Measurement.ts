@@ -69,48 +69,6 @@ export type MeasurementType =
   | 'heart_rate'
   | 'systolic_blood_pressure'
 
-export class MeasurementResource extends Resource {
-  /**
-   * Lists all measurements for the current account. The measurements returned are
-   * sorted by     their timestamp, with the most recently created measurements
-   * appearing first.
-   */
-  public list(
-    params?: MeasurementListParams,
-    options?: SourceRequestOptions,
-  ): Promise<MeasurementListResponse> {
-    return this.source.request('GET', '/v1/measurements', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a measurement, which can be of kind `numeric` (with a single value) or
-   * kind `composite` (with a collection of logically inseparable values (such as a
-   * blood pressure reading). The shapes of these requests are different.
-   */
-  public create(
-    params?: MeasurementCreateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Measurement> {
-    return this.source.request('POST', '/v1/measurements', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Return the details of a measurement (a reading from a Device)
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Measurement> {
-    return this.source.request('GET', `/v1/measurements/${id}`, {
-      options,
-    })
-  }
-}
-
 export interface MeasurementListResponse {
   /**
    * Always `list`.
@@ -275,3 +233,45 @@ export type MeasurementCreateParams1Unit =
   | 'mg/dL'
   | '%'
 export type MeasurementCreateParams = MeasurementCreateParams0 | MeasurementCreateParams1
+
+export class MeasurementResource extends Resource {
+  /**
+   * Lists all measurements for the current account. The measurements returned are
+   * sorted by     their timestamp, with the most recently created measurements
+   * appearing first.
+   */
+  public list(
+    params?: MeasurementListParams,
+    options?: SourceRequestOptions,
+  ): Promise<MeasurementListResponse> {
+    return this.source.request('GET', '/v1/measurements', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a measurement, which can be of kind `numeric` (with a single value) or
+   * kind `composite` (with a collection of logically inseparable values (such as a
+   * blood pressure reading). The shapes of these requests are different.
+   */
+  public create(
+    params?: MeasurementCreateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Measurement> {
+    return this.source.request('POST', '/v1/measurements', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Return the details of a measurement (a reading from a Device)
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Measurement> {
+    return this.source.request('GET', `/v1/measurements/${id}`, {
+      options,
+    })
+  }
+}

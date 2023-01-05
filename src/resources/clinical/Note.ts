@@ -70,122 +70,6 @@ export interface Note {
   deleted_at: string | null
 }
 
-export class NoteResource extends Resource {
-  /**
-   * Lists all notes.
-   *
-   * By default, this method does not return deleted or superseded notes. You can
-   * optionally specify `include_deleted`  to view deleted notes and
-   * `include_superseded` to view superseded notes.
-   */
-  public list(params?: NoteListParams, options?: SourceRequestOptions): Promise<NoteListResponse> {
-    return this.source.request('GET', '/v1/notes', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new note and an initial note version.
-   *
-   * To supersede an existing note, pass the identifier of the original note in the
-   * supersedes parameter.
-   */
-  public create(params: NoteCreateParams, options?: SourceRequestOptions): Promise<Note> {
-    return this.source.request('POST', '/v1/notes', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves an existing note by its unique identifier.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Note> {
-    return this.source.request('GET', `/v1/notes/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates a note.
-   *
-   * Only the note's author or an API key acting on behalf of the author can update a
-   * note. When the note content is  updated, a new note version is created
-   * automatically.
-   */
-  public update(
-    id: string,
-    params?: NoteUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Note> {
-    return this.source.request('POST', `/v1/notes/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes a note.
-   *
-   * If a note requires correction or an addendum, supersede the note rather than
-   * delete it. Deleting a note should be  reserved for use when correcting notes
-   * during a backfill or when a note is associated to the wrong member. Once a  note
-   * is deleted, it can no longer be accessed other than via the list all notes
-   * endpoint.
-   */
-  public delete(id: string, options?: SourceRequestOptions): Promise<Note> {
-    return this.source.request('DELETE', `/v1/notes/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Signs an unsigned note.
-   *
-   * Only the note's author or an API key acting on behalf of the author can sign a
-   * note. Signing a note sets the latest  note version as the final, signed version
-   * of the note. Once signed, the note can no longer be modified. If a  correction
-   * to a signed note is required, create a new note that supersedes the original.
-   */
-  public sign(id: string, options?: SourceRequestOptions): Promise<Note> {
-    return this.source.request('POST', `/v1/notes/${id}/sign`, {
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves a note version for a given note by its unique identifier.
-   */
-  public retrieveVersion(
-    id: string,
-    noteVersionId: string,
-    options?: SourceRequestOptions,
-  ): Promise<NoteVersion> {
-    return this.source.request('GET', `/v1/notes/${id}/versions/${noteVersionId}`, {
-      options,
-    })
-  }
-
-  /**
-   * Lists all note versions for a given note.
-   */
-  public listVersions(
-    id: string,
-    params?: NoteListVersionsParams,
-    options?: SourceRequestOptions,
-  ): Promise<NoteListVersionsResponse> {
-    return this.source.request('GET', `/v1/notes/${id}/versions`, {
-      query: params,
-      options,
-    })
-  }
-}
-
 export interface NoteListResponse {
   /**
    * Always `list`.
@@ -327,4 +211,120 @@ export interface NoteListVersionsParams {
    * 100.
    */
   limit?: number
+}
+
+export class NoteResource extends Resource {
+  /**
+   * Lists all notes.
+   *
+   * By default, this method does not return deleted or superseded notes. You can
+   * optionally specify `include_deleted`  to view deleted notes and
+   * `include_superseded` to view superseded notes.
+   */
+  public list(params?: NoteListParams, options?: SourceRequestOptions): Promise<NoteListResponse> {
+    return this.source.request('GET', '/v1/notes', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new note and an initial note version.
+   *
+   * To supersede an existing note, pass the identifier of the original note in the
+   * supersedes parameter.
+   */
+  public create(params: NoteCreateParams, options?: SourceRequestOptions): Promise<Note> {
+    return this.source.request('POST', '/v1/notes', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves an existing note by its unique identifier.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Note> {
+    return this.source.request('GET', `/v1/notes/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates a note.
+   *
+   * Only the note's author or an API key acting on behalf of the author can update a
+   * note. When the note content is  updated, a new note version is created
+   * automatically.
+   */
+  public update(
+    id: string,
+    params?: NoteUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Note> {
+    return this.source.request('POST', `/v1/notes/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes a note.
+   *
+   * If a note requires correction or an addendum, supersede the note rather than
+   * delete it. Deleting a note should be  reserved for use when correcting notes
+   * during a backfill or when a note is associated to the wrong member. Once a  note
+   * is deleted, it can no longer be accessed other than via the list all notes
+   * endpoint.
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<Note> {
+    return this.source.request('DELETE', `/v1/notes/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Signs an unsigned note.
+   *
+   * Only the note's author or an API key acting on behalf of the author can sign a
+   * note. Signing a note sets the latest  note version as the final, signed version
+   * of the note. Once signed, the note can no longer be modified. If a  correction
+   * to a signed note is required, create a new note that supersedes the original.
+   */
+  public sign(id: string, options?: SourceRequestOptions): Promise<Note> {
+    return this.source.request('POST', `/v1/notes/${id}/sign`, {
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves a note version for a given note by its unique identifier.
+   */
+  public retrieveVersion(
+    id: string,
+    noteVersionId: string,
+    options?: SourceRequestOptions,
+  ): Promise<NoteVersion> {
+    return this.source.request('GET', `/v1/notes/${id}/versions/${noteVersionId}`, {
+      options,
+    })
+  }
+
+  /**
+   * Lists all note versions for a given note.
+   */
+  public listVersions(
+    id: string,
+    params?: NoteListVersionsParams,
+    options?: SourceRequestOptions,
+  ): Promise<NoteListVersionsResponse> {
+    return this.source.request('GET', `/v1/notes/${id}/versions`, {
+      query: params,
+      options,
+    })
+  }
 }

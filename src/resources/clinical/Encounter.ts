@@ -84,78 +84,6 @@ export interface EncounterRelated {
 
 export type EncounterRelatedResourceType = 'appointment' | 'form_response'
 
-export class EncounterResource extends Resource {
-  /**
-   * Returns a list of encounters within the current account.
-   *
-   * The encounters by default are sorted by creation date, with the most recently
-   * created encounter appearing first.
-   */
-  public list(
-    params?: EncounterListParams,
-    options?: SourceRequestOptions,
-  ): Promise<EncounterListResponse> {
-    return this.source.request('GET', '/v1/encounters', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new encounter for the specified member. An encounter requires at least
-   * a start timestamp and can optionally include resources related to the encounter.
-   */
-  public create(params: EncounterCreateParams, options?: SourceRequestOptions): Promise<Encounter> {
-    return this.source.request('POST', '/v1/encounters', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing encounter. You need only supply the unique
-   * encounter identifier that was returned upon creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Encounter> {
-    return this.source.request('GET', `/v1/encounters/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates the specified encounter by setting the values of the parameters passed.
-   * Any parameters not provided will be left unchanged.
-   */
-  public update(
-    id: string,
-    params?: EncounterUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Encounter> {
-    return this.source.request('POST', `/v1/encounters/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes an encounter.
-   *
-   * Deleting an encounter is only possible when any associated notes are themselves
-   * deleted. The associated encounter.deleted event will contain the array of
-   * related resources for the encounter as it existed prior to deletion. When
-   * retrieving deleted encounters, note that the array or related resources will be
-   * empty.
-   */
-  public delete(id: string, options?: SourceRequestOptions): Promise<Encounter> {
-    return this.source.request('DELETE', `/v1/encounters/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface EncounterListResponse {
   /**
    * Always `list`.
@@ -327,3 +255,75 @@ export interface EncounterUpdateParams {
 
 export type EncounterUpdateParamsStatus = 'open' | 'closed'
 export type EncounterUpdateParamsRelated = string
+
+export class EncounterResource extends Resource {
+  /**
+   * Returns a list of encounters within the current account.
+   *
+   * The encounters by default are sorted by creation date, with the most recently
+   * created encounter appearing first.
+   */
+  public list(
+    params?: EncounterListParams,
+    options?: SourceRequestOptions,
+  ): Promise<EncounterListResponse> {
+    return this.source.request('GET', '/v1/encounters', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new encounter for the specified member. An encounter requires at least
+   * a start timestamp and can optionally include resources related to the encounter.
+   */
+  public create(params: EncounterCreateParams, options?: SourceRequestOptions): Promise<Encounter> {
+    return this.source.request('POST', '/v1/encounters', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing encounter. You need only supply the unique
+   * encounter identifier that was returned upon creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Encounter> {
+    return this.source.request('GET', `/v1/encounters/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates the specified encounter by setting the values of the parameters passed.
+   * Any parameters not provided will be left unchanged.
+   */
+  public update(
+    id: string,
+    params?: EncounterUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Encounter> {
+    return this.source.request('POST', `/v1/encounters/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes an encounter.
+   *
+   * Deleting an encounter is only possible when any associated notes are themselves
+   * deleted. The associated encounter.deleted event will contain the array of
+   * related resources for the encounter as it existed prior to deletion. When
+   * retrieving deleted encounters, note that the array or related resources will be
+   * empty.
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<Encounter> {
+    return this.source.request('DELETE', `/v1/encounters/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
+}

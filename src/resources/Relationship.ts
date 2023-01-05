@@ -69,73 +69,6 @@ export type RelationshipType =
   | 'spouse'
   | 'other'
 
-export class RelationshipResource extends Resource {
-  /**
-   * Returns a list of relationships within the current account.
-   *
-   * The relationships by default are sorted by creation date, with the most recently
-   * created relationship appearing first.
-   */
-  public list(
-    params?: RelationshipListParams,
-    options?: SourceRequestOptions,
-  ): Promise<RelationshipListResponse> {
-    return this.source.request('GET', '/v1/relationships', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new relationship between two members. You can create relationships to
-   * allow caregivers, family members, or other people to whom the member has
-   * consented to participate in the member's care.
-   *
-   * An active relationship allows members to view information about one another. For
-   * example, if Member A is a caregiver for Member B, Member A can view, edit, and
-   * create any data for Member B. Member B can view basic demographic information
-   * about Member A.
-   */
-  public create(
-    params: RelationshipCreateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Relationship> {
-    return this.source.request('POST', '/v1/relationships', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing relationship. You need only supply the
-   * unique relationship identifier that was returned upon relationship creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Relationship> {
-    return this.source.request('GET', `/v1/relationships/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates a relationship between two members.
-   *
-   * Any parameters not provided are left unchanged. For example, if you pass the
-   * status parameter, that becomes the relationship's current status.
-   */
-  public update(
-    id: string,
-    params?: RelationshipUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Relationship> {
-    return this.source.request('POST', `/v1/relationships/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface RelationshipListResponse {
   /**
    * Always `list`.
@@ -275,3 +208,70 @@ export type RelationshipUpdateParamsType =
   | 'son'
   | 'spouse'
   | 'other'
+
+export class RelationshipResource extends Resource {
+  /**
+   * Returns a list of relationships within the current account.
+   *
+   * The relationships by default are sorted by creation date, with the most recently
+   * created relationship appearing first.
+   */
+  public list(
+    params?: RelationshipListParams,
+    options?: SourceRequestOptions,
+  ): Promise<RelationshipListResponse> {
+    return this.source.request('GET', '/v1/relationships', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new relationship between two members. You can create relationships to
+   * allow caregivers, family members, or other people to whom the member has
+   * consented to participate in the member's care.
+   *
+   * An active relationship allows members to view information about one another. For
+   * example, if Member A is a caregiver for Member B, Member A can view, edit, and
+   * create any data for Member B. Member B can view basic demographic information
+   * about Member A.
+   */
+  public create(
+    params: RelationshipCreateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Relationship> {
+    return this.source.request('POST', '/v1/relationships', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing relationship. You need only supply the
+   * unique relationship identifier that was returned upon relationship creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Relationship> {
+    return this.source.request('GET', `/v1/relationships/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates a relationship between two members.
+   *
+   * Any parameters not provided are left unchanged. For example, if you pass the
+   * status parameter, that becomes the relationship's current status.
+   */
+  public update(
+    id: string,
+    params?: RelationshipUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Relationship> {
+    return this.source.request('POST', `/v1/relationships/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+}

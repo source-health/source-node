@@ -62,69 +62,6 @@ export interface TaskDefinitionLicenseType {
   description: string
 }
 
-export class TaskDefinitionResource extends Resource {
-  /**
-   * Returns a list of task definitions within the current account.
-   *
-   * The task definitions returned are sorted by creation date, with the most
-   * recently added task definitions appearing first.
-   */
-  public list(
-    params?: TaskDefinitionListParams,
-    options?: SourceRequestOptions,
-  ): Promise<TaskDefinitionListResponse> {
-    return this.source.request('GET', '/v1/task_definitions', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new task definition and registers it with Source. Task defiitions must
-   * be created in order to create tasks of that type
-   */
-  public create(
-    params: TaskDefinitionCreateParams,
-    options?: SourceRequestOptions,
-  ): Promise<TaskDefinition> {
-    return this.source.request('POST', '/v1/task_definitions', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing task definition. You need only supply the
-   * unique task definition identifier that was returned upon creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<TaskDefinition> {
-    return this.source.request('GET', `/v1/task_definitions/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates the specified task definition by setting the values of the parameters
-   * passed.
-   *
-   * Any parameters not provided will be left unchanged. For example, if you pass the
-   * name parameter, that becomes the task definitions's active name that is used in
-   * the API and interface.
-   */
-  public update(
-    id: string,
-    params?: TaskDefinitionUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<TaskDefinition> {
-    return this.source.request('POST', `/v1/task_definitions/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface TaskDefinitionListResponse {
   /**
    * Always `list`.
@@ -234,4 +171,67 @@ export interface TaskDefinitionUpdateParams {
 
 export interface TaskDefinitionUpdateParamsLicenseType {
   code: string
+}
+
+export class TaskDefinitionResource extends Resource {
+  /**
+   * Returns a list of task definitions within the current account.
+   *
+   * The task definitions returned are sorted by creation date, with the most
+   * recently added task definitions appearing first.
+   */
+  public list(
+    params?: TaskDefinitionListParams,
+    options?: SourceRequestOptions,
+  ): Promise<TaskDefinitionListResponse> {
+    return this.source.request('GET', '/v1/task_definitions', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new task definition and registers it with Source. Task defiitions must
+   * be created in order to create tasks of that type
+   */
+  public create(
+    params: TaskDefinitionCreateParams,
+    options?: SourceRequestOptions,
+  ): Promise<TaskDefinition> {
+    return this.source.request('POST', '/v1/task_definitions', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing task definition. You need only supply the
+   * unique task definition identifier that was returned upon creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<TaskDefinition> {
+    return this.source.request('GET', `/v1/task_definitions/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates the specified task definition by setting the values of the parameters
+   * passed.
+   *
+   * Any parameters not provided will be left unchanged. For example, if you pass the
+   * name parameter, that becomes the task definitions's active name that is used in
+   * the API and interface.
+   */
+  public update(
+    id: string,
+    params?: TaskDefinitionUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<TaskDefinition> {
+    return this.source.request('POST', `/v1/task_definitions/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
 }

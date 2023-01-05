@@ -227,66 +227,6 @@ export interface AvailabilityOverrideRuleReleaseWindow {
 
 export type AvailabilityOverrideRuleReleaseWindowUnit = 'day' | 'hour' | 'minute'
 
-export class AvailabilityResource extends Resource {
-  /**
-   * Retrieves the availability schedule for a user.
-   *
-   * Each user in Source has an availability schedule created for them by default.
-   * The availability schedules are unique for each environment, so test and live
-   * mode will have different availability objects.
-   */
-  public retrieveForUser(user: string, options?: SourceRequestOptions): Promise<Availability> {
-    return this.source.request('GET', `/v1/users/${user}/availability`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates an availability schedule for a user.
-   *
-   * You'll need to update a user's availability schedule to make them bookable for
-   * appointments in Source.
-   */
-  public updateForUser(
-    user: string,
-    params?: AvailabilityUpdateForUserParams,
-    options?: SourceRequestOptions,
-  ): Promise<Availability> {
-    return this.source.request('POST', `/v1/users/${user}/availability`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the availability schedule for a location.
-   */
-  public retrieveForLocation(
-    location: string,
-    options?: SourceRequestOptions,
-  ): Promise<Availability> {
-    return this.source.request('GET', `/v1/locations/${location}/availability`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates an availability schedule for a location.
-   */
-  public updateForLocation(
-    location: string,
-    params?: AvailabilityUpdateForLocationParams,
-    options?: SourceRequestOptions,
-  ): Promise<Availability> {
-    return this.source.request('POST', `/v1/locations/${location}/availability`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface AvailabilityUpdateForUserParams {
   /**
    * The time zone in which rules on this schedule should be evaluated.
@@ -665,3 +605,63 @@ export type AvailabilityUpdateForLocationParamsOverrideRuleReleaseWindowUnit =
   | 'day'
   | 'hour'
   | 'minute'
+
+export class AvailabilityResource extends Resource {
+  /**
+   * Retrieves the availability schedule for a user.
+   *
+   * Each user in Source has an availability schedule created for them by default.
+   * The availability schedules are unique for each environment, so test and live
+   * mode will have different availability objects.
+   */
+  public retrieveForUser(user: string, options?: SourceRequestOptions): Promise<Availability> {
+    return this.source.request('GET', `/v1/users/${user}/availability`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates an availability schedule for a user.
+   *
+   * You'll need to update a user's availability schedule to make them bookable for
+   * appointments in Source.
+   */
+  public updateForUser(
+    user: string,
+    params?: AvailabilityUpdateForUserParams,
+    options?: SourceRequestOptions,
+  ): Promise<Availability> {
+    return this.source.request('POST', `/v1/users/${user}/availability`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the availability schedule for a location.
+   */
+  public retrieveForLocation(
+    location: string,
+    options?: SourceRequestOptions,
+  ): Promise<Availability> {
+    return this.source.request('GET', `/v1/locations/${location}/availability`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates an availability schedule for a location.
+   */
+  public updateForLocation(
+    location: string,
+    params?: AvailabilityUpdateForLocationParams,
+    options?: SourceRequestOptions,
+  ): Promise<Availability> {
+    return this.source.request('POST', `/v1/locations/${location}/availability`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+}

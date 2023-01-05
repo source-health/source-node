@@ -22,6 +22,14 @@ export interface NotificationPreferences {
   notifications: Record<string, unknown>
 }
 
+export interface NotificationPreferencesUpdateForMemberParams {
+  notifications: Record<string, unknown>
+}
+
+export interface NotificationPreferencesUpdateForUserParams {
+  notifications: Record<string, unknown>
+}
+
 export class NotificationPreferencesResource extends Resource {
   public retrieveForMember(
     recipient: string,
@@ -64,12 +72,4 @@ export class NotificationPreferencesResource extends Resource {
       options,
     })
   }
-}
-
-export interface NotificationPreferencesUpdateForMemberParams {
-  notifications: Record<string, unknown>
-}
-
-export interface NotificationPreferencesUpdateForUserParams {
-  notifications: Record<string, unknown>
 }

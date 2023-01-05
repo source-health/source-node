@@ -103,64 +103,6 @@ export interface TaskRelated {
 
 export type TaskRelatedResourceType = 'thread' | 'encounter'
 
-export class TaskResource extends Resource {
-  /**
-   * Returns a list of tasks within the current account.
-   *
-   * The tasks returned are sorted by creation date, with the most recently added
-   * task appearing first.
-   */
-  public list(params?: TaskListParams, options?: SourceRequestOptions): Promise<TaskListResponse> {
-    return this.source.request('GET', '/v1/tasks', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new task and registers it with Source. Once a task is created you
-   * cannot update the definition or member associated with that task. Note that you
-   * cannot create a task using system-managed task definitions (those with keys
-   * starting with system).
-   */
-  public create(params: TaskCreateParams, options?: SourceRequestOptions): Promise<Task> {
-    return this.source.request('POST', '/v1/tasks', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing task. You need only supply the unique task
-   * identifier that was returned upon creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Task> {
-    return this.source.request('GET', `/v1/tasks/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates the specified task by setting the values of the parameters passed.
-   *
-   * Any parameters not provided will be left unchanged. For example, if you pass the
-   * assignee parameter, that assigns the task to the given user. Note that you
-   * cannot resolve system-managed tasks (those with `managed` set to `true`).
-   */
-  public update(
-    id: string,
-    params?: TaskUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Task> {
-    return this.source.request('POST', `/v1/tasks/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface TaskListResponse {
   /**
    * Always `list`.
@@ -391,3 +333,61 @@ export type TaskUpdateParamsStatus =
   | 'on_hold'
   | 'resolved'
   | 'canceled'
+
+export class TaskResource extends Resource {
+  /**
+   * Returns a list of tasks within the current account.
+   *
+   * The tasks returned are sorted by creation date, with the most recently added
+   * task appearing first.
+   */
+  public list(params?: TaskListParams, options?: SourceRequestOptions): Promise<TaskListResponse> {
+    return this.source.request('GET', '/v1/tasks', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new task and registers it with Source. Once a task is created you
+   * cannot update the definition or member associated with that task. Note that you
+   * cannot create a task using system-managed task definitions (those with keys
+   * starting with system).
+   */
+  public create(params: TaskCreateParams, options?: SourceRequestOptions): Promise<Task> {
+    return this.source.request('POST', '/v1/tasks', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing task. You need only supply the unique task
+   * identifier that was returned upon creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Task> {
+    return this.source.request('GET', `/v1/tasks/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates the specified task by setting the values of the parameters passed.
+   *
+   * Any parameters not provided will be left unchanged. For example, if you pass the
+   * assignee parameter, that assigns the task to the given user. Note that you
+   * cannot resolve system-managed tasks (those with `managed` set to `true`).
+   */
+  public update(
+    id: string,
+    params?: TaskUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Task> {
+    return this.source.request('POST', `/v1/tasks/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+}

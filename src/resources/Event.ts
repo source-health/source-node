@@ -59,35 +59,6 @@ export interface EventData {
   previous_values?: unknown
 }
 
-export class EventResource extends Resource {
-  /**
-   * Each event data is rendered according to Source API version at its creation
-   * time,       specified in event object api_version attribute (not according to
-   * your current Source       API version or Source-Version header).
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Event> {
-    return this.source.request('GET', `/v1/events/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * List all stored events. Each event data is rendered according to Source API
-   * version at its creation time, specified in event object api_version attribute
-   * (not according       to your current Source API version or Source-Version
-   * header).
-   */
-  public list(
-    params?: EventListParams,
-    options?: SourceRequestOptions,
-  ): Promise<EventListResponse> {
-    return this.source.request('GET', '/v1/events', {
-      query: params,
-      options,
-    })
-  }
-}
-
 export interface EventListResponse {
   /**
    * Always `list`.
@@ -182,4 +153,33 @@ export interface EventListParamsCreatedAt {
    * value.
    */
   gte?: string
+}
+
+export class EventResource extends Resource {
+  /**
+   * Each event data is rendered according to Source API version at its creation
+   * time,       specified in event object api_version attribute (not according to
+   * your current Source       API version or Source-Version header).
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Event> {
+    return this.source.request('GET', `/v1/events/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * List all stored events. Each event data is rendered according to Source API
+   * version at its creation time, specified in event object api_version attribute
+   * (not according       to your current Source API version or Source-Version
+   * header).
+   */
+  public list(
+    params?: EventListParams,
+    options?: SourceRequestOptions,
+  ): Promise<EventListResponse> {
+    return this.source.request('GET', '/v1/events', {
+      query: params,
+      options,
+    })
+  }
 }

@@ -129,78 +129,6 @@ export interface LocationPhoneNumber {
 
 export type LocationPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
 
-export class LocationResource extends Resource {
-  /**
-   * Retrieves the details of an existing location. You need only supply the unique
-   * location identifier that was returned upon creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Location> {
-    return this.source.request('GET', `/v1/locations/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates an existing location by its unique identifier.
-   */
-  public update(
-    id: string,
-    params?: LocationUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Location> {
-    return this.source.request('POST', `/v1/locations/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes a location by its unique identifier.
-   *
-   * Once a location is deleted, it can no longer be used for searching availability
-   * or booking appointments. Existing appointments which already exist at the
-   * location will remain unaffected.
-   */
-  public delete(id: string, options?: SourceRequestOptions): Promise<Location> {
-    return this.source.request('DELETE', `/v1/locations/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Returns a list of locations within the current account.
-   *
-   * The locations returned are sorted by creation date, with the most recently added
-   * location appearing first.
-   */
-  public list(
-    params?: LocationListParams,
-    options?: SourceRequestOptions,
-  ): Promise<LocationListResponse> {
-    return this.source.request('GET', '/v1/locations', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new location where services are offered.
-   *
-   * You may add any number of locations at which services are offered. Each account
-   * is currently limited to one virtual location, which contains information and
-   * practice-wide availability schedules for your virtual visits.
-   */
-  public create(params: LocationCreateParams, options?: SourceRequestOptions): Promise<Location> {
-    return this.source.request('POST', '/v1/locations', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface LocationUpdateParams {
   /**
    * Unique, friendly name for this location.
@@ -454,4 +382,76 @@ export interface LocationCreateParamsAddress {
    * at this time.
    */
   country: string
+}
+
+export class LocationResource extends Resource {
+  /**
+   * Retrieves the details of an existing location. You need only supply the unique
+   * location identifier that was returned upon creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Location> {
+    return this.source.request('GET', `/v1/locations/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates an existing location by its unique identifier.
+   */
+  public update(
+    id: string,
+    params?: LocationUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Location> {
+    return this.source.request('POST', `/v1/locations/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes a location by its unique identifier.
+   *
+   * Once a location is deleted, it can no longer be used for searching availability
+   * or booking appointments. Existing appointments which already exist at the
+   * location will remain unaffected.
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<Location> {
+    return this.source.request('DELETE', `/v1/locations/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Returns a list of locations within the current account.
+   *
+   * The locations returned are sorted by creation date, with the most recently added
+   * location appearing first.
+   */
+  public list(
+    params?: LocationListParams,
+    options?: SourceRequestOptions,
+  ): Promise<LocationListResponse> {
+    return this.source.request('GET', '/v1/locations', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new location where services are offered.
+   *
+   * You may add any number of locations at which services are offered. Each account
+   * is currently limited to one virtual location, which contains information and
+   * practice-wide availability schedules for your virtual visits.
+   */
+  public create(params: LocationCreateParams, options?: SourceRequestOptions): Promise<Location> {
+    return this.source.request('POST', '/v1/locations', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
 }

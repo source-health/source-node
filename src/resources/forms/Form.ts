@@ -65,81 +65,6 @@ export interface Form {
   archived_at: string | null
 }
 
-export class FormResource extends Resource {
-  /**
-   * Returns a list of forms within the current account. The forms returned are
-   * sorted by creation date, with the most recently added form appearing first.
-   */
-  public list(params?: FormListParams, options?: SourceRequestOptions): Promise<FormListResponse> {
-    return this.source.request('GET', '/v1/forms', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new form with a single draft form version. After creating a form, you
-   * can use the update draft version endpoint to modify the form's contents.
-   */
-  public create(params: FormCreateParams, options?: SourceRequestOptions): Promise<Form> {
-    return this.source.request('POST', '/v1/forms', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing form. You need only supply the unique form
-   * identifier that was returned upon creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Form> {
-    return this.source.request('GET', `/v1/forms/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates a form. You can update the name, key, or description of a form. Updates
-   * to these fields affect all versions of the form.
-   */
-  public update(
-    id: string,
-    params?: FormUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Form> {
-    return this.source.request('POST', `/v1/forms/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Archives a specified form. Once archived, it can no longer be used to generate
-   * new form responses.  Existing form responses are not affected when a form is
-   * archived.
-   */
-  public archive(id: string, options?: SourceRequestOptions): Promise<Form> {
-    return this.source.request('POST', `/v1/forms/${id}/archive`, {
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Unarchives the specified form. Once unarchived, the form's published version can
-   * be again accessed to create form responses and the draft version of the form can
-   * be edited.
-   */
-  public unarchive(id: string, options?: SourceRequestOptions): Promise<Form> {
-    return this.source.request('POST', `/v1/forms/${id}/unarchive`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface FormListResponse {
   /**
    * Always `list`.
@@ -255,3 +180,78 @@ export interface FormUpdateParams {
 }
 
 export type FormUpdateParamsEncounterType = string
+
+export class FormResource extends Resource {
+  /**
+   * Returns a list of forms within the current account. The forms returned are
+   * sorted by creation date, with the most recently added form appearing first.
+   */
+  public list(params?: FormListParams, options?: SourceRequestOptions): Promise<FormListResponse> {
+    return this.source.request('GET', '/v1/forms', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new form with a single draft form version. After creating a form, you
+   * can use the update draft version endpoint to modify the form's contents.
+   */
+  public create(params: FormCreateParams, options?: SourceRequestOptions): Promise<Form> {
+    return this.source.request('POST', '/v1/forms', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing form. You need only supply the unique form
+   * identifier that was returned upon creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Form> {
+    return this.source.request('GET', `/v1/forms/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates a form. You can update the name, key, or description of a form. Updates
+   * to these fields affect all versions of the form.
+   */
+  public update(
+    id: string,
+    params?: FormUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Form> {
+    return this.source.request('POST', `/v1/forms/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Archives a specified form. Once archived, it can no longer be used to generate
+   * new form responses.  Existing form responses are not affected when a form is
+   * archived.
+   */
+  public archive(id: string, options?: SourceRequestOptions): Promise<Form> {
+    return this.source.request('POST', `/v1/forms/${id}/archive`, {
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Unarchives the specified form. Once unarchived, the form's published version can
+   * be again accessed to create form responses and the draft version of the form can
+   * be edited.
+   */
+  public unarchive(id: string, options?: SourceRequestOptions): Promise<Form> {
+    return this.source.request('POST', `/v1/forms/${id}/unarchive`, {
+      contentType: 'json',
+      options,
+    })
+  }
+}

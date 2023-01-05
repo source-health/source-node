@@ -248,124 +248,6 @@ export type AppointmentRecurrenceDaysOfWeek =
   | 'saturday'
   | 'sunday'
 
-export class AppointmentResource extends Resource {
-  /**
-   * List all appointments in a given time range, or for a given set of participants.
-   *
-   * By default, this method will not return canceled appointments. You can
-   * optionally specify include_canceled to true in order to include canceled
-   * appointments.
-   */
-  public list(
-    params?: AppointmentListParams,
-    options?: SourceRequestOptions,
-  ): Promise<AppointmentListResponse> {
-    return this.source.request('GET', '/v1/scheduling/appointments', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new appointment in Source.
-   *
-   * By default, you cannot create an appointment for a participant with a conflict
-   * during the time of the appointment. If desired, you can disable this check by
-   * setting the skip_constraints param to true.
-   *
-   * You are also able to call the create appointment API with a member token when
-   * you are building a member-facing experience. In that case, members are only able
-   * to book an appointment for themselves. Appointments created by members must
-   * follow the rules of the selected appointment type, and the constraint checks may
-   * not be bypassed.
-   */
-  public create(
-    params: AppointmentCreateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Appointment> {
-    return this.source.request('POST', '/v1/scheduling/appointments', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves an existing appointment by its unique identifier.
-   *
-   * Appointments can be accessed by users in your organization. Additionally,
-   * members can access their own appointments provided that they've been added as a
-   * participant.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Appointment> {
-    return this.source.request('GET', `/v1/scheduling/appointments/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates an appointment in Source.
-   *
-   * Parameters that are omitted from this endpoint will be left untouched. When
-   * changing the time of an appointment, you can provide an updated start_at and
-   * duration. If you omit one of these two, it will be inferred from the current
-   * state of the event.
-   *
-   * When adding participants to an existing appointment, Source will only perform
-   * conflict checks on the newly added participants, ignoring any potential
-   * conflicts for participants who are already on the appointment. You may bypass
-   * this check by setting the `skip_constraints` param to true.
-   */
-  public update(
-    id: string,
-    params?: AppointmentUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Appointment> {
-    return this.source.request('POST', `/v1/scheduling/appointments/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Transitions an existing appointment into another status.
-   *
-   * Canceled appointments will not show up by default when listing appointments, but
-   * they can be optionally requested. Appointments must be canceled before they can
-   * be deleted. Once an appointment is canceled, it can no longer be modified.
-   *
-   * When canceling an appointment that is part of a series, you can optionally set
-   * `apply_to_series: true`, which will additionally cancel any appointments in the
-   * series after the given appointment.
-   */
-  public transition(
-    id: string,
-    params: AppointmentTransitionParams,
-    options?: SourceRequestOptions,
-  ): Promise<Appointment> {
-    return this.source.request('POST', `/v1/scheduling/appointments/${id}/transition`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Cancels an existing appointment.
-   *
-   * Canceled appointments will not show up by default when listing appointments, but
-   * they can be optionally requested. Appointments must be canceled before they can
-   * be deleted. Once an appointment is canceled, it can no longer be modified.
-   */
-  public cancel(id: string, options?: SourceRequestOptions): Promise<Appointment> {
-    return this.source.request('POST', `/v1/scheduling/appointments/${id}/cancel`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface AppointmentListResponse {
   /**
    * Always `list`.
@@ -813,3 +695,121 @@ export type AppointmentTransitionParamsStatus =
   | 'no_show'
   | 'completed'
   | 'canceled'
+
+export class AppointmentResource extends Resource {
+  /**
+   * List all appointments in a given time range, or for a given set of participants.
+   *
+   * By default, this method will not return canceled appointments. You can
+   * optionally specify include_canceled to true in order to include canceled
+   * appointments.
+   */
+  public list(
+    params?: AppointmentListParams,
+    options?: SourceRequestOptions,
+  ): Promise<AppointmentListResponse> {
+    return this.source.request('GET', '/v1/scheduling/appointments', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new appointment in Source.
+   *
+   * By default, you cannot create an appointment for a participant with a conflict
+   * during the time of the appointment. If desired, you can disable this check by
+   * setting the skip_constraints param to true.
+   *
+   * You are also able to call the create appointment API with a member token when
+   * you are building a member-facing experience. In that case, members are only able
+   * to book an appointment for themselves. Appointments created by members must
+   * follow the rules of the selected appointment type, and the constraint checks may
+   * not be bypassed.
+   */
+  public create(
+    params: AppointmentCreateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Appointment> {
+    return this.source.request('POST', '/v1/scheduling/appointments', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves an existing appointment by its unique identifier.
+   *
+   * Appointments can be accessed by users in your organization. Additionally,
+   * members can access their own appointments provided that they've been added as a
+   * participant.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Appointment> {
+    return this.source.request('GET', `/v1/scheduling/appointments/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates an appointment in Source.
+   *
+   * Parameters that are omitted from this endpoint will be left untouched. When
+   * changing the time of an appointment, you can provide an updated start_at and
+   * duration. If you omit one of these two, it will be inferred from the current
+   * state of the event.
+   *
+   * When adding participants to an existing appointment, Source will only perform
+   * conflict checks on the newly added participants, ignoring any potential
+   * conflicts for participants who are already on the appointment. You may bypass
+   * this check by setting the `skip_constraints` param to true.
+   */
+  public update(
+    id: string,
+    params?: AppointmentUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Appointment> {
+    return this.source.request('POST', `/v1/scheduling/appointments/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Transitions an existing appointment into another status.
+   *
+   * Canceled appointments will not show up by default when listing appointments, but
+   * they can be optionally requested. Appointments must be canceled before they can
+   * be deleted. Once an appointment is canceled, it can no longer be modified.
+   *
+   * When canceling an appointment that is part of a series, you can optionally set
+   * `apply_to_series: true`, which will additionally cancel any appointments in the
+   * series after the given appointment.
+   */
+  public transition(
+    id: string,
+    params: AppointmentTransitionParams,
+    options?: SourceRequestOptions,
+  ): Promise<Appointment> {
+    return this.source.request('POST', `/v1/scheduling/appointments/${id}/transition`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Cancels an existing appointment.
+   *
+   * Canceled appointments will not show up by default when listing appointments, but
+   * they can be optionally requested. Appointments must be canceled before they can
+   * be deleted. Once an appointment is canceled, it can no longer be modified.
+   */
+  public cancel(id: string, options?: SourceRequestOptions): Promise<Appointment> {
+    return this.source.request('POST', `/v1/scheduling/appointments/${id}/cancel`, {
+      contentType: 'json',
+      options,
+    })
+  }
+}

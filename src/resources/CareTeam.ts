@@ -39,6 +39,21 @@ export interface CareTeamParticipant {
   user: Expandable<User>
 }
 
+export interface CareTeamUpdateParams {
+  /**
+   * List of users to put on the care team.
+   */
+  participants?: Array<CareTeamUpdateParamsParticipant>
+}
+
+export interface CareTeamUpdateParamsParticipant {
+  /**
+   * Unique ID of the user to add to the care team. The user must have a care team
+   * role defined.
+   */
+  user: string
+}
+
 export class CareTeamResource extends Resource {
   /**
    * Retrieves the details of an existing care team. You need only supply the unique
@@ -69,19 +84,4 @@ export class CareTeamResource extends Resource {
       options,
     })
   }
-}
-
-export interface CareTeamUpdateParams {
-  /**
-   * List of users to put on the care team.
-   */
-  participants?: Array<CareTeamUpdateParamsParticipant>
-}
-
-export interface CareTeamUpdateParamsParticipant {
-  /**
-   * Unique ID of the user to add to the care team. The user must have a care team
-   * role defined.
-   */
-  user: string
 }

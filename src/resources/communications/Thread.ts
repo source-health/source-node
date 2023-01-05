@@ -177,84 +177,6 @@ export type ThreadLastMessageAttachmentType = 'file' | 'link'
 export type ThreadLastMessageStatus = 'pending' | 'sent' | 'failed'
 export type ThreadLastMessageDirection = 'inbound' | 'outbound'
 
-export class ThreadResource extends Resource {
-  /**
-   * Returns a list of threads within the current account.
-   *
-   * The threads returned are sorted with the most recently updated appearing first.
-   */
-  public list(
-    params?: ThreadListParams,
-    options?: SourceRequestOptions,
-  ): Promise<ThreadListResponse> {
-    return this.source.request('GET', '/v1/communication/threads', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new messaging thread.
-   */
-  public create(params: ThreadCreateParams, options?: SourceRequestOptions): Promise<Thread> {
-    return this.source.request('POST', '/v1/communication/threads', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing thread. You need only supply the unique
-   * thread identifier that was returned upon creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Thread> {
-    return this.source.request('GET', `/v1/communication/threads/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates the specified thread by setting the values of the parameters passed. Any
-   * parameters not provided will be left unchanged.
-   *
-   * You can change the thread’s status or subject or reassign the thread to a
-   * different user.
-   */
-  public update(
-    id: string,
-    params?: ThreadUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Thread> {
-    return this.source.request('POST', `/v1/communication/threads/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Marks a thread as read by the member. You can provide a timestamp through which
-   * the member has read. All message appearing before this timestamp will be shown
-   * as read by the member in the Source Elements SDK. If you're not using Elements,
-   * you can use this timestamp to track where the member has read in your own
-   * interface.
-   *
-   * Providing null marks the entire thread as unread.
-   */
-  public mark(
-    id: string,
-    params: ThreadMarkParams,
-    options?: SourceRequestOptions,
-  ): Promise<Thread> {
-    return this.source.request('POST', `/v1/communication/threads/${id}/mark`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface ThreadListResponse {
   /**
    * Always `list`.
@@ -445,4 +367,82 @@ export interface ThreadMarkParams {
    * not seen any messages on this thread.
    */
   member_last_read: string | null
+}
+
+export class ThreadResource extends Resource {
+  /**
+   * Returns a list of threads within the current account.
+   *
+   * The threads returned are sorted with the most recently updated appearing first.
+   */
+  public list(
+    params?: ThreadListParams,
+    options?: SourceRequestOptions,
+  ): Promise<ThreadListResponse> {
+    return this.source.request('GET', '/v1/communication/threads', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new messaging thread.
+   */
+  public create(params: ThreadCreateParams, options?: SourceRequestOptions): Promise<Thread> {
+    return this.source.request('POST', '/v1/communication/threads', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing thread. You need only supply the unique
+   * thread identifier that was returned upon creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Thread> {
+    return this.source.request('GET', `/v1/communication/threads/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates the specified thread by setting the values of the parameters passed. Any
+   * parameters not provided will be left unchanged.
+   *
+   * You can change the thread’s status or subject or reassign the thread to a
+   * different user.
+   */
+  public update(
+    id: string,
+    params?: ThreadUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Thread> {
+    return this.source.request('POST', `/v1/communication/threads/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Marks a thread as read by the member. You can provide a timestamp through which
+   * the member has read. All message appearing before this timestamp will be shown
+   * as read by the member in the Source Elements SDK. If you're not using Elements,
+   * you can use this timestamp to track where the member has read in your own
+   * interface.
+   *
+   * Providing null marks the entire thread as unread.
+   */
+  public mark(
+    id: string,
+    params: ThreadMarkParams,
+    options?: SourceRequestOptions,
+  ): Promise<Thread> {
+    return this.source.request('POST', `/v1/communication/threads/${id}/mark`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
 }

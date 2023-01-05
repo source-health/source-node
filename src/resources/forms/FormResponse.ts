@@ -100,67 +100,6 @@ export interface FormResponseExitScreen {
   content: string
 }
 
-export class FormResponseResource extends Resource {
-  /**
-   * Returns a list of form responses within the current account. The responses
-   * returned are sorted by creation date, with the most recently added appearing
-   * first.
-   */
-  public list(
-    params?: FormResponseListParams,
-    options?: SourceRequestOptions,
-  ): Promise<FormResponseListResponse> {
-    return this.source.request('GET', '/v1/form_responses', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new form response for the current active version of the form you
-   * specify. Optionally, you can associate the form with a member.
-   */
-  public create(
-    params: FormResponseCreateParams,
-    options?: SourceRequestOptions,
-  ): Promise<FormResponse> {
-    return this.source.request('POST', '/v1/form_responses', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing form response. You need only supply the
-   * unique form identifier that was returned upon creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<FormResponse> {
-    return this.source.request('GET', `/v1/form_responses/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates a form response.
-   *
-   * Responses included in the update request are updated and/or appended to the
-   * existing response based on each response's associated item key. You can submit a
-   * form response when the response is complete using the 'submit' parameter.
-   */
-  public update(
-    id: string,
-    params?: FormResponseUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<FormResponse> {
-    return this.source.request('POST', `/v1/form_responses/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface FormResponseListResponse {
   /**
    * Always `list`.
@@ -332,4 +271,65 @@ export interface FormResponseUpdateParamsResponse {
   key: string
   value?: unknown
   values?: unknown
+}
+
+export class FormResponseResource extends Resource {
+  /**
+   * Returns a list of form responses within the current account. The responses
+   * returned are sorted by creation date, with the most recently added appearing
+   * first.
+   */
+  public list(
+    params?: FormResponseListParams,
+    options?: SourceRequestOptions,
+  ): Promise<FormResponseListResponse> {
+    return this.source.request('GET', '/v1/form_responses', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new form response for the current active version of the form you
+   * specify. Optionally, you can associate the form with a member.
+   */
+  public create(
+    params: FormResponseCreateParams,
+    options?: SourceRequestOptions,
+  ): Promise<FormResponse> {
+    return this.source.request('POST', '/v1/form_responses', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing form response. You need only supply the
+   * unique form identifier that was returned upon creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<FormResponse> {
+    return this.source.request('GET', `/v1/form_responses/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates a form response.
+   *
+   * Responses included in the update request are updated and/or appended to the
+   * existing response based on each response's associated item key. You can submit a
+   * form response when the response is complete using the 'submit' parameter.
+   */
+  public update(
+    id: string,
+    params?: FormResponseUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<FormResponse> {
+    return this.source.request('POST', `/v1/form_responses/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
 }

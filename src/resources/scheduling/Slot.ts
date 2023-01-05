@@ -39,46 +39,6 @@ export interface Slot {
   available: Array<Expandable<User>>
 }
 
-export class SlotResource extends Resource {
-  /**
-   * This endpoint lists all bookable appointments slots for a set of users, given a
-   * list of participants to include and a list of participants to exclude.
-   *
-   * This endpoint is accessible using member tokens, allowing your patient portal to
-   * query the Source API for availability directly.
-   *
-   * Availability queries can only look at a maximum window of 31 days (a complete
-   * calendar month). If you need to look at availability windows greater than 31
-   * days, please reach out to our team.
-   */
-  public list(params: SlotListParams, options?: SourceRequestOptions): Promise<SlotListResponse> {
-    return this.source.request('GET', '/v1/scheduling/slots', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * This endpoint lists all potential recurring instances of a recurring series,
-   * given the proposed start timestamp of the first appointment in the series. The
-   * response will indicate which instances of the series are not bookable due to
-   * lack of provider availability or conflicting appointments.
-   *
-   * This endpoint is accessible using member tokens, allowing your patient portal to
-   * query the Source API for availability directly.
-   */
-  public listRecurring(
-    params: SlotListRecurringParams,
-    options?: SourceRequestOptions,
-  ): Promise<RecurringSlot> {
-    return this.source.request('POST', '/v1/scheduling/recurring_slots', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface SlotListResponse {
   /**
    * The list of all slots that were returned for your availability query. Slots will
@@ -348,3 +308,43 @@ export type SlotListRecurringParamsRecurrenceDaysOfWeek =
   | 'friday'
   | 'saturday'
   | 'sunday'
+
+export class SlotResource extends Resource {
+  /**
+   * This endpoint lists all bookable appointments slots for a set of users, given a
+   * list of participants to include and a list of participants to exclude.
+   *
+   * This endpoint is accessible using member tokens, allowing your patient portal to
+   * query the Source API for availability directly.
+   *
+   * Availability queries can only look at a maximum window of 31 days (a complete
+   * calendar month). If you need to look at availability windows greater than 31
+   * days, please reach out to our team.
+   */
+  public list(params: SlotListParams, options?: SourceRequestOptions): Promise<SlotListResponse> {
+    return this.source.request('GET', '/v1/scheduling/slots', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * This endpoint lists all potential recurring instances of a recurring series,
+   * given the proposed start timestamp of the first appointment in the series. The
+   * response will indicate which instances of the series are not bookable due to
+   * lack of provider availability or conflicting appointments.
+   *
+   * This endpoint is accessible using member tokens, allowing your patient portal to
+   * query the Source API for availability directly.
+   */
+  public listRecurring(
+    params: SlotListRecurringParams,
+    options?: SourceRequestOptions,
+  ): Promise<RecurringSlot> {
+    return this.source.request('POST', '/v1/scheduling/recurring_slots', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+}

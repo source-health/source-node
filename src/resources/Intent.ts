@@ -123,64 +123,6 @@ export interface IntentConfiguration1 {
 
 export type IntentConfiguration = IntentConfiguration0 | IntentConfiguration1
 
-export class IntentResource extends Resource {
-  /**
-   * Returns a list of intents within the current account.
-   *
-   * The intents returned are sorted by creation date, with the most recently added
-   * intent appearing first.
-   */
-  public list(
-    params?: IntentListParams,
-    options?: SourceRequestOptions,
-  ): Promise<IntentListResponse> {
-    return this.source.request('GET', '/v1/intents', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new intent of the type you specify. You must specify configuration
-   * within the intent that corresponds  to the intent type you create. You can
-   * create as many intents as you wish for a member.
-   */
-  public create(params: IntentCreateParams, options?: SourceRequestOptions): Promise<Intent> {
-    return this.source.request('POST', '/v1/intents', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves an existing intent by its unique identifier or its secret.
-   *
-   * Intents can be accessed by users in your organization, and members can access
-   * their own intents. Additionally, intents can be accessed by passing the intent
-   * secret as a parameter.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Intent> {
-    return this.source.request('GET', `/v1/intents/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Cancels an existing intent.
-   *
-   * Members can no longer access canceled intents and can optionally be filtered out
-   * when displaying a list of intents.  Since existing intents cannot be updated,
-   * you can instead cancel an intent and create a new intent to replace it.
-   */
-  public cancel(id: string, options?: SourceRequestOptions): Promise<Intent> {
-    return this.source.request('POST', `/v1/intents/${id}/cancel`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface IntentListResponse {
   /**
    * Always `list`.
@@ -340,3 +282,61 @@ export interface IntentCreateParamsConfiguration1 {
 export type IntentCreateParamsConfiguration =
   | IntentCreateParamsConfiguration0
   | IntentCreateParamsConfiguration1
+
+export class IntentResource extends Resource {
+  /**
+   * Returns a list of intents within the current account.
+   *
+   * The intents returned are sorted by creation date, with the most recently added
+   * intent appearing first.
+   */
+  public list(
+    params?: IntentListParams,
+    options?: SourceRequestOptions,
+  ): Promise<IntentListResponse> {
+    return this.source.request('GET', '/v1/intents', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new intent of the type you specify. You must specify configuration
+   * within the intent that corresponds  to the intent type you create. You can
+   * create as many intents as you wish for a member.
+   */
+  public create(params: IntentCreateParams, options?: SourceRequestOptions): Promise<Intent> {
+    return this.source.request('POST', '/v1/intents', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves an existing intent by its unique identifier or its secret.
+   *
+   * Intents can be accessed by users in your organization, and members can access
+   * their own intents. Additionally, intents can be accessed by passing the intent
+   * secret as a parameter.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Intent> {
+    return this.source.request('GET', `/v1/intents/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Cancels an existing intent.
+   *
+   * Members can no longer access canceled intents and can optionally be filtered out
+   * when displaying a list of intents.  Since existing intents cannot be updated,
+   * you can instead cancel an intent and create a new intent to replace it.
+   */
+  public cancel(id: string, options?: SourceRequestOptions): Promise<Intent> {
+    return this.source.request('POST', `/v1/intents/${id}/cancel`, {
+      contentType: 'json',
+      options,
+    })
+  }
+}

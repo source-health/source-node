@@ -293,82 +293,6 @@ export interface AppointmentTypeRecurrenceDuration {
 
 export type AppointmentTypeRecurrenceDurationUnit = 'days' | 'weeks'
 
-export class AppointmentTypeResource extends Resource {
-  /**
-   * Lists all available appointment types.
-   */
-  public list(
-    params?: AppointmentTypeListParams,
-    options?: SourceRequestOptions,
-  ): Promise<AppointmentTypeListResponse> {
-    return this.source.request('GET', '/v1/scheduling/appointment_types', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new appointment type on Source.
-   *
-   * After creating an appointment type, you can use the availability endpoints to
-   * begin searching your team and scheduling them.
-   */
-  public create(
-    params: AppointmentTypeCreateParams,
-    options?: SourceRequestOptions,
-  ): Promise<AppointmentType> {
-    return this.source.request('POST', '/v1/scheduling/appointment_types', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieve an appointment type by its unique identifier.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<AppointmentType> {
-    return this.source.request('GET', `/v1/scheduling/appointment_types/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates an appointment type.
-   *
-   * Appointments are linked to appointment types in Source, so changes made to an
-   * appointment type will be visible on past appointments as well. However, some
-   * fields, such as the duration and location of the appointment, are copied at the
-   * time the appointment is created. Changing the duration of an appointment type
-   * will not change the duration of past appointments.
-   */
-  public update(
-    id: string,
-    params?: AppointmentTypeUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<AppointmentType> {
-    return this.source.request('POST', `/v1/scheduling/appointment_types/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes an appointment type from Source.
-   *
-   * Once an appointment type is deleted, it can no longer be used to schedule
-   * further appointments. It will still be visible on past appointments that used
-   * this type. You can delete an appontment type at any time.
-   */
-  public delete(id: string, options?: SourceRequestOptions): Promise<AppointmentType> {
-    return this.source.request('DELETE', `/v1/scheduling/appointment_types/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface AppointmentTypeListResponse {
   /**
    * Always `list`.
@@ -957,3 +881,79 @@ export interface AppointmentTypeUpdateParamsRecurrenceDuration {
 
 export type AppointmentTypeUpdateParamsRecurrenceDurationUnit = 'days' | 'weeks'
 export type AppointmentTypeUpdateParamsEncounterType = string
+
+export class AppointmentTypeResource extends Resource {
+  /**
+   * Lists all available appointment types.
+   */
+  public list(
+    params?: AppointmentTypeListParams,
+    options?: SourceRequestOptions,
+  ): Promise<AppointmentTypeListResponse> {
+    return this.source.request('GET', '/v1/scheduling/appointment_types', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new appointment type on Source.
+   *
+   * After creating an appointment type, you can use the availability endpoints to
+   * begin searching your team and scheduling them.
+   */
+  public create(
+    params: AppointmentTypeCreateParams,
+    options?: SourceRequestOptions,
+  ): Promise<AppointmentType> {
+    return this.source.request('POST', '/v1/scheduling/appointment_types', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieve an appointment type by its unique identifier.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<AppointmentType> {
+    return this.source.request('GET', `/v1/scheduling/appointment_types/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates an appointment type.
+   *
+   * Appointments are linked to appointment types in Source, so changes made to an
+   * appointment type will be visible on past appointments as well. However, some
+   * fields, such as the duration and location of the appointment, are copied at the
+   * time the appointment is created. Changing the duration of an appointment type
+   * will not change the duration of past appointments.
+   */
+  public update(
+    id: string,
+    params?: AppointmentTypeUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<AppointmentType> {
+    return this.source.request('POST', `/v1/scheduling/appointment_types/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes an appointment type from Source.
+   *
+   * Once an appointment type is deleted, it can no longer be used to schedule
+   * further appointments. It will still be visible on past appointments that used
+   * this type. You can delete an appontment type at any time.
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<AppointmentType> {
+    return this.source.request('DELETE', `/v1/scheduling/appointment_types/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
+}

@@ -155,55 +155,6 @@ export interface OrderFulfillment {
   shipped_at: string | null
 }
 
-export class OrderResource extends Resource {
-  /**
-   * Retrieves the details of an order. Supply the unique identifier of the order,
-   * which you might have received in a webhook.
-   */
-  public list(
-    params?: OrderListParams,
-    options?: SourceRequestOptions,
-  ): Promise<OrderListResponse> {
-    return this.source.request('GET', '/v1/orders', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Create an order to send devices to a member. Orders placed through the Source
-   * API will be sent directly to our fulfillment center, and generally shipped out
-   * the next day.
-   *
-   * All orders sent out of our fulfillment center will be invoiced and payable at
-   * the end of the month.
-   *
-   * When placing an order, you'll need to specify the products you would like to
-   * send to the member. Currently, you can send the following products:
-   *
-   * Scale: `prod_m0zvh4UpfvtRZasxVUwE`
-   *
-   * Blood Pressure Monitor: `prod_1rqijtxD3sjkVVQPRRFC`
-   */
-  public create(params: OrderCreateParams, options?: SourceRequestOptions): Promise<Order> {
-    return this.source.request('POST', '/v1/orders', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an order. Supply the unique identifier of the order,
-   * which you might have received in a webhook.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Order> {
-    return this.source.request('GET', `/v1/orders/${id}`, {
-      options,
-    })
-  }
-}
-
 export interface OrderListResponse {
   /**
    * Always `list`.
@@ -295,4 +246,53 @@ export interface OrderCreateParamsShippingAddress {
    * at this time.
    */
   country: string
+}
+
+export class OrderResource extends Resource {
+  /**
+   * Retrieves the details of an order. Supply the unique identifier of the order,
+   * which you might have received in a webhook.
+   */
+  public list(
+    params?: OrderListParams,
+    options?: SourceRequestOptions,
+  ): Promise<OrderListResponse> {
+    return this.source.request('GET', '/v1/orders', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Create an order to send devices to a member. Orders placed through the Source
+   * API will be sent directly to our fulfillment center, and generally shipped out
+   * the next day.
+   *
+   * All orders sent out of our fulfillment center will be invoiced and payable at
+   * the end of the month.
+   *
+   * When placing an order, you'll need to specify the products you would like to
+   * send to the member. Currently, you can send the following products:
+   *
+   * Scale: `prod_m0zvh4UpfvtRZasxVUwE`
+   *
+   * Blood Pressure Monitor: `prod_1rqijtxD3sjkVVQPRRFC`
+   */
+  public create(params: OrderCreateParams, options?: SourceRequestOptions): Promise<Order> {
+    return this.source.request('POST', '/v1/orders', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an order. Supply the unique identifier of the order,
+   * which you might have received in a webhook.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Order> {
+    return this.source.request('GET', `/v1/orders/${id}`, {
+      options,
+    })
+  }
 }

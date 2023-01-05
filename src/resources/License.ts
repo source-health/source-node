@@ -62,69 +62,6 @@ export interface LicenseType {
 
 export type LicenseStatus = 'active' | 'inactive'
 
-export class LicenseResource extends Resource {
-  /**
-   * Returns a list of licenses within the current account. The licenses returned are
-   * sorted by creation date, with the most recently added license appearing first.
-   */
-  public list(
-    params?: LicenseListParams,
-    options?: SourceRequestOptions,
-  ): Promise<LicenseListResponse> {
-    return this.source.request('GET', '/v1/licenses', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new license for a user.
-   */
-  public create(params: LicenseCreateParams, options?: SourceRequestOptions): Promise<License> {
-    return this.source.request('POST', '/v1/licenses', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing license. You need only supply the unique
-   * license identifier that was returned upon creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<License> {
-    return this.source.request('GET', `/v1/licenses/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates the license with a new status, license number, or description. To update
-   * other license fields, first delete the license and then create a new one.
-   */
-  public update(
-    id: string,
-    params?: LicenseUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<License> {
-    return this.source.request('POST', `/v1/licenses/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes the specified license.
-   */
-  public delete(id: string, options?: SourceRequestOptions): Promise<License> {
-    return this.source.request('DELETE', `/v1/licenses/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface LicenseListResponse {
   /**
    * Always `list`.
@@ -242,3 +179,66 @@ export interface LicenseUpdateParams {
 }
 
 export type LicenseUpdateParamsStatus = 'active' | 'inactive'
+
+export class LicenseResource extends Resource {
+  /**
+   * Returns a list of licenses within the current account. The licenses returned are
+   * sorted by creation date, with the most recently added license appearing first.
+   */
+  public list(
+    params?: LicenseListParams,
+    options?: SourceRequestOptions,
+  ): Promise<LicenseListResponse> {
+    return this.source.request('GET', '/v1/licenses', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new license for a user.
+   */
+  public create(params: LicenseCreateParams, options?: SourceRequestOptions): Promise<License> {
+    return this.source.request('POST', '/v1/licenses', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing license. You need only supply the unique
+   * license identifier that was returned upon creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<License> {
+    return this.source.request('GET', `/v1/licenses/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates the license with a new status, license number, or description. To update
+   * other license fields, first delete the license and then create a new one.
+   */
+  public update(
+    id: string,
+    params?: LicenseUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<License> {
+    return this.source.request('POST', `/v1/licenses/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes the specified license.
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<License> {
+    return this.source.request('DELETE', `/v1/licenses/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
+}

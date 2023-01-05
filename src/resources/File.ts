@@ -59,6 +59,28 @@ export type FilePurpose =
   | 'account_logo'
   | 'location_photo'
 
+export interface FileCreateParams {
+  /**
+   * A file to upload. This field must be provided in a `multipart/form-data`
+   * request.
+   */
+  file: string
+  /**
+   * The purpose of the uploaded file. Each purpose imposes restrictions on supported
+   * file types and use cases.
+   */
+  purpose: FileCreateParamsPurpose
+}
+
+export type FileCreateParamsPurpose =
+  | 'message_attachment'
+  | 'photo'
+  | 'user_profile_photo'
+  | 'document'
+  | 'comment_attachment'
+  | 'account_logo'
+  | 'location_photo'
+
 export class FileResource extends Resource {
   /**
    * Uploads a file to Source by sending a `multipart/form-data` request containing
@@ -85,25 +107,3 @@ export class FileResource extends Resource {
     })
   }
 }
-
-export interface FileCreateParams {
-  /**
-   * A file to upload. This field must be provided in a `multipart/form-data`
-   * request.
-   */
-  file: string
-  /**
-   * The purpose of the uploaded file. Each purpose imposes restrictions on supported
-   * file types and use cases.
-   */
-  purpose: FileCreateParamsPurpose
-}
-
-export type FileCreateParamsPurpose =
-  | 'message_attachment'
-  | 'photo'
-  | 'user_profile_photo'
-  | 'document'
-  | 'comment_attachment'
-  | 'account_logo'
-  | 'location_photo'

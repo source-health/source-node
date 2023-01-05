@@ -34,74 +34,6 @@ export interface Group {
   deleted_at?: string
 }
 
-export class GroupResource extends Resource {
-  /**
-   * Returns a list of groups within the current account.
-   *
-   * The groups returned are sorted by creation date, with the most recently added
-   * group appearing first.
-   */
-  public list(
-    params?: GroupListParams,
-    options?: SourceRequestOptions,
-  ): Promise<GroupListResponse> {
-    return this.source.request('GET', '/v1/groups', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new group, which describes a function of a user. You can use groups
-   * alongside queues to control how tasks are routed among the care team.
-   */
-  public create(params: GroupCreateParams, options?: SourceRequestOptions): Promise<Group> {
-    return this.source.request('POST', '/v1/groups', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing group. You need only supply the unique
-   * group identifier that was returned upon creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Group> {
-    return this.source.request('GET', `/v1/groups/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates the specified group by setting the values of the parameters passed.
-   *
-   * Any parameters not provided will be left unchanged.
-   */
-  public update(
-    id: string,
-    params?: GroupUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Group> {
-    return this.source.request('POST', `/v1/groups/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes the specified group. A deleted group is removed from all other objects
-   * to which it relates.
-   */
-  public delete(id: string, options?: SourceRequestOptions): Promise<Group> {
-    return this.source.request('DELETE', `/v1/groups/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface GroupListResponse {
   /**
    * Always `list`.
@@ -170,4 +102,72 @@ export interface GroupUpdateParams {
    * A description for this group.
    */
   description?: string | null
+}
+
+export class GroupResource extends Resource {
+  /**
+   * Returns a list of groups within the current account.
+   *
+   * The groups returned are sorted by creation date, with the most recently added
+   * group appearing first.
+   */
+  public list(
+    params?: GroupListParams,
+    options?: SourceRequestOptions,
+  ): Promise<GroupListResponse> {
+    return this.source.request('GET', '/v1/groups', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new group, which describes a function of a user. You can use groups
+   * alongside queues to control how tasks are routed among the care team.
+   */
+  public create(params: GroupCreateParams, options?: SourceRequestOptions): Promise<Group> {
+    return this.source.request('POST', '/v1/groups', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing group. You need only supply the unique
+   * group identifier that was returned upon creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Group> {
+    return this.source.request('GET', `/v1/groups/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates the specified group by setting the values of the parameters passed.
+   *
+   * Any parameters not provided will be left unchanged.
+   */
+  public update(
+    id: string,
+    params?: GroupUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Group> {
+    return this.source.request('POST', `/v1/groups/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes the specified group. A deleted group is removed from all other objects
+   * to which it relates.
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<Group> {
+    return this.source.request('DELETE', `/v1/groups/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
 }

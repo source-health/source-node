@@ -48,97 +48,6 @@ export interface EncounterType {
   archived_at: string | null
 }
 
-export class EncounterTypeResource extends Resource {
-  /**
-   * Returns a list of encounter types within the current account. The encounter
-   * types returned are sorted by creation date, with the most recently added
-   * encounter type appearing first.
-   */
-  public list(
-    params?: EncounterTypeListParams,
-    options?: SourceRequestOptions,
-  ): Promise<EncounterTypeListResponse> {
-    return this.source.request('GET', '/v1/encounter_types', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new encounter type in Source.
-   *
-   * After creating an encounter type, you can relate the encounter type to
-   * appointment types and forms in order to begin creating encounters.
-   */
-  public create(
-    params: EncounterTypeCreateParams,
-    options?: SourceRequestOptions,
-  ): Promise<EncounterType> {
-    return this.source.request('POST', '/v1/encounter_types', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves an encounter type by its unique identifier.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<EncounterType> {
-    return this.source.request('GET', `/v1/encounter_types/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates the specified encounter type by setting the values of the parameters
-   * passed. Any parameters not provided will be left unchanged.
-   *
-   * Encounters are linked to encounter types in Source, so some changes made to an
-   * encounter type will be visible on past encounters. However, changes to fields
-   * that influence encounter behavior, such as the queue, will apply only to new
-   * tasks that are related to open encounters.
-   */
-  public update(
-    id: string,
-    params?: EncounterTypeUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<EncounterType> {
-    return this.source.request('POST', `/v1/encounter_types/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Archives the specified encounter type. An archived encounter type can be viewed
-   * on any encounter it relates to but cannot be used to create new encounters.
-   */
-  public archive(
-    id: string,
-    params?: EncounterTypeArchiveParams,
-    options?: SourceRequestOptions,
-  ): Promise<EncounterType> {
-    return this.source.request('POST', `/v1/encounter_types/${id}/archive`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Unarchives the specified encounter type. Once unarchived, the encounter type can
-   * be used to create new encounters.
-   */
-  public unarchive(id: string, options?: SourceRequestOptions): Promise<EncounterType> {
-    return this.source.request('POST', `/v1/encounter_types/${id}/unarchive`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface EncounterTypeListResponse {
   /**
    * Always `list`.
@@ -258,3 +167,94 @@ export interface EncounterTypeArchiveParams {
 }
 
 export type EncounterTypeArchiveParamsReplacementEncounterType = string
+
+export class EncounterTypeResource extends Resource {
+  /**
+   * Returns a list of encounter types within the current account. The encounter
+   * types returned are sorted by creation date, with the most recently added
+   * encounter type appearing first.
+   */
+  public list(
+    params?: EncounterTypeListParams,
+    options?: SourceRequestOptions,
+  ): Promise<EncounterTypeListResponse> {
+    return this.source.request('GET', '/v1/encounter_types', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new encounter type in Source.
+   *
+   * After creating an encounter type, you can relate the encounter type to
+   * appointment types and forms in order to begin creating encounters.
+   */
+  public create(
+    params: EncounterTypeCreateParams,
+    options?: SourceRequestOptions,
+  ): Promise<EncounterType> {
+    return this.source.request('POST', '/v1/encounter_types', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves an encounter type by its unique identifier.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<EncounterType> {
+    return this.source.request('GET', `/v1/encounter_types/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates the specified encounter type by setting the values of the parameters
+   * passed. Any parameters not provided will be left unchanged.
+   *
+   * Encounters are linked to encounter types in Source, so some changes made to an
+   * encounter type will be visible on past encounters. However, changes to fields
+   * that influence encounter behavior, such as the queue, will apply only to new
+   * tasks that are related to open encounters.
+   */
+  public update(
+    id: string,
+    params?: EncounterTypeUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<EncounterType> {
+    return this.source.request('POST', `/v1/encounter_types/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Archives the specified encounter type. An archived encounter type can be viewed
+   * on any encounter it relates to but cannot be used to create new encounters.
+   */
+  public archive(
+    id: string,
+    params?: EncounterTypeArchiveParams,
+    options?: SourceRequestOptions,
+  ): Promise<EncounterType> {
+    return this.source.request('POST', `/v1/encounter_types/${id}/archive`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Unarchives the specified encounter type. Once unarchived, the encounter type can
+   * be used to create new encounters.
+   */
+  public unarchive(id: string, options?: SourceRequestOptions): Promise<EncounterType> {
+    return this.source.request('POST', `/v1/encounter_types/${id}/unarchive`, {
+      contentType: 'json',
+      options,
+    })
+  }
+}

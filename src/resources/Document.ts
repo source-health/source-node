@@ -54,74 +54,6 @@ export interface Document {
   deleted_at: string | null
 }
 
-export class DocumentResource extends Resource {
-  /**
-   * Returns a list of documents within the current account.
-   *
-   * The documents returned are sorted by creation date, with the most recently added
-   * document appearing first.
-   */
-  public list(
-    params?: DocumentListParams,
-    options?: SourceRequestOptions,
-  ): Promise<DocumentListResponse> {
-    return this.source.request('GET', '/v1/documents', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new document for the member you specify. Use the [Files API](../file/)
-   * to upload a file with a purpose of document to include in the document resource.
-   */
-  public create(params: DocumentCreateParams, options?: SourceRequestOptions): Promise<Document> {
-    return this.source.request('POST', '/v1/documents', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing document. You need only supply the unique
-   * document identifier that was returned upon creation or when listing documents.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Document> {
-    return this.source.request('GET', `/v1/documents/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates the specified document by setting the values of the parameters passed.
-   * Any parameters not provided will be left unchanged.
-   */
-  public update(
-    id: string,
-    params?: DocumentUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Document> {
-    return this.source.request('POST', `/v1/documents/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes the specified document. When a document is deleted, the associated file
-   * is not guaranteed to remain stored by Source and can no longer be accessed by a
-   * member.
-   */
-  public delete(id: string, options?: SourceRequestOptions): Promise<Document> {
-    return this.source.request('DELETE', `/v1/documents/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface DocumentListResponse {
   /**
    * Always `list`.
@@ -286,4 +218,72 @@ export interface DocumentUpdateParams {
    * A long-form text description of the document.
    */
   description?: string | null
+}
+
+export class DocumentResource extends Resource {
+  /**
+   * Returns a list of documents within the current account.
+   *
+   * The documents returned are sorted by creation date, with the most recently added
+   * document appearing first.
+   */
+  public list(
+    params?: DocumentListParams,
+    options?: SourceRequestOptions,
+  ): Promise<DocumentListResponse> {
+    return this.source.request('GET', '/v1/documents', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new document for the member you specify. Use the [Files API](../file/)
+   * to upload a file with a purpose of document to include in the document resource.
+   */
+  public create(params: DocumentCreateParams, options?: SourceRequestOptions): Promise<Document> {
+    return this.source.request('POST', '/v1/documents', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing document. You need only supply the unique
+   * document identifier that was returned upon creation or when listing documents.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Document> {
+    return this.source.request('GET', `/v1/documents/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates the specified document by setting the values of the parameters passed.
+   * Any parameters not provided will be left unchanged.
+   */
+  public update(
+    id: string,
+    params?: DocumentUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Document> {
+    return this.source.request('POST', `/v1/documents/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes the specified document. When a document is deleted, the associated file
+   * is not guaranteed to remain stored by Source and can no longer be accessed by a
+   * member.
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<Document> {
+    return this.source.request('DELETE', `/v1/documents/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
 }

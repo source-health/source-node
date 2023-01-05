@@ -47,90 +47,6 @@ export interface Tag {
 
 export type TagColor = 'gray' | 'blue' | 'teal' | 'yellow' | 'green' | 'red' | 'orange' | 'purple'
 
-export class TagResource extends Resource {
-  /**
-   * Returns a list of tags within the current account. The tags returned are sorted
-   * by creation date, with the most recently added tag appearing first.
-   */
-  public list(params?: TagListParams, options?: SourceRequestOptions): Promise<TagListResponse> {
-    return this.source.request('GET', '/v1/tags', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new tag. You can create a new tag with a unique name and a display
-   * color of your choice. If a tag already exists with the same name (case
-   * insensitive), an error is returned.
-   */
-  public create(params: TagCreateParams, options?: SourceRequestOptions): Promise<Tag> {
-    return this.source.request('POST', '/v1/tags', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieve a tag by its unique identifier.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Tag> {
-    return this.source.request('GET', `/v1/tags/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates the specified tag by setting the values of the parameters passed. Any
-   * parameters not provided will be left unchanged.
-   */
-  public update(
-    id: string,
-    params?: TagUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Tag> {
-    return this.source.request('POST', `/v1/tags/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes the specified tag. A deleted tag is removed from all members to which it
-   * relates.
-   */
-  public delete(id: string, options?: SourceRequestOptions): Promise<Tag> {
-    return this.source.request('DELETE', `/v1/tags/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Archives the specified tag. An archived tag can be viewed on any member it
-   * relates to but cannot be added to additional members.
-   */
-  public archive(id: string, options?: SourceRequestOptions): Promise<Tag> {
-    return this.source.request('POST', `/v1/tags/${id}/archive`, {
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Unarchives the specified tag. Once unarchived, the tag can be reapplied to
-   * additional members.
-   */
-  public unarchive(id: string, options?: SourceRequestOptions): Promise<Tag> {
-    return this.source.request('POST', `/v1/tags/${id}/unarchive`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface TagListResponse {
   /**
    * Always `list`.
@@ -239,3 +155,87 @@ export type TagUpdateParamsColor =
   | 'red'
   | 'orange'
   | 'purple'
+
+export class TagResource extends Resource {
+  /**
+   * Returns a list of tags within the current account. The tags returned are sorted
+   * by creation date, with the most recently added tag appearing first.
+   */
+  public list(params?: TagListParams, options?: SourceRequestOptions): Promise<TagListResponse> {
+    return this.source.request('GET', '/v1/tags', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new tag. You can create a new tag with a unique name and a display
+   * color of your choice. If a tag already exists with the same name (case
+   * insensitive), an error is returned.
+   */
+  public create(params: TagCreateParams, options?: SourceRequestOptions): Promise<Tag> {
+    return this.source.request('POST', '/v1/tags', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieve a tag by its unique identifier.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Tag> {
+    return this.source.request('GET', `/v1/tags/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates the specified tag by setting the values of the parameters passed. Any
+   * parameters not provided will be left unchanged.
+   */
+  public update(
+    id: string,
+    params?: TagUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Tag> {
+    return this.source.request('POST', `/v1/tags/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes the specified tag. A deleted tag is removed from all members to which it
+   * relates.
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<Tag> {
+    return this.source.request('DELETE', `/v1/tags/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Archives the specified tag. An archived tag can be viewed on any member it
+   * relates to but cannot be added to additional members.
+   */
+  public archive(id: string, options?: SourceRequestOptions): Promise<Tag> {
+    return this.source.request('POST', `/v1/tags/${id}/archive`, {
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Unarchives the specified tag. Once unarchived, the tag can be reapplied to
+   * additional members.
+   */
+  public unarchive(id: string, options?: SourceRequestOptions): Promise<Tag> {
+    return this.source.request('POST', `/v1/tags/${id}/unarchive`, {
+      contentType: 'json',
+      options,
+    })
+  }
+}

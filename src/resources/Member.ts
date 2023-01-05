@@ -235,74 +235,6 @@ export interface MemberExternalIdentifier {
   external_id: string
 }
 
-export class MemberResource extends Resource {
-  /**
-   * Returns a list of members within the current account.
-   *
-   * The members returned are sorted by creation date, with the most recently added
-   * members appearing first.
-   */
-  public list(
-    params?: MemberListParams,
-    options?: SourceRequestOptions,
-  ): Promise<MemberListResponse> {
-    return this.source.request('GET', '/v1/members', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new member and registers them with Source.
-   */
-  public create(params: MemberCreateParams, options?: SourceRequestOptions): Promise<Member> {
-    return this.source.request('POST', '/v1/members', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing member. You need only supply the unique
-   * member identifier that was returned upon member creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Member> {
-    return this.source.request('GET', `/v1/members/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates the specified member by setting the values of the parameters passed.
-   *
-   * Any parameters not provided will be left unchanged. For example, if you pass the
-   * email parameter, that becomes the member's active email to be used.
-   */
-  public update(
-    id: string,
-    params?: MemberUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Member> {
-    return this.source.request('POST', `/v1/members/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes the specified member. Members that have meaningful objects associated
-   * with them, such as tasks, threads, or documents, may not be deleted.
-   */
-  public delete(id: string, options?: SourceRequestOptions): Promise<Member> {
-    return this.source.request('DELETE', `/v1/members/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface MemberListResponse {
   /**
    * Always `list`.
@@ -783,4 +715,72 @@ export interface MemberUpdateParamsExternalIdentifier {
    * The unique identifier of the member in the integrated system.
    */
   external_id: string
+}
+
+export class MemberResource extends Resource {
+  /**
+   * Returns a list of members within the current account.
+   *
+   * The members returned are sorted by creation date, with the most recently added
+   * members appearing first.
+   */
+  public list(
+    params?: MemberListParams,
+    options?: SourceRequestOptions,
+  ): Promise<MemberListResponse> {
+    return this.source.request('GET', '/v1/members', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new member and registers them with Source.
+   */
+  public create(params: MemberCreateParams, options?: SourceRequestOptions): Promise<Member> {
+    return this.source.request('POST', '/v1/members', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing member. You need only supply the unique
+   * member identifier that was returned upon member creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Member> {
+    return this.source.request('GET', `/v1/members/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates the specified member by setting the values of the parameters passed.
+   *
+   * Any parameters not provided will be left unchanged. For example, if you pass the
+   * email parameter, that becomes the member's active email to be used.
+   */
+  public update(
+    id: string,
+    params?: MemberUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Member> {
+    return this.source.request('POST', `/v1/members/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes the specified member. Members that have meaningful objects associated
+   * with them, such as tasks, threads, or documents, may not be deleted.
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<Member> {
+    return this.source.request('DELETE', `/v1/members/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
 }

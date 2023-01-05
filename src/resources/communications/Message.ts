@@ -135,60 +135,6 @@ export interface MessageAttachment {
 
 export type MessageAttachmentType = 'file' | 'link'
 
-export class MessageResource extends Resource {
-  /**
-   * Returns a list of messages within a thread.
-   *
-   * The messages returned are sorted with the most recently sent appearing first.
-   */
-  public list(
-    params: MessageListParams,
-    options?: SourceRequestOptions,
-  ): Promise<MessageListResponse> {
-    return this.source.request('GET', '/v1/communication/messages', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a message within a thread.
-   */
-  public create(params: MessageCreateParams, options?: SourceRequestOptions): Promise<Message> {
-    return this.source.request('POST', '/v1/communication/messages', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of a message. You need only supply the unique message
-   * identifier that was returned upon creation.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Message> {
-    return this.source.request('GET', `/v1/communication/messages/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Redacts a message and its attachments that were sent in error to a member. You
-   * can redact a message sent by a user or an API key on behalf of a user.
-   *
-   * Once redacted, the message content and any attachments are no longer accessible
-   * to the member, however the fact that the message was redacted is displayed to
-   * the member. The message is labeled as redacted and remains visible to users in
-   * the Source UI or via API.
-   */
-  public redact(id: string, options?: SourceRequestOptions): Promise<Message> {
-    return this.source.request('POST', `/v1/communication/messages/${id}/redact`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface MessageListResponse {
   /**
    * Always `list`.
@@ -328,3 +274,57 @@ export interface MessageCreateParamsAttachment {
 
 export type MessageCreateParamsAttachmentType = 'file' | 'link'
 export type MessageCreateParamsSender = string
+
+export class MessageResource extends Resource {
+  /**
+   * Returns a list of messages within a thread.
+   *
+   * The messages returned are sorted with the most recently sent appearing first.
+   */
+  public list(
+    params: MessageListParams,
+    options?: SourceRequestOptions,
+  ): Promise<MessageListResponse> {
+    return this.source.request('GET', '/v1/communication/messages', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a message within a thread.
+   */
+  public create(params: MessageCreateParams, options?: SourceRequestOptions): Promise<Message> {
+    return this.source.request('POST', '/v1/communication/messages', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of a message. You need only supply the unique message
+   * identifier that was returned upon creation.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Message> {
+    return this.source.request('GET', `/v1/communication/messages/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Redacts a message and its attachments that were sent in error to a member. You
+   * can redact a message sent by a user or an API key on behalf of a user.
+   *
+   * Once redacted, the message content and any attachments are no longer accessible
+   * to the member, however the fact that the message was redacted is displayed to
+   * the member. The message is labeled as redacted and remains visible to users in
+   * the Source UI or via API.
+   */
+  public redact(id: string, options?: SourceRequestOptions): Promise<Message> {
+    return this.source.request('POST', `/v1/communication/messages/${id}/redact`, {
+      contentType: 'json',
+      options,
+    })
+  }
+}

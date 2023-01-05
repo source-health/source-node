@@ -230,94 +230,6 @@ export type CarePlanActivityRecurrenceDaysOfWeek =
   | 'saturday'
   | 'sunday'
 
-export class CarePlanResource extends Resource {
-  /**
-   * Lists all care plans.
-   *
-   * By default, the care plans returned are sorted by creation date, with the most
-   * recently added care plan appearing first.
-   */
-  public list(
-    params?: CarePlanListParams,
-    options?: SourceRequestOptions,
-  ): Promise<CarePlanListResponse> {
-    return this.source.request('GET', '/v1/care_plans', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new care plan for a member.
-   *
-   * By default, the care plan is created in an active status using the current time
-   * as the `start_at` timestamp. You can optionally set `start_at` to a time in the
-   * past if you are creating a care plan that is already in progress. In order to
-   * backload a care plan that has already ended, you can set both the `start_at` and
-   * `end_at` parameters to times in the past, in which case you must also set the
-   * status parameter to either `completed` or `canceled`. A completed or canceled
-   * care plan cannot be reactivated or updated.
-   */
-  public create(params: CarePlanCreateParams, options?: SourceRequestOptions): Promise<CarePlan> {
-    return this.source.request('POST', '/v1/care_plans', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves an existing care plan by its unique identifier.
-   *
-   * Care plans can be accessed by users in your organization. Additionally, members
-   * can access their own care plans.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<CarePlan> {
-    return this.source.request('GET', `/v1/care_plans/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates a care plan. Any parameters not provided will be left unchanged.
-   *
-   * Canceled and completed care plans can no longer be modified or reactivated. Once
-   * a care plan is canceled or completed, associated unresolved actions (for
-   * example, tasks and intents) are canceled. You can pause a care plan to indicate
-   * that its activities should no longer generate new actions, while unresolved
-   * actions that have already been created remain active. You can later update the
-   * paused care plan to an active status when the plan is again in use.
-   */
-  public update(
-    id: string,
-    params?: CarePlanUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<CarePlan> {
-    return this.source.request('POST', `/v1/care_plans/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes a care plan.
-   *
-   * Once a care plan is deleted, it can no longer be accessed or used. Associated
-   * unresolved actions (for example, tasks and intents) are canceled. The deleted
-   * care plan will still be visible on past completed and canceled actions that
-   * reference the care plan. In general, deleting a care plan should only be done to
-   * remove care plans that were entered in error. Otherwise, you can cancel or
-   * complete the care plan.
-   */
-  public delete(id: string, options?: SourceRequestOptions): Promise<CarePlan> {
-    return this.source.request('DELETE', `/v1/care_plans/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface CarePlanListResponse {
   /**
    * Always `list`.
@@ -629,3 +541,91 @@ export interface CarePlanUpdateParams {
 }
 
 export type CarePlanUpdateParamsStatus = 'active' | 'paused' | 'completed' | 'canceled'
+
+export class CarePlanResource extends Resource {
+  /**
+   * Lists all care plans.
+   *
+   * By default, the care plans returned are sorted by creation date, with the most
+   * recently added care plan appearing first.
+   */
+  public list(
+    params?: CarePlanListParams,
+    options?: SourceRequestOptions,
+  ): Promise<CarePlanListResponse> {
+    return this.source.request('GET', '/v1/care_plans', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new care plan for a member.
+   *
+   * By default, the care plan is created in an active status using the current time
+   * as the `start_at` timestamp. You can optionally set `start_at` to a time in the
+   * past if you are creating a care plan that is already in progress. In order to
+   * backload a care plan that has already ended, you can set both the `start_at` and
+   * `end_at` parameters to times in the past, in which case you must also set the
+   * status parameter to either `completed` or `canceled`. A completed or canceled
+   * care plan cannot be reactivated or updated.
+   */
+  public create(params: CarePlanCreateParams, options?: SourceRequestOptions): Promise<CarePlan> {
+    return this.source.request('POST', '/v1/care_plans', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves an existing care plan by its unique identifier.
+   *
+   * Care plans can be accessed by users in your organization. Additionally, members
+   * can access their own care plans.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<CarePlan> {
+    return this.source.request('GET', `/v1/care_plans/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates a care plan. Any parameters not provided will be left unchanged.
+   *
+   * Canceled and completed care plans can no longer be modified or reactivated. Once
+   * a care plan is canceled or completed, associated unresolved actions (for
+   * example, tasks and intents) are canceled. You can pause a care plan to indicate
+   * that its activities should no longer generate new actions, while unresolved
+   * actions that have already been created remain active. You can later update the
+   * paused care plan to an active status when the plan is again in use.
+   */
+  public update(
+    id: string,
+    params?: CarePlanUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<CarePlan> {
+    return this.source.request('POST', `/v1/care_plans/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes a care plan.
+   *
+   * Once a care plan is deleted, it can no longer be accessed or used. Associated
+   * unresolved actions (for example, tasks and intents) are canceled. The deleted
+   * care plan will still be visible on past completed and canceled actions that
+   * reference the care plan. In general, deleting a care plan should only be done to
+   * remove care plans that were entered in error. Otherwise, you can cancel or
+   * complete the care plan.
+   */
+  public delete(id: string, options?: SourceRequestOptions): Promise<CarePlan> {
+    return this.source.request('DELETE', `/v1/care_plans/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
+}

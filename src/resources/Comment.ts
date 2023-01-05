@@ -55,75 +55,6 @@ export interface Comment {
   deleted_at?: string
 }
 
-export class CommentResource extends Resource {
-  /**
-   * Returns a list of all comments related to a task.
-   *
-   * The comments returned are sorted by creation date, with the most recently added
-   * comments appearing first.
-   */
-  public list(
-    taskId: string,
-    params?: CommentListParams,
-    options?: SourceRequestOptions,
-  ): Promise<CommentListResponse> {
-    return this.source.request('GET', `/v1/tasks/${taskId}/comments`, {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new comment on a task.
-   */
-  public create(
-    taskId: string,
-    params: CommentCreateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Comment> {
-    return this.source.request('POST', `/v1/tasks/${taskId}/comments`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Finds a comment on a task
-   */
-  public retrieve(taskId: string, id: string, options?: SourceRequestOptions): Promise<Comment> {
-    return this.source.request('GET', `/v1/tasks/${taskId}/comments/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates an existing comment on a task.
-   */
-  public update(
-    taskId: string,
-    id: string,
-    params?: CommentUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Comment> {
-    return this.source.request('POST', `/v1/tasks/${taskId}/comments/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes the specified comment. A deleted comment is no longer visible.
-   */
-  public delete(taskId: string, id: string, options?: SourceRequestOptions): Promise<Comment> {
-    return this.source.request('DELETE', `/v1/tasks/${taskId}/comments/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface CommentListResponse {
   /**
    * Always `list`.
@@ -192,4 +123,73 @@ export interface CommentUpdateParams {
    * are supported.
    */
   attachments?: Array<string>
+}
+
+export class CommentResource extends Resource {
+  /**
+   * Returns a list of all comments related to a task.
+   *
+   * The comments returned are sorted by creation date, with the most recently added
+   * comments appearing first.
+   */
+  public list(
+    taskId: string,
+    params?: CommentListParams,
+    options?: SourceRequestOptions,
+  ): Promise<CommentListResponse> {
+    return this.source.request('GET', `/v1/tasks/${taskId}/comments`, {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new comment on a task.
+   */
+  public create(
+    taskId: string,
+    params: CommentCreateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Comment> {
+    return this.source.request('POST', `/v1/tasks/${taskId}/comments`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Finds a comment on a task
+   */
+  public retrieve(taskId: string, id: string, options?: SourceRequestOptions): Promise<Comment> {
+    return this.source.request('GET', `/v1/tasks/${taskId}/comments/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates an existing comment on a task.
+   */
+  public update(
+    taskId: string,
+    id: string,
+    params?: CommentUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Comment> {
+    return this.source.request('POST', `/v1/tasks/${taskId}/comments/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes the specified comment. A deleted comment is no longer visible.
+   */
+  public delete(taskId: string, id: string, options?: SourceRequestOptions): Promise<Comment> {
+    return this.source.request('DELETE', `/v1/tasks/${taskId}/comments/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
 }

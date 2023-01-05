@@ -88,82 +88,6 @@ export interface QueueRoutingTarget {
   group: Expandable<Group>
 }
 
-export class QueueResource extends Resource {
-  /**
-   * Returns a list of queues within the current account. The queues returned are
-   * sorted by creation date, with the most recently added queue appearing first.
-   */
-  public list(
-    params?: QueueListParams,
-    options?: SourceRequestOptions,
-  ): Promise<QueueListResponse> {
-    return this.source.request('GET', '/v1/queues', {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a queue, which describes related tasks that are typically completed by a
-   * group of users. You can use queues alongside groups to configure how tasks are
-   * routed among a member's care team.
-   */
-  public create(params: QueueCreateParams, options?: SourceRequestOptions): Promise<Queue> {
-    return this.source.request('POST', '/v1/queues', {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing queue. You need only supply the unique
-   * queue identifier that was returned upon creation or that is referenced by a task
-   * definition.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Queue> {
-    return this.source.request('GET', `/v1/queues/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates the specified queue by setting the values of the parameters passed. Any
-   * parameters not provided will be left unchanged.
-   */
-  public update(
-    id: string,
-    params?: QueueUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Queue> {
-    return this.source.request('POST', `/v1/queues/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes the specified queue. When the queue is deleted, all open tasks and task
-   * definitions referencing the queue will be updated with a replacement queue. You
-   * can optionally specify the replacement queue for open tasks, otherwise Source
-   * will use the current default queue. Note that for the short period of time
-   * between when the queue is deleted and open tasks are updated with a replacement
-   * queue, open tasks may reference the now deleted queue.
-   */
-  public delete(
-    id: string,
-    params?: QueueDeleteParams,
-    options?: SourceRequestOptions,
-  ): Promise<Queue> {
-    return this.source.request('DELETE', `/v1/queues/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface QueueListResponse {
   /**
    * Always `list`.
@@ -337,4 +261,80 @@ export interface QueueDeleteParams {
    * the deleted queue.
    */
   replacement_queue?: string
+}
+
+export class QueueResource extends Resource {
+  /**
+   * Returns a list of queues within the current account. The queues returned are
+   * sorted by creation date, with the most recently added queue appearing first.
+   */
+  public list(
+    params?: QueueListParams,
+    options?: SourceRequestOptions,
+  ): Promise<QueueListResponse> {
+    return this.source.request('GET', '/v1/queues', {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a queue, which describes related tasks that are typically completed by a
+   * group of users. You can use queues alongside groups to configure how tasks are
+   * routed among a member's care team.
+   */
+  public create(params: QueueCreateParams, options?: SourceRequestOptions): Promise<Queue> {
+    return this.source.request('POST', '/v1/queues', {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing queue. You need only supply the unique
+   * queue identifier that was returned upon creation or that is referenced by a task
+   * definition.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Queue> {
+    return this.source.request('GET', `/v1/queues/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates the specified queue by setting the values of the parameters passed. Any
+   * parameters not provided will be left unchanged.
+   */
+  public update(
+    id: string,
+    params?: QueueUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Queue> {
+    return this.source.request('POST', `/v1/queues/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes the specified queue. When the queue is deleted, all open tasks and task
+   * definitions referencing the queue will be updated with a replacement queue. You
+   * can optionally specify the replacement queue for open tasks, otherwise Source
+   * will use the current default queue. Note that for the short period of time
+   * between when the queue is deleted and open tasks are updated with a replacement
+   * queue, open tasks may reference the now deleted queue.
+   */
+  public delete(
+    id: string,
+    params?: QueueDeleteParams,
+    options?: SourceRequestOptions,
+  ): Promise<Queue> {
+    return this.source.request('DELETE', `/v1/queues/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
 }

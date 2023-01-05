@@ -1370,68 +1370,6 @@ export interface FormVersionExitScreen {
   content: string
 }
 
-export class FormVersionResource extends Resource {
-  /**
-   * Updates a form version. If there is no draft version of the form, a new draft
-   * version is created with the parameters provided.
-   */
-  public latest(
-    form: string,
-    params: FormVersionLatestParams,
-    options?: SourceRequestOptions,
-  ): Promise<FormVersion> {
-    return this.source.request('POST', `/v1/forms/${form}/versions/latest`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Publishes the form version, preventing any further changes. Once a version has
-   * been published it cannot be unpublished. Once published, the version becomes the
-   * form's published version and is used for all new responses.
-   */
-  public latestPublish(
-    form: string,
-    params?: FormVersionLatestPublishParams,
-    options?: SourceRequestOptions,
-  ): Promise<FormVersion> {
-    return this.source.request('POST', `/v1/forms/${form}/versions/latest/publish`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing form version.  Use 'latest' to retrieve the
-   * latest version of the form, which is always the current draft version of the
-   * form, or 'published' to retrieve the latest published version, which is the
-   * version in use for any new response.
-   */
-  public retrieve(form: string, id: string, options?: SourceRequestOptions): Promise<FormVersion> {
-    return this.source.request('GET', `/v1/forms/${form}/versions/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Returns a list of forms versions. The form versions returned are sorted by
-   * creation date, with the most recently added form version appearing first.
-   */
-  public list(
-    form: string,
-    params?: FormVersionListParams,
-    options?: SourceRequestOptions,
-  ): Promise<FormVersionListResponse> {
-    return this.source.request('GET', `/v1/forms/${form}/versions`, {
-      query: params,
-      options,
-    })
-  }
-}
-
 export interface FormVersionLatestParams {
   /**
    * Description of changes within this form version. You can use the changelog to
@@ -2821,4 +2759,66 @@ export interface FormVersionListParams {
    * Filter by published or unpublished form versions.
    */
   published?: boolean
+}
+
+export class FormVersionResource extends Resource {
+  /**
+   * Updates a form version. If there is no draft version of the form, a new draft
+   * version is created with the parameters provided.
+   */
+  public latest(
+    form: string,
+    params: FormVersionLatestParams,
+    options?: SourceRequestOptions,
+  ): Promise<FormVersion> {
+    return this.source.request('POST', `/v1/forms/${form}/versions/latest`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Publishes the form version, preventing any further changes. Once a version has
+   * been published it cannot be unpublished. Once published, the version becomes the
+   * form's published version and is used for all new responses.
+   */
+  public latestPublish(
+    form: string,
+    params?: FormVersionLatestPublishParams,
+    options?: SourceRequestOptions,
+  ): Promise<FormVersion> {
+    return this.source.request('POST', `/v1/forms/${form}/versions/latest/publish`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing form version.  Use 'latest' to retrieve the
+   * latest version of the form, which is always the current draft version of the
+   * form, or 'published' to retrieve the latest published version, which is the
+   * version in use for any new response.
+   */
+  public retrieve(form: string, id: string, options?: SourceRequestOptions): Promise<FormVersion> {
+    return this.source.request('GET', `/v1/forms/${form}/versions/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Returns a list of forms versions. The form versions returned are sorted by
+   * creation date, with the most recently added form version appearing first.
+   */
+  public list(
+    form: string,
+    params?: FormVersionListParams,
+    options?: SourceRequestOptions,
+  ): Promise<FormVersionListResponse> {
+    return this.source.request('GET', `/v1/forms/${form}/versions`, {
+      query: params,
+      options,
+    })
+  }
 }

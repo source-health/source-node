@@ -85,85 +85,6 @@ export interface FieldOption {
   label: string
 }
 
-export class FieldResource extends Resource {
-  /**
-   * Lists all fields belonging to the provided object.
-   */
-  public list(
-    object: string,
-    params?: FieldListParams,
-    options?: SourceRequestOptions,
-  ): Promise<FieldListResponse> {
-    return this.source.request('GET', `/v1/objects/${object}/fields`, {
-      query: params,
-      options,
-    })
-  }
-
-  /**
-   * Creates a new field.
-   *
-   * Currently, Source only allows the creation of custom fields on a member
-   * resource. Other resources will support fields in future API updates.
-   */
-  public create(
-    object: string,
-    params: FieldCreateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Field> {
-    return this.source.request('POST', `/v1/objects/${object}/fields`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Retrieves the details of an existing field on an object.
-   */
-  public retrieve(object: string, id: string, options?: SourceRequestOptions): Promise<Field> {
-    return this.source.request('GET', `/v1/objects/${object}/fields/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates an existing field, referenced by its unique identifier.
-   *
-   * Once a field is created, its neither its key nor data type can be modified. If
-   * you need to change data types, you may create another field, migrate the data
-   * using the API, and delete the first field.
-   */
-  public update(
-    object: string,
-    id: string,
-    params?: FieldUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Field> {
-    return this.source.request('POST', `/v1/objects/${object}/fields/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-
-  /**
-   * Deletes an existing field, referenced by its unique identifier.
-   *
-   * **Important**: Deleting a field is a destructive action. When deleting a field,
-   * Source schedules a cleanup action that will remove any value provided to that
-   * field, for any resource referencing the field. This action is irreversible.
-   *
-   * Please ensure you no longer need the data in a field before deleting it.
-   */
-  public delete(object: string, id: string, options?: SourceRequestOptions): Promise<Field> {
-    return this.source.request('DELETE', `/v1/objects/${object}/fields/${id}`, {
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface FieldListResponse {
   /**
    * Always `list`.
@@ -290,4 +211,83 @@ export type FieldUpdateParamsMemberAccess = 'none' | 'read' | 'write'
 export interface FieldUpdateParamsOption {
   key: string
   label: string
+}
+
+export class FieldResource extends Resource {
+  /**
+   * Lists all fields belonging to the provided object.
+   */
+  public list(
+    object: string,
+    params?: FieldListParams,
+    options?: SourceRequestOptions,
+  ): Promise<FieldListResponse> {
+    return this.source.request('GET', `/v1/objects/${object}/fields`, {
+      query: params,
+      options,
+    })
+  }
+
+  /**
+   * Creates a new field.
+   *
+   * Currently, Source only allows the creation of custom fields on a member
+   * resource. Other resources will support fields in future API updates.
+   */
+  public create(
+    object: string,
+    params: FieldCreateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Field> {
+    return this.source.request('POST', `/v1/objects/${object}/fields`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Retrieves the details of an existing field on an object.
+   */
+  public retrieve(object: string, id: string, options?: SourceRequestOptions): Promise<Field> {
+    return this.source.request('GET', `/v1/objects/${object}/fields/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates an existing field, referenced by its unique identifier.
+   *
+   * Once a field is created, its neither its key nor data type can be modified. If
+   * you need to change data types, you may create another field, migrate the data
+   * using the API, and delete the first field.
+   */
+  public update(
+    object: string,
+    id: string,
+    params?: FieldUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Field> {
+    return this.source.request('POST', `/v1/objects/${object}/fields/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
+
+  /**
+   * Deletes an existing field, referenced by its unique identifier.
+   *
+   * **Important**: Deleting a field is a destructive action. When deleting a field,
+   * Source schedules a cleanup action that will remove any value provided to that
+   * field, for any resource referencing the field. This action is irreversible.
+   *
+   * Please ensure you no longer need the data in a field before deleting it.
+   */
+  public delete(object: string, id: string, options?: SourceRequestOptions): Promise<Field> {
+    return this.source.request('DELETE', `/v1/objects/${object}/fields/${id}`, {
+      contentType: 'json',
+      options,
+    })
+  }
 }

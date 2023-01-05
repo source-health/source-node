@@ -119,38 +119,6 @@ export interface AccountThemeShapes {
   shadows: boolean
 }
 
-export class AccountResource extends Resource {
-  /**
-   * Retrieves the details of an account.
-   *
-   * Supply the unique identifier of the account, or `current` to access your current
-   * account.
-   */
-  public retrieve(id: string, options?: SourceRequestOptions): Promise<Account> {
-    return this.source.request('GET', `/v1/accounts/${id}`, {
-      options,
-    })
-  }
-
-  /**
-   * Updates an account. At this time you can only update the account name and
-   * subdomain.
-   *
-   * Any parameters that are not provided in the request will be left unchanged.
-   */
-  public update(
-    id: string,
-    params?: AccountUpdateParams,
-    options?: SourceRequestOptions,
-  ): Promise<Account> {
-    return this.source.request('POST', `/v1/accounts/${id}`, {
-      data: params,
-      contentType: 'json',
-      options,
-    })
-  }
-}
-
 export interface AccountUpdateParams {
   /**
    * Name for the account.
@@ -240,4 +208,36 @@ export interface AccountUpdateParamsThemeShapes {
    * Whether or not to enable default shadows on elements.
    */
   shadows: boolean
+}
+
+export class AccountResource extends Resource {
+  /**
+   * Retrieves the details of an account.
+   *
+   * Supply the unique identifier of the account, or `current` to access your current
+   * account.
+   */
+  public retrieve(id: string, options?: SourceRequestOptions): Promise<Account> {
+    return this.source.request('GET', `/v1/accounts/${id}`, {
+      options,
+    })
+  }
+
+  /**
+   * Updates an account. At this time you can only update the account name and
+   * subdomain.
+   *
+   * Any parameters that are not provided in the request will be left unchanged.
+   */
+  public update(
+    id: string,
+    params?: AccountUpdateParams,
+    options?: SourceRequestOptions,
+  ): Promise<Account> {
+    return this.source.request('POST', `/v1/accounts/${id}`, {
+      data: params,
+      contentType: 'json',
+      options,
+    })
+  }
 }
