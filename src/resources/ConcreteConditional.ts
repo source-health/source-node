@@ -1,17 +1,3 @@
-export type ConcreteConditionalOperator =
-  | '$eq'
-  | '$ne'
-  | '$exists'
-  | '$gt'
-  | '$gte'
-  | '$lt'
-  | '$lte'
-  | '$in'
-  | '$nin'
-  | '$all'
-  | '$olderThan'
-  | '$youngerThan'
-
 export interface ConcreteConditional {
   type: 'concrete_conditional'
   /**
@@ -28,10 +14,24 @@ export interface ConcreteConditional {
    * For example, if the question type is `date`, then the path must be 'value',
    * which is the only field in the response schema.
    */
-  fact: string
+  fact?: string
   /**
    * The argument used to apply the operator to the input. The type of the operator
    * depends on the operator and the input type.
    */
   argument: unknown
 }
+
+export type ConcreteConditionalOperator =
+  | '$eq'
+  | '$ne'
+  | '$exists'
+  | '$gt'
+  | '$gte'
+  | '$lt'
+  | '$lte'
+  | '$in'
+  | '$nin'
+  | '$all'
+  | '$olderThan'
+  | '$youngerThan'

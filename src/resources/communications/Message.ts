@@ -10,43 +10,6 @@ import { Expandable } from '../shared'
 import { Channel } from './Channel'
 import { Thread } from './Thread'
 
-export type MessageType = 'text' | 'system'
-export type MessageStatus = 'pending' | 'sent' | 'failed'
-export type MessageDirection = 'inbound' | 'outbound'
-export type MessageAttachmentType = 'file' | 'link'
-
-export interface MessageAttachment {
-  /**
-   * The type of attachment. Currently, the only supported attachment types are
-   * `file` and `link`, but other attachment types may be added.
-   */
-  type: MessageAttachmentType
-  /**
-   * A description of the attachment. If a file uploaded to Source is attached, the
-   * file's name is displayed. Otherwise, this description is displayed.
-   */
-  description: string | null
-  /**
-   * The URL where the attachment's contents can be accessed. For link attachments,
-   * the link to redirect. For file attachments, the URL returned by Source is a link
-   * to the file.
-   */
-  url: string
-  /**
-   * The resource which is attached to the message
-   */
-  resource: Expandable<File> | null
-  /**
-   * A map of your own metadata to be included alongside this attachment. For
-   * example, you can use this metadata for bookkeeping or rendering in your member
-   * experience.
-   *
-   * Metadata may only be set when calling the API with your API keys. It cannot be
-   * set when using member tokens.
-   */
-  metadata: Record<string, unknown>
-}
-
 export interface Message {
   /**
    * Always `message`.
@@ -134,6 +97,44 @@ export interface Message {
   redacted_at: string | null
 }
 
+export type MessageType = 'text' | 'system'
+export type MessageStatus = 'pending' | 'sent' | 'failed'
+export type MessageDirection = 'inbound' | 'outbound'
+
+export interface MessageAttachment {
+  /**
+   * The type of attachment. Currently, the only supported attachment types are
+   * `file` and `link`, but other attachment types may be added.
+   */
+  type: MessageAttachmentType
+  /**
+   * A description of the attachment. If a file uploaded to Source is attached, the
+   * file's name is displayed. Otherwise, this description is displayed.
+   */
+  description: string | null
+  /**
+   * The URL where the attachment's contents can be accessed. For link attachments,
+   * the link to redirect. For file attachments, the URL returned by Source is a link
+   * to the file.
+   */
+  url: string
+  /**
+   * The resource which is attached to the message
+   */
+  resource: Expandable<File> | null
+  /**
+   * A map of your own metadata to be included alongside this attachment. For
+   * example, you can use this metadata for bookkeeping or rendering in your member
+   * experience.
+   *
+   * Metadata may only be set when calling the API with your API keys. It cannot be
+   * set when using member tokens.
+   */
+  metadata: Record<string, unknown>
+}
+
+export type MessageAttachmentType = 'file' | 'link'
+
 export interface MessageListResponse {
   /**
    * Always `list`.
@@ -174,59 +175,6 @@ export interface MessageListParams {
    */
   thread: string
 }
-
-export type MessageCreateParamsThreadActionsStatus =
-  | 'awaiting_care_team'
-  | 'awaiting_member'
-  | 'closed'
-
-export interface MessageCreateParamsThreadActions {
-  /**
-   * New status for the thread after sending this message. By default, Source will
-   * set the thread status to 'awaiting_care_team' if the member sends the message,
-   * and 'awaiting_member' if someone on the care team send the message.
-   */
-  status?: MessageCreateParamsThreadActionsStatus
-}
-
-export type MessageCreateParamsAttachmentType = 'file' | 'link'
-
-export interface MessageCreateParamsAttachment {
-  /**
-   * The type of attachment. Currently, the supported attachment types are `file` and
-   * `link`. If set to file, then a resource must be provided. If set to link, then a
-   * URL must be provided. Other attachment types may be added in the future.
-   */
-  type: MessageCreateParamsAttachmentType
-  /**
-   * A description of the attachment to display. If a file uploaded to Source is
-   * attached, the file's name overrides a description and is displayed. Otherwise,
-   * this description is displayed.
-   */
-  description?: string | null
-  /**
-   * Unique ID of the resource to be attached to this message. When attaching a file,
-   * this should be set to the uploaded file's ID.
-   */
-  resource?: string
-  /**
-   * The URL where the attachment's contents can be accessed. For link attachments,
-   * the link to redirect. For file attachments, the URL returned by Source is a link
-   * to the file.
-   */
-  url?: string
-  /**
-   * A map of your own metadata to be included alongside this attachment. For
-   * example, you can use this metadata for bookkeeping or rendering in your member
-   * experience.
-   *
-   * Metadata may only be set when calling the API with your API keys. It cannot be
-   * set when using member tokens.
-   */
-  metadata?: Record<string, unknown>
-}
-
-export type MessageCreateParamsSender = string
 
 export interface MessageCreateParams {
   /**
@@ -274,6 +222,58 @@ export interface MessageCreateParams {
    */
   sent_at?: string
 }
+
+export interface MessageCreateParamsThreadActions {
+  /**
+   * New status for the thread after sending this message. By default, Source will
+   * set the thread status to 'awaiting_care_team' if the member sends the message,
+   * and 'awaiting_member' if someone on the care team send the message.
+   */
+  status?: MessageCreateParamsThreadActionsStatus
+}
+
+export type MessageCreateParamsThreadActionsStatus =
+  | 'awaiting_care_team'
+  | 'awaiting_member'
+  | 'closed'
+
+export interface MessageCreateParamsAttachment {
+  /**
+   * The type of attachment. Currently, the supported attachment types are `file` and
+   * `link`. If set to file, then a resource must be provided. If set to link, then a
+   * URL must be provided. Other attachment types may be added in the future.
+   */
+  type: MessageCreateParamsAttachmentType
+  /**
+   * A description of the attachment to display. If a file uploaded to Source is
+   * attached, the file's name overrides a description and is displayed. Otherwise,
+   * this description is displayed.
+   */
+  description?: string | null
+  /**
+   * Unique ID of the resource to be attached to this message. When attaching a file,
+   * this should be set to the uploaded file's ID.
+   */
+  resource?: string
+  /**
+   * The URL where the attachment's contents can be accessed. For link attachments,
+   * the link to redirect. For file attachments, the URL returned by Source is a link
+   * to the file.
+   */
+  url?: string
+  /**
+   * A map of your own metadata to be included alongside this attachment. For
+   * example, you can use this metadata for bookkeeping or rendering in your member
+   * experience.
+   *
+   * Metadata may only be set when calling the API with your API keys. It cannot be
+   * set when using member tokens.
+   */
+  metadata?: Record<string, unknown>
+}
+
+export type MessageCreateParamsAttachmentType = 'file' | 'link'
+export type MessageCreateParamsSender = string
 
 export class MessageResource extends Resource {
   /**

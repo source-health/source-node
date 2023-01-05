@@ -5,9 +5,6 @@ import { File } from './File'
 import { Group } from './Group'
 import { Expandable } from './shared'
 
-export type UserRole = 'owner' | 'administrator' | 'developer' | 'clinician' | 'support'
-export type UserStatus = 'active' | 'deactivated' | 'invited'
-
 export interface User {
   /**
    * Always `user`.
@@ -89,6 +86,9 @@ export interface User {
   deactivated_at: string | null
 }
 
+export type UserRole = 'owner' | 'administrator' | 'developer' | 'clinician' | 'support'
+export type UserStatus = 'active' | 'deactivated' | 'invited'
+
 export interface UserListResponse {
   /**
    * Always `list`.
@@ -103,8 +103,6 @@ export interface UserListResponse {
    */
   has_more: boolean
 }
-
-export type UserListParamsSort = 'last_name' | 'created_at' | '-last_name' | '-created_at'
 
 export interface UserListParams {
   /**
@@ -156,7 +154,7 @@ export interface UserListParams {
   include_deactivated?: boolean
 }
 
-export type UserCreateParamsRole = 'owner' | 'administrator' | 'developer' | 'clinician' | 'support'
+export type UserListParamsSort = 'last_name' | 'created_at' | '-last_name' | '-created_at'
 
 export interface UserCreateParams {
   /**
@@ -221,7 +219,7 @@ export interface UserCreateParams {
   profile_image?: string | null
 }
 
-export type UserUpdateParamsRole = 'owner' | 'administrator' | 'developer' | 'clinician' | 'support'
+export type UserCreateParamsRole = 'owner' | 'administrator' | 'developer' | 'clinician' | 'support'
 
 export interface UserUpdateParams {
   /**
@@ -280,6 +278,8 @@ export interface UserUpdateParams {
    */
   profile_image?: string | null
 }
+
+export type UserUpdateParamsRole = 'owner' | 'administrator' | 'developer' | 'clinician' | 'support'
 
 export class UserResource extends Resource {
   /**

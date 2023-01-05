@@ -5,22 +5,9 @@ import { Member } from './Member'
 import { Queue } from './Queue'
 import { TaskDefinition } from './TaskDefinition'
 import { User } from './User'
+import { Encounter } from './clinical/Encounter'
 import { Thread } from './communications/Thread'
 import { Expandable } from './shared'
-
-export type TaskStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved'
-export type TaskAssignmentMethod = 'direct' | 'indirect'
-
-export interface TaskRelated {
-  /**
-   * Related object type
-   */
-  resource_type: 'thread'
-  /**
-   * Unique identifier for the related resource.
-   */
-  resource: Expandable<Thread>
-}
 
 export interface Task {
   /**
@@ -100,6 +87,22 @@ export interface Task {
   related: Array<TaskRelated>
 }
 
+export type TaskStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved' | 'canceled'
+export type TaskAssignmentMethod = 'direct' | 'indirect'
+
+export interface TaskRelated {
+  /**
+   * Related object type
+   */
+  resource_type: TaskRelatedResourceType
+  /**
+   * Unique identifier for the related resource.
+   */
+  resource: Expandable<Thread | Encounter>
+}
+
+export type TaskRelatedResourceType = 'thread' | 'encounter'
+
 export interface TaskListResponse {
   /**
    * Always `list`.
@@ -113,48 +116,6 @@ export interface TaskListResponse {
    * Contains `true` if there is another page of results available.
    */
   has_more: boolean
-}
-
-export type TaskListParamsSort = 'created_at' | 'due_at' | '-created_at' | '-due_at'
-export type TaskListParamsStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved'
-
-export interface TaskListParamsDueAt {
-  /**
-   * Return results where the due_at field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the due_at field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the due_at field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the due_at field is greater than or equal to this value.
-   */
-  gte?: string
-}
-
-export interface TaskListParamsCreatedAt {
-  /**
-   * Return results where the created_at field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the created_at field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the created_at field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the created_at field is greater than or equal to this
-   * value.
-   */
-  gte?: string
 }
 
 export interface TaskListParams {
@@ -199,7 +160,7 @@ export interface TaskListParams {
    */
   assignee?: Array<string>
   /**
-   * Filter results by task definitons. If multiple task defintion ids are provided,
+   * Filter results by task definitons. If multiple task definition ids are provided,
    * tasks matching any of the provided definitions will be returned.
    */
   definition?: Array<string>
@@ -224,7 +185,53 @@ export interface TaskListParams {
   created_at?: TaskListParamsCreatedAt
 }
 
-export type TaskCreateParamsStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved'
+export type TaskListParamsSort = 'created_at' | 'due_at' | '-created_at' | '-due_at'
+export type TaskListParamsStatus =
+  | 'open'
+  | 'in_progress'
+  | 'blocked'
+  | 'on_hold'
+  | 'resolved'
+  | 'canceled'
+
+export interface TaskListParamsDueAt {
+  /**
+   * Return results where the due_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the due_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the due_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the due_at field is greater than or equal to this value.
+   */
+  gte?: string
+}
+
+export interface TaskListParamsCreatedAt {
+  /**
+   * Return results where the created_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the created_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the created_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the created_at field is greater than or equal to this
+   * value.
+   */
+  gte?: string
+}
 
 export interface TaskCreateParams {
   /**
@@ -273,7 +280,13 @@ export interface TaskCreateParams {
   related?: Array<string>
 }
 
-export type TaskUpdateParamsStatus = 'open' | 'in_progress' | 'blocked' | 'on_hold' | 'resolved'
+export type TaskCreateParamsStatus =
+  | 'open'
+  | 'in_progress'
+  | 'blocked'
+  | 'on_hold'
+  | 'resolved'
+  | 'canceled'
 
 export interface TaskUpdateParams {
   /**
@@ -312,6 +325,14 @@ export interface TaskUpdateParams {
    */
   related?: Array<string>
 }
+
+export type TaskUpdateParamsStatus =
+  | 'open'
+  | 'in_progress'
+  | 'blocked'
+  | 'on_hold'
+  | 'resolved'
+  | 'canceled'
 
 export class TaskResource extends Resource {
   /**

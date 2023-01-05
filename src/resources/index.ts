@@ -5,12 +5,14 @@ import { CareTeamResource } from './CareTeam'
 import { CommentResource } from './Comment'
 import { DocumentResource } from './Document'
 import { EventResource } from './Event'
+import { FieldResource } from './Field'
 import { FileResource } from './File'
 import { GroupResource } from './Group'
 import { IntentResource } from './Intent'
 import { LicenseResource } from './License'
 import { LocationResource } from './Location'
 import { MemberResource } from './Member'
+import { NotificationPreferencesResource } from './NotificationPreferences'
 import { QueueResource } from './Queue'
 import { RelationshipResource } from './Relationship'
 import { TagResource } from './Tag'
@@ -18,6 +20,10 @@ import { TaskResource } from './Task'
 import { TaskDefinitionResource } from './TaskDefinition'
 import { UserResource } from './User'
 import { WebhookResource } from './Webhook'
+import { CarePlanResource } from './clinical/CarePlan'
+import { EncounterResource } from './clinical/Encounter'
+import { EncounterTypeResource } from './clinical/EncounterType'
+import { NoteResource } from './clinical/Note'
 import { MessageResource } from './communications/Message'
 import { ThreadResource } from './communications/Thread'
 import { FormResource } from './forms/Form'
@@ -37,12 +43,14 @@ export const allResources = resourceNamespace({
   comments: resourceFactory(CommentResource),
   documents: resourceFactory(DocumentResource),
   events: resourceFactory(EventResource),
+  fields: resourceFactory(FieldResource),
   files: resourceFactory(FileResource),
   groups: resourceFactory(GroupResource),
   intents: resourceFactory(IntentResource),
   licenses: resourceFactory(LicenseResource),
   locations: resourceFactory(LocationResource),
   members: resourceFactory(MemberResource),
+  notificationPreferences: resourceFactory(NotificationPreferencesResource),
   queues: resourceFactory(QueueResource),
   relationships: resourceFactory(RelationshipResource),
   tags: resourceFactory(TagResource),
@@ -55,6 +63,12 @@ export const allResources = resourceNamespace({
     appointmentTypes: resourceFactory(AppointmentTypeResource),
     availabilities: resourceFactory(AvailabilityResource),
     slots: resourceFactory(SlotResource),
+  }),
+  clinical: resourceNamespace({
+    carePlans: resourceFactory(CarePlanResource),
+    encounters: resourceFactory(EncounterResource),
+    encounterTypes: resourceFactory(EncounterTypeResource),
+    notes: resourceFactory(NoteResource),
   }),
   communications: resourceNamespace({
     messages: resourceFactory(MessageResource),
@@ -83,6 +97,7 @@ export * from './ContactPoint'
 export * from './Document'
 export * from './Error'
 export * from './Event'
+export * from './Field'
 export * from './File'
 export * from './Group'
 export * from './Integration'
@@ -90,6 +105,8 @@ export * from './Intent'
 export * from './License'
 export * from './Location'
 export * from './Member'
+export * from './NoteContentNode'
+export * from './NotificationPreferences'
 export * from './Product'
 export * from './Question'
 export * from './Queue'
@@ -103,6 +120,11 @@ export * from './ThreadStatus'
 export * from './User'
 export * from './Webhook'
 export * from './WebhookEvents'
+export * from './clinical/CarePlan'
+export * from './clinical/Encounter'
+export * from './clinical/EncounterType'
+export * from './clinical/Note'
+export * from './clinical/NoteVersion'
 export * from './communications/Channel'
 export * from './communications/Message'
 export * from './communications/Thread'
@@ -116,4 +138,5 @@ export * from './monitoring/Order'
 export * from './scheduling/Appointment'
 export * from './scheduling/AppointmentType'
 export * from './scheduling/Availability'
+export * from './scheduling/RecurringSlot'
 export * from './scheduling/Slot'

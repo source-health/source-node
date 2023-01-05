@@ -1,11 +1,3 @@
-export type ErrorType =
-  | 'api_error'
-  | 'api_connection_error'
-  | 'invalid_request_error'
-  | 'authentication_error'
-  | 'authorization_error'
-  | 'unprocessable_request_error'
-
 export interface Error {
   object: 'error'
   /**
@@ -30,3 +22,11 @@ export interface Error {
    */
   meta?: Record<string, unknown>
 }
+
+export type ErrorType =
+  | 'api_error'
+  | 'api_connection_error'
+  | 'invalid_request_error'
+  | 'authentication_error'
+  | 'authorization_error'
+  | 'unprocessable_request_error'

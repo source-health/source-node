@@ -5,21 +5,6 @@ import { Member } from './Member'
 import { User } from './User'
 import { Expandable } from './shared'
 
-export type EventActorType = 'user' | 'member' | 'api' | 'system' | 'anonymous' | 'unknown'
-
-export interface EventData {
-  /**
-   * Serialized object related to the event.
-   */
-  object: unknown
-  /**
-   * The previous values of any attributes that changed. This propery is typically
-   * only returned on *.updated events which may have modified several fields in a
-   * single request.
-   */
-  previous_values?: unknown
-}
-
 export interface Event {
   /**
    * Always `event`.
@@ -59,6 +44,21 @@ export interface Event {
   created_at: string
 }
 
+export type EventActorType = 'user' | 'member' | 'api' | 'system' | 'anonymous' | 'unknown'
+
+export interface EventData {
+  /**
+   * Serialized object related to the event.
+   */
+  object: unknown
+  /**
+   * The previous values of any attributes that changed. This propery is typically
+   * only returned on *.updated events which may have modified several fields in a
+   * single request.
+   */
+  previous_values?: unknown
+}
+
 export interface EventListResponse {
   /**
    * Always `list`.
@@ -72,35 +72,6 @@ export interface EventListResponse {
    * Contains `true` if there is another page of results available.
    */
   has_more: boolean
-}
-
-export type EventListParamsActorType =
-  | 'user'
-  | 'member'
-  | 'api'
-  | 'system'
-  | 'anonymous'
-  | 'unknown'
-export type EventListParamsActor = string
-
-export interface EventListParamsCreatedAt {
-  /**
-   * Return results where the created_at field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the created_at field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the created_at field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the created_at field is greater than or equal to this
-   * value.
-   */
-  gte?: string
 }
 
 export interface EventListParams {
@@ -153,6 +124,35 @@ export interface EventListParams {
    * The value is a dictionary with the following:
    */
   created_at?: EventListParamsCreatedAt
+}
+
+export type EventListParamsActorType =
+  | 'user'
+  | 'member'
+  | 'api'
+  | 'system'
+  | 'anonymous'
+  | 'unknown'
+export type EventListParamsActor = string
+
+export interface EventListParamsCreatedAt {
+  /**
+   * Return results where the created_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the created_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the created_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the created_at field is greater than or equal to this
+   * value.
+   */
+  gte?: string
 }
 
 export class EventResource extends Resource {

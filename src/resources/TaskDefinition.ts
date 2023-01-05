@@ -4,17 +4,6 @@ import { SourceRequestOptions } from '../SourceClient'
 import { Queue } from './Queue'
 import { Expandable } from './shared'
 
-export interface TaskDefinitionLicenseType {
-  /**
-   * Code for the license type. For example, "MD".
-   */
-  code: string
-  /**
-   * Description of the license type. For example, "Doctor of Medcine".
-   */
-  description: string
-}
-
 export interface TaskDefinition {
   /**
    * Always `task_definition`.
@@ -62,6 +51,17 @@ export interface TaskDefinition {
   updated_at: string
 }
 
+export interface TaskDefinitionLicenseType {
+  /**
+   * Code for the license type. For example, "MD".
+   */
+  code: string
+  /**
+   * Description of the license type. For example, "Doctor of Medcine".
+   */
+  description: string
+}
+
 export interface TaskDefinitionListResponse {
   /**
    * Always `list`.
@@ -76,8 +76,6 @@ export interface TaskDefinitionListResponse {
    */
   has_more: boolean
 }
-
-export type TaskDefinitionListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
 
 export interface TaskDefinitionListParams {
   /**
@@ -115,9 +113,7 @@ export interface TaskDefinitionListParams {
   queue?: Array<string>
 }
 
-export interface TaskDefinitionCreateParamsLicenseType {
-  code: string
-}
+export type TaskDefinitionListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
 
 export interface TaskDefinitionCreateParams {
   /**
@@ -144,7 +140,7 @@ export interface TaskDefinitionCreateParams {
   license_types?: Array<TaskDefinitionCreateParamsLicenseType> | null
 }
 
-export interface TaskDefinitionUpdateParamsLicenseType {
+export interface TaskDefinitionCreateParamsLicenseType {
   code: string
 }
 
@@ -171,6 +167,10 @@ export interface TaskDefinitionUpdateParams {
    * array will empty out the array.
    */
   license_types?: Array<TaskDefinitionUpdateParamsLicenseType> | null
+}
+
+export interface TaskDefinitionUpdateParamsLicenseType {
+  code: string
 }
 
 export class TaskDefinitionResource extends Resource {

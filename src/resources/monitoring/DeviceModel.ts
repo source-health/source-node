@@ -1,18 +1,3 @@
-export type DeviceModelCategory =
-  | 'scale'
-  | 'blood_pressure_monitor'
-  | 'pulse_oximeter'
-  | 'blood_glucose_monitor'
-export type DeviceModelCapability =
-  | 'blood_glucose'
-  | 'blood_oxygen_saturation'
-  | 'blood_pressure'
-  | 'body_weight'
-  | 'diastolic_blood_pressure'
-  | 'heart_rate'
-  | 'systolic_blood_pressure'
-export type DeviceModelConnectivity = 'cellular' | 'bluetooth'
-
 export interface DeviceModel {
   /**
    * Always `device_model`.
@@ -44,3 +29,18 @@ export interface DeviceModel {
    */
   connectivity: DeviceModelConnectivity
 }
+
+export type DeviceModelCategory =
+  | 'scale'
+  | 'blood_pressure_monitor'
+  | 'pulse_oximeter'
+  | 'blood_glucose_monitor'
+export type DeviceModelCapability =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
+export type DeviceModelConnectivity = 'cellular' | 'bluetooth'

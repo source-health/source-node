@@ -35,6 +35,12 @@ export interface Comment {
    */
   attachments: Array<Expandable<File>>
   /**
+   * List of users that were mentioned in this comment. Mentions are automatically
+   * detected by scanning the markdown text content for links to the mention://
+   * scheme.
+   */
+  mentioned_users: Array<Expandable<User>>
+  /**
    * Timestamp when the comment was created.
    */
   created_at: string
@@ -64,8 +70,6 @@ export interface CommentListResponse {
   has_more: boolean
 }
 
-export type CommentListParamsSort = 'created_at' | '-created_at'
-
 export interface CommentListParams {
   /**
    * A cursor for use in pagination. `ending_before` is an object ID that defines
@@ -92,6 +96,8 @@ export interface CommentListParams {
    */
   sort?: CommentListParamsSort
 }
+
+export type CommentListParamsSort = 'created_at' | '-created_at'
 
 export interface CommentCreateParams {
   /**

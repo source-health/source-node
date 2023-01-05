@@ -6,57 +6,6 @@ import { FormResponse } from './forms/FormResponse'
 import { Appointment } from './scheduling/Appointment'
 import { Expandable } from './shared'
 
-export type IntentType = 'scheduling' | 'form'
-export type IntentStatus = 'active' | 'expired' | 'canceled' | 'completed'
-export type IntentConfiguration0Participant = string
-
-export interface IntentConfiguration0 {
-  /**
-   * The key or identifier of the appointment type. If the intent type is
-   * 'scheduling', this configuration  parameter is required.
-   */
-  appointment_type: string
-  /**
-   * The start time for the appointment availability search associated with this
-   * intent. If not set, the  availability window will start at the time the member
-   * accesses this intent to search for an appointment.
-   */
-  start_search_at?: string
-  /**
-   * The latest time for the appointment availability search associated with this
-   * intent. If not set, the  availability window will end at the planning horizon of
-   * the appointment type associated with the intent.
-   */
-  end_search_at?: string
-  /**
-   * Provide a set of users and groups that should be included when searching for
-   * available slots using this intent.  The users and groups included in this
-   * parameter must still be included in the appointment type's configuration  in
-   * order for the availability API to return slots for them.
-   */
-  participants?: Array<IntentConfiguration0Participant>
-  /**
-   * The duration of the appointment to book, in minutes, using this intent. By
-   * default, Source will use either the  appointment type's duration. However, you
-   * may specify an alternative duration here to calculate slots for an  appointment
-   * of a different length.
-   *
-   * Must be a number between 5 and 360 minutes (6 hours).
-   */
-  duration?: number
-}
-
-export interface IntentConfiguration1 {
-  /**
-   * The key or identifier of the form. When the member accesses this intent, the
-   * published version  of the form at that time is used to create the form response.
-   * If the intent type is 'form', this  configuration parameter is required.
-   */
-  form: string
-}
-
-export type IntentConfiguration = IntentConfiguration0 | IntentConfiguration1
-
 export interface Intent {
   /**
    * Always `intent`.
@@ -122,6 +71,58 @@ export interface Intent {
   updated_at: string
 }
 
+export type IntentType = 'scheduling' | 'form'
+export type IntentStatus = 'active' | 'expired' | 'canceled' | 'completed'
+
+export interface IntentConfiguration0 {
+  /**
+   * The key or identifier of the appointment type. If the intent type is
+   * 'scheduling', this configuration  parameter is required.
+   */
+  appointment_type: string
+  /**
+   * The start time for the appointment availability search associated with this
+   * intent. If not set, the  availability window will start at the time the member
+   * accesses this intent to search for an appointment.
+   */
+  start_search_at?: string
+  /**
+   * The latest time for the appointment availability search associated with this
+   * intent. If not set, the  availability window will end at the planning horizon of
+   * the appointment type associated with the intent.
+   */
+  end_search_at?: string
+  /**
+   * Provide a set of users and groups that should be included when searching for
+   * available slots using this intent.  The users and groups included in this
+   * parameter must still be included in the appointment type's configuration  in
+   * order for the availability API to return slots for them.
+   */
+  participants?: Array<IntentConfiguration0Participant>
+  /**
+   * The duration of the appointment to book, in minutes, using this intent. By
+   * default, Source will use either the  appointment type's duration. However, you
+   * may specify an alternative duration here to calculate slots for an  appointment
+   * of a different length.
+   *
+   * Must be a number between 5 and 360 minutes (6 hours).
+   */
+  duration?: number
+}
+
+export type IntentConfiguration0Participant = string
+
+export interface IntentConfiguration1 {
+  /**
+   * The key or identifier of the form. When the member accesses this intent, the
+   * published version  of the form at that time is used to create the form response.
+   * If the intent type is 'form', this  configuration parameter is required.
+   */
+  form: string
+}
+
+export type IntentConfiguration = IntentConfiguration0 | IntentConfiguration1
+
 export interface IntentListResponse {
   /**
    * Always `list`.
@@ -135,29 +136,6 @@ export interface IntentListResponse {
    * Contains `true` if there is another page of results available.
    */
   has_more: boolean
-}
-
-export type IntentListParamsType = 'scheduling' | 'form'
-export type IntentListParamsStatus = 'active' | 'expired' | 'canceled' | 'completed'
-
-export interface IntentListParamsCreatedAt {
-  /**
-   * Return results where the created_at field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the created_at field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the created_at field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the created_at field is greater than or equal to this
-   * value.
-   */
-  gte?: string
 }
 
 export interface IntentListParams {
@@ -205,8 +183,54 @@ export interface IntentListParams {
   created_at?: IntentListParamsCreatedAt
 }
 
+export type IntentListParamsType = 'scheduling' | 'form'
+export type IntentListParamsStatus = 'active' | 'expired' | 'canceled' | 'completed'
+
+export interface IntentListParamsCreatedAt {
+  /**
+   * Return results where the created_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the created_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the created_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the created_at field is greater than or equal to this
+   * value.
+   */
+  gte?: string
+}
+
+export interface IntentCreateParams {
+  /**
+   * The member to whom this intent belongs.
+   */
+  member: string
+  /**
+   * The type of intent that needs to be completed. Source supports two intent types:
+   * 'scheduling' and 'form'.
+   */
+  type: IntentCreateParamsType
+  /**
+   * Timestamp when this intent expires. By default, intents expire 30 days after
+   * creation. Once the intent  reaches its expiration, the intent status is
+   * automatically updated to 'expired' and can no longer be used.
+   */
+  expires_at?: string
+  /**
+   * A set of configuration describing the appointment you wish the member to book or
+   * form you wish the member to  complete. This parameter's configuration depends on
+   * the intent type you specify.
+   */
+  configuration: IntentCreateParamsConfiguration
+}
+
 export type IntentCreateParamsType = 'scheduling' | 'form'
-export type IntentCreateParamsConfiguration0Participant = string
 
 export interface IntentCreateParamsConfiguration0 {
   /**
@@ -244,6 +268,8 @@ export interface IntentCreateParamsConfiguration0 {
   duration?: number
 }
 
+export type IntentCreateParamsConfiguration0Participant = string
+
 export interface IntentCreateParamsConfiguration1 {
   /**
    * The key or identifier of the form. When the member accesses this intent, the
@@ -256,30 +282,6 @@ export interface IntentCreateParamsConfiguration1 {
 export type IntentCreateParamsConfiguration =
   | IntentCreateParamsConfiguration0
   | IntentCreateParamsConfiguration1
-
-export interface IntentCreateParams {
-  /**
-   * The member to whom this intent belongs.
-   */
-  member: string
-  /**
-   * The type of intent that needs to be completed. Source supports two intent types:
-   * 'scheduling' and 'form'.
-   */
-  type: IntentCreateParamsType
-  /**
-   * Timestamp when this intent expires. By default, intents expire 30 days after
-   * creation. Once the intent  reaches its expiration, the intent status is
-   * automatically updated to 'expired' and can no longer be used.
-   */
-  expires_at?: string
-  /**
-   * A set of configuration describing the appointment you wish the member to book or
-   * form you wish the member to  complete. This parameter's configuration depends on
-   * the intent type you specify.
-   */
-  configuration: IntentCreateParamsConfiguration
-}
 
 export class IntentResource extends Resource {
   /**

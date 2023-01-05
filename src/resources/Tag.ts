@@ -1,8 +1,6 @@
 import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
-export type TagColor = 'gray' | 'blue' | 'teal' | 'yellow' | 'green' | 'red' | 'orange' | 'purple'
-
 export interface Tag {
   /**
    * Always `tag`.
@@ -47,6 +45,8 @@ export interface Tag {
   deleted_at?: string
 }
 
+export type TagColor = 'gray' | 'blue' | 'teal' | 'yellow' | 'green' | 'red' | 'orange' | 'purple'
+
 export interface TagListResponse {
   /**
    * Always `list`.
@@ -61,8 +61,6 @@ export interface TagListResponse {
    */
   has_more: boolean
 }
-
-export type TagListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
 
 export interface TagListParams {
   /**
@@ -102,15 +100,7 @@ export interface TagListParams {
   archived?: boolean
 }
 
-export type TagCreateParamsColor =
-  | 'gray'
-  | 'blue'
-  | 'teal'
-  | 'yellow'
-  | 'green'
-  | 'red'
-  | 'orange'
-  | 'purple'
+export type TagListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
 
 export interface TagCreateParams {
   /**
@@ -129,7 +119,7 @@ export interface TagCreateParams {
   color?: TagCreateParamsColor
 }
 
-export type TagUpdateParamsColor =
+export type TagCreateParamsColor =
   | 'gray'
   | 'blue'
   | 'teal'
@@ -155,6 +145,16 @@ export interface TagUpdateParams {
    */
   color?: TagUpdateParamsColor
 }
+
+export type TagUpdateParamsColor =
+  | 'gray'
+  | 'blue'
+  | 'teal'
+  | 'yellow'
+  | 'green'
+  | 'red'
+  | 'orange'
+  | 'purple'
 
 export class TagResource extends Resource {
   /**

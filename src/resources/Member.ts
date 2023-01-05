@@ -7,98 +7,6 @@ import { Integration } from './Integration'
 import { Tag } from './Tag'
 import { Expandable } from './shared'
 
-export type MemberSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
-export type MemberAdministrativeGender = 'male' | 'female' | 'other'
-export type MemberGenderIdentityValue =
-  | 'female'
-  | 'male'
-  | 'non_binary'
-  | 'other'
-  | 'transgender_female'
-  | 'transgender_male'
-  | 'undisclosed'
-
-export interface MemberGenderIdentity {
-  /**
-   * Coded value
-   */
-  value: MemberGenderIdentityValue
-  /**
-   * Human-readable display text of coded value, or member-provided string when value
-   * is 'other'
-   */
-  text: string
-}
-
-export type MemberPronounsValue = 'she_her' | 'he_him' | 'they_them' | 'other'
-
-export interface MemberPronouns {
-  /**
-   * Coded value or 'other'
-   */
-  value: MemberPronounsValue
-  /**
-   * Human-readable display text of coded value, or member-provided string when value
-   * is 'other'
-   */
-  text: string
-}
-
-export interface MemberAddress {
-  /**
-   * The first line of the street address.
-   */
-  street_line_1: string | null
-  /**
-   * The second line of the street address.
-   */
-  street_line_2: string | null
-  /**
-   * The city.
-   */
-  city: string | null
-  /**
-   * The region - in the US this should be the two-letter state code.
-   */
-  region: string
-  /**
-   * The postal code (i.e. zip code).
-   */
-  postal_code: string | null
-  /**
-   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
-   * at this time.
-   */
-  country: string
-}
-
-export type MemberPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
-
-export interface MemberPhoneNumber {
-  /**
-   * Type of phone number.
-   */
-  use: MemberPhoneNumberUse
-  /**
-   * The phone number to use. This should be formatted in E.164 format.
-   */
-  value: string
-}
-
-export type MemberEnrollmentStatus = 'enrolled' | 'not_enrolled' | 'redacted'
-export type MemberAccessLevel = 'full' | 'limited'
-
-export interface MemberExternalIdentifier {
-  /**
-   * Expandable reference to an Integration
-   */
-  integration: Expandable<Integration>
-  /**
-   * The unique identifier of the member in the integrated system.
-   */
-  external_id: string
-}
-
 export interface Member {
   /**
    * Always `member`.
@@ -217,6 +125,15 @@ export interface Member {
    */
   external_identifiers: Array<MemberExternalIdentifier>
   /**
+   * Custom fields associated with the user. Custom fields must be registered with
+   * the Fields API before they can be used on resources, such as a member.
+   *
+   * Once you've created a custom field, its value will be returned on the related
+   * member. You may also use custom fields when filtering members, using the List
+   * all Members endpoint.
+   */
+  custom_fields: Record<string, unknown>
+  /**
    * Timestamp of when the member was created.
    */
   created_at: string
@@ -224,6 +141,98 @@ export interface Member {
    * Timestamp of when the member was last updated.
    */
   updated_at: string
+}
+
+export type MemberSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
+export type MemberAdministrativeGender = 'male' | 'female' | 'other'
+
+export interface MemberGenderIdentity {
+  /**
+   * Coded value
+   */
+  value: MemberGenderIdentityValue
+  /**
+   * Human-readable display text of coded value, or member-provided string when value
+   * is 'other'
+   */
+  text: string
+}
+
+export type MemberGenderIdentityValue =
+  | 'female'
+  | 'male'
+  | 'non_binary'
+  | 'other'
+  | 'transgender_female'
+  | 'transgender_male'
+  | 'undisclosed'
+
+export interface MemberPronouns {
+  /**
+   * Coded value or 'other'
+   */
+  value: MemberPronounsValue
+  /**
+   * Human-readable display text of coded value, or member-provided string when value
+   * is 'other'
+   */
+  text: string
+}
+
+export type MemberPronounsValue = 'she_her' | 'he_him' | 'they_them' | 'other'
+
+export interface MemberAddress {
+  /**
+   * The first line of the street address.
+   */
+  street_line_1: string | null
+  /**
+   * The second line of the street address.
+   */
+  street_line_2: string | null
+  /**
+   * The city.
+   */
+  city: string | null
+  /**
+   * The region - in the US this should be the two-letter state code.
+   */
+  region: string
+  /**
+   * The postal code (i.e. zip code).
+   */
+  postal_code: string | null
+  /**
+   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
+   * at this time.
+   */
+  country: string
+}
+
+export interface MemberPhoneNumber {
+  /**
+   * Type of phone number.
+   */
+  use: MemberPhoneNumberUse
+  /**
+   * The phone number to use. This should be formatted in E.164 format.
+   */
+  value: string
+}
+
+export type MemberPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+export type MemberEnrollmentStatus = 'enrolled' | 'not_enrolled' | 'redacted'
+export type MemberAccessLevel = 'full' | 'limited'
+
+export interface MemberExternalIdentifier {
+  /**
+   * Expandable reference to an Integration
+   */
+  integration: Expandable<Integration>
+  /**
+   * The unique identifier of the member in the integrated system.
+   */
+  external_id: string
 }
 
 export interface MemberListResponse {
@@ -240,24 +249,6 @@ export interface MemberListResponse {
    */
   has_more: boolean
 }
-
-export type MemberListParamsSort =
-  | 'created_at'
-  | 'name'
-  | 'date_of_birth'
-  | '-created_at'
-  | '-name'
-  | '-date_of_birth'
-export type MemberListParamsEnrollmentStatus = 'enrolled' | 'not_enrolled'
-export type MemberListParamsSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
-export type MemberListParamsGenderIdentity =
-  | 'female'
-  | 'male'
-  | 'non_binary'
-  | 'other'
-  | 'transgender_female'
-  | 'transgender_male'
-  | 'undisclosed'
 
 export interface MemberListParams {
   /**
@@ -324,9 +315,16 @@ export interface MemberListParams {
   gender_identity?: Array<MemberListParamsGenderIdentity>
 }
 
-export type MemberCreateParamsSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
-export type MemberCreateParamsAdministrativeGender = 'male' | 'female' | 'other'
-export type MemberCreateParamsGenderIdentityValue =
+export type MemberListParamsSort =
+  | 'created_at'
+  | 'name'
+  | 'date_of_birth'
+  | '-created_at'
+  | '-name'
+  | '-date_of_birth'
+export type MemberListParamsEnrollmentStatus = 'enrolled' | 'not_enrolled'
+export type MemberListParamsSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
+export type MemberListParamsGenderIdentity =
   | 'female'
   | 'male'
   | 'non_binary'
@@ -334,81 +332,6 @@ export type MemberCreateParamsGenderIdentityValue =
   | 'transgender_female'
   | 'transgender_male'
   | 'undisclosed'
-
-export interface MemberCreateParamsGenderIdentity {
-  /**
-   * Coded value, or 'other'.
-   */
-  value: MemberCreateParamsGenderIdentityValue
-  /**
-   * Member-provided string when value is 'other'.
-   */
-  text?: string | null
-}
-
-export type MemberCreateParamsPronounsValue = 'she_her' | 'he_him' | 'they_them' | 'other'
-
-export interface MemberCreateParamsPronouns {
-  /**
-   * Coded value, or 'other'.
-   */
-  value: MemberCreateParamsPronounsValue
-  /**
-   * Member-provided string when value is 'other'.
-   */
-  text?: string | null
-}
-
-export interface MemberCreateParamsAddress {
-  /**
-   * The first line of the street address.
-   */
-  street_line_1?: string | null
-  /**
-   * The second line of the street address.
-   */
-  street_line_2?: string | null
-  /**
-   * The city.
-   */
-  city?: string | null
-  /**
-   * The region - in the US this should be the two-letter state code.
-   */
-  region: string
-  /**
-   * The postal code (i.e. zip code).
-   */
-  postal_code?: string | null
-  /**
-   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
-   * at this time.
-   */
-  country: string
-}
-
-export type MemberCreateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
-
-export interface MemberCreateParamsPhoneNumber {
-  /**
-   * Type of phone number.
-   */
-  use: MemberCreateParamsPhoneNumberUse
-  /**
-   * The phone number to use. This should be formatted in E.164 format.
-   */
-  value: string
-}
-
-export type MemberCreateParamsEnrollmentStatus = 'enrolled' | 'not_enrolled'
-
-export interface MemberCreateParamsExternalIdentifier {
-  integration: string
-  /**
-   * The unique identifier of the member in the integrated system.
-   */
-  external_id: string
-}
 
 export interface MemberCreateParams {
   /**
@@ -505,11 +428,32 @@ export interface MemberCreateParams {
    * unique for a given integration.
    */
   external_identifiers?: Array<MemberCreateParamsExternalIdentifier>
+  /**
+   * Custom fields associated with the user. Custom fields must be registered with
+   * the Fields API before they can be used on resources, such as a member.
+   *
+   * Once you've created a custom field, its value will be returned on the related
+   * member. You may also use custom fields when filtering members, using the List
+   * all Members endpoint.
+   */
+  custom_fields?: Record<string, unknown>
 }
 
-export type MemberUpdateParamsSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
-export type MemberUpdateParamsAdministrativeGender = 'male' | 'female' | 'other'
-export type MemberUpdateParamsGenderIdentityValue =
+export type MemberCreateParamsSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
+export type MemberCreateParamsAdministrativeGender = 'male' | 'female' | 'other'
+
+export interface MemberCreateParamsGenderIdentity {
+  /**
+   * Coded value, or 'other'.
+   */
+  value: MemberCreateParamsGenderIdentityValue
+  /**
+   * Member-provided string when value is 'other'.
+   */
+  text?: string | null
+}
+
+export type MemberCreateParamsGenderIdentityValue =
   | 'female'
   | 'male'
   | 'non_binary'
@@ -518,31 +462,20 @@ export type MemberUpdateParamsGenderIdentityValue =
   | 'transgender_male'
   | 'undisclosed'
 
-export interface MemberUpdateParamsGenderIdentity {
+export interface MemberCreateParamsPronouns {
   /**
    * Coded value, or 'other'.
    */
-  value: MemberUpdateParamsGenderIdentityValue
+  value: MemberCreateParamsPronounsValue
   /**
    * Member-provided string when value is 'other'.
    */
   text?: string | null
 }
 
-export type MemberUpdateParamsPronounsValue = 'she_her' | 'he_him' | 'they_them' | 'other'
+export type MemberCreateParamsPronounsValue = 'she_her' | 'he_him' | 'they_them' | 'other'
 
-export interface MemberUpdateParamsPronouns {
-  /**
-   * Coded value, or 'other'.
-   */
-  value: MemberUpdateParamsPronounsValue
-  /**
-   * Member-provided string when value is 'other'.
-   */
-  text?: string | null
-}
-
-export interface MemberUpdateParamsAddress {
+export interface MemberCreateParamsAddress {
   /**
    * The first line of the street address.
    */
@@ -570,22 +503,21 @@ export interface MemberUpdateParamsAddress {
   country: string
 }
 
-export type MemberUpdateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
-
-export interface MemberUpdateParamsPhoneNumber {
+export interface MemberCreateParamsPhoneNumber {
   /**
    * Type of phone number.
    */
-  use: MemberUpdateParamsPhoneNumberUse
+  use: MemberCreateParamsPhoneNumberUse
   /**
    * The phone number to use. This should be formatted in E.164 format.
    */
   value: string
 }
 
-export type MemberUpdateParamsEnrollmentStatus = 'enrolled' | 'not_enrolled'
+export type MemberCreateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+export type MemberCreateParamsEnrollmentStatus = 'enrolled' | 'not_enrolled'
 
-export interface MemberUpdateParamsExternalIdentifier {
+export interface MemberCreateParamsExternalIdentifier {
   integration: string
   /**
    * The unique identifier of the member in the integrated system.
@@ -688,6 +620,101 @@ export interface MemberUpdateParams {
    * unique for a given integration.
    */
   external_identifiers?: Array<MemberUpdateParamsExternalIdentifier>
+  /**
+   * Custom fields associated with the user. Custom fields must be registered with
+   * the Fields API before they can be used on resources, such as a member.
+   *
+   * Once you've created a custom field, its value will be returned on the related
+   * member. You may also use custom fields when filtering members, using the List
+   * all Members endpoint.
+   */
+  custom_fields?: Record<string, unknown>
+}
+
+export type MemberUpdateParamsSexAtBirth = 'male' | 'female' | 'other' | 'undisclosed'
+export type MemberUpdateParamsAdministrativeGender = 'male' | 'female' | 'other'
+
+export interface MemberUpdateParamsGenderIdentity {
+  /**
+   * Coded value, or 'other'.
+   */
+  value: MemberUpdateParamsGenderIdentityValue
+  /**
+   * Member-provided string when value is 'other'.
+   */
+  text?: string | null
+}
+
+export type MemberUpdateParamsGenderIdentityValue =
+  | 'female'
+  | 'male'
+  | 'non_binary'
+  | 'other'
+  | 'transgender_female'
+  | 'transgender_male'
+  | 'undisclosed'
+
+export interface MemberUpdateParamsPronouns {
+  /**
+   * Coded value, or 'other'.
+   */
+  value: MemberUpdateParamsPronounsValue
+  /**
+   * Member-provided string when value is 'other'.
+   */
+  text?: string | null
+}
+
+export type MemberUpdateParamsPronounsValue = 'she_her' | 'he_him' | 'they_them' | 'other'
+
+export interface MemberUpdateParamsAddress {
+  /**
+   * The first line of the street address.
+   */
+  street_line_1?: string | null
+  /**
+   * The second line of the street address.
+   */
+  street_line_2?: string | null
+  /**
+   * The city.
+   */
+  city?: string | null
+  /**
+   * The region - in the US this should be the two-letter state code.
+   */
+  region: string
+  /**
+   * The postal code (i.e. zip code).
+   */
+  postal_code?: string | null
+  /**
+   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
+   * at this time.
+   */
+  country: string
+}
+
+export interface MemberUpdateParamsPhoneNumber {
+  /**
+   * Type of phone number.
+   */
+  use: MemberUpdateParamsPhoneNumberUse
+  /**
+   * The phone number to use. This should be formatted in E.164 format.
+   */
+  value: string
+}
+
+export type MemberUpdateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+export type MemberUpdateParamsEnrollmentStatus = 'enrolled' | 'not_enrolled'
+
+export interface MemberUpdateParamsExternalIdentifier {
+  integration: string
+  /**
+   * The unique identifier of the member in the integrated system.
+   */
+  external_id: string
 }
 
 export class MemberResource extends Resource {

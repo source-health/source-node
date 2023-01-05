@@ -9,106 +9,6 @@ import { Expandable } from '../shared'
 
 import { Channel } from './Channel'
 
-export type ThreadLastMessageAttachmentType = 'file' | 'link'
-
-export interface ThreadLastMessageAttachment {
-  /**
-   * The type of attachment. Currently, the only supported attachment types are
-   * `file` and `link`, but other attachment types may be added.
-   */
-  type: ThreadLastMessageAttachmentType
-  /**
-   * A description of the attachment. If a file uploaded to Source is attached, the
-   * file's name is displayed. Otherwise, this description is displayed.
-   */
-  description: string | null
-  /**
-   * The URL where the attachment's contents can be accessed. For link attachments,
-   * the link to redirect. For file attachments, the URL returned by Source is a link
-   * to the file.
-   */
-  url: string
-  /**
-   * The resource which is attached to the message
-   */
-  resource: Expandable<File> | null
-  /**
-   * A map of your own metadata to be included alongside this attachment. For
-   * example, you can use this metadata for bookkeeping or rendering in your member
-   * experience.
-   *
-   * Metadata may only be set when calling the API with your API keys. It cannot be
-   * set when using member tokens.
-   */
-  metadata: Record<string, unknown>
-}
-
-export type ThreadLastMessageStatus = 'pending' | 'sent' | 'failed'
-export type ThreadLastMessageDirection = 'inbound' | 'outbound'
-
-export interface ThreadLastMessage {
-  /**
-   * The channel over which the message was sent. For messages sent via Source's
-   * in-app chat feature, the channel is null.
-   */
-  channel: Expandable<Channel> | null
-  /**
-   * The type of channel. Currently, Source supports chat (in-app messaging) and sms
-   * channel types.
-   */
-  channel_type: string
-  /**
-   * Contact point from which the message was sent. For inbound messages from a
-   * member or caregiver, this value is the contact point they used (for example, the
-   * member's phone number). For outbound messages from the care team, this value is
-   * the channel's contact point (for example, the practice's provisioned phone
-   * number).
-   */
-  from: ContactPoint | null
-  /**
-   * Contact point to which the message was sent. For inbound messages from a member
-   * or caregiver, this value is the channel's contact point (for example, the
-   * practice's provisioned phone number). For outbound messages sent to a member or
-   * caregiver, this value is the contact point of the member or caregiver (for
-   * example, the member's phone number).
-   */
-  to: ContactPoint | null
-  /**
-   * Plain text contents of the message.
-   */
-  text: string
-  /**
-   * Any attachments to the message, such as files and links.
-   */
-  attachments: Array<ThreadLastMessageAttachment>
-  /**
-   * The person who sent this message.
-   */
-  sender: Expandable<User | Member>
-  /**
-   * The current status of the message. For messages sent via Source's in-app chat
-   * feature, messages go directly to the 'sent' status. For all other channels, the
-   * message is created in a 'pending' status and then transitions to the 'sent'
-   * status upon successful sending, or the 'failed' status if an error occurs.
-   */
-  status: ThreadLastMessageStatus
-  /**
-   * The time at which this message was sent.
-   */
-  sent_at: string
-  /**
-   * Inbound or outbound from the perspective of the care team. All messages sent by
-   * members have an inbound direction. This field can be useful when displaying a
-   * thread in a member experience, with messages from the care team on one side of
-   * the display and messages from the member on the opposite side.
-   */
-  direction: ThreadLastMessageDirection
-  /**
-   * The time at which this message redacted.
-   */
-  redacted_at: string | null
-}
-
 export interface Thread {
   /**
    * Always `thread`.
@@ -178,6 +78,105 @@ export interface Thread {
   last_message_at: string
 }
 
+export interface ThreadLastMessage {
+  /**
+   * The channel over which the message was sent. For messages sent via Source's
+   * in-app chat feature, the channel is null.
+   */
+  channel: Expandable<Channel> | null
+  /**
+   * The type of channel. Currently, Source supports chat (in-app messaging) and sms
+   * channel types.
+   */
+  channel_type: string
+  /**
+   * Contact point from which the message was sent. For inbound messages from a
+   * member or caregiver, this value is the contact point they used (for example, the
+   * member's phone number). For outbound messages from the care team, this value is
+   * the channel's contact point (for example, the practice's provisioned phone
+   * number).
+   */
+  from: ContactPoint | null
+  /**
+   * Contact point to which the message was sent. For inbound messages from a member
+   * or caregiver, this value is the channel's contact point (for example, the
+   * practice's provisioned phone number). For outbound messages sent to a member or
+   * caregiver, this value is the contact point of the member or caregiver (for
+   * example, the member's phone number).
+   */
+  to: ContactPoint | null
+  /**
+   * Plain text contents of the message.
+   */
+  text: string
+  /**
+   * Any attachments to the message, such as files and links.
+   */
+  attachments: Array<ThreadLastMessageAttachment>
+  /**
+   * The person who sent this message.
+   */
+  sender: Expandable<User | Member>
+  /**
+   * The current status of the message. For messages sent via Source's in-app chat
+   * feature, messages go directly to the 'sent' status. For all other channels, the
+   * message is created in a 'pending' status and then transitions to the 'sent'
+   * status upon successful sending, or the 'failed' status if an error occurs.
+   */
+  status: ThreadLastMessageStatus
+  /**
+   * The time at which this message was sent.
+   */
+  sent_at: string
+  /**
+   * Inbound or outbound from the perspective of the care team. All messages sent by
+   * members have an inbound direction. This field can be useful when displaying a
+   * thread in a member experience, with messages from the care team on one side of
+   * the display and messages from the member on the opposite side.
+   */
+  direction: ThreadLastMessageDirection
+  /**
+   * The time at which this message redacted.
+   */
+  redacted_at: string | null
+}
+
+export interface ThreadLastMessageAttachment {
+  /**
+   * The type of attachment. Currently, the only supported attachment types are
+   * `file` and `link`, but other attachment types may be added.
+   */
+  type: ThreadLastMessageAttachmentType
+  /**
+   * A description of the attachment. If a file uploaded to Source is attached, the
+   * file's name is displayed. Otherwise, this description is displayed.
+   */
+  description: string | null
+  /**
+   * The URL where the attachment's contents can be accessed. For link attachments,
+   * the link to redirect. For file attachments, the URL returned by Source is a link
+   * to the file.
+   */
+  url: string
+  /**
+   * The resource which is attached to the message
+   */
+  resource: Expandable<File> | null
+  /**
+   * A map of your own metadata to be included alongside this attachment. For
+   * example, you can use this metadata for bookkeeping or rendering in your member
+   * experience.
+   *
+   * Metadata may only be set when calling the API with your API keys. It cannot be
+   * set when using member tokens.
+   */
+  metadata: Record<string, unknown>
+}
+
+export type ThreadLastMessageAttachmentType = 'file' | 'link'
+export type ThreadLastMessageStatus = 'pending' | 'sent' | 'failed'
+export type ThreadLastMessageDirection = 'inbound' | 'outbound'
+
 export interface ThreadListResponse {
   /**
    * Always `list`.
@@ -228,58 +227,25 @@ export interface ThreadListParams {
   status?: Array<ThreadStatus>
 }
 
-export type ThreadCreateParamsMessageThreadActionsStatus =
-  | 'awaiting_care_team'
-  | 'awaiting_member'
-  | 'closed'
-
-export interface ThreadCreateParamsMessageThreadActions {
+export interface ThreadCreateParams {
   /**
-   * New status for the thread after sending this message. By default, Source will
-   * set the thread status to 'awaiting_care_team' if the member sends the message,
-   * and 'awaiting_member' if someone on the care team send the message.
+   * The ID of the member to which this thread belongs
    */
-  status?: ThreadCreateParamsMessageThreadActionsStatus
+  member: string
+  /**
+   * The user who is assigned to the thread and who will be notified of new messages
+   * via a task.
+   */
+  assignee?: string
+  /**
+   * The thread subject.
+   */
+  subject?: string | null
+  /**
+   * The initial message to send when creating this thread.
+   */
+  message: ThreadCreateParamsMessage
 }
-
-export type ThreadCreateParamsMessageAttachmentType = 'file' | 'link'
-
-export interface ThreadCreateParamsMessageAttachment {
-  /**
-   * The type of attachment. Currently, the supported attachment types are `file` and
-   * `link`. If set to file, then a resource must be provided. If set to link, then a
-   * URL must be provided. Other attachment types may be added in the future.
-   */
-  type: ThreadCreateParamsMessageAttachmentType
-  /**
-   * A description of the attachment to display. If a file uploaded to Source is
-   * attached, the file's name overrides a description and is displayed. Otherwise,
-   * this description is displayed.
-   */
-  description?: string | null
-  /**
-   * Unique ID of the resource to be attached to this message. When attaching a file,
-   * this should be set to the uploaded file's ID.
-   */
-  resource?: string
-  /**
-   * The URL where the attachment's contents can be accessed. For link attachments,
-   * the link to redirect. For file attachments, the URL returned by Source is a link
-   * to the file.
-   */
-  url?: string
-  /**
-   * A map of your own metadata to be included alongside this attachment. For
-   * example, you can use this metadata for bookkeeping or rendering in your member
-   * experience.
-   *
-   * Metadata may only be set when calling the API with your API keys. It cannot be
-   * set when using member tokens.
-   */
-  metadata?: Record<string, unknown>
-}
-
-export type ThreadCreateParamsMessageSender = string
 
 export interface ThreadCreateParamsMessage {
   /**
@@ -324,27 +290,57 @@ export interface ThreadCreateParamsMessage {
   sent_at?: string
 }
 
-export interface ThreadCreateParams {
+export interface ThreadCreateParamsMessageThreadActions {
   /**
-   * The ID of the member to which this thread belongs
+   * New status for the thread after sending this message. By default, Source will
+   * set the thread status to 'awaiting_care_team' if the member sends the message,
+   * and 'awaiting_member' if someone on the care team send the message.
    */
-  member: string
-  /**
-   * The user who is assigned to the thread and who will be notified of new messages
-   * via a task.
-   */
-  assignee?: string
-  /**
-   * The thread subject.
-   */
-  subject?: string | null
-  /**
-   * The initial message to send when creating this thread.
-   */
-  message: ThreadCreateParamsMessage
+  status?: ThreadCreateParamsMessageThreadActionsStatus
 }
 
-export type ThreadUpdateParamsStatus = 'awaiting_care_team' | 'awaiting_member' | 'closed'
+export type ThreadCreateParamsMessageThreadActionsStatus =
+  | 'awaiting_care_team'
+  | 'awaiting_member'
+  | 'closed'
+
+export interface ThreadCreateParamsMessageAttachment {
+  /**
+   * The type of attachment. Currently, the supported attachment types are `file` and
+   * `link`. If set to file, then a resource must be provided. If set to link, then a
+   * URL must be provided. Other attachment types may be added in the future.
+   */
+  type: ThreadCreateParamsMessageAttachmentType
+  /**
+   * A description of the attachment to display. If a file uploaded to Source is
+   * attached, the file's name overrides a description and is displayed. Otherwise,
+   * this description is displayed.
+   */
+  description?: string | null
+  /**
+   * Unique ID of the resource to be attached to this message. When attaching a file,
+   * this should be set to the uploaded file's ID.
+   */
+  resource?: string
+  /**
+   * The URL where the attachment's contents can be accessed. For link attachments,
+   * the link to redirect. For file attachments, the URL returned by Source is a link
+   * to the file.
+   */
+  url?: string
+  /**
+   * A map of your own metadata to be included alongside this attachment. For
+   * example, you can use this metadata for bookkeeping or rendering in your member
+   * experience.
+   *
+   * Metadata may only be set when calling the API with your API keys. It cannot be
+   * set when using member tokens.
+   */
+  metadata?: Record<string, unknown>
+}
+
+export type ThreadCreateParamsMessageAttachmentType = 'file' | 'link'
+export type ThreadCreateParamsMessageSender = string
 
 export interface ThreadUpdateParams {
   /**
@@ -361,6 +357,8 @@ export interface ThreadUpdateParams {
    */
   subject?: string | null
 }
+
+export type ThreadUpdateParamsStatus = 'awaiting_care_team' | 'awaiting_member' | 'closed'
 
 export interface ThreadMarkParams {
   /**

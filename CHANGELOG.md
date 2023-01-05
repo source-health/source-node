@@ -1,5 +1,20 @@
 # Source Client Changelog
 
+## v1.4.0
+
+- Core:
+  - Custom Fields API
+  - Notification Preferences API
+- Scheduling
+  - Recurring Slots API
+- Clinical:
+  - Care Plan API
+  - Notes API
+  - Note Versions API
+  - Encounters API
+  - Encounter Types API
+
+
 ## v1.3.0
 
 ### New API Features

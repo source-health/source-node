@@ -4,15 +4,6 @@ import { SourceRequestOptions } from '../SourceClient'
 import { Group } from './Group'
 import { Expandable } from './shared'
 
-export type QueueRoutingStrategy = 'care_team_required' | 'care_team_preferred' | 'round_robin'
-
-export interface QueueRoutingTarget {
-  /**
-   * Expandable reference to the group resource.
-   */
-  group: Expandable<Group>
-}
-
 export interface Queue {
   /**
    * Always `queue`.
@@ -88,6 +79,15 @@ export interface Queue {
   deleted_at?: string
 }
 
+export type QueueRoutingStrategy = 'care_team_required' | 'care_team_preferred' | 'round_robin'
+
+export interface QueueRoutingTarget {
+  /**
+   * Expandable reference to the group resource.
+   */
+  group: Expandable<Group>
+}
+
 export interface QueueListResponse {
   /**
    * Always `list`.
@@ -102,8 +102,6 @@ export interface QueueListResponse {
    */
   has_more: boolean
 }
-
-export type QueueListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
 
 export interface QueueListParams {
   /**
@@ -136,17 +134,7 @@ export interface QueueListParams {
   name?: string
 }
 
-export type QueueCreateParamsRoutingStrategy =
-  | 'care_team_required'
-  | 'care_team_preferred'
-  | 'round_robin'
-
-export interface QueueCreateParamsRoutingTarget {
-  /**
-   * The group that is associated with the queue.
-   */
-  group: string
-}
+export type QueueListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
 
 export interface QueueCreateParams {
   /**
@@ -195,12 +183,12 @@ export interface QueueCreateParams {
   routing_targets?: Array<QueueCreateParamsRoutingTarget>
 }
 
-export type QueueUpdateParamsRoutingStrategy =
+export type QueueCreateParamsRoutingStrategy =
   | 'care_team_required'
   | 'care_team_preferred'
   | 'round_robin'
 
-export interface QueueUpdateParamsRoutingTarget {
+export interface QueueCreateParamsRoutingTarget {
   /**
    * The group that is associated with the queue.
    */
@@ -252,6 +240,18 @@ export interface QueueUpdateParams {
    * care teams who will receive automatically routed tasks.
    */
   routing_targets?: Array<QueueUpdateParamsRoutingTarget>
+}
+
+export type QueueUpdateParamsRoutingStrategy =
+  | 'care_team_required'
+  | 'care_team_preferred'
+  | 'round_robin'
+
+export interface QueueUpdateParamsRoutingTarget {
+  /**
+   * The group that is associated with the queue.
+   */
+  group: string
 }
 
 export interface QueueDeleteParams {

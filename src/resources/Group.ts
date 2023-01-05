@@ -49,8 +49,6 @@ export interface GroupListResponse {
   has_more: boolean
 }
 
-export type GroupListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
-
 export interface GroupListParams {
   /**
    * A cursor for use in pagination. `ending_before` is an object ID that defines
@@ -81,6 +79,8 @@ export interface GroupListParams {
    */
   name?: string
 }
+
+export type GroupListParamsSort = 'created_at' | 'name' | '-created_at' | '-name'
 
 export interface GroupCreateParams {
   /**

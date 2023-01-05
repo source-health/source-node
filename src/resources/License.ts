@@ -4,19 +4,6 @@ import { SourceRequestOptions } from '../SourceClient'
 import { User } from './User'
 import { Expandable } from './shared'
 
-export interface LicenseType {
-  /**
-   * Code for the license type. For example, "MD".
-   */
-  code: string
-  /**
-   * Description of the license type. For example, "Doctor of Medcine".
-   */
-  description: string
-}
-
-export type LicenseStatus = 'active' | 'inactive'
-
 export interface License {
   /**
    * Always `license`.
@@ -62,6 +49,19 @@ export interface License {
   updated_at: string
 }
 
+export interface LicenseType {
+  /**
+   * Code for the license type. For example, "MD".
+   */
+  code: string
+  /**
+   * Description of the license type. For example, "Doctor of Medcine".
+   */
+  description: string
+}
+
+export type LicenseStatus = 'active' | 'inactive'
+
 export interface LicenseListResponse {
   /**
    * Always `list`.
@@ -76,9 +76,6 @@ export interface LicenseListResponse {
    */
   has_more: boolean
 }
-
-export type LicenseListParamsSort = 'created_at' | '-created_at'
-export type LicenseListParamsStatus = 'active' | 'inactive'
 
 export interface LicenseListParams {
   /**
@@ -128,11 +125,8 @@ export interface LicenseListParams {
   status?: Array<LicenseListParamsStatus>
 }
 
-export interface LicenseCreateParamsType {
-  code: string
-}
-
-export type LicenseCreateParamsStatus = 'active' | 'inactive'
+export type LicenseListParamsSort = 'created_at' | '-created_at'
+export type LicenseListParamsStatus = 'active' | 'inactive'
 
 export interface LicenseCreateParams {
   /**
@@ -163,7 +157,11 @@ export interface LicenseCreateParams {
   description?: string | null
 }
 
-export type LicenseUpdateParamsStatus = 'active' | 'inactive'
+export interface LicenseCreateParamsType {
+  code: string
+}
+
+export type LicenseCreateParamsStatus = 'active' | 'inactive'
 
 export interface LicenseUpdateParams {
   /**
@@ -179,6 +177,8 @@ export interface LicenseUpdateParams {
    */
   description?: string | null
 }
+
+export type LicenseUpdateParamsStatus = 'active' | 'inactive'
 
 export class LicenseResource extends Resource {
   /**

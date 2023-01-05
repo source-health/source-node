@@ -4,25 +4,6 @@ import { SourceRequestOptions } from '../SourceClient'
 import { Member } from './Member'
 import { Expandable } from './shared'
 
-export type RelationshipStatus = 'active' | 'inactive'
-export type RelationshipType =
-  | 'brother'
-  | 'child'
-  | 'daughter'
-  | 'father'
-  | 'friend'
-  | 'grandchild'
-  | 'grandparent'
-  | 'mother'
-  | 'parent'
-  | 'partner'
-  | 'professional_caregiver'
-  | 'sibling'
-  | 'sister'
-  | 'son'
-  | 'spouse'
-  | 'other'
-
 export interface Relationship {
   /**
    * Always `relationship`.
@@ -69,6 +50,25 @@ export interface Relationship {
   updated_at: string
 }
 
+export type RelationshipStatus = 'active' | 'inactive'
+export type RelationshipType =
+  | 'brother'
+  | 'child'
+  | 'daughter'
+  | 'father'
+  | 'friend'
+  | 'grandchild'
+  | 'grandparent'
+  | 'mother'
+  | 'parent'
+  | 'partner'
+  | 'professional_caregiver'
+  | 'sibling'
+  | 'sister'
+  | 'son'
+  | 'spouse'
+  | 'other'
+
 export interface RelationshipListResponse {
   /**
    * Always `list`.
@@ -83,8 +83,6 @@ export interface RelationshipListResponse {
    */
   has_more: boolean
 }
-
-export type RelationshipListParamsStatus = 'active' | 'inactive'
 
 export interface RelationshipListParams {
   /**
@@ -121,24 +119,7 @@ export interface RelationshipListParams {
   status?: Array<RelationshipListParamsStatus>
 }
 
-export type RelationshipCreateParamsStatus = 'active' | 'inactive'
-export type RelationshipCreateParamsType =
-  | 'brother'
-  | 'child'
-  | 'daughter'
-  | 'father'
-  | 'friend'
-  | 'grandchild'
-  | 'grandparent'
-  | 'mother'
-  | 'parent'
-  | 'partner'
-  | 'professional_caregiver'
-  | 'sibling'
-  | 'sister'
-  | 'son'
-  | 'spouse'
-  | 'other'
+export type RelationshipListParamsStatus = 'active' | 'inactive'
 
 export interface RelationshipCreateParams {
   /**
@@ -170,8 +151,8 @@ export interface RelationshipCreateParams {
   description?: string | null
 }
 
-export type RelationshipUpdateParamsStatus = 'active' | 'inactive'
-export type RelationshipUpdateParamsType =
+export type RelationshipCreateParamsStatus = 'active' | 'inactive'
+export type RelationshipCreateParamsType =
   | 'brother'
   | 'child'
   | 'daughter'
@@ -208,6 +189,25 @@ export interface RelationshipUpdateParams {
    */
   description?: string | null
 }
+
+export type RelationshipUpdateParamsStatus = 'active' | 'inactive'
+export type RelationshipUpdateParamsType =
+  | 'brother'
+  | 'child'
+  | 'daughter'
+  | 'father'
+  | 'friend'
+  | 'grandchild'
+  | 'grandparent'
+  | 'mother'
+  | 'parent'
+  | 'partner'
+  | 'professional_caregiver'
+  | 'sibling'
+  | 'sister'
+  | 'son'
+  | 'spouse'
+  | 'other'
 
 export class RelationshipResource extends Resource {
   /**

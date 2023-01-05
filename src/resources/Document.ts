@@ -69,53 +69,6 @@ export interface DocumentListResponse {
   has_more: boolean
 }
 
-export type DocumentListParamsSort =
-  | 'created_at'
-  | 'name'
-  | 'date'
-  | '-created_at'
-  | '-name'
-  | '-date'
-
-export interface DocumentListParamsDate {
-  /**
-   * Return results where the date field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the date field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the date field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the date field is greater than or equal to this value.
-   */
-  gte?: string
-}
-
-export interface DocumentListParamsCreatedAt {
-  /**
-   * Return results where the created_at field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the created_at field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the created_at field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the created_at field is greater than or equal to this
-   * value.
-   */
-  gte?: string
-}
-
 export interface DocumentListParams {
   /**
    * A cursor for use in pagination. `ending_before` is an object ID that defines
@@ -168,6 +121,53 @@ export interface DocumentListParams {
    * The value is a dictionary with the following:
    */
   created_at?: DocumentListParamsCreatedAt
+}
+
+export type DocumentListParamsSort =
+  | 'created_at'
+  | 'name'
+  | 'date'
+  | '-created_at'
+  | '-name'
+  | '-date'
+
+export interface DocumentListParamsDate {
+  /**
+   * Return results where the date field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the date field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the date field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the date field is greater than or equal to this value.
+   */
+  gte?: string
+}
+
+export interface DocumentListParamsCreatedAt {
+  /**
+   * Return results where the created_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the created_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the created_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the created_at field is greater than or equal to this
+   * value.
+   */
+  gte?: string
 }
 
 export interface DocumentCreateParams {

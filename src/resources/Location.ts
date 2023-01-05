@@ -4,49 +4,6 @@ import { SourceRequestOptions } from '../SourceClient'
 import { File } from './File'
 import { Expandable } from './shared'
 
-export type LocationType = 'physical' | 'virtual'
-
-export interface LocationAddress {
-  /**
-   * The first line of the street address.
-   */
-  street_line_1: string
-  /**
-   * The second line of the street address.
-   */
-  street_line_2: string | null
-  /**
-   * The city.
-   */
-  city: string
-  /**
-   * The region - in the US this should be the two-letter state code.
-   */
-  region: string
-  /**
-   * The postal code (i.e. zip code).
-   */
-  postal_code: string
-  /**
-   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
-   * at this time.
-   */
-  country: string
-}
-
-export type LocationPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
-
-export interface LocationPhoneNumber {
-  /**
-   * Type of phone number.
-   */
-  use: LocationPhoneNumberUse
-  /**
-   * The phone number to use. This should be formatted in E.164 format.
-   */
-  value: string
-}
-
 export interface Location {
   /**
    * Always `location`.
@@ -129,20 +86,9 @@ export interface Location {
   deleted_at?: string
 }
 
-export type LocationUpdateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+export type LocationType = 'physical' | 'virtual'
 
-export interface LocationUpdateParamsPhoneNumber {
-  /**
-   * Type of phone number.
-   */
-  use: LocationUpdateParamsPhoneNumberUse
-  /**
-   * The phone number to use. This should be formatted in E.164 format.
-   */
-  value: string
-}
-
-export interface LocationUpdateParamsAddress {
+export interface LocationAddress {
   /**
    * The first line of the street address.
    */
@@ -150,7 +96,7 @@ export interface LocationUpdateParamsAddress {
   /**
    * The second line of the street address.
    */
-  street_line_2?: string | null
+  street_line_2: string | null
   /**
    * The city.
    */
@@ -169,6 +115,19 @@ export interface LocationUpdateParamsAddress {
    */
   country: string
 }
+
+export interface LocationPhoneNumber {
+  /**
+   * Type of phone number.
+   */
+  use: LocationPhoneNumberUse
+  /**
+   * The phone number to use. This should be formatted in E.164 format.
+   */
+  value: string
+}
+
+export type LocationPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
 
 export interface LocationUpdateParams {
   /**
@@ -219,6 +178,47 @@ export interface LocationUpdateParams {
   time_zone?: string
 }
 
+export interface LocationUpdateParamsPhoneNumber {
+  /**
+   * Type of phone number.
+   */
+  use: LocationUpdateParamsPhoneNumberUse
+  /**
+   * The phone number to use. This should be formatted in E.164 format.
+   */
+  value: string
+}
+
+export type LocationUpdateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+
+export interface LocationUpdateParamsAddress {
+  /**
+   * The first line of the street address.
+   */
+  street_line_1: string
+  /**
+   * The second line of the street address.
+   */
+  street_line_2?: string | null
+  /**
+   * The city.
+   */
+  city: string
+  /**
+   * The region - in the US this should be the two-letter state code.
+   */
+  region: string
+  /**
+   * The postal code (i.e. zip code).
+   */
+  postal_code: string
+  /**
+   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
+   * at this time.
+   */
+  country: string
+}
+
 export interface LocationListResponse {
   /**
    * Always `list`.
@@ -233,15 +233,6 @@ export interface LocationListResponse {
    */
   has_more: boolean
 }
-
-export type LocationListParamsSort =
-  | 'created_at'
-  | 'name'
-  | 'distance'
-  | '-created_at'
-  | '-name'
-  | '-distance'
-export type LocationListParamsType = 'virtual' | 'physical'
 
 export interface LocationListParams {
   /**
@@ -294,46 +285,14 @@ export interface LocationListParams {
   distance?: number
 }
 
-export type LocationCreateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
-
-export interface LocationCreateParamsPhoneNumber {
-  /**
-   * Type of phone number.
-   */
-  use: LocationCreateParamsPhoneNumberUse
-  /**
-   * The phone number to use. This should be formatted in E.164 format.
-   */
-  value: string
-}
-
-export interface LocationCreateParamsAddress {
-  /**
-   * The first line of the street address.
-   */
-  street_line_1: string
-  /**
-   * The second line of the street address.
-   */
-  street_line_2?: string | null
-  /**
-   * The city.
-   */
-  city: string
-  /**
-   * The region - in the US this should be the two-letter state code.
-   */
-  region: string
-  /**
-   * The postal code (i.e. zip code).
-   */
-  postal_code: string
-  /**
-   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
-   * at this time.
-   */
-  country: string
-}
+export type LocationListParamsSort =
+  | 'created_at'
+  | 'name'
+  | 'distance'
+  | '-created_at'
+  | '-name'
+  | '-distance'
+export type LocationListParamsType = 'physical' | 'virtual'
 
 export interface LocationCreateParams {
   /**
@@ -382,6 +341,47 @@ export interface LocationCreateParams {
    * time zone based on the physical location's address.
    */
   time_zone?: string
+}
+
+export interface LocationCreateParamsPhoneNumber {
+  /**
+   * Type of phone number.
+   */
+  use: LocationCreateParamsPhoneNumberUse
+  /**
+   * The phone number to use. This should be formatted in E.164 format.
+   */
+  value: string
+}
+
+export type LocationCreateParamsPhoneNumberUse = 'home' | 'work' | 'mobile' | 'fax' | 'other'
+
+export interface LocationCreateParamsAddress {
+  /**
+   * The first line of the street address.
+   */
+  street_line_1: string
+  /**
+   * The second line of the street address.
+   */
+  street_line_2?: string | null
+  /**
+   * The city.
+   */
+  city: string
+  /**
+   * The region - in the US this should be the two-letter state code.
+   */
+  region: string
+  /**
+   * The postal code (i.e. zip code).
+   */
+  postal_code: string
+  /**
+   * The country, as a two-letter ISO 3166-1 code. US is the only supported country
+   * at this time.
+   */
+  country: string
 }
 
 export class LocationResource extends Resource {

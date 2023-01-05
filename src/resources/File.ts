@@ -1,15 +1,6 @@
 import { Resource } from '../BaseResource'
 import { SourceRequestOptions } from '../SourceClient'
 
-export type FilePurpose =
-  | 'message_attachment'
-  | 'photo'
-  | 'user_profile_photo'
-  | 'document'
-  | 'comment_attachment'
-  | 'account_logo'
-  | 'location_photo'
-
 export interface File {
   /**
    * Always `file`.
@@ -59,7 +50,7 @@ export interface File {
   created_at: string
 }
 
-export type FileCreateParamsPurpose =
+export type FilePurpose =
   | 'message_attachment'
   | 'photo'
   | 'user_profile_photo'
@@ -80,6 +71,15 @@ export interface FileCreateParams {
    */
   purpose: FileCreateParamsPurpose
 }
+
+export type FileCreateParamsPurpose =
+  | 'message_attachment'
+  | 'photo'
+  | 'user_profile_photo'
+  | 'document'
+  | 'comment_attachment'
+  | 'account_logo'
+  | 'location_photo'
 
 export class FileResource extends Resource {
   /**

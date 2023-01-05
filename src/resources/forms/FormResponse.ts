@@ -7,36 +7,6 @@ import { Expandable } from '../shared'
 import { Form } from './Form'
 import { FormVersion } from './FormVersion'
 
-export interface FormResponseResponse {
-  item: Question
-  response: unknown
-}
-
-export type FormResponseStatus = 'started' | 'completed'
-
-export interface FormResponseExitScreen {
-  type: 'exit_screen'
-  /**
-   * A unique key for this exit screen within the form. The keys are used in exits to
-   * indicate which screen is used for the exit. An exit screen with key 'default'
-   * must exist in every form.
-   */
-  key: string
-  /**
-   * A description of this exit screen. If the responder reaches this exit screen,
-   * the screen's description is displayed within the completed form response.
-   */
-  description: string
-  /**
-   * Type of the rich text content. Currently only `md` (i.e. Markdown) is supported.
-   */
-  content_type: 'md'
-  /**
-   * The rich text content, represented as Markdown text.
-   */
-  content: string
-}
-
 export interface FormResponse {
   /**
    * Always `form_response`.
@@ -99,6 +69,37 @@ export interface FormResponse {
   completed_at: string | null
 }
 
+export interface FormResponseResponse {
+  item: Question
+  response: unknown
+  value: unknown
+}
+
+export type FormResponseStatus = 'not_started' | 'started' | 'completed'
+
+export interface FormResponseExitScreen {
+  type: 'exit_screen'
+  /**
+   * A unique key for this exit screen within the form. The keys are used in exits to
+   * indicate which screen is used for the exit. An exit screen with key 'default'
+   * must exist in every form.
+   */
+  key: string
+  /**
+   * A description of this exit screen. If the responder reaches this exit screen,
+   * the screen's description is displayed within the completed form response.
+   */
+  description: string
+  /**
+   * Type of the rich text content. Currently only `md` (i.e. Markdown) is supported.
+   */
+  content_type: 'md'
+  /**
+   * The rich text content, represented as Markdown text.
+   */
+  content: string
+}
+
 export interface FormResponseListResponse {
   /**
    * Always `list`.
@@ -112,53 +113,6 @@ export interface FormResponseListResponse {
    * Contains `true` if there is another page of results available.
    */
   has_more: boolean
-}
-
-export type FormResponseListParamsSort =
-  | 'created_at'
-  | 'completed_at'
-  | '-created_at'
-  | '-completed_at'
-export type FormResponseListParamsStatus = 'started' | 'completed'
-
-export interface FormResponseListParamsCreatedAt {
-  /**
-   * Return results where the created_at field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the created_at field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the created_at field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the created_at field is greater than or equal to this
-   * value.
-   */
-  gte?: string
-}
-
-export interface FormResponseListParamsCompletedAt {
-  /**
-   * Return results where the completed_at field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the completed_at field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the completed_at field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the completed_at field is greater than or equal to this
-   * value.
-   */
-  gte?: string
 }
 
 export interface FormResponseListParams {
@@ -220,10 +174,51 @@ export interface FormResponseListParams {
   completed_at?: FormResponseListParamsCompletedAt
 }
 
-export interface FormResponseCreateParamsResponse {
-  key: string
-  value?: unknown
-  values?: unknown
+export type FormResponseListParamsSort =
+  | 'created_at'
+  | 'completed_at'
+  | '-created_at'
+  | '-completed_at'
+export type FormResponseListParamsStatus = 'not_started' | 'started' | 'completed'
+
+export interface FormResponseListParamsCreatedAt {
+  /**
+   * Return results where the created_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the created_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the created_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the created_at field is greater than or equal to this
+   * value.
+   */
+  gte?: string
+}
+
+export interface FormResponseListParamsCompletedAt {
+  /**
+   * Return results where the completed_at field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the completed_at field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the completed_at field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the completed_at field is greater than or equal to this
+   * value.
+   */
+  gte?: string
 }
 
 export interface FormResponseCreateParams {
@@ -252,7 +247,7 @@ export interface FormResponseCreateParams {
   submit?: boolean
 }
 
-export interface FormResponseUpdateParamsResponse {
+export interface FormResponseCreateParamsResponse {
   key: string
   value?: unknown
   values?: unknown
@@ -270,6 +265,12 @@ export interface FormResponseUpdateParams {
    * form response status to 'completed'.
    */
   submit?: boolean
+}
+
+export interface FormResponseUpdateParamsResponse {
+  key: string
+  value?: unknown
+  values?: unknown
 }
 
 export class FormResponseResource extends Resource {

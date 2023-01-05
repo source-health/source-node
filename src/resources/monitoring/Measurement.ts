@@ -5,16 +5,6 @@ import { Expandable } from '../shared'
 
 import { Device } from './Device'
 
-export type MeasurementKind = 'numeric' | 'composite'
-export type MeasurementType =
-  | 'blood_glucose'
-  | 'blood_oxygen_saturation'
-  | 'blood_pressure'
-  | 'body_weight'
-  | 'diastolic_blood_pressure'
-  | 'heart_rate'
-  | 'systolic_blood_pressure'
-
 export interface Measurement {
   /**
    * Always `measurement`.
@@ -69,6 +59,16 @@ export interface Measurement {
   created_at: string
 }
 
+export type MeasurementKind = 'numeric' | 'composite'
+export type MeasurementType =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
+
 export interface MeasurementListResponse {
   /**
    * Always `list`.
@@ -83,34 +83,6 @@ export interface MeasurementListResponse {
    */
   has_more: boolean
 }
-
-export interface MeasurementListParamsTime {
-  /**
-   * Return results where the time field is less than this value.
-   */
-  lt?: string
-  /**
-   * Return results where the time field is less than or equal to this value.
-   */
-  lte?: string
-  /**
-   * Return results where the time field is greater than this value.
-   */
-  gt?: string
-  /**
-   * Return results where the time field is greater than or equal to this value.
-   */
-  gte?: string
-}
-
-export type MeasurementListParamsType =
-  | 'blood_glucose'
-  | 'blood_oxygen_saturation'
-  | 'blood_pressure'
-  | 'body_weight'
-  | 'diastolic_blood_pressure'
-  | 'heart_rate'
-  | 'systolic_blood_pressure'
 
 export interface MeasurementListParams {
   /**
@@ -148,7 +120,26 @@ export interface MeasurementListParams {
   type?: Array<MeasurementListParamsType>
 }
 
-export type MeasurementCreateParams0Type =
+export interface MeasurementListParamsTime {
+  /**
+   * Return results where the time field is less than this value.
+   */
+  lt?: string
+  /**
+   * Return results where the time field is less than or equal to this value.
+   */
+  lte?: string
+  /**
+   * Return results where the time field is greater than this value.
+   */
+  gt?: string
+  /**
+   * Return results where the time field is greater than or equal to this value.
+   */
+  gte?: string
+}
+
+export type MeasurementListParamsType =
   | 'blood_glucose'
   | 'blood_oxygen_saturation'
   | 'blood_pressure'
@@ -184,7 +175,7 @@ export interface MeasurementCreateParams0 {
   items: Record<string, unknown>
 }
 
-export type MeasurementCreateParams1Type =
+export type MeasurementCreateParams0Type =
   | 'blood_glucose'
   | 'blood_oxygen_saturation'
   | 'blood_pressure'
@@ -192,15 +183,6 @@ export type MeasurementCreateParams1Type =
   | 'diastolic_blood_pressure'
   | 'heart_rate'
   | 'systolic_blood_pressure'
-export type MeasurementCreateParams1Unit =
-  | 'lbs'
-  | 'kg'
-  | 'mmHg'
-  | 'Pa'
-  | 'kPa'
-  | 'bpm'
-  | 'mg/dL'
-  | '%'
 
 export interface MeasurementCreateParams1 {
   /**
@@ -233,6 +215,23 @@ export interface MeasurementCreateParams1 {
   unit: MeasurementCreateParams1Unit
 }
 
+export type MeasurementCreateParams1Type =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
+export type MeasurementCreateParams1Unit =
+  | 'lbs'
+  | 'kg'
+  | 'mmHg'
+  | 'Pa'
+  | 'kPa'
+  | 'bpm'
+  | 'mg/dL'
+  | '%'
 export type MeasurementCreateParams = MeasurementCreateParams0 | MeasurementCreateParams1
 
 export class MeasurementResource extends Resource {

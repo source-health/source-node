@@ -3,16 +3,6 @@ import { SourceRequestOptions } from '../../SourceClient'
 import { Member } from '../Member'
 import { Expandable } from '../shared'
 
-export type DeviceStatus = 'pending' | 'active' | 'deactivated'
-export type DeviceCapability =
-  | 'blood_glucose'
-  | 'blood_oxygen_saturation'
-  | 'blood_pressure'
-  | 'body_weight'
-  | 'diastolic_blood_pressure'
-  | 'heart_rate'
-  | 'systolic_blood_pressure'
-
 export interface Device {
   /**
    * Always `device`.
@@ -60,6 +50,16 @@ export interface Device {
    */
   updated_at: string
 }
+
+export type DeviceStatus = 'pending' | 'active' | 'deactivated'
+export type DeviceCapability =
+  | 'blood_glucose'
+  | 'blood_oxygen_saturation'
+  | 'blood_pressure'
+  | 'body_weight'
+  | 'diastolic_blood_pressure'
+  | 'heart_rate'
+  | 'systolic_blood_pressure'
 
 export interface DeviceListResponse {
   /**

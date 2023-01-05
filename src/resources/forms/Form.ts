@@ -46,6 +46,12 @@ export interface Form {
    */
   latest_version: Expandable<FormVersion> | null
   /**
+   * The encounter type for the encounter that Source creates automatically when a
+   * response to this form is submitted. If this field is null, an encounter is not
+   * created automatically for each form response.
+   */
+  encounter_type: string | null
+  /**
    * Timestamp when the form was created.
    */
   created_at: string
@@ -73,8 +79,6 @@ export interface FormListResponse {
    */
   has_more: boolean
 }
-
-export type FormListParamsSort = 'name' | 'created_at' | '-name' | '-created_at'
 
 export interface FormListParams {
   /**
@@ -115,6 +119,8 @@ export interface FormListParams {
   published?: boolean
 }
 
+export type FormListParamsSort = 'name' | 'created_at' | '-name' | '-created_at'
+
 export interface FormCreateParams {
   /**
    * Unique key for this form. You can use this when creating form responses via the
@@ -138,7 +144,15 @@ export interface FormCreateParams {
    * accessible to anyone.
    */
   public?: boolean
+  /**
+   * The encounter type for the encounter that Source creates automatically when a
+   * response to this form is submitted. If this field is null, an encounter is not
+   * created automatically for each form response.
+   */
+  encounter_type?: FormCreateParamsEncounterType
 }
+
+export type FormCreateParamsEncounterType = string
 
 export interface FormUpdateParams {
   /**
@@ -157,7 +171,15 @@ export interface FormUpdateParams {
    * Description of this form
    */
   description?: string | null
+  /**
+   * The encounter type for the encounter that Source creates automatically when a
+   * response to this form is submitted. If this field is null, an encounter is not
+   * created automatically for each form response.
+   */
+  encounter_type?: FormUpdateParamsEncounterType | null
 }
+
+export type FormUpdateParamsEncounterType = string
 
 export class FormResource extends Resource {
   /**

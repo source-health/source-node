@@ -4,6 +4,69 @@ import { Member } from '../Member'
 import { Product } from '../Product'
 import { Expandable } from '../shared'
 
+export interface Order {
+  /**
+   * Always `order`.
+   */
+  object: 'order'
+  /**
+   * Unique ID for the order.
+   */
+  id: string
+  /**
+   * The member that should receive this order.
+   */
+  member: Expandable<Member>
+  /**
+   * Current status of the order.
+   */
+  status: OrderStatus
+  /**
+   * Address to which the order will be shipped.
+   */
+  shipping_address: OrderShippingAddress
+  /**
+   * Items included in the order.
+   */
+  items: Array<OrderItem>
+  /**
+   * Fulfillment details for the order, if it has been fulfilled.
+   */
+  fulfillment: OrderFulfillment | null
+  /**
+   * Subtotal of all items on the order, not including tax or shipping (in cents).
+   */
+  subtotal: number
+  /**
+   * Shipping amount for the order (in cents).
+   */
+  shipping_subtotal: number
+  /**
+   * Tax amount paid, if applicable, on shipping (in cents)
+   */
+  shipping_tax: number
+  /**
+   * Tax amount for the order (in cents).
+   */
+  tax_total: number
+  /**
+   * Total inclusive of all taxes and shipping charges (in cents).
+   */
+  total: number
+  /**
+   * Currency of the order, as an ISO 4217 3-letter code.
+   */
+  currency: string
+  /**
+   * Timestamp when the order was created.
+   */
+  created_at: string
+  /**
+   * Timestamp when the order was last updated.
+   */
+  updated_at: string
+}
+
 export type OrderStatus = 'pending' | 'fulfilled' | 'canceled'
 
 export interface OrderShippingAddress {
@@ -92,69 +155,6 @@ export interface OrderFulfillment {
   shipped_at: string | null
 }
 
-export interface Order {
-  /**
-   * Always `order`.
-   */
-  object: 'order'
-  /**
-   * Unique ID for the order.
-   */
-  id: string
-  /**
-   * The member that should receive this order.
-   */
-  member: Expandable<Member>
-  /**
-   * Current status of the order.
-   */
-  status: OrderStatus
-  /**
-   * Address to which the order will be shipped.
-   */
-  shipping_address: OrderShippingAddress
-  /**
-   * Items included in the order.
-   */
-  items: Array<OrderItem>
-  /**
-   * Fulfillment details for the order, if it has been fulfilled.
-   */
-  fulfillment: OrderFulfillment | null
-  /**
-   * Subtotal of all items on the order, not including tax or shipping (in cents).
-   */
-  subtotal: number
-  /**
-   * Shipping amount for the order (in cents).
-   */
-  shipping_subtotal: number
-  /**
-   * Tax amount paid, if applicable, on shipping (in cents)
-   */
-  shipping_tax: number
-  /**
-   * Tax amount for the order (in cents).
-   */
-  tax_total: number
-  /**
-   * Total inclusive of all taxes and shipping charges (in cents).
-   */
-  total: number
-  /**
-   * Currency of the order, as an ISO 4217 3-letter code.
-   */
-  currency: string
-  /**
-   * Timestamp when the order was created.
-   */
-  created_at: string
-  /**
-   * Timestamp when the order was last updated.
-   */
-  updated_at: string
-}
-
 export interface OrderListResponse {
   /**
    * Always `list`.
@@ -196,6 +196,23 @@ export interface OrderListParams {
   member?: string
 }
 
+export interface OrderCreateParams {
+  /**
+   * Member to which the order should be sent.
+   */
+  member: string
+  /**
+   * Items that should be sent to the member.
+   */
+  items: Array<OrderCreateParamsItem>
+  /**
+   * The address to which the items should be shipped. This field is optional as long
+   * as the member has an associated primary address. If not, you must provide a
+   * shipping address for the order.
+   */
+  shipping_address?: OrderCreateParamsShippingAddress
+}
+
 export interface OrderCreateParamsItem {
   /**
    * Unique ID of the product.
@@ -229,23 +246,6 @@ export interface OrderCreateParamsShippingAddress {
    * at this time.
    */
   country: string
-}
-
-export interface OrderCreateParams {
-  /**
-   * Member to which the order should be sent.
-   */
-  member: string
-  /**
-   * Items that should be sent to the member.
-   */
-  items: Array<OrderCreateParamsItem>
-  /**
-   * The address to which the items should be shipped. This field is optional as long
-   * as the member has an associated primary address. If not, you must provide a
-   * shipping address for the order.
-   */
-  shipping_address?: OrderCreateParamsShippingAddress
 }
 
 export class OrderResource extends Resource {
